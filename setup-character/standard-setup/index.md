@@ -2,7 +2,7 @@
 
 ## Standard Setup
 
-![Standard.png](Standard.png)
+![Standard.png](./images/Standard.png)
 
 Suitable for general use and for characters that do not require a transparent hair system.
 
@@ -19,7 +19,7 @@ and is the recommended starting point for users of all experience levels.
 
 ### Material Presets Standard Setup
 
-![Setup Character_Standard.png](Setup_Character_Standard.png)
+![Setup Character_Standard.png](./images/Setup_Character_Standard.png)
 
 There are a total of **two Material Presets**:
 
@@ -29,4 +29,4 @@ There are a total of **two Material Presets**:
 > Path : Assets/ZLZ_AnimeShader/Material_Preset/Standard_Setup
 > 
 
-![image.png](image.png)
+![image.png](./images/Path_Material_Standard.png)
