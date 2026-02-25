@@ -19,7 +19,7 @@ without being required to use every feature.
 
 ## Overview — Choose the Setup Level That Suits You
 
-![Setup Character_Overview.png](Setup_Character_Overview.png)
+![Setup Character Overview](./images/Setup_Character_Overview.png)
 
 This shader supports **two setup approaches** to accommodate different visual requirements.
 
