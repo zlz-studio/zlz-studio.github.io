@@ -1,38 +1,125 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZLZ Studio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:#111;
-      color:white;
-      text-align:center;
-      padding:80px 20px;
+    :root{
+      --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af;
+      --accent:#f59e0b; --line:rgba(255,255,255,.10);
     }
-    h1 { font-size:48px; margin-bottom:10px; }
-    p { color:#aaa; }
-    .btn {
-      display:inline-block;
-      margin-top:20px;
-      padding:14px 28px;
-      background:#ff9900;
-      color:black;
-      text-decoration:none;
-      font-weight:bold;
-      border-radius:8px;
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,Segoe UI,Arial;
+      background:radial-gradient(1200px 600px at 20% 0%, #122033 0%, var(--bg) 60%);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1050px; margin:0 auto; padding:36px 18px 70px;}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;}
+    .brand{font-weight:900; letter-spacing:.6px;}
+    .pill{border:1px solid var(--line); padding:8px 12px; border-radius:999px; color:var(--muted); font-size:13px;}
+    .hero{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius:18px; padding:26px;
+    }
+    h1{margin:6px 0 8px; font-size:40px; line-height:1.1;}
+    .sub{margin:0; color:var(--muted); line-height:1.7; max-width:780px;}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px; border-radius:12px; font-weight:800;
+      border:1px solid var(--line); background:rgba(255,255,255,.04);
+    }
+    .btn.primary{background:var(--accent); border-color:transparent; color:#111;}
+    .btn:hover{filter:brightness(.96);}
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px;}
+    .card{
+      grid-column:span 6;
+      border:1px solid var(--line);
+      background:rgba(17,24,39,.55);
+      border-radius:16px; padding:16px;
+    }
+    .card h2{margin:0 0 10px; font-size:16px;}
+    .list{display:flex; flex-direction:column; gap:10px;}
+    .item{
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+      padding:10px 12px; border:1px solid rgba(255,255,255,.08);
+      border-radius:12px; background:rgba(255,255,255,.03);
+    }
+    .item:hover{background:rgba(255,255,255,.06);}
+    .item small{color:var(--muted)}
+    .full{grid-column:span 12;}
+    footer{margin-top:26px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    @media (max-width:760px){
+      h1{font-size:32px;}
+      .card{grid-column:span 12;}
     }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">ZLZ Studio</div>
+      <div class="pill">ZLZ Anime Shader • Unity URP</div>
+    </div>
 
-  <h1>ZLZ Studio</h1>
-  <p>Professional Anime Shader for Unity URP</p>
+    <section class="hero">
+      <h1>ZLZ Anime Shader Documentation</h1>
+      <p class="sub">
+        โครงหน้าเอกสาร (เริ่มต้น) — ตอนนี้เป็น “ลิงก์โครงสร้าง” ก่อน
+        เดี๋ยวค่อยย้ายเนื้อหาจาก Notion ลงแต่ละหน้าในขั้นต่อไป
+      </p>
 
-  <a class="btn" href="#">Buy on Unity Asset Store</a>
+      <div class="cta">
+        <!-- ใส่ลิงก์ Asset Store ของจริงทีหลัง -->
+        <a class="btn primary" href="#" target="_blank" rel="noopener">Buy on Unity Asset Store</a>
+        <a class="btn" href="#docs">Go to Docs Structure</a>
+      </div>
+    </section>
 
+    <div id="docs" class="grid">
+      <!-- Setup Character -->
+      <section class="card">
+        <h2>Setup Character</h2>
+        <div class="list">
+          <a class="item" href="/setup-character/"><span>Overview</span><small>setup-character/</small></a>
+          <a class="item" href="/setup-character/standard-setup/"><span>Standard Setup</span><small>…/standard-setup/</small></a>
+          <a class="item" href="/setup-character/advanced-hair-setup/"><span>Advanced Hair Setup</span><small>…/advanced-hair-setup/</small></a>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="card">
+        <h2>Features</h2>
+        <div class="list">
+          <a class="item" href="/features/"><span>Overview</span><small>features/</small></a>
+          <a class="item" href="/features/hair-system/"><span>Hair System</span><small>…/hair-system/</small></a>
+          <a class="item" href="/features/lighting-system/"><span>Lighting System</span><small>…/lighting-system/</small></a>
+          <a class="item" href="/features/surface-stylization/"><span>Surface & Stylization</span><small>…/surface-stylization/</small></a>
+          <a class="item" href="/features/character-fx/"><span>Character FX</span><small>…/character-fx/</small></a>
+        </div>
+      </section>
+
+      <!-- Single pages -->
+      <section class="card full">
+        <h2>Other</h2>
+        <div class="list">
+          <a class="item" href="/performance/"><span>Performance</span><small>performance/</small></a>
+          <a class="item" href="/faq/"><span>FAQ</span><small>faq/</small></a>
+          <a class="item" href="/changelog/"><span>Changelog</span><small>changelog/</small></a>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div>© <span id="y"></span> ZLZ Studio</div>
+      <div>GitHub Pages</div>
+    </footer>
+  </div>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 </body>
 </html>
