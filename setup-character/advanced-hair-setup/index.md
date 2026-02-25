@@ -2,7 +2,7 @@
 
 ## Advanced Hair Setup
 
-![image.png](image%201.png)
+![Advanced](../images/Advanced.png)
 
 Suitable for users who want to enhance the visual quality of their characters.
 
@@ -35,7 +35,7 @@ When setting up a single character, this system uses a total of **six main Mater
 > Path : Assets/ZLZ_AnimeShader/Material_Preset/Advanced_Hair_Setup
 > 
 
-![image.png](image%202.png)
+![Path_Material_Advanced](../images/Path_Material_Advanced.png)
 
 ---
 
@@ -43,7 +43,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 [https://youtu.be/-Qr4eKoO0XU](https://youtu.be/-Qr4eKoO0XU)
 
-![Step1-SetupCharacter.png](Step1-SetupCharacter.png)
+![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
 
 ---
 
@@ -51,7 +51,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 [https://youtu.be/d2omoCJ5JyI](https://youtu.be/d2omoCJ5JyI)
 
-![Step2-SetupCharacter.png](Step2-SetupCharacter.png)
+![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
 
 ---
 
@@ -59,7 +59,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 [https://youtu.be/ZGY9uj1AxBQ](https://youtu.be/ZGY9uj1AxBQ)
 
-![Step3-SetupCharacter.png](Step3-SetupCharacter.png)
+![Step3-SetupCharacter](../images/Step3-SetupCharacter.png)
 
 ---
 
@@ -67,10 +67,10 @@ When setting up a single character, this system uses a total of **six main Mater
 
 [https://youtu.be/XlFdRWyGbaU](https://youtu.be/XlFdRWyGbaU)
 
-![Step4-SetupCharacter.png](Step4-SetupCharacter.png)
+![Step4-SetupCharacter](../images/Step4-SetupCharacter.png)
 
 ---
 
 ## Final Setup Overview
 
-![Screenshot_6.png](Screenshot_6.png)
+![Final](../images/Final.png)
