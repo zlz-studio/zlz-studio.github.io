@@ -41,7 +41,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 1 : Material Preparation (Advanced Hair Setup)
 
-[https://youtu.be/-Qr4eKoO0XU](https://youtu.be/-Qr4eKoO0XU)
+### [Video Tutorial Setup Step 1](https://youtu.be/-Qr4eKoO0XU)
 
 ![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
 
@@ -49,7 +49,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 2 : Apply Material Presets (Advanced Hair Setup)
 
-[https://youtu.be/d2omoCJ5JyI](https://youtu.be/d2omoCJ5JyI)
+### [Video Tutorial Setup Step 2](https://youtu.be/d2omoCJ5JyI)
 
 ![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
 
@@ -57,7 +57,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 3 :Head Direction Script Setup (Advanced Hair Setup)
 
-[https://youtu.be/ZGY9uj1AxBQ](https://youtu.be/ZGY9uj1AxBQ)
+### [Video Tutorial Setup Step 3](https://youtu.be/ZGY9uj1AxBQ)
 
 ![Step3-SetupCharacter](../images/Step3-SetupCharacter.png)
 
@@ -65,7 +65,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 4 : Select Forward Axis (Advanced Hair Setup)
 
-[https://youtu.be/XlFdRWyGbaU](https://youtu.be/XlFdRWyGbaU)
+### [Video Tutorial Setup Step 4](https://youtu.be/XlFdRWyGbaU)
 
 ![Step4-SetupCharacter](../images/Step4-SetupCharacter.png)
 
