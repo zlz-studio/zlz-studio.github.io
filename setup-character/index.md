@@ -1,8 +1,8 @@
 # Setup Character
 
-[`Standard Setup`](Standard%20Setup%202dec8c62421d8082a099f844eb890c90.md)
+[Standard Setup](./standard-setup/)
 
-[`Advanced Hair Setup`](Advanced%20Hair%20Setup%202dec8c62421d803bb498e780908bdb2f.md)
+[Advanced Hair Setup](./advanced-hair-setup/)
 
 # Setup Character
 
