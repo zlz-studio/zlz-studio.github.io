@@ -1,6 +1,6 @@
 # Character FX
 
-[https://youtu.be/hImKw7_LWJ4](https://youtu.be/hImKw7_LWJ4)
+[Video ZLZ Anime Shader – CharacterFX System & Overview](https://youtu.be/hImKw7_LWJ4)
 
 ## Emissive
 
