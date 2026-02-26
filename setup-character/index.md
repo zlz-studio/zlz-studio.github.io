@@ -11,8 +11,6 @@ title: Setup Character
 
 [Advanced Hair Setup](./advanced-hair-setup/)
 
-# Setup Character
-
 ### ZLZ Anime Shader Character
 
 This document explains how to set up a character for use with **ZLZ Anime Shader Character**.
