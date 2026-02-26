@@ -2,7 +2,7 @@
 
 # Lighting System
 
-[https://youtu.be/GS7kpy4XTZM](https://youtu.be/GS7kpy4XTZM)
+[Video ZLZ Anime Shader – Lighting System Overview & Behavior](https://youtu.be/GS7kpy4XTZM)
 
 # Base Character Lighting
 
