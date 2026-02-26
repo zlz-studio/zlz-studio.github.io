@@ -1,6 +1,6 @@
 # Hair System
 
-[https://youtu.be/tDF0kKeQD4k](https://youtu.be/tDF0kKeQD4k)
+[Video ZLZ Anime Shader – Hair System Setup & Overview](https://youtu.be/tDF0kKeQD4k)
 
 ---
 
