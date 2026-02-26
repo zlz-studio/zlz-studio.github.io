@@ -12,9 +12,8 @@ title: FAQ
 ### How do I know which setup I should choose?
 
 > **Standard Setup** is suitable for models with a simple structure and does not require any mesh modification.
-
-**Advanced Hair Setup** เหมาะสำหรับผู้ที่ต้องการระบบผมโปร่งใสและเงาผมขั้นสูง โดยอาจจำเป็นต้องปรับแต่งโมเดลเพิ่มเติม เพื่อให้รองรับการตั้งค่าระบบนี้อย่างเหมาะสมในกรณีที่โมเดลเดิมยังไม่อำนวย
 > 
+> **Advanced Hair Setup** is suitable for users who require transparent hair and advanced hair shadow systems. Additional model adjustments may be necessary to properly support this setup if the original model is not already prepared for it.
 
 ### Can this shader be used with ready-made models (such as VRoid)?
 
@@ -32,6 +31,6 @@ If you want eyebrows to appear fully visible (100%), it is recommended to set **
 ### How can I adjust the color of the hair shadow?
 
 > Hair shadow color can be adjusted directly in the hair shadow material.
-
-By modifying the **Base Color** and **Shadow Color** values, you can control both the color tone and the intensity of the hair shadow.
+> 
+> By modifying the **Base Color** and **Shadow Color** values, you can control both the color tone and the intensity of the hair shadow.
 >
