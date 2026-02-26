@@ -1,6 +1,6 @@
 # Performance
 
-![Features_Overall.png](Features_Overall.png)
+![Features_Overall](./images/Features_Overall.png)
 
 Our shader includes a wide range of features, each designed to operate independently. When a feature is enabled or disabled, unused code is **actually stripped at compile time**, ensuring that only the active features are processed.
 
@@ -16,8 +16,8 @@ When inspecting the fragment shader, you can clearly see that disabled features 
 
 Rim Light On
 
-![Performacne_On.png](Performacne_On.png)
+![Performacne_On](./images/Performacne_On.png)
 
 Rim Light Off
 
-![Performacne_Off.png](Performacne_Off.png)
+![Performacne_Off](./images/Performacne_Off.png)
