@@ -10,7 +10,7 @@
 
 # Features
 
-![Features_Overall.png](Features_Overall.png)
+![Features_Overall](./images/Features_Overall.png)
 
 The features of this shader are designed to be divided into **two main groups**, based on their roles and impact on performance.
 
@@ -34,7 +34,7 @@ These features are optional, allowing users to enable or disable them as needed.
 
 ## Texture Character
 
-![image.png](image.png)
+![TextureCharacter](./images/TextureCharacter.png)
 
 This shader uses **two main types of textures**, as described below:
 
