@@ -1,3 +1,10 @@
+---
+layout: default
+title: FAQ
+---
+
+[← Back to Home]({{ "/" | relative_url }})
+
 # FAQ
 
 ## Frequently Asked Questions
