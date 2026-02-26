@@ -1,10 +1,10 @@
 # Surface & Stylization
 
-[https://youtu.be/xnA9aQ0pEfE](https://youtu.be/xnA9aQ0pEfE)
+[Video ZLZ Anime Shader – Surface & Stylization Overview](https://youtu.be/xnA9aQ0pEfE)
 
 ## Base Character Colors
 
-![image.png](image%207.png)
+![basecharactercolors](../images/basecharactercolors.png)
 
 This section is used to adjust the character’s base color tones. It is designed to allow direct visual tuning through the material, without the need to repeatedly modify texture assets.
 
@@ -18,7 +18,7 @@ This section is used to adjust the character’s base color tones. It is designe
 
 ## ToonRampShade
 
-![image.png](image%208.png)
+![toonrampshade](../images/toonrampshade.png)
 
 - Used to control the sharpness of light and shadow edges in a toon style
 - Lower values produce sharper, harder lighting edges
@@ -28,7 +28,7 @@ This section is used to adjust the character’s base color tones. It is designe
 
 ## Outline
 
-![image.png](image%209.png)
+![outline](../images/outline.png)
 
 ### Parameters
 
@@ -44,7 +44,7 @@ This section is used to adjust the character’s base color tones. It is designe
 
 ## Metallic
 
-![image.png](image%2010.png)
+![metallic](../images/metallic.png)
 
 Metallic is used for character parts made of metal materials, adding shine and surface depth.
 
@@ -62,7 +62,7 @@ If no **Feature Mask (Red Channel)** is assigned to define the active area, this
 
 ## Transparency
 
-![image.png](image%2011.png)
+![transparency](../images/transparency.png)
 
 ### Parameters
 
