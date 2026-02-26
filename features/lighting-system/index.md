@@ -4,7 +4,7 @@
 
 # Base Character Lighting
 
-![image.png](image%203.png)
+![basecharacterlighting](../images/basecharacterlighting.png)
 
 This section controls the character’s lighting and shadow behavior.
 
@@ -18,7 +18,7 @@ This section controls the character’s lighting and shadow behavior.
 
 ## Soft Light
 
-![image.png](image%204.png)
+![softlight](../images/softlight.png)
 
 This feature applies a **Soft Light color adjustment (blend mode / tone curve)** to the character’s color **after lighting has been calculated** (Final Lit Color).
 
@@ -32,7 +32,7 @@ It enhances contrast and smoothness for a more subtle, softer look, and is appli
 
 ## Rim Light
 
-![image.png](image%205.png)
+![rimlight](../images/rimlight.png)
 
 Rim Light is used to add lighting along the edges of the character to emphasize the silhouette and help the character stand out more clearly from the background. It is well suited for toon- and anime-style characters.
 
@@ -49,7 +49,7 @@ Rim Light is used to add lighting along the edges of the character to emphasize 
 
 ## Hair Highlight
 
-![image.png](image%206.png)
+![hairhighlight](../images/hairhighlight.png)
 
 Hair Highlight is used to add light highlights to the character’s hair, with the highlight appearing only in areas that receive light.
 
