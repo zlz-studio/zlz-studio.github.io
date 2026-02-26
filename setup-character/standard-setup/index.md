@@ -1,8 +1,6 @@
-# Standard Setup
-
 [← Back to Setup Character]({{ "/setup-character/" | relative_url }})
 
-## Standard Setup
+# Standard Setup
 
 ![Standard](../images/Standard.png)
 
