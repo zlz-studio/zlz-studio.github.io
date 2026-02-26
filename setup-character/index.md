@@ -1,7 +1,9 @@
 ---
 layout: default
-title: Standard Setup
+title: Setup Character
 ---
+
+[← Back to Home]({{ "/" | relative_url }})
 
 # Setup Character
 
