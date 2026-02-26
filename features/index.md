@@ -1,12 +1,12 @@
 # Features
 
-[                      Hair System](Hair%20System%202dfc8c62421d806d93c5c93be45a8900.md)
+[Hair System](./hair-system/)
 
-[                 Lighting System](Lighting%20System%202dfc8c62421d8040ad04da86edd23000.md)
+[Lighting System](./lighting-system/)
 
-[                Surface & Stylization](Surface%20&%20Stylization%202dfc8c62421d80759a68cbe4f0307759.md)
+[Surface & Stylization](./surface-stylization/)
 
-[                     Character FX](Character%20FX%202dfc8c62421d80c499f8d76b81e86e78.md)
+[Character FX](./character-fx/)
 
 # Features
 
