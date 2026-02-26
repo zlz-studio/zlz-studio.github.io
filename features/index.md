@@ -1,3 +1,10 @@
+---
+layout: default
+title: Setup Character
+---
+
+[← Back to Home]({{ "/" | relative_url }})
+
 # Features
 
 [Hair System](./hair-system/)
