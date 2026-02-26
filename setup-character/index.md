@@ -1,3 +1,8 @@
+---
+layout: default
+title: Standard Setup
+---
+
 # Setup Character
 
 [Standard Setup](./standard-setup/)
