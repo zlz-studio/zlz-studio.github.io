@@ -6,7 +6,7 @@
 
 # Hair Transparent
 
-![image.png](image%201.png)
+![HairTransparent](../images/HairTransparent.png)
 
 This feature is designed to be used exclusively with the hair Transparent material
 (ZLZ_Char_Hair_Transparent_Variant)
@@ -26,7 +26,7 @@ This system simplifies the setup of transparent hair rendering by **fading hair 
 
 # Hair Shadow
 
-![image.png](image%202.png)
+![hairshadow](../images/hairshadow.png)
 
 This feature is designed to be used exclusively with the hair shadow material
 (ZLZ_Adv_Char_Hair_Shadow_VariantFromMain)
