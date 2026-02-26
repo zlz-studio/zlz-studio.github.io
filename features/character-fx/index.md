@@ -4,7 +4,7 @@
 
 ## Emissive
 
-![image.png](image%2012.png)
+![emissive](../images/emissive.png)
 
 Emissive is used to add light to specific areas of the character, making them appear glowing or visually prominent. It is suitable for elements such as gems, eyes, or special effects on the character.
 
@@ -23,7 +23,7 @@ If no mask is defined in this channel, the Emissive effect will not be applied.
 
 ## Dissolve Character
 
-![image.png](image%2013.png)
+![dissolve](../images/dissolve.png)
 
 Dissolve Character is used to gradually fade a character out of the scene. It is commonly applied when a character dies, warps, or is removed from the scene. The effect allows flexible control over the pattern, color, and timing of the dissolve.
 
@@ -40,7 +40,7 @@ Dissolve Character is used to gradually fade a character out of the scene. It is
 
 ## Target Darken
 
-![image.png](image%2014.png)
+![targetdarken](../images/targetdarken.png)
 
 **Target Darken** is a feature used to reduce the brightness of selected characters in order to draw attention to specific ones, such as characters using skills, appearing in cutscenes, or highlighted during important moments in a scene.
 
@@ -84,7 +84,7 @@ The Target Darken system separates control into two levels:
 
 ## Indicator / Target Select
 
-![image.png](image%2015.png)
+![indicator](..//images/indicator.png)
 
 **Indicator / Target Select** is a feature used to highlight characters that are currently selected as targets, such as characters being locked onto, selected for attack, or about to be affected by certain skills.
 
@@ -100,7 +100,7 @@ It helps players immediately recognize **“which character is about to be affec
 
 ## GetHit
 
-![image.png](image%2016.png)
+![gethit](../images/gethit.png)
 
 **Get Hit** is a feature used to visualize when a character is attacked, providing immediate visual feedback so players can clearly recognize that a hit has occurred.
 
@@ -116,7 +116,7 @@ It helps players immediately recognize **“which character is about to be affec
 
 ## LightSweep
 
-![image.png](image%2017.png)
+![lightsweep](../images/lightsweep.png)
 
 **Light Sweep** is a feature that adds a moving light effect sweeping across an object.
 
@@ -160,7 +160,7 @@ When this feature is enabled, the effect plays immediately and runs in a continu
 
 ## Upgrade
 
-![image.png](image%2018.png)
+![upgrade](../images/upgrade.png)
 
 **Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
 
