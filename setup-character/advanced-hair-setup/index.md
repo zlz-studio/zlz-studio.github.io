@@ -1,5 +1,7 @@
 # Advanced Hair Setup
 
+[← Back to Setup Character]({{ "/setup-character/" | relative_url }})
+
 ## Advanced Hair Setup
 
 ![Advanced](../images/Advanced.png)
