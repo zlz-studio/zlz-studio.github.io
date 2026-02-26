@@ -1,3 +1,10 @@
+---
+layout: default
+title: Performance
+---
+
+[← Back to Home]({{ "/" | relative_url }})
+
 # Performance
 
 ![Features_Overall](./images/Features_Overall.png)
