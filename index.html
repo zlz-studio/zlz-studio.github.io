@@ -49,6 +49,57 @@
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border-radius:18px; padding:26px;
     }
+    .heroRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+    
+    .heroLeft{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      min-width:280px;
+    }
+    
+    .heroRight{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    
+    .socialIcon{
+      width:46px;
+      height:46px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      transition:all .2s ease;
+    }
+    
+    .socialIcon:hover{
+      background:rgba(255,255,255,.08);
+      transform:translateY(-1px);
+    }
+    
+    .socialIcon svg{
+      width:22px;
+      height:22px;
+      display:block;
+      fill:currentColor;
+    }
+    
+    .assetBtn{
+      width:fit-content;
+    }
     h1{margin:6px 0 8px; font-size:40px; line-height:1.1;}
     .sub{margin:0; color:var(--muted); line-height:1.7; max-width:780px;}
     .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px;}
@@ -80,6 +131,15 @@
     @media (max-width:760px){
       h1{font-size:32px;}
       .card{grid-column:span 12;}
+    
+      .heroRow{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    
+      .heroRight{
+        justify-content:flex-start;
+      }
     }
         /* ===== WebGL Demo Embed ===== */
     .demo{
@@ -113,7 +173,41 @@
     </div>
 
     <section class="hero">
-      <h1>ZLZ Anime Shader Documentation</h1>
+      <div class="heroRow">
+        <div class="heroLeft">
+          <h1>ZLZ Anime Shader Documentation</h1>
+    
+          <a class="btn primary assetBtn" href="https://assetstore.unity.com/packages/vfx/shaders/zlz-anime-shader-354900" target="_blank" rel="noopener">
+            Buy on Unity Asset Store
+          </a>
+        </div>
+    
+        <div class="heroRight">
+          <a class="socialIcon" href="https://www.youtube.com/@ZLZ-zhugeliangz" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8ZM9.6 15.5v-7L15.8 12l-6.2 3.5Z"/>
+            </svg>
+          </a>
+    
+          <a class="socialIcon" href="https://x.com/zlz_studio" target="_blank" rel="noopener" title="X" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-5-6.5L6.2 22H3.1l7.3-8.4L.8 2h6.4l4.5 6 5.2-6ZM17.8 20h1.7L6.3 3.9H4.5L17.8 20Z"/>
+            </svg>
+          </a>
+    
+          <a class="socialIcon" href="https://www.artstation.com/zhugeliangz" target="_blank" rel="noopener" title="ArtStation" aria-label="ArtStation">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13.8 17.9H3l1.8 3.1a1.7 1.7 0 0 0 1.5.9h9.3l-1.8-4ZM24 17.9l-4.3-7.5a1.7 1.7 0 0 0-1.5-.9h-4.6l8 13.4V19a2.2 2.2 0 0 1 .4-1.1ZM13.8 2l7.7 13.3H6.1L13.8 2Z"/>
+            </svg>
+          </a>
+    
+          <a class="socialIcon" href="https://discussions.unity.com/t/30-launch-discount-first-7-days-zlz-anime-shader-transparent-hair-shader-for-unity-urp/1711422" target="_blank" rel="noopener" title="Unity Forum" aria-label="Unity Forum">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 3.5 7v10L12 22l8.5-5V7L12 2Zm0 2.2 6.5 3.8v7.9L12 19.8l-6.5-3.9V8l6.5-3.8Zm-3.2 9.1h6.4v1.8H8.8v-1.8Zm0-3.4h6.4v1.8H8.8V9.9Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
     </section>
 
     <!-- ===== WebGL Demo (Embed) ===== -->
@@ -190,32 +284,6 @@
             <span>When contacting, please include</span>
             <small>version, screenshots, and steps to reproduce</small>
           </div>
-        </div>
-      </section>
-
-      <!-- Social Media -->
-      <section class="card full">
-        <h2>Social Media</h2>
-        <div class="list">
-          <a class="item" href="https://www.youtube.com/@ZLZ-zhugeliangz" target="_blank" rel="noopener">
-            <span>YouTube</span>
-            <small>Watch videos and updates</small>
-          </a>
-
-          <a class="item" href="https://x.com/zlz_studio" target="_blank" rel="noopener">
-            <span>X</span>
-            <small>Follow latest posts</small>
-          </a>
-
-          <a class="item" href="https://www.artstation.com/zhugeliangz" target="_blank" rel="noopener">
-            <span>ArtStation</span>
-            <small>View portfolio and artwork</small>
-          </a>
-
-          <a class="item" href="https://discussions.unity.com/t/30-launch-discount-first-7-days-zlz-anime-shader-transparent-hair-shader-for-unity-urp/1711422" target="_blank" rel="noopener">
-            <span>Unity Forum</span>
-            <small>Read forum posts and discussions</small>
-          </a>
         </div>
       </section>
       
