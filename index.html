@@ -50,13 +50,22 @@
       pointer-events:none;
       z-index:0;
     }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(1200px 700px at 20% 0%, rgba(18,32,51,.55) 0%, rgba(11,15,20,.65) 60%);
+      pointer-events:none;
+      z-index:1;
+    }
     a{color:inherit; text-decoration:none}
     .wrap{
       max-width:1050px;
       margin:0 auto;
       padding:36px 18px 70px;
       position:relative;
-      z-index:1;
+      z-index:2;
     }
     .top{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;}
     .brand{font-weight:900; letter-spacing:.6px;}
