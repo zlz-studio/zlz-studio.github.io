@@ -188,14 +188,6 @@
       gap:10px; flex-wrap:wrap;
       color:var(--muted); font-size:13px;
     }
-        /* ===== Development Roadmap ===== */
-    .sectionLead{
-      margin:0 0 14px;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:14px;
-    }
-
     .roadmapGrid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -250,24 +242,22 @@
       gap:10px;
     }
 
-    .roadmapItem{
-      padding:10px 12px;
+    .roadmapSlot{
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      padding:0 12px;
       border:1px solid rgba(255,255,255,.08);
       border-radius:12px;
       background:rgba(255,255,255,.02);
-      line-height:1.55;
-    }
-
-    .roadmapItem strong{
-      display:block;
       font-size:14px;
-      margin-bottom:4px;
+      line-height:1.4;
     }
 
-    .roadmapItem small{
-      color:var(--muted);
-      display:block;
-      line-height:1.5;
+    .roadmapSlot.empty{
+      color:rgba(156,163,175,.45);
+      background:rgba(255,255,255,.01);
+      border:1px dashed rgba(255,255,255,.08);
     }
 
     @media (max-width:760px){
@@ -387,14 +377,9 @@
             </p>
 
             <div class="roadmapList">
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Finished and waiting to be included in the next update.</small>
-              </div>
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Ready for release after final packaging and validation.</small>
-              </div>
+              <div class="roadmapSlot">Feature Name</div>
+              <div class="roadmapSlot">Feature Name</div>
+              <div class="roadmapSlot empty"></div>
             </div>
           </div>
 
@@ -408,14 +393,9 @@
             </p>
 
             <div class="roadmapList">
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Currently in progress and under internal testing.</small>
-              </div>
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Implementation is ongoing and may change before release.</small>
-              </div>
+              <div class="roadmapSlot">Feature Name</div>
+              <div class="roadmapSlot empty"></div>
+              <div class="roadmapSlot empty"></div>
             </div>
           </div>
 
@@ -429,14 +409,9 @@
             </p>
 
             <div class="roadmapList">
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Planned for a future version but not in active production yet.</small>
-              </div>
-              <div class="roadmapItem">
-                <strong>Example Feature Name</strong>
-                <small>Included in the long-term roadmap.</small>
-              </div>
+              <div class="roadmapSlot">Feature Name</div>
+              <div class="roadmapSlot empty"></div>
+              <div class="roadmapSlot empty"></div>
             </div>
           </div>
 
@@ -450,14 +425,9 @@
             </p>
 
             <div class="roadmapList">
-              <div class="roadmapItem">
-                <strong>Example Idea</strong>
-                <small>Still being evaluated for usefulness, scope, and compatibility.</small>
-              </div>
-              <div class="roadmapItem">
-                <strong>Example Idea</strong>
-                <small>Not confirmed yet and may be changed or removed.</small>
-              </div>
+              <div class="roadmapSlot">Feature Idea</div>
+              <div class="roadmapSlot empty"></div>
+              <div class="roadmapSlot empty"></div>
             </div>
           </div>
         </div>
