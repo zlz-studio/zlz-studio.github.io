@@ -265,6 +265,45 @@
         grid-template-columns:1fr;
       }
     }
+    
+    /* ===== Roadmap Stage Colors ===== */
+    .stage-ready{
+      border-left:3px solid #22c55e;
+    }
+    
+    .stage-dev{
+      border-left:3px solid #3b82f6;
+    }
+    
+    .stage-plan{
+      border-left:3px solid #a855f7;
+    }
+    
+    .stage-idea{
+      border-left:3px solid #f59e0b;
+    }
+    
+    /* badge colors */
+    
+    .stage-ready .roadmapBadge{
+      border-color:#22c55e;
+      color:#22c55e;
+    }
+    
+    .stage-dev .roadmapBadge{
+      border-color:#3b82f6;
+      color:#3b82f6;
+    }
+    
+    .stage-plan .roadmapBadge{
+      border-color:#a855f7;
+      color:#a855f7;
+    }
+    
+    .stage-idea .roadmapBadge{
+      border-color:#f59e0b;
+      color:#f59e0b;
+    }
   </style>
 </head>
 <body>
@@ -367,7 +406,7 @@
         </p>
 
         <div class="roadmapGrid">
-          <div class="roadmapCard">
+          <div class="roadmapCard stage-ready">
             <div class="roadmapHead">
               <h3 class="roadmapTitle">Ready for Next Version</h3>
               <span class="roadmapBadge">Scheduled</span>
@@ -383,7 +422,7 @@
             </div>
           </div>
 
-          <div class="roadmapCard">
+          <div class="roadmapCard stage-dev">
             <div class="roadmapHead">
               <h3 class="roadmapTitle">In Development</h3>
               <span class="roadmapBadge">Active</span>
@@ -399,7 +438,7 @@
             </div>
           </div>
 
-          <div class="roadmapCard">
+          <div class="roadmapCard stage-plan">
             <div class="roadmapHead">
               <h3 class="roadmapTitle">Planned</h3>
               <span class="roadmapBadge">Planned</span>
@@ -415,7 +454,7 @@
             </div>
           </div>
 
-          <div class="roadmapCard">
+          <div class="roadmapCard stage-idea">
             <div class="roadmapHead">
               <h3 class="roadmapTitle">Ideas / Under Consideration</h3>
               <span class="roadmapBadge">Review</span>
