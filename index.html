@@ -309,99 +309,135 @@
     }
 
     /* ===== Games Using ZLZ Anime Shader ===== */
-    .gamesSection{
-      overflow:hidden;
+    .sectionLead{
+      margin:6px 0 0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
     }
     
-    .gamesHead{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-    }
-    
-    .gamesTitleWrap{
+    .gamesShowcase{
       display:flex;
       flex-direction:column;
-      gap:4px;
+      gap:18px;
+      margin-top:14px;
     }
     
-    .gamesTitleWrap p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
+    .gameBox{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      border-radius:16px;
+      padding:16px;
     }
     
-    .gamesControls{
-      display:flex;
-      gap:8px;
-    }
-    
-    .slideBtn{
-      width:42px;
-      height:42px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      cursor:pointer;
-      font-size:18px;
-      font-weight:800;
-      transition:all .2s ease;
-    }
-    
-    .slideBtn:hover{
-      background:rgba(255,255,255,.08);
-      transform:translateY(-1px);
-    }
-    
-    .gamesViewport{
+    .gameSlider{
+      position:relative;
+      border-radius:14px;
       overflow:hidden;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.08);
     }
     
-    .gamesTrack{
+    .gameSlides{
       display:flex;
-      gap:14px;
       transition:transform .35s ease;
       will-change:transform;
     }
     
-    .gameCard{
-      min-width:calc(50% - 7px);
-      max-width:calc(50% - 7px);
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      border-radius:16px;
-      overflow:hidden;
+    .gameSlide{
+      min-width:100%;
+      max-width:100%;
+      aspect-ratio:16 / 9;
+      object-fit:cover;
+      display:block;
+      background:#0f172a;
       flex-shrink:0;
     }
     
-    .gameThumb{
-      display:block;
-      width:100%;
-      aspect-ratio:16 / 9;
-      object-fit:cover;
-      background:#0f172a;
-    }
-    
-    .gameBody{
-      padding:14px;
-    }
-    
-    .gameTop{
+    .gameArrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:52px;
+      height:52px;
+      border:none;
+      border-radius:999px;
+      background:rgba(11,15,20,.58);
+      color:#fff;
+      font-size:28px;
+      line-height:1;
+      cursor:pointer;
+      z-index:2;
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
+      align-items:center;
+      justify-content:center;
+      transition:all .2s ease;
+      backdrop-filter:blur(4px);
     }
     
-    .gameName{
+    .gameArrow:hover{
+      background:rgba(11,15,20,.82);
+    }
+    
+    .gameArrow.prev{
+      left:14px;
+    }
+    
+    .gameArrow.next{
+      right:14px;
+    }
+    
+    .gameDots{
+      position:absolute;
+      left:50%;
+      bottom:12px;
+      transform:translateX(-50%);
+      display:flex;
+      gap:8px;
+      z-index:2;
+    }
+    
+    .gameDot{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.35);
+      border:none;
+      padding:0;
+      cursor:pointer;
+    }
+    
+    .gameDot.active{
+      background:var(--accent);
+    }
+    
+    .gameInfo{
+      margin-top:14px;
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    
+    .gameText{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:260px;
+      flex:1;
+    }
+    
+    .gameTitleRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    
+    .gameTitle{
       margin:0;
-      font-size:16px;
+      font-size:18px;
       font-weight:800;
     }
     
@@ -411,10 +447,10 @@
       padding:5px 10px;
       border-radius:999px;
       font-size:12px;
-      white-space:nowrap;
+      color:var(--muted);
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.04);
-      color:var(--muted);
+      white-space:nowrap;
     }
     
     .gameStatus.released{
@@ -430,10 +466,11 @@
     }
     
     .gameDesc{
-      margin:0 0 14px;
+      margin:0;
       color:var(--muted);
       font-size:13px;
-      line-height:1.6;
+      line-height:1.7;
+      max-width:720px;
     }
     
     .gameActions{
@@ -458,11 +495,18 @@
     }
     
     @media (max-width:760px){
-      .gameCard{
-        min-width:100%;
-        max-width:100%;
+      .gameArrow{
+        width:44px;
+        height:44px;
+        font-size:24px;
+      }
+    
+      .gameInfo{
+        flex-direction:column;
+        align-items:flex-start;
       }
     }
+    
   </style>
 </head>
 <body>
@@ -641,55 +685,82 @@
       </section>
 
       <!-- Games Using ZLZ Anime Shader -->
-      <section class="card full gamesSection">
-        <div class="gamesHead">
-          <div class="gamesTitleWrap">
-            <h2>Games Using ZLZ Anime Shader</h2>
-            <p>Projects and games created using ZLZ Anime Shader.</p>
-          </div>
+      <section class="card full">
+        <h2>Games Using ZLZ Anime Shader</h2>
+        <p class="sectionLead">
+          Real projects and games created using ZLZ Anime Shader.
+        </p>
       
-          <div class="gamesControls">
-            <button class="slideBtn" id="gamesPrev" aria-label="Previous">‹</button>
-            <button class="slideBtn" id="gamesNext" aria-label="Next">›</button>
-          </div>
-        </div>
+        <div class="gamesShowcase">
       
-        <div class="gamesViewport">
-          <div class="gamesTrack" id="gamesTrack">
-            
-            <article class="gameCard">
-              <img class="gameThumb" src="/images/games/game-1.jpg" alt="Game 1 screenshot" />
-              <div class="gameBody">
-                <div class="gameTop">
-                  <h3 class="gameName">Game Name 1</h3>
+          <!-- Game 1 -->
+          <article class="gameBox">
+            <div class="gameSlider" data-slider>
+              <button class="gameArrow prev" type="button" aria-label="Previous image">‹</button>
+      
+              <div class="gameSlides">
+                <img class="gameSlide" src="/images/games/game1-1.jpg" alt="Game 1 screenshot 1" />
+                <img class="gameSlide" src="/images/games/game1-2.jpg" alt="Game 1 screenshot 2" />
+                <img class="gameSlide" src="/images/games/game1-3.jpg" alt="Game 1 screenshot 3" />
+              </div>
+      
+              <button class="gameArrow next" type="button" aria-label="Next image">›</button>
+      
+              <div class="gameDots"></div>
+            </div>
+      
+            <div class="gameInfo">
+              <div class="gameText">
+                <div class="gameTitleRow">
+                  <h3 class="gameTitle">Game Name 1</h3>
                   <span class="gameStatus released">Released</span>
                 </div>
+      
                 <p class="gameDesc">
                   Built using an early version of ZLZ Anime Shader in a live production environment.
                 </p>
-                <div class="gameActions">
-                  <a class="gameLink" href="https://example.com" target="_blank" rel="noopener">View Game</a>
-                </div>
               </div>
-            </article>
       
-            <article class="gameCard">
-              <img class="gameThumb" src="/images/games/game-2.jpg" alt="Game 2 screenshot" />
-              <div class="gameBody">
-                <div class="gameTop">
-                  <h3 class="gameName">Game Name 2</h3>
+              <div class="gameActions">
+                <a class="gameLink" href="https://example.com" target="_blank" rel="noopener">View Game</a>
+              </div>
+            </div>
+          </article>
+      
+          <!-- Game 2 -->
+          <article class="gameBox">
+            <div class="gameSlider" data-slider>
+              <button class="gameArrow prev" type="button" aria-label="Previous image">‹</button>
+      
+              <div class="gameSlides">
+                <img class="gameSlide" src="/images/games/game2-1.jpg" alt="Game 2 screenshot 1" />
+                <img class="gameSlide" src="/images/games/game2-2.jpg" alt="Game 2 screenshot 2" />
+                <img class="gameSlide" src="/images/games/game2-3.jpg" alt="Game 2 screenshot 3" />
+              </div>
+      
+              <button class="gameArrow next" type="button" aria-label="Next image">›</button>
+      
+              <div class="gameDots"></div>
+            </div>
+      
+            <div class="gameInfo">
+              <div class="gameText">
+                <div class="gameTitleRow">
+                  <h3 class="gameTitle">Game Name 2</h3>
                   <span class="gameStatus dev">In Development</span>
                 </div>
+      
                 <p class="gameDesc">
                   This project uses an earlier prototype version of the shader before the public release.
                 </p>
-                <div class="gameActions">
-                  <a class="gameLink" href="https://example.com" target="_blank" rel="noopener">Learn More</a>
-                </div>
               </div>
-            </article>
       
-          </div>
+              <div class="gameActions">
+                <a class="gameLink" href="https://example.com" target="_blank" rel="noopener">Learn More</a>
+              </div>
+            </div>
+          </article>
+      
         </div>
       </section>
 
@@ -741,60 +812,62 @@
   window.addEventListener("resize", fitItchDemo);
   </script>
   <script>
-  (function () {
-    const track = document.getElementById("gamesTrack");
-    const prev = document.getElementById("gamesPrev");
-    const next = document.getElementById("gamesNext");
-
-    if (!track || !prev || !next) return;
+  document.querySelectorAll("[data-slider]").forEach(function(slider){
+    const slidesWrap = slider.querySelector(".gameSlides");
+    const slides = slider.querySelectorAll(".gameSlide");
+    const prevBtn = slider.querySelector(".gameArrow.prev");
+    const nextBtn = slider.querySelector(".gameArrow.next");
+    const dotsWrap = slider.querySelector(".gameDots");
 
     let index = 0;
+    const total = slides.length;
 
-    function getStep() {
-      const firstCard = track.querySelector(".gameCard");
-      if (!firstCard) return 0;
+    function updateSlider(){
+      slidesWrap.style.transform = "translateX(-" + (index * 100) + "%)";
 
-      const cardStyle = window.getComputedStyle(firstCard);
-      const trackStyle = window.getComputedStyle(track);
-
-      const cardWidth = firstCard.getBoundingClientRect().width;
-      const gap = parseFloat(trackStyle.gap) || 14;
-
-      return cardWidth + gap;
+      const dots = dotsWrap.querySelectorAll(".gameDot");
+      dots.forEach(function(dot, i){
+        dot.classList.toggle("active", i === index);
+      });
     }
 
-    function getVisibleCards() {
-      return window.innerWidth <= 760 ? 1 : 2;
-    }
-
-    function getMaxIndex() {
-      const cards = track.querySelectorAll(".gameCard").length;
-      const visible = getVisibleCards();
-      return Math.max(0, cards - visible);
-    }
-
-    function updateSlider() {
-      const step = getStep();
-      track.style.transform = `translateX(-${index * step}px)`;
-    }
-
-    prev.addEventListener("click", function () {
-      index = Math.max(0, index - 1);
+    function goToSlide(i){
+      if(i < 0){
+        index = total - 1;
+      }else if(i >= total){
+        index = 0;
+      }else{
+        index = i;
+      }
       updateSlider();
+    }
+
+    if(total <= 1){
+      prevBtn.style.display = "none";
+      nextBtn.style.display = "none";
+    }
+
+    slides.forEach(function(_, i){
+      const dot = document.createElement("button");
+      dot.className = "gameDot" + (i === 0 ? " active" : "");
+      dot.type = "button";
+      dot.setAttribute("aria-label", "Go to image " + (i + 1));
+      dot.addEventListener("click", function(){
+        goToSlide(i);
+      });
+      dotsWrap.appendChild(dot);
     });
 
-    next.addEventListener("click", function () {
-      index = Math.min(getMaxIndex(), index + 1);
-      updateSlider();
+    prevBtn.addEventListener("click", function(){
+      goToSlide(index - 1);
     });
 
-    window.addEventListener("resize", function () {
-      index = Math.min(index, getMaxIndex());
-      updateSlider();
+    nextBtn.addEventListener("click", function(){
+      goToSlide(index + 1);
     });
 
     updateSlider();
-  })();
-</script>
+  });
+  </script>
 </body>
 </html>
