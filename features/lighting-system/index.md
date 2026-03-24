@@ -4,7 +4,7 @@
 
 [Video ZLZ Anime Shader – Lighting System Overview & Behavior](https://youtu.be/GS7kpy4XTZM)
 
-# Face Shadow (Update in Version 1.1.0)
+# Face Shadow
 
 ![basecharacterlighting](../images/FaceShadow.png)
 
