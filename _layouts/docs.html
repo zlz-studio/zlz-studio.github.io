@@ -222,22 +222,16 @@
     
     .compare-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 100%;
+      inset: 0;
       overflow: hidden;
-    }
-    
-    .compare-overlay-inner {
-      width: 200%;
-      height: 100%;
+      clip-path: inset(0 0 0 50%);
     }
     
     .compare-overlay img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
       max-width: none;
       margin: 0;
       border-radius: 0;
@@ -365,8 +359,7 @@
         x = Math.max(0, Math.min(x, rect.width));
 
         const percent = (x / rect.width) * 100;
-        overlay.style.width = (100 - percent) + '%';
-        overlay.style.left = percent + '%';
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
         handle.style.left = percent + '%';
       }
 
