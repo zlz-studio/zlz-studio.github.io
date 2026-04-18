@@ -1,4 +1,7 @@
-[← Back to Setup Character]({{ "/setup-character/" | relative_url }})
+---
+layout: docs
+title: Advanced Setup
+---
 
 # Advanced Hair Setup
 
