@@ -2,13 +2,13 @@
 
 <h3>Setup Character</h3>
 <a href="{{ '/setup-character/' | relative_url }}"
-   class="{% if page.url == '/setup-character/' %}active{% endif %}">Overview</a>
+   class="{% if page.url == '/setup-character/' or page.url == '/setup-character/index.html' %}active{% endif %}">Overview</a>
 
 <a href="{{ '/setup-character/standard-setup/' | relative_url }}"
    class="{% if page.url == '/setup-character/standard-setup/' %}active{% endif %}">Standard Setup</a>
 
 <a href="{{ '/setup-character/advanced-hair-setup/' | relative_url }}"
-   class="{% if page.url == '/setup-character/advanced-hair-setup/' %}active{% endif %}">Advanced Hair Setup</a>
+   class="{% if page.url == '/setup-character/advanced-hair-setup/' or page.url == '/setup-character/advanced-hair-setup/index.html' %}active{% endif %}">Advanced Hair Setup</a>
 
 <h3>Features</h3>
 <a href="{{ '/features/' | relative_url }}"
