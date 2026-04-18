@@ -1,9 +1,7 @@
 ---
-layout: default
+layout: docs
 title: FAQ
 ---
-
-[← Back to Home]({{ "/" | relative_url }})
 
 # FAQ
 
