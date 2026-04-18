@@ -18,15 +18,13 @@ without being required to use every feature.
 
 ## Overview — Choose the Setup Level That Suits You
 
-![Setup Character Overview](./images/Setup_Character_Overview.png)
-
 <div class="compare-container">
   <div class="compare-base">
-    <img src="{{ '/images/Standard_Setup.png' | relative_url }}">
+    <img src="./images/Standard_Setup.png" alt="Standard Setup">
   </div>
 
   <div class="compare-overlay">
-    <img src="{{ '/images/Advanced_Setup.png' | relative_url }}">
+    <img src="./images/Advanced_Setup.png" alt="Advanced Hair Setup">
   </div>
 
   <div class="compare-handle"></div>
