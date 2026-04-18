@@ -20,6 +20,21 @@ without being required to use every feature.
 
 ![Setup Character Overview](./images/Setup_Character_Overview.png)
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="{{ '/images/Standard_Setup.png' | relative_url }}">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="{{ '/images/Advanced_Setup.png' | relative_url }}">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Standard Setup</div>
+  <div class="compare-label after">Advanced Setup</div>
+</div>
+
 This shader supports **two setup approaches** to accommodate different visual requirements.
 
 You may choose either approach, as both provide full access to the shader’s functionality.
