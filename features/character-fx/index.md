@@ -1,5 +1,7 @@
-[← Back to Features]({{ "/features/" | relative_url }})
-
+---
+layout: docs
+title: Character-FX
+---
 # Character FX
 
 [Video ZLZ Anime Shader – CharacterFX System & Overview](https://youtu.be/hImKw7_LWJ4)
