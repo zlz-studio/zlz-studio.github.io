@@ -365,7 +365,8 @@
         x = Math.max(0, Math.min(x, rect.width));
 
         const percent = (x / rect.width) * 100;
-        overlay.style.width = percent + '%';
+        overlay.style.width = (100 - percent) + '%';
+        overlay.style.left = percent + '%';
         handle.style.left = percent + '%';
       }
 
