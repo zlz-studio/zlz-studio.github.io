@@ -1,5 +1,7 @@
-[← Back to Features]({{ "/features/" | relative_url }})
-
+---
+layout: docs
+title: Surface-Stylization
+---
 # Surface & Stylization
 
 [Video ZLZ Anime Shader – Surface & Stylization Overview](https://youtu.be/xnA9aQ0pEfE)
