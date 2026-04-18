@@ -3,13 +3,7 @@ layout: docs
 title: Setup Character
 ---
 
-[← Back to Home]({{ "/" | relative_url }})
-
 # Setup Character
-
-[Standard Setup](./standard-setup/)
-
-[Advanced Hair Setup](./advanced-hair-setup/)
 
 ### ZLZ Anime Shader Character
 
