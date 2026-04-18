@@ -3,18 +3,6 @@ layout: docs
 title: Features Overview
 ---
 
-[← Back to Home]({{ "/" | relative_url }})
-
-# Features
-
-[Hair System](./hair-system/)
-
-[Lighting System](./lighting-system/)
-
-[Surface & Stylization](./surface-stylization/)
-
-[Character FX](./character-fx/)
-
 # Features
 
 ![Features_Overall](./images/Features_Overall.png)
