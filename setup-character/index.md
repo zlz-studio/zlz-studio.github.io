@@ -24,7 +24,7 @@ without being required to use every feature.
   </div>
 
   <div class="compare-overlay">
-    <img src="./images/Advanced_Setup.png" alt="Advanced Hair Setup">
+    <img src="./images/Advanced_Setup.png" alt="Advanced Setup">
   </div>
 
   <div class="compare-handle"></div>
