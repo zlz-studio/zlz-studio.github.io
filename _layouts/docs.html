@@ -195,7 +195,7 @@
       border-radius: 8px;
     }
 
-        .compare-container {
+    .compare-container {
       position: relative;
       width: 100%;
       max-width: 1000px;
@@ -206,14 +206,20 @@
       border: 1px solid #1f2937;
       user-select: none;
     }
-
-    .compare-base,
-    .compare-overlay {
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
       display: block;
       width: 100%;
       height: auto;
+      margin: 0;
+      border-radius: 0;
     }
-
+    
     .compare-overlay {
       position: absolute;
       top: 0;
@@ -222,7 +228,12 @@
       height: 100%;
       overflow: hidden;
     }
-
+    
+    .compare-overlay-inner {
+      width: 200%;
+      height: 100%;
+    }
+    
     .compare-overlay img {
       display: block;
       width: 100%;
@@ -231,15 +242,7 @@
       margin: 0;
       border-radius: 0;
     }
-
-    .compare-base img {
-      display: block;
-      width: 100%;
-      height: auto;
-      margin: 0;
-      border-radius: 0;
-    }
-
+    
     .compare-handle {
       position: absolute;
       top: 0;
@@ -251,7 +254,7 @@
       z-index: 3;
       cursor: ew-resize;
     }
-
+    
     .compare-handle::before {
       content: "↔";
       position: absolute;
@@ -271,7 +274,7 @@
       line-height: 1;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     }
-
+    
     .compare-label {
       position: absolute;
       top: 12px;
@@ -287,11 +290,11 @@
       line-height: 1;
       pointer-events: none;
     }
-
+    
     .compare-label.before {
       left: 12px;
     }
-
+    
     .compare-label.after {
       right: 12px;
     }
