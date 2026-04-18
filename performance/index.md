@@ -1,9 +1,7 @@
 ---
-layout: default
+layout: docs
 title: Performance
 ---
-
-[← Back to Home]({{ "/" | relative_url }})
 
 # Performance
 
