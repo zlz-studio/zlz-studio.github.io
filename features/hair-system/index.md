@@ -1,4 +1,7 @@
-[← Back to Features]({{ "/features/" | relative_url }})
+---
+layout: docs
+title: Hair-System
+---
 
 # Hair System
 
