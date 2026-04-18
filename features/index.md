@@ -1,6 +1,6 @@
 ---
-layout: default
-title: Setup Character
+layout: docs
+title: Features Overview
 ---
 
 [← Back to Home]({{ "/" | relative_url }})
