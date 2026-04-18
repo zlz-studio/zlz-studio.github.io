@@ -78,11 +78,15 @@
     .content {
       flex: 1;
       width: 100%;
-      max-width: 1000px;
-      padding: 40px;
+      padding: 40px 48px;
       color: #e5e7eb;
       font-size: 15px;
       line-height: 1.8;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
     }
 
     .content h1,
@@ -233,8 +237,10 @@
     </aside>
 
     <main class="content">
-      <a class="top-link" href="/">← Back to Home</a>
-      {{ content }}
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        {{ content }}
+      </div>
     </main>
   </div>
 </body>
