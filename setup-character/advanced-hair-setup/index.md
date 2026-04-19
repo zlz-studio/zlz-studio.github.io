@@ -68,7 +68,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 4 : Select Forward Axis (Advanced Hair Setup)
 
-### [Video Tutorial Setup Step 4](https://youtu.be/XlFdRWyGbaU)
+### [Video Tutorial Setup Step 4](https://youtu.be/5YfiHBkY5vg)
 
 Update in Version 1.2.0  
 4.1. Select the axis that points forward from face (Head Bone)  
