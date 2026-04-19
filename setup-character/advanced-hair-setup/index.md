@@ -73,6 +73,7 @@ When setting up a single character, this system uses a total of **six main Mater
 Update in Version 1.2.0  
 4.1. Select the axis that points forward from face (Head Bone)  
 4.2. Select the axis that points to the character's right side (Head Bone)  
+Script: ZLZ_HeadDirectionBinder works with the Hair Transparent, Hair Shadow, and Face Shadow features.
 
 ![Step4-SetupCharacter](../images/Step4-SetupCharacter.png)
 
