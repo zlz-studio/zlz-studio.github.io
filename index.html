@@ -161,6 +161,44 @@
         flex-direction:column;
         align-items:flex-start;
       }
+
+    .docsBlock{
+      grid-column: span 12;
+    }
+    
+    .scrollList{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    
+    .scrollList.show-4{
+      max-height: 254px;
+    }
+    
+    .scrollList.show-8{
+      max-height: 518px;
+    }
+    
+    .scrollList::-webkit-scrollbar{
+      width: 10px;
+    }
+    
+    .scrollList::-webkit-scrollbar-track{
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+    }
+    
+    .scrollList::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.16);
+      border-radius: 999px;
+    }
+    
+    .scrollList::-webkit-scrollbar-thumb:hover{
+      background: rgba(255,255,255,.24);
+    }
     
       .heroRight{
         justify-content:flex-start;
@@ -580,9 +618,9 @@
 
     <div id="docs" class="grid">
       <!-- Setup Character -->
-      <section class="card">
+      <section class="card docsBlock">
         <h2>Setup Character</h2>
-        <div class="list">
+        <div class="scrollList show-4">
           <a class="item" href="/setup-character/"><span>Overview</span><small>setup-character/</small></a>
           <a class="item" href="/setup-character/standard-setup/"><span>Standard Setup</span><small>…/standard-setup/</small></a>
           <a class="item" href="/setup-character/advanced-hair-setup/"><span>Advanced Hair Setup</span><small>…/advanced-hair-setup/</small></a>
@@ -590,11 +628,12 @@
       </section>
 
       <!-- Features -->
-      <section class="card">
+      <section class="card docsBlock">
         <h2>Features</h2>
-        <div class="list">
+        <div class="scrollList show-8">
           <a class="item" href="/features/"><span>Overview</span><small>features/</small></a>
           <a class="item" href="/features/hair-system/"><span>Hair System</span><small>…/hair-system/</small></a>
+          <a class="item" href="/features/faceshadow/"><span>Face Shadow</span><small>…/faceshadow/</small></a>
           <a class="item" href="/features/lighting-system/"><span>Lighting System</span><small>…/lighting-system/</small></a>
           <a class="item" href="/features/surface-stylization/"><span>Surface & Stylization</span><small>…/surface-stylization/</small></a>
           <a class="item" href="/features/character-fx/"><span>Character FX</span><small>…/character-fx/</small></a>
