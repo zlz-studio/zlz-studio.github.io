@@ -11,6 +11,21 @@ title: Hair-System
 
 # Hair Transparent
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Hair_Transparent_Off.jpg" alt="Hair_Transparent_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Hair_Transparent_On.jpg" alt="Hair_Transparent_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Hair Transparent Off</div>
+  <div class="compare-label after">Hair Transparent On</div>
+</div>
+
 ![HairTransparent](../images/HairTransparent.png)
 
 This feature is designed to be used exclusively with the hair Transparent material
