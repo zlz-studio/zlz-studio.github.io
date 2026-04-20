@@ -20,6 +20,8 @@ title: FaceShadow
   <div class="compare-label after">FaceShadow On</div>
 </div>
 
+{% include youtube.html id="_ofUJvzlflg" %}
+
 ![basecharacterlighting](../images/FaceShadow.png)
 
 Face Shadow is designed to be flexible and works with a wide variety of characters, regardless of how their face UVs are set up.  
