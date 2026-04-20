@@ -46,6 +46,21 @@ This system simplifies the setup of transparent hair rendering by **fading hair 
 
 # Hair Shadow
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Hair_Shadow_Off.jpg" alt="Hair_Shadow_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Hair_Shadow_On.jpg" alt="Hair_Shadow_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Hair Shadow Off</div>
+  <div class="compare-label after">Hair Shadow On</div>
+</div>
+
 ![hairshadow](../images/hairshadow.png)
 
 This feature is designed to be used exclusively with the hair shadow material
