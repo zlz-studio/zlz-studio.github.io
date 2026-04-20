@@ -1,9 +1,24 @@
 ---
 layout: docs
-title: Lighting-System
+title: FaceShadow
 ---
 
 # Face Shadow
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/FaceShadow_Off.jpg" alt="FaceShadow_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/FaceShadow_On.jpg" alt="FaceShadow_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">FaceShadow Off</div>
+  <div class="compare-label after">FaceShadow On</div>
+</div>
 
 ![basecharacterlighting](../images/FaceShadow.png)
 
