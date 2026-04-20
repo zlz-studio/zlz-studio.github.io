@@ -211,6 +211,7 @@
       background: #111827;
       border: 1px solid #1f2937;
       user-select: none;
+      aspect-ratio: 16 / 9;
     }
     
     .compare-base {
@@ -221,9 +222,10 @@
     .compare-base img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       margin: 0;
       border-radius: 0;
+      object-fit: cover;
     }
     
     .compare-overlay {
@@ -241,6 +243,7 @@
       max-width: none;
       margin: 0;
       border-radius: 0;
+      object-fit: cover;
     }
     
     .compare-handle {
