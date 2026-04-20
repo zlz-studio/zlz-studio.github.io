@@ -20,11 +20,11 @@ without being required to use every feature.
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="./images/Standard_Setup.png" alt="Standard Setup">
+    <img src="./images/Standard_Setup.jpg" alt="Standard Setup">
   </div>
 
   <div class="compare-overlay">
-    <img src="./images/Advanced_Setup.png" alt="Advanced Setup">
+    <img src="./images/Advanced_Setup.jpg" alt="Advanced Setup">
   </div>
 
   <div class="compare-handle"></div>
