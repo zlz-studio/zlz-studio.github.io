@@ -44,7 +44,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 1 : Material Preparation (Advanced Hair Setup)
 
-### [Video Tutorial Setup Step 1](https://youtu.be/-Qr4eKoO0XU)
+{% include youtube.html id="-Qr4eKoO0XU" %}
 
 ![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
 
@@ -52,7 +52,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 2 : Apply Material Presets (Advanced Hair Setup)
 
-### [Video Tutorial Setup Step 2](https://youtu.be/d2omoCJ5JyI)
+{% include youtube.html id="d2omoCJ5JyI" %}
 
 ![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
 
@@ -60,7 +60,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 3 :Head Direction Script Setup (Advanced Hair Setup)
 
-### [Video Tutorial Setup Step 3](https://youtu.be/ZGY9uj1AxBQ)
+{% include youtube.html id="ZGY9uj1AxBQ" %}
 
 ![Step3-SetupCharacter](../images/Step3-SetupCharacter.png)
 
@@ -68,7 +68,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ## Step 4 : Select Forward Axis (Advanced Hair Setup)
 
-### [Video Tutorial Setup Step 4](https://youtu.be/5YfiHBkY5vg)
+{% include youtube.html id="5YfiHBkY5vg" %}
 
 Update in Version 1.2.0  
 4.1. Select the axis that points forward from face (Head Bone)  
