@@ -27,9 +27,6 @@ title: FaceShadow
 Face Shadow is designed to be flexible and works with a wide variety of characters, regardless of how their face UVs are set up.  
 It also includes a Face Shadow Paint texture that can be reused across multiple characters, so you don’t need to switch textures frequently.
 
-[Video Tutorial Face Shadow](https://www.youtube.com/watch?v=_ofUJvzlflg)
-
-
 ### Parameters
 
 - **Face Texture** : Assign a texture to define lighting and shadow on the face
