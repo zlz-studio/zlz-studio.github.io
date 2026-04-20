@@ -20,6 +20,21 @@ title: FaceShadow
   <div class="compare-label after">FaceShadow On</div>
 </div>
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/FaceShadow_Debug.jpg" alt="FaceShadow_Debug">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/FaceShadow_On.jpg" alt="FaceShadow_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Correct Face UV (Debug)</div>
+  <div class="compare-label after">FaceShadow On</div>
+</div>
+
 {% include youtube.html id="_ofUJvzlflg" %}
 
 ![basecharacterlighting](../images/FaceShadow.png)
