@@ -16,8 +16,8 @@ title: Base Character Lighting
 
   <div class="compare-handle"></div>
 
-  <div class="compare-label before">ReceiveShadow Off</div>
-  <div class="compare-label after">ReceiveShadow On</div>
+  <div class="compare-label before">Realtime Lighting ReceiveShadow Off</div>
+  <div class="compare-label after">Realtime Lighting ReceiveShadow On</div>
 </div>
 
 ![basecharacterlighting](../images/basecharacterlighting.png)
