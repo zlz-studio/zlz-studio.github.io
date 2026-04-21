@@ -7,20 +7,6 @@ title: Lighting-System
 
 [Video ZLZ Anime Shader – Lighting System Overview & Behavior](https://youtu.be/GS7kpy4XTZM)
 
-# Base Character Lighting
-
-![basecharacterlighting](../images/basecharacterlighting.png)
-
-This section controls the character’s lighting and shadow behavior.
-
-### Parameters
-
-- **Switch Face Mode** : Adjusts the lighting calculation to better suit the character’s facial surface, helping the face appear brighter and more readable under different lighting conditions
-- **Receive Shadow** : Enables or disables receiving shadows cast by other objects *(disabling this option does **not** affect the character’s ability to cast shadows onto surrounding objects)*
-- **Additional Light Intensity** : Controls the intensity of secondary lights such as Point Lights and Spot Lights; this value does not affect the main Directional Light in the scene
-
----
-
 ## Soft Light
 
 ![softlight](../images/softlight.png)
