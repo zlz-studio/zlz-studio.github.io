@@ -44,3 +44,68 @@ Features may not work correctly, such as:
 
 ZLZ_HeadDirectionBinder is the core of the system.
 Without this script, features that rely on head direction will not function correctly.
+
+---
+
+## Setup Script ZLZ_Head Direction Binder
+
+![Features_Overall](../images/Head_Tutorial_01.png)
+
+# 1. Editor Preview
+Used to preview results in the Editor
+
+On: Displays results instantly in the Editor (recommended during setup)
+Off: The script runs only at Runtime to reduce material changes in Version Control
+
+💡 Recommended: Turn this off after setup is complete
+
+# 2. Head Bone
+Assign the character’s Head Bone
+
+The Head Bone is used as the main reference for direction calculations,
+ensuring features like Face Shadow and Hair Effects work correctly
+
+# 3. Element → Renderer
+Assign the Mesh Renderer that will receive data from the script
+
+💡 Recommended:
+- Face Mesh
+- Hair Mesh
+
+The script will send data to the materials used by this renderer
+
+# 4. Element → Material Indices
+Specify which Material Indices the script should send data to
+
+You can find the indices in the Renderer (material order in the mesh)
+
+💡 Recommended:
+- Face material
+- Hair material
+
+# 5. Forward Axis
+Define the axis of the Head Bone that points forward from the face
+
+Examples:
+- Z+
+- -Z
+- X+
+⚠️ Must be set correctly, otherwise Face Shadow may appear inverted
+
+# 6. Right Axis
+Define the axis of the Head Bone that points to the character’s right side
+
+Examples:
+- X+
+- -X
+- Z+
+⚠️ Used together with Forward Axis to ensure correct direction calculations
+
+# Important Note
+
+This script is a critical part of the system and is required for the following features:
+- Face Shadow
+- Hair Transparent
+- Hair Shadow
+
+If configured incorrectly, these features may not work as expected
