@@ -89,7 +89,7 @@ Define the axis of the Head Bone that points forward from the face
 Examples:
 - Z+
 - -Z
-- X+
+- X+  
 ⚠️ Must be set correctly, otherwise Face Shadow may appear inverted
 
 ### 6. Right Axis
@@ -98,7 +98,7 @@ Define the axis of the Head Bone that points to the character’s right side
 Examples:
 - X+
 - -X
-- Z+
+- Z+  
 ⚠️ Used together with Forward Axis to ensure correct direction calculations
 
 ### Important Note
