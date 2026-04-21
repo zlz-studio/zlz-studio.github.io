@@ -5,6 +5,21 @@ title: Base Character Lighting
 
 # Base Character Lighting
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/ReceiveShadow_Off.jpg" alt="ReceiveShadow_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/ReceiveShadow_On.jpg" alt="ReceiveShadow_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">ReceiveShadow Off</div>
+  <div class="compare-label after">ReceiveShadow On</div>
+</div>
+
 ![basecharacterlighting](../images/basecharacterlighting.png)
 
 This section controls the character’s lighting and shadow behavior.
