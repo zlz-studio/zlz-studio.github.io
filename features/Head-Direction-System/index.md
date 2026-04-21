@@ -1,6 +1,6 @@
 ## ZLZ_HeadDirectionBinder (Required Script)
 
-![Features_Overall](./images/DiagramScriptHDB.png)
+![Features_Overall](../images/DiagramScriptHDB.png)
 
 # Overview
 ZLZ_HeadDirectionBinder is the core script used to control the direction of the Head Bone and send that data to the shader, ensuring that related features work correctly.
@@ -34,3 +34,8 @@ Features may not work correctly, such as:
 - Face Shadow will not function
 - Hair Transparent may render incorrectly (eyes and eyebrows may disappear)
 - Hair Shadow will not align with the light direction
+
+# Summary
+
+ZLZ_HeadDirectionBinder is the core of the system.
+Without this script, features that rely on head direction will not function correctly.
