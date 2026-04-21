@@ -1,3 +1,8 @@
+---
+layout: docs
+title: Head Direction System
+---
+
 ## ZLZ_HeadDirectionBinder (Required Script)
 
 ![Features_Overall](../images/DiagramScriptHDB.png)
