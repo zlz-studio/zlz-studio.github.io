@@ -5,7 +5,7 @@ title: Hair-System
 
 # Hair System
 
-[Video ZLZ Anime Shader – Hair System Setup & Overview](https://youtu.be/tDF0kKeQD4k)
+{% include youtube.html id="tDF0kKeQD4k" %}
 
 ---
 
