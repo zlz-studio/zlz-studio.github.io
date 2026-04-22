@@ -20,6 +20,21 @@ title: Base Character Lighting
   <div class="compare-label after">Realtime Lighting ReceiveShadow On</div>
 </div>
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/ShadowMask_PointLight_Off.jpg" alt="ShadowMask_PointLight_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/ShadowMask_PointLight_On.jpg" alt="ShadowMask_PointLight_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Baked ShadowMask Point Light Off</div>
+  <div class="compare-label after">Baked ShadowMask Point Light On</div>
+</div>
+
 ![basecharacterlighting](../images/basecharacterlighting.png)
 
 This section controls the character’s lighting and shadow behavior.
