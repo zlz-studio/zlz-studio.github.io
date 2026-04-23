@@ -20,10 +20,6 @@
       color: #e6edf3;
     }
 
-    body {
-      overflow-x: hidden;
-    }
-
     a {
       color: #8ab4f8;
       text-decoration: none;
@@ -36,8 +32,6 @@
     .docs-layout {
       display: flex;
       min-height: 100vh;
-      width: 100%;
-      overflow-x: hidden;
     }
 
     .sidebar {
@@ -94,32 +88,19 @@
 
     .content {
       flex: 1;
-      min-width: 0;
+      width: 100%;
       padding: 40px 48px;
       color: #e5e7eb;
       font-size: 15px;
       line-height: 1.8;
       display: flex;
       justify-content: center;
-      overflow-x: hidden;
     }
 
-    .content img,
-    .content iframe,
-    .content video,
-    .content table,
-    .content pre {
-      max-width: 100%;
-    }
-    
-    .content * {
-      min-width: 0;
-    }
-    
     .content-inner {
       width: 100%;
       max-width: 1200px;
-      min-width: 0
+    }
 
     .content h1,
     .content h2,
