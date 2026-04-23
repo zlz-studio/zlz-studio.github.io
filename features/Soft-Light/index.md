@@ -1,3 +1,8 @@
+---
+layout: docs
+title: Soft Light
+---
+
 ## Soft Light
 
 <div class="compare-container">
