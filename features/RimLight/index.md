@@ -5,6 +5,21 @@ title: RimLight
 
 ## Rim Light
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/RimLight_Off.jpg" alt="RimLight_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/RimLight_On.jpg" alt="RimLight_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">RimLight Off</div>
+  <div class="compare-label after">RimLight On</div>
+</div>
+
 ![rimlight](../images/rimlight.png)
 
 Rim Light is used to add lighting along the edges of the character to emphasize the silhouette and help the character stand out more clearly from the background. It is well suited for toon- and anime-style characters.
