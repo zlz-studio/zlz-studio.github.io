@@ -1,6 +1,6 @@
 ---
 layout: docs
-title: Base-Character-Color
+title: Base-Character-Colors
 ---
 
 ## Base Character Colors
