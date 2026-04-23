@@ -92,19 +92,20 @@
 
     .content {
       flex: 1;
-      width: 100%;
+      min-width: 0;
       padding: 40px 48px;
       color: #e5e7eb;
       font-size: 15px;
       line-height: 1.8;
       display: flex;
       justify-content: center;
+      overflow-x: hidden;
     }
-
+    
     .content-inner {
       width: 100%;
       max-width: 1200px;
-    }
+      min-width: 0
 
     .content h1,
     .content h2,
