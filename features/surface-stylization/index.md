@@ -6,16 +6,6 @@ title: Surface-Stylization
 
 [Video ZLZ Anime Shader – Surface & Stylization Overview](https://youtu.be/xnA9aQ0pEfE)
 
-## ToonRampShade
-
-![toonrampshade](../images/toonrampshade.png)
-
-- Used to control the sharpness of light and shadow edges in a toon style
-- Lower values produce sharper, harder lighting edges
-- Higher values result in smoother, more gradual light transitions
-
----
-
 ## Outline
 
 ![outline](../images/outline.png)
