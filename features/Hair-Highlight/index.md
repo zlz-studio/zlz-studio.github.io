@@ -1,13 +1,25 @@
 ---
 layout: docs
-title: Lighting-System
+title: Hair-Highlight
 ---
 
-# Lighting System
-
-[Video ZLZ Anime Shader – Lighting System Overview & Behavior](https://youtu.be/GS7kpy4XTZM)
 
 ## Hair Highlight
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/HairHighlight_Off.jpg" alt="HairHighlight_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/HairHighlight_On.jpg" alt="HairHighlight_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">HairHighlight Off</div>
+  <div class="compare-label after">HairHighlight On</div>
+</div>
 
 ![hairhighlight](../images/hairhighlight.png)
 
