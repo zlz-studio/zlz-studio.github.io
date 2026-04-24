@@ -5,6 +5,21 @@ title: Metallic
 
 ## Metallic
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Metallic/Metallic_Off.jpg" alt="Metallic_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Metallic/Metallic_On.jpg" alt="Metallic_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Metallic Off</div>
+  <div class="compare-label after">Metallic On</div>
+</div>
+
 ![metallic](../images/metallic.png)
 
 Metallic is used for character parts made of metal materials, adding shine and surface depth.
