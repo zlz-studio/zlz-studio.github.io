@@ -1,3 +1,8 @@
+---
+layout: docs
+title: Metallic
+---
+
 ## Metallic
 
 ![metallic](../images/metallic.png)
