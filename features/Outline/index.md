@@ -20,6 +20,21 @@ title: Outline
   <div class="compare-label after">Outline On</div>
 </div>
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Outline_Example1.jpg" alt="Outline_Example1">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Outline_Example2.jpg" alt="Outline_Example2">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Outline Example1</div>
+  <div class="compare-label after">Outline_Example2</div>
+</div>
+
 ![outline](../images/outline.png)
 
 ### Parameters
