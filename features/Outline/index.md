@@ -35,6 +35,21 @@ title: Outline
   <div class="compare-label after">Outline Showcase Color Example2</div>
 </div>
 
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Outline Z Offset : 0</div>
+  <div class="compare-label after">Outline Z Offset : 0.025</div>
+</div>
+
 ![outline](../images/outline.png)
 
 ### Parameters
