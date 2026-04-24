@@ -7,11 +7,11 @@ title: Outline
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/Outline_Off.jpg" alt="Outline_Off">
+    <img src="../Outline/Outline_Off.jpg" alt="Outline_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/Outline_On.jpg" alt="Outline_On">
+    <img src="../Outline/Outline_On.jpg" alt="Outline_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -22,11 +22,11 @@ title: Outline
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/Outline_Example1.jpg" alt="Outline_Example1">
+    <img src="../Outline/Outline_Example1.jpg" alt="Outline_Example1">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/Outline_Example2.jpg" alt="Outline_Example2">
+    <img src="../Outline/Outline_Example2.jpg" alt="Outline_Example2">
   </div>
 
   <div class="compare-handle"></div>
