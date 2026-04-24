@@ -37,11 +37,11 @@ title: Outline
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0">
+    <img src="../Outline/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025">
+    <img src="../Outline/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025">
   </div>
 
   <div class="compare-handle"></div>
