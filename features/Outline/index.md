@@ -31,8 +31,8 @@ title: Outline
 
   <div class="compare-handle"></div>
 
-  <div class="compare-label before">Outline Example1</div>
-  <div class="compare-label after">Outline_Example2</div>
+  <div class="compare-label before">Outline Showcase Color Example1</div>
+  <div class="compare-label after">Outline Showcase Color Example2</div>
 </div>
 
 ![outline](../images/outline.png)
