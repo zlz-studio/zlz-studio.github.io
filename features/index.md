@@ -3,10 +3,14 @@ layout: docs
 title: Features Overview
 ---
 
+# Video Showcase
+
 {% include youtube.html id="tDF0kKeQD4k" %}
 {% include youtube.html id="GS7kpy4XTZM" %}
 {% include youtube.html id="xnA9aQ0pEfE" %}
 {% include youtube.html id="hImKw7_LWJ4" %}
+
+---
 
 # Features
 
