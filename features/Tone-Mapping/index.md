@@ -9,14 +9,7 @@ title: Tone-Mapping
 
 ### What is Tone Mapping?
 
-Tone Mapping is the process of converting high dynamic range (HDR) lighting values from the game into a range that a display can actually show (LDR).
-In Unity and modern rendering engines, lighting calculations can exceed a value of 1.0, for example:
-
-- Sunlight
-- Emissive materials
-- Strong highlights from materials
-
-However, real displays can only represent values roughly within the 0–1 range.
+Tone Mapping is the process of adjusting the brightness of an image so it can be properly displayed on screen.
 
 ---
 
@@ -62,24 +55,6 @@ Characteristics:
 
 ---
 
-### Why this is not ideal for Anime / Stylized rendering
-
-Most built-in tone mapping solutions are designed for realistic rendering
-
-However, when applied to Anime / Cartoon / Stylized visuals, they often introduce issues:
-- Colors that should be vibrant become washed out
-- Highlights turn white too quickly
-- Skin tones can look unnatural
-- Emissive effects become too strong and harder to control
-
-### The idea behind ZLZ Tone Mapping
-
-ZLZ Tone Mapping is designed specifically for stylized rendering workflows
-- Instead of mimicking real-world lighting
-- it focuses on preserving the intended Anime look
-
----
-
 ### ZLZ Tone Mapping
 ZLZ Tone Mapping provides two curve options:
 
@@ -108,6 +83,14 @@ Key features:
 - Colors look good but are less saturated than Anime Curve
 - Highlights are controlled and do not blow out too quickly
 - Shadows remain softer and more natural
+
+---
+
+Setup Tone Mapping
+
+1.เปิด Project Settings > Quality > Render Pipeline Asset > คลิ๊กที่ ควรเรียกว่าอะไร
+2.ใน Project คลิ๊กที่ (Universal Renderer Data) และ Add Features : ZLZ Anime ToneMapping
+3.สร้าง Global Volume และ Add Override 2 อย่าง คือ ZLZ Anime ToneMapping + Bloom
 
 ![basecharactercolors](../images/basecharactercolors.png)
 
