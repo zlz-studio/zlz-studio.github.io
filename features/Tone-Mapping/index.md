@@ -5,6 +5,8 @@ title: Tone-Mapping
 
 ## Tone Mapping
 
+![outline](../Tone-Mapping/ToneMapping.jpg)
+
 ### What is Tone Mapping?
 
 Tone Mapping is the process of converting high dynamic range (HDR) lighting values from the game into a range that a display can actually show (LDR).
@@ -37,6 +39,8 @@ By default, Unity provides two main tone mapping options: Neutral and ACES
 
 ### Neutral
 
+![outline](../Tone-Mapping/Netural.jpg)
+
 Neutral tone mapping is designed to preserve the original color response as much as possible.
 
 Characteristics:
@@ -45,6 +49,8 @@ Characteristics:
 - Lower contrast, which can make the image feel less sharp or slightly dull
 
 ### ACES
+
+![outline](../Tone-Mapping/ACES.jpg)
 
 ACES is designed to produce a more cinematic and physically-inspired result.
 
@@ -79,6 +85,8 @@ ZLZ Tone Mapping provides two curve options:
 
 ### 1. Anime Curve (Recommended)
 
+![outline](../Tone-Mapping/Anime.jpg)
+
 Designed to preserve the visual quality of Anime-style rendering
 
 Key features:
@@ -89,6 +97,8 @@ Key features:
 - Shadows remain readable and do not become overly crushed
 
 ### 2. Filmic Curve
+
+![outline](../Tone-Mapping/Filmic.jpg)
 
 Designed for a more cinematic and natural-looking result
 
