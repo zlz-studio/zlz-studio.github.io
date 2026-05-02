@@ -86,20 +86,12 @@ Key features:
 
 ---
 
-Setup Tone Mapping
+### Setup Tone Mapping
 
-1.เปิด Project Settings > Quality > Render Pipeline Asset > คลิ๊กที่ ควรเรียกว่าอะไร
-2.ใน Project คลิ๊กที่ (Universal Renderer Data) และ Add Features : ZLZ Anime ToneMapping
-3.สร้าง Global Volume และ Add Override 2 อย่าง คือ ZLZ Anime ToneMapping + Bloom
+![outline](../Tone-Mapping/Setup-ToneMapping.jpg)
 
-![basecharactercolors](../images/basecharactercolors.png)
-
-This section is used to adjust the character’s base color tones. It is designed to allow direct visual tuning through the material, without the need to repeatedly modify texture assets.
-
-### Parameters
-
-- **Texture Brightness :** Adjusts the brightness of the main texture
-- **Base Color :** Controls the overall color tone of the character
-- **Shadow Color :** Adjusts the color and intensity of shadows to control the character’s mood and contrast
+1. Go to Project Settings > Quality, Under Render Pipeline Asset, select the active URP Asset  
+2. Select the Universal Renderer Data, then add the ZLZ Anime ToneMapping feature.  
+3. Create a Global Volume and add ZLZ Anime ToneMapping and Bloom overrides.
 
 ---
