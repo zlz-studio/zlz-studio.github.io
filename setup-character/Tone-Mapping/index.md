@@ -3,7 +3,7 @@ layout: docs
 title: Tone-Mapping
 ---
 
-## Tone Mapping
+## Tone Mapping (Update in Version 1.3.0)
 
 ![ToneMapping](../Tone-Mapping/ToneMapping.jpg)
 
