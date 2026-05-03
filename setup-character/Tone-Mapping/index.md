@@ -86,6 +86,81 @@ Key features:
 
 ---
 
+### Compare Tone Mapping
+
+<div class="compare-container-multi">
+
+  <div class="compare-selector">
+    <span class="compare-selector-label">Compare : Tone Mapping</span>
+
+    <!-- Default: ACES vs Anime -->
+    <button class="compare-btn active"
+      data-before="/setup-character/Tone-Mapping/ACES.jpg"
+      data-after="/setup-character/Tone-Mapping/Anime.jpg"
+      data-label-before="ACES"
+      data-label-after="Anime">
+      ACES → Anime
+    </button>
+
+    <button class="compare-btn"
+      data-before="/setup-character/Tone-Mapping/ACES.jpg"
+      data-after="/setup-character/Tone-Mapping/Filmic.jpg"
+      data-label-before="ACES"
+      data-label-after="Filmic">
+      ACES → Filmic
+    </button>
+
+    <button class="compare-btn"
+      data-before="/setup-character/Tone-Mapping/ACES.jpg"
+      data-after="/setup-character/Tone-Mapping/Netural.jpg"
+      data-label-before="ACES"
+      data-label-after="Netural">
+      ACES → Netural
+    </button>
+
+    <button class="compare-btn"
+      data-before="/setup-character/Tone-Mapping/Filmic.jpg"
+      data-after="/setup-character/Tone-Mapping/Anime.jpg"
+      data-label-before="Filmic"
+      data-label-after="Anime">
+      Filmic → Anime
+    </button>
+
+    <button class="compare-btn"
+      data-before="/setup-character/Tone-Mapping/Filmic.jpg"
+      data-after="/setup-character/Tone-Mapping/Netural.jpg"
+      data-label-before="Filmic"
+      data-label-after="Netural">
+      Filmic → Netural
+    </button>
+
+    <button class="compare-btn"
+      data-before="/setup-character/Tone-Mapping/Anime.jpg"
+      data-after="/setup-character/Tone-Mapping/Netural.jpg"
+      data-label-before="Anime"
+      data-label-after="Netural">
+      Anime → Netural
+    </button>
+
+  </div>
+
+  <!-- Stage — Default คือ ACES (ซ้าย) vs Anime (ขวา) -->
+  <div class="compare-stage">
+    <div class="compare-base">
+      <img src="/setup-character/Tone-Mapping/ACES.jpg" alt="ACES">
+    </div>
+    <div class="compare-overlay">
+      <img src="/setup-character/Tone-Mapping/Anime.jpg" alt="Anime">
+    </div>
+    <div class="compare-handle"></div>
+    <span class="compare-label before">ACES</span>
+    <span class="compare-label after">Anime</span>
+  </div>
+
+</div>
+
+---
+
 ### Setup Tone Mapping
 
 ![ToneMapping](../Tone-Mapping/Setup-ToneMapping.jpg)
