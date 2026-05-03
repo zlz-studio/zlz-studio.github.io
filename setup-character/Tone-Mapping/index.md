@@ -97,14 +97,14 @@ Key features:
         <span class="compare-picker-dot left"></span> Left
       </div>
       <div class="compare-picker-btns" id="left-picker">
-        <button class="compare-btn left-btn active-left" data-val="ACES"
-          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
-        <button class="compare-btn left-btn" data-val="Filmic"
-          data-src="/setup-character/Tone-Mapping/Filmic.jpg">Filmic</button>
-        <button class="compare-btn left-btn" data-val="Anime"
-          data-src="/setup-character/Tone-Mapping/Anime.jpg">Anime</button>
         <button class="compare-btn left-btn" data-val="Netural"
           data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+        <button class="compare-btn left-btn active-left" data-val="ACES"
+          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn left-btn" data-val="ZLZ_Anime"
+          data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+        <button class="compare-btn left-btn" data-val="ZLZ_Filmic"
+          data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
       </div>
     </div>
 
@@ -113,14 +113,15 @@ Key features:
         <span class="compare-picker-dot right"></span> Right
       </div>
       <div class="compare-picker-btns" id="right-picker">
-        <button class="compare-btn right-btn" data-val="ACES"
-          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
-        <button class="compare-btn right-btn" data-val="Filmic"
-          data-src="/setup-character/Tone-Mapping/Filmic.jpg">Filmic</button>
-        <button class="compare-btn right-btn active-right" data-val="Anime"
-          data-src="/setup-character/Tone-Mapping/Anime.jpg">Anime</button>
         <button class="compare-btn right-btn" data-val="Netural"
           data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+        <button class="compare-btn right-btn" data-val="ACES"
+          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn right-btn active-right" data-val="ZLZ_Anime"
+          data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+        <button class="compare-btn right-btn" data-val="ZLZ_Filmic"
+          data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
+          
       </div>
     </div>
 
@@ -131,11 +132,11 @@ Key features:
       <img src="/setup-character/Tone-Mapping/ACES.jpg" alt="ACES">
     </div>
     <div class="compare-overlay">
-      <img src="/setup-character/Tone-Mapping/Anime.jpg" alt="Anime">
+      <img src="/setup-character/Tone-Mapping/Anime.jpg" alt="ZLZ_Anime">
     </div>
     <div class="compare-handle"></div>
     <span class="compare-label before">ACES</span>
-    <span class="compare-label after">Anime</span>
+    <span class="compare-label after">ZLZ_Anime</span>
   </div>
 
 </div>
