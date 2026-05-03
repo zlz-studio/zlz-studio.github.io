@@ -16,7 +16,14 @@ without being required to use every feature.
 
 ---
 
-## Overview — Choose the Setup Level That Suits You
+## Overview
+
+### Importance of Tone Mapping
+
+Tone Mapping has a significant impact on the final look of the character.
+It is recommended to set up Tone Mapping before adjusting the character’s materials.
+
+### Choose the Setup Level That Suits You
 
 <div class="compare-container">
   <div class="compare-base">
