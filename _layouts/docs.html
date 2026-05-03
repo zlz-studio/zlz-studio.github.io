@@ -323,22 +323,45 @@
     
     .compare-selector {
       display: flex;
-      gap: 8px;
+      gap: 16px;
       padding: 12px 14px;
       background: #0d1117;
       border-bottom: 1px solid #1f2937;
       flex-wrap: wrap;
     }
     
-    .compare-selector-label {
-      font-size: 12px;
-      color: #9ca3af;
+    .compare-picker {
       display: flex;
-      align-items: center;
-      margin-right: 4px;
-      font-weight: 600;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
       text-transform: uppercase;
       letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
     
     .compare-btn {
@@ -358,10 +381,16 @@
       color: #fff;
     }
     
-    .compare-btn.active {
-      background: #263244;
+    .compare-btn.active-left {
+      background: #1a2744;
       border-color: #8ab4f8;
       color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
     }
     
     .compare-stage {
@@ -536,43 +565,46 @@
 
     // Multi-image compare
     document.querySelectorAll('.compare-container-multi').forEach((container) => {
-      const stage = container.querySelector('.compare-stage');
-      const baseImg = stage.querySelector('.compare-base img');
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
       const overlayImg = stage.querySelector('.compare-overlay img');
-      const labelBefore = stage.querySelector('.compare-label.before');
-      const labelAfter = stage.querySelector('.compare-label.after');
-      const handle = stage.querySelector('.compare-handle');
-      const overlay = stage.querySelector('.compare-overlay');
-      const buttons = container.querySelectorAll('.compare-btn');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
     
-      // Drag logic
+      // Drag
       let dragging = false;
       function setPosition(clientX) {
         const rect = stage.getBoundingClientRect();
-        let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-        const pct = (x / rect.width) * 100;
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
         overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
         handle.style.left = pct + '%';
       }
-      stage.addEventListener('mousedown', (e) => { dragging = true; setPosition(e.clientX); });
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
       window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
-      window.addEventListener('mouseup', () => dragging = false);
+      window.addEventListener('mouseup',   ()  => dragging = false);
       stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
       window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
-      window.addEventListener('touchend', () => dragging = false);
+      window.addEventListener('touchend',  ()  => dragging = false);
     
-      // Button switch
-      buttons.forEach(btn => {
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          baseImg.src = btn.dataset.before;
-          overlayImg.src = btn.dataset.after;
-          if (labelBefore) labelBefore.textContent = btn.dataset.labelBefore || 'Before';
-          if (labelAfter) labelAfter.textContent = btn.dataset.labelAfter || 'After';
-          // reset handle to center
-          overlay.style.clipPath = 'inset(0 0 0 50%)';
-          handle.style.left = '50%';
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
         });
       });
     });
