@@ -91,60 +91,41 @@ Key features:
 <div class="compare-container-multi">
 
   <div class="compare-selector">
-    <span class="compare-selector-label">Compare : Tone Mapping</span>
 
-    <!-- Default: ACES vs Anime -->
-    <button class="compare-btn active"
-      data-before="/setup-character/Tone-Mapping/ACES.jpg"
-      data-after="/setup-character/Tone-Mapping/Anime.jpg"
-      data-label-before="ACES"
-      data-label-after="Anime">
-      ACES → Anime
-    </button>
+    <div class="compare-picker">
+      <div class="compare-picker-label">
+        <span class="compare-picker-dot left"></span> Left
+      </div>
+      <div class="compare-picker-btns" id="left-picker">
+        <button class="compare-btn left-btn active-left" data-val="ACES"
+          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn left-btn" data-val="Filmic"
+          data-src="/setup-character/Tone-Mapping/Filmic.jpg">Filmic</button>
+        <button class="compare-btn left-btn" data-val="Anime"
+          data-src="/setup-character/Tone-Mapping/Anime.jpg">Anime</button>
+        <button class="compare-btn left-btn" data-val="Netural"
+          data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+      </div>
+    </div>
 
-    <button class="compare-btn"
-      data-before="/setup-character/Tone-Mapping/ACES.jpg"
-      data-after="/setup-character/Tone-Mapping/Filmic.jpg"
-      data-label-before="ACES"
-      data-label-after="Filmic">
-      ACES → Filmic
-    </button>
-
-    <button class="compare-btn"
-      data-before="/setup-character/Tone-Mapping/ACES.jpg"
-      data-after="/setup-character/Tone-Mapping/Netural.jpg"
-      data-label-before="ACES"
-      data-label-after="Netural">
-      ACES → Netural
-    </button>
-
-    <button class="compare-btn"
-      data-before="/setup-character/Tone-Mapping/Filmic.jpg"
-      data-after="/setup-character/Tone-Mapping/Anime.jpg"
-      data-label-before="Filmic"
-      data-label-after="Anime">
-      Filmic → Anime
-    </button>
-
-    <button class="compare-btn"
-      data-before="/setup-character/Tone-Mapping/Filmic.jpg"
-      data-after="/setup-character/Tone-Mapping/Netural.jpg"
-      data-label-before="Filmic"
-      data-label-after="Netural">
-      Filmic → Netural
-    </button>
-
-    <button class="compare-btn"
-      data-before="/setup-character/Tone-Mapping/Anime.jpg"
-      data-after="/setup-character/Tone-Mapping/Netural.jpg"
-      data-label-before="Anime"
-      data-label-after="Netural">
-      Anime → Netural
-    </button>
+    <div class="compare-picker">
+      <div class="compare-picker-label">
+        <span class="compare-picker-dot right"></span> Right
+      </div>
+      <div class="compare-picker-btns" id="right-picker">
+        <button class="compare-btn right-btn" data-val="ACES"
+          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn right-btn" data-val="Filmic"
+          data-src="/setup-character/Tone-Mapping/Filmic.jpg">Filmic</button>
+        <button class="compare-btn right-btn active-right" data-val="Anime"
+          data-src="/setup-character/Tone-Mapping/Anime.jpg">Anime</button>
+        <button class="compare-btn right-btn" data-val="Netural"
+          data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+      </div>
+    </div>
 
   </div>
 
-  <!-- Stage — Default คือ ACES (ซ้าย) vs Anime (ขวา) -->
   <div class="compare-stage">
     <div class="compare-base">
       <img src="/setup-character/Tone-Mapping/ACES.jpg" alt="ACES">
