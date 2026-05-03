@@ -5,7 +5,7 @@ title: Tone-Mapping
 
 ## Tone Mapping
 
-![outline](../Tone-Mapping/ToneMapping.jpg)
+![ToneMapping](../Tone-Mapping/ToneMapping.jpg)
 
 ### What is Tone Mapping?
 
@@ -32,7 +32,7 @@ By default, Unity provides two main tone mapping options: Neutral and ACES
 
 ### Neutral
 
-![outline](../Tone-Mapping/Netural.jpg)
+![Netural](../Tone-Mapping/Netural.jpg)
 
 Neutral tone mapping is designed to preserve the original color response as much as possible.
 
@@ -43,7 +43,7 @@ Characteristics:
 
 ### ACES
 
-![outline](../Tone-Mapping/ACES.jpg)
+![ACES](../Tone-Mapping/ACES.jpg)
 
 ACES is designed to produce a more cinematic and physically-inspired result.
 
@@ -60,7 +60,7 @@ ZLZ Tone Mapping provides two curve options:
 
 ### 1. Anime Curve (Recommended)
 
-![outline](../Tone-Mapping/Anime.jpg)
+![Anime](../Tone-Mapping/Anime.jpg)
 
 Designed to preserve the visual quality of Anime-style rendering
 
@@ -73,7 +73,7 @@ Key features:
 
 ### 2. Filmic Curve
 
-![outline](../Tone-Mapping/Filmic.jpg)
+![Filmic](../Tone-Mapping/Filmic.jpg)
 
 Designed for a more cinematic and natural-looking result
 
@@ -88,7 +88,7 @@ Key features:
 
 ### Setup Tone Mapping
 
-![outline](../Tone-Mapping/Setup-ToneMapping.jpg)
+![ToneMapping](../Tone-Mapping/Setup-ToneMapping.jpg)
 
 1. Go to Project Settings > Quality, Under Render Pipeline Asset, select the active URP Asset  
 2. Select the Universal Renderer Data, then add the ZLZ Anime ToneMapping feature.  
@@ -105,28 +105,32 @@ Key features:
 
 ---
 
-### ทำความรู้จัก Parameters Anime Curve
+### Anime Curve Parameters
 
-- Exposure : ปรับความสว่างโดยรวมของภาพ
-- Tone Map Scale : เพิ่ม/ลดความแรงของ Tone Mapping ก่อนเข้าสู่ curve → ใช้ร่วมกับ Exposure เพื่อบาลานซ์ภาพ
-- Highlight Rolloff : ควบคุมความเร็วในการไล่ระดับของ Highlight ไปสู่ความสว่างสูงสุด
-- Highlight Lift : เพิ่มความสว่างของ Highlight โดยรวม ทำให้ส่วนสว่างดูเด่นขึ้น
-- White Clip : กำหนดขอบเขตของ Highlight ว่าจะไปถึงความสว่างสูงสุดได้แค่ไหน
-- Shadow Pedestal : ยกระดับ Shadow → ป้องกันภาพดำสนิทเกินไป
-- Mid Contrast : เพิ่ม Contrast ในช่วงกลางของภาพ → ทำให้ภาพดูคมขึ้นโดยไม่กระทบ Highlight มาก
-- Saturation Retention : รักษาความอิ่มสีในช่วงที่สว่าง → ลดปัญหาสีซีดใน Highlight
+![Anime_Curve](../Tone-Mapping/Anime_Curve.png)
+
+- Exposure : Adjusts the overall brightness of the image
+- Tone Map Scale : Controls tone mapping intensity → used with Exposure
+- Highlight Rolloff : Controls how quickly highlights transition toward maximum brightness
+- Highlight Lift : Increases overall highlight brightness → makes bright areas stand out more
+- White Clip : Defines the highlight range → controls how far highlights can reach maximum brightness
+- Shadow Pedestal : Raises shadow levels → prevents the image from becoming too dark or fully crushed
+- Mid Contrast : Increases contrast in the mid-range → enhances image clarity without heavily affecting highlights
+- Saturation Retention : Preserves color saturation in bright areas → reduces washed-out highlights
 
 ---
 
-### ทำความรู้จัก Parameters Filmic Curve
+### Filmic Curve Parameters
 
-- Exposure : ปรับความสว่างโดยรวมของภาพ
-- Tone Map Scale : เพิ่ม/ลดความแรงของ Tone Mapping ก่อนเข้าสู่ curve → ใช้ร่วมกับ Exposure เพื่อบาลานซ์ภาพ
-- Shoulder Strength : ควบคุมการบีบของ Highlight → ทำให้ส่วนสว่างไม่พุ่งขาวเร็ว และไล่ระดับได้นุ่มขึ้น
-- Linear Strength : ควบคุมความชัดของช่วงกลางภาพ → มีผลต่อ contrast โดยรวมของภาพ
-- Linear Angle : ปรับลักษณะการไล่ระดับของแสงในช่วงกลาง → ช่วยบาลานซ์ระหว่างส่วนกลางและส่วนสว่าง
-- Toe Strength : ควบคุมการไล่ระดับของ Shadow → ทำให้เงาดูเนียนและไม่ตัดแข็ง
-- Black Level : ยกระดับสีดำ → ป้องกันภาพดำสนิทเกินไป
-- Denominator Balance : ปรับรูปทรงของ curve โดยรวม → ส่งผลต่อการกระจายแสงทั้งภาพ
-- White Point : กำหนดระดับความสว่างสูงสุดของภาพ → คุมช่วงการแสดงผลของ Highlight
-- Saturation : ปรับความอิ่มสีหลัง Tone Mapping → ช่วยควบคุมความสดของภาพโดยรวม
+![Filmic_Curve](../Tone-Mapping/Filmic_Curve.png)
+
+- Exposure : Adjusts the overall brightness of the image
+- Tone Map Scale : Controls tone mapping intensity → used with Exposure
+- Shoulder Strength : Controls highlight compression → smooths highlight transition
+- Linear Strength : Controls the clarity of the mid-range → affects the overall contrast of the image
+- Linear Angle : Adjusts the light transition in the mid-range → helps balance between midtones and highlights
+- Toe Strength : Controls the shadow transition → makes shadows smoother and less harsh
+- Black Level : Raises black levels → prevents shadows from becoming fully crushed
+- Denominator Balance : Adjusts the overall shape of the curve → affects how light is distributed across the image
+- White Point : Defines the maximum brightness range → controls how highlights are mapped
+- Saturation : Adjusts color intensity after tone mapping → helps control the overall vibrancy of the image
