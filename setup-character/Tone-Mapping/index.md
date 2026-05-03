@@ -95,3 +95,38 @@ Key features:
 3. Create a Global Volume and add ZLZ Anime ToneMapping and Bloom overrides.
 
 ---
+
+### Using Tone Mapping
+- By default, ZLZ Anime Shader provides two tone mapping options: Anime Curve and Filmic Curve
+- You can adjust the parameters to fine-tune the image based on your desired art direction
+- While adjusting, you can preview the result using the Curve Preview in the Editor in real-time
+- After tuning, you can click Save as My Default to store your settings, and use Reset to My Default to restore them at any time
+- If needed, you can click Restore Factory to revert back to the original default settings
+
+---
+
+### ทำความรู้จัก Parameters Anime Curve
+
+- Exposure : ปรับความสว่างโดยรวมของภาพ
+- Tone Map Scale : เพิ่ม/ลดความแรงของ Tone Mapping ก่อนเข้าสู่ curve → ใช้ร่วมกับ Exposure เพื่อบาลานซ์ภาพ
+- Highlight Rolloff : ควบคุมความเร็วในการไล่ระดับของ Highlight ไปสู่ความสว่างสูงสุด
+- Highlight Lift : เพิ่มความสว่างของ Highlight โดยรวม ทำให้ส่วนสว่างดูเด่นขึ้น
+- White Clip : กำหนดขอบเขตของ Highlight ว่าจะไปถึงความสว่างสูงสุดได้แค่ไหน
+- Shadow Pedestal : ยกระดับ Shadow → ป้องกันภาพดำสนิทเกินไป
+- Mid Contrast : เพิ่ม Contrast ในช่วงกลางของภาพ → ทำให้ภาพดูคมขึ้นโดยไม่กระทบ Highlight มาก
+- Saturation Retention : รักษาความอิ่มสีในช่วงที่สว่าง → ลดปัญหาสีซีดใน Highlight
+
+---
+
+### ทำความรู้จัก Parameters Filmic Curve
+
+- Exposure : ปรับความสว่างโดยรวมของภาพ
+- Tone Map Scale : เพิ่ม/ลดความแรงของ Tone Mapping ก่อนเข้าสู่ curve → ใช้ร่วมกับ Exposure เพื่อบาลานซ์ภาพ
+- Shoulder Strength : ควบคุมการบีบของ Highlight → ทำให้ส่วนสว่างไม่พุ่งขาวเร็ว และไล่ระดับได้นุ่มขึ้น
+- Linear Strength : ควบคุมความชัดของช่วงกลางภาพ → มีผลต่อ contrast โดยรวมของภาพ
+- Linear Angle : ปรับลักษณะการไล่ระดับของแสงในช่วงกลาง → ช่วยบาลานซ์ระหว่างส่วนกลางและส่วนสว่าง
+- Toe Strength : ควบคุมการไล่ระดับของ Shadow → ทำให้เงาดูเนียนและไม่ตัดแข็ง
+- Black Level : ยกระดับสีดำ → ป้องกันภาพดำสนิทเกินไป
+- Denominator Balance : ปรับรูปทรงของ curve โดยรวม → ส่งผลต่อการกระจายแสงทั้งภาพ
+- White Point : กำหนดระดับความสว่างสูงสุดของภาพ → คุมช่วงการแสดงผลของ Highlight
+- Saturation : ปรับความอิ่มสีหลัง Tone Mapping → ช่วยควบคุมความสดของภาพโดยรวม
