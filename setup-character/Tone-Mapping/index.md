@@ -5,7 +5,7 @@ title: Tone-Mapping
 
 ## Tone Mapping (Update in Version 1.3.0)
 
-![ToneMapping](../Tone-Mapping/ToneMapping.jpg)
+{% include youtube.html id="nKlKuCBPaOg" %}
 
 ### What is Tone Mapping?
 
