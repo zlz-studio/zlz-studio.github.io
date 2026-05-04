@@ -151,6 +151,12 @@ Key features:
 2. Select the Universal Renderer Data, then add the ZLZ Anime ToneMapping feature.  
 3. Create a Global Volume and add ZLZ Anime ToneMapping and Bloom overrides.
 
+### Post Processing > High Dynamic Range
+
+![HDR](../Tone-Mapping/HDR.png)
+
+Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Processing settings.
+
 ---
 
 ### Using Tone Mapping
