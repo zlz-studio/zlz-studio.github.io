@@ -280,6 +280,28 @@
       display:flex;
       flex-direction:column;
       gap:10px;
+    
+      max-height:166px;      /* ประมาณ 3 ช่อง */
+      overflow-y:auto;
+      padding-right:6px;
+    }
+
+    .roadmapList::-webkit-scrollbar{
+      width:10px;
+    }
+    
+    .roadmapList::-webkit-scrollbar-track{
+      background:rgba(255,255,255,.04);
+      border-radius:999px;
+    }
+    
+    .roadmapList::-webkit-scrollbar-thumb{
+      background:rgba(255,255,255,.16);
+      border-radius:999px;
+    }
+    
+    .roadmapList::-webkit-scrollbar-thumb:hover{
+      background:rgba(255,255,255,.24);
     }
 
     .roadmapSlot{
@@ -702,7 +724,7 @@
             <div class="roadmapList">
               <div class="roadmapSlot">Add Dither Fade feature.</div>
               <div class="roadmapSlot">Optimized Outline to reduce draw calls.</div>
-              <div class="roadmapSlot empty"></div>
+              <div class="roadmapSlotempty"></div>
             </div>
           </div>
 
@@ -717,8 +739,8 @@
 
             <div class="roadmapList">
               <div class="roadmapSlot">Allow face shadow softness to be adjustable.</div>
-              <div class="roadmapSlot empty"></div>
-              <div class="roadmapSlot empty"></div>
+              <div class="roadmapSlotempty"></div>
+              <div class="roadmapSlotempty"></div>
             </div>
           </div>
         </div>
