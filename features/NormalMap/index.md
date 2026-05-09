@@ -7,17 +7,32 @@ title: Normal-Map
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/BaseColor1.jpg" alt="BaseColor1">
+    <img src="../NormalMap/NormalMap1_Off.jpg" alt="NormalMap_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/BaseColor2.jpg" alt="BaseColor2">
+    <img src="../NormalMap/NormalMap1_On.jpg" alt="NormalMap_On">
   </div>
 
   <div class="compare-handle"></div>
 
-  <div class="compare-label before">Base Character Colors Example 1</div>
-  <div class="compare-label after">Base Character Colors Example 2</div>
+  <div class="compare-label before">NormalMap_Off</div>
+  <div class="compare-label after">NormalMap_On</div>
+</div>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../NormalMap/NormalMap2_Off.jpg" alt="NormalMap_Off">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../NormalMap/NormalMap2_On.jpg" alt="NormalMap_On">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">NormalMap_Off</div>
+  <div class="compare-label after">NormalMap_On</div>
 </div>
 
 ![Parameter_NormalMap](../NormalMap/Parameter_NormalMap.png)
@@ -27,8 +42,6 @@ This section is used to control the character’s Normal Map settings, adding mo
 ### Parameters
 
 - **Normal Pass Mode :** Two modes are available
-1. Forward Only : Affects lighting only, making light and shadows look more natural and detailed
-2. Full : Affects both lighting and surface depth, making the surface look more detailed and have more depth
 - **Normal Strength :** Controls the intensity of the Normal Map and how strongly it affects the surface details
 
 ---
