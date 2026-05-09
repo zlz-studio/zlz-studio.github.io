@@ -41,7 +41,6 @@ This section is used to control the character’s Normal Map settings, adding mo
 
 ### Parameters
 
-- **Normal Pass Mode :** Two modes are available
 - **Normal Strength :** Controls the intensity of the Normal Map and how strongly it affects the surface details
 
 ---
