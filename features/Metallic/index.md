@@ -20,20 +20,7 @@ title: Metallic
   <div class="compare-label after">Metallic On</div>
 </div>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Metallic/Metallic_Example_1.jpg" alt="Metallic_Example_1">
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../Metallic/Metallic_Example_2.jpg" alt="Metallic_Example_2">
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Metallic Example 1</div>
-  <div class="compare-label after">Metallic Example 2</div>
-</div>
+![Showcase_Metallic_On](../Metallic/Showcase_Metallic_On.gif)
 
 ![metallic](../images/metallic.png)
 
