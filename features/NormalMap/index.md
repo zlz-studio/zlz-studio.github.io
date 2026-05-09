@@ -43,4 +43,8 @@ This section is used to control the character’s Normal Map settings, adding mo
 
 - **Normal Strength :** Controls the intensity of the Normal Map and how strongly it affects the surface details
 
+### Preview NormalMap Pass
+
+![NormalMap_Pass](../NormalMap/NormalMap_Pass.png)
+
 ---
