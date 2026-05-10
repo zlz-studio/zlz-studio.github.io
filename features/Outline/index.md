@@ -21,6 +21,8 @@ last_modified_at: 2026-04-24
   <div class="compare-label after">Outline On</div>
 </div>
 
+---
+
 ## ZLZ Smooth Normal Bake (Update in 1.4.0)
 ![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
 
@@ -39,6 +41,8 @@ It helps make the outline smoother and cleaner, achieving the highest outline qu
   <div class="compare-label before">No SmoothNormalBake</div>
   <div class="compare-label after">SmoothNormalBake</div>
 </div>
+
+---
 
 ![outline](../images/outline.png)
 
