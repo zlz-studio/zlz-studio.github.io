@@ -21,6 +21,23 @@ last_modified_at: 2026-04-24
   <div class="compare-label after">Outline On</div>
 </div>
 
+## ZLZ Smooth Normal Bake (Update in 1.4.0)
+It helps make the outline smoother and cleaner, achieving the highest outline quality with just a single click on “Bake All.”
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Outline/No_SmoothNormalBake.jpg" alt="No_SmoothNormalBake">
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Outline/SmoothNormalBake.jpg" alt="SmoothNormalBake">
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">No SmoothNormalBake</div>
+  <div class="compare-label after">SmoothNormalBake</div>
+</div>
+
 ![outline](../images/outline.png)
 
 ### Parameters
