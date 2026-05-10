@@ -26,7 +26,9 @@ last_modified_at: 2026-04-24
 ## ZLZ Smooth Normal Bake (Update in 1.4.0)
 ![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
 
-It helps make the outline smoother and cleaner, achieving the highest outline quality with just a single click on “Bake All.”
+When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.
+This helps make the outline smoother and cleaner, ensuring the highest outline quality.
+If the mesh is updated later, simply press “Bake All” to rebake and finish the setup.
 <div class="compare-container">
   <div class="compare-base">
     <img src="../Outline/No_SmoothNormalBake.jpg" alt="No_SmoothNormalBake">
