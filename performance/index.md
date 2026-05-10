@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Performance
+last_modified_at: 2026-04-24
 ---
 
 # Performance
