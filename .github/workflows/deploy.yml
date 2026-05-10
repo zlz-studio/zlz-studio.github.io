@@ -20,7 +20,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
-          bundler-cache: true
+
+      - name: Install dependencies
+        run: gem install jekyll kramdown kramdown-parser-gfm
 
       - name: Auto-update last_modified_at from git log
         run: |
@@ -32,7 +34,7 @@ jobs:
           done
 
       - name: Build Jekyll
-        run: bundle exec jekyll build
+        run: jekyll build
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
