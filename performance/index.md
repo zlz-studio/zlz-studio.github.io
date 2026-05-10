@@ -26,3 +26,10 @@ Rim Light On
 Rim Light Off
 
 ![Performacne_Off](./images/Performacne_Off.png)
+
+---
+
+## ZLZ Shader Optimizer (New in V 1.4.0)
+
+![Optimize_2](./images/Optimize_2.png)
+
