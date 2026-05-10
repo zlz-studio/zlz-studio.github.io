@@ -57,6 +57,13 @@ jobs:
                       print(f'Updated: {path} -> {date}')
           EOF
 
+      - name: Debug - check front matter after script
+        run: |
+          echo "=== features/Outline/index.md first 6 lines ==="
+          head -6 features/Outline/index.md | cat -A
+          echo "=== setup-character/standard-setup/index.md first 6 lines ==="
+          head -6 setup-character/standard-setup/index.md | cat -A
+
       - name: Build Jekyll (staging)
         run: jekyll clean && jekyll build
 
