@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tone-Mapping | ZLZ Anime Shader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      <div class="sidebar">
+<h2>ZLZ Docs</h2>
+
+<h3>Setup Character</h3>
+
+<a href="/staging/setup-character/"
+   class="">
+   Overview
+</a>
+
+<a href="/staging/setup-character/standard-setup/"
+   class="">
+   Standard Setup
+</a>
+
+<a href="/staging/setup-character/advanced-hair-setup/"
+   class="">
+   Advanced Hair Setup
+</a>
+
+<a href="/staging/setup-character/Tone-Mapping/"
+   class="active">
+   Tone Mapping
+</a>
+
+<h3>Features</h3>
+
+<a href="/staging/features/"
+   class="">
+   Overview
+</a>
+
+<a href="/staging/features/hair-system/"
+   class="">
+   hair-system
+</a>
+
+<a href="/staging/features/faceshadow/"
+   class="">
+   FaceShadow
+</a>
+
+<a href="/staging/features/Head-Direction-System/"
+   class="">
+   Head Direction System
+</a>
+
+<a href="/staging/features/Base-Character-Lighting/"
+   class="">
+   Base Character Lighting
+</a>
+
+<a href="/staging/features/Base-Character-Colors/"
+   class="">
+   Base Character Colors
+</a>
+
+<a href="/staging/features/Outline/"
+   class="">
+   Outline
+</a>
+
+<a href="/staging/features/NormalMap/"
+   class="">
+   NormalMap (V 1.4.0)
+</a>
+
+<a href="/staging/features/Metallic/"
+   class="">
+   Metallic
+</a>
+   
+<a href="/staging/features/Soft-Light/"
+   class="">
+   Soft Light
+</a>
+
+<a href="/staging/features/RimLight/"
+   class="">
+   RimLight
+</a>
+
+<a href="/staging/features/Hair-Highlight/"
+   class="">
+   Hair Highlight
+</a>
+
+<a href="/staging/features/ToonRampSmooth/"
+   class="">
+   ToonRampSmooth
+</a>
+
+<a href="/staging/features/surface-stylization/"
+   class="">
+   surface-stylization
+</a>
+
+<a href="/staging/features/character-fx/"
+   class="">
+   character-fx
+</a>
+
+<h3>Performance</h3>
+
+<a href="/staging/performance/"
+   class="">
+   Performance
+</a>
+
+<h3>FAQ</h3>
+
+<a href="/staging/faq/"
+   class="">
+   FAQ
+</a>
+
+<h3>Changelog</h3>
+
+<a href="/staging/changelog/"
+   class="">
+   Changelog
+</a>
+
+</div>
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h2 id="tone-mapping-update-in-version-130">Tone Mapping (Update in Version 1.3.0)</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/nKlKuCBPaOg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<h3 id="what-is-tone-mapping">What is Tone Mapping?</h3>
+
+<p>Tone Mapping is the process of adjusting the brightness of an image so it can be properly displayed on screen.</p>
+
+<h3 id="what-does-tone-mapping-actually-fix">What does Tone Mapping actually fix?</h3>
+
+<p>Tone Mapping is not just about “reducing brightness”
+It is about reshaping how light behaves across the entire image</p>
+
+<p>What Tone Mapping controls:</p>
+<ul>
+  <li>How quickly highlights turn white</li>
+  <li>How deep shadows appear</li>
+  <li>Whether colors are preserved or desaturated</li>
+  <li>The overall contrast of the image</li>
+</ul>
+
+<h3 id="built-in-tone-mapping-vs-zlz-tone-mapping">Built-in Tone Mapping vs ZLZ Tone Mapping</h3>
+
+<p>By default, Unity provides two main tone mapping options: Neutral and ACES</p>
+
+<h3 id="neutral">Neutral</h3>
+
+<p><img src="../Tone-Mapping/Netural.jpg" alt="Netural" /></p>
+
+<p>Neutral tone mapping is designed to preserve the original color response as much as possible.</p>
+
+<p>Characteristics:</p>
+<ul>
+  <li>Preserves color relatively well in high-intensity areas</li>
+  <li>Produces a softer, slightly washed-out look</li>
+  <li>Lower contrast, which can make the image feel less sharp or slightly dull</li>
+</ul>
+
+<h3 id="aces">ACES</h3>
+
+<p><img src="../Tone-Mapping/ACES.jpg" alt="ACES" /></p>
+
+<p>ACES is designed to produce a more cinematic and physically-inspired result.</p>
+
+<p>Characteristics:</p>
+<ul>
+  <li>Higher contrast with a strong cinematic look</li>
+  <li>Highlights tend to shift toward white under intense lighting</li>
+  <li>Shadows can become overly dark (crushed)</li>
+  <li>Very bright areas may appear too intense or lose detail</li>
+</ul>
+
+<h3 id="zlz-tone-mapping">ZLZ Tone Mapping</h3>
+<p>ZLZ Tone Mapping provides two curve options:</p>
+
+<h3 id="1-anime-curve-recommended">1. Anime Curve (Recommended)</h3>
+
+<p><img src="../Tone-Mapping/Anime.jpg" alt="Anime" /></p>
+
+<p>Designed to preserve the visual quality of Anime-style rendering</p>
+
+<p>Key features:</p>
+<ul>
+  <li>Maintains a sharp and well-defined image</li>
+  <li>Preserves color even in high-intensity lighting</li>
+  <li>Enhances color vibrancy for a more appealing look</li>
+  <li>Highlights do not turn white too quickly or too aggressively</li>
+  <li>Shadows remain readable and do not become overly crushed</li>
+</ul>
+
+<h3 id="2-filmic-curve">2. Filmic Curve</h3>
+
+<p><img src="../Tone-Mapping/Filmic.jpg" alt="Filmic" /></p>
+
+<p>Designed for a more cinematic and natural-looking result</p>
+
+<p>Key features:</p>
+<ul>
+  <li>Produces a smoother and more balanced image (less flat than Neutral)</li>
+  <li>Preserves color better than ACES in bright areas</li>
+  <li>Colors look good but are less saturated than Anime Curve</li>
+  <li>Highlights are controlled and do not blow out too quickly</li>
+  <li>Shadows remain softer and more natural</li>
+</ul>
+
+<h3 id="compare-tone-mapping">Compare Tone Mapping</h3>
+
+<div class="compare-container-multi">
+
+  <div class="compare-selector">
+
+    <div class="compare-picker">
+      <div class="compare-picker-label">
+        <span class="compare-picker-dot left"></span> Left
+      </div>
+      <div class="compare-picker-btns" id="left-picker">
+        <button class="compare-btn left-btn" data-val="Netural" data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+        <button class="compare-btn left-btn active-left" data-val="ACES" data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn left-btn" data-val="ZLZ_Anime" data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+        <button class="compare-btn left-btn" data-val="ZLZ_Filmic" data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
+      </div>
+    </div>
+
+    <div class="compare-picker">
+      <div class="compare-picker-label">
+        <span class="compare-picker-dot right"></span> Right
+      </div>
+      <div class="compare-picker-btns" id="right-picker">
+        <button class="compare-btn right-btn" data-val="Netural" data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+        <button class="compare-btn right-btn" data-val="ACES" data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+        <button class="compare-btn right-btn active-right" data-val="ZLZ_Anime" data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+        <button class="compare-btn right-btn" data-val="ZLZ_Filmic" data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
+          
+      </div>
+    </div>
+
+  </div>
+
+  <div class="compare-stage">
+    <div class="compare-base">
+      <img src="/setup-character/Tone-Mapping/ACES.jpg" alt="ACES" />
+    </div>
+    <div class="compare-overlay">
+      <img src="/setup-character/Tone-Mapping/Anime.jpg" alt="ZLZ_Anime" />
+    </div>
+    <div class="compare-handle"></div>
+    <span class="compare-label before">ACES</span>
+    <span class="compare-label after">ZLZ_Anime</span>
+  </div>
+
+</div>
+
+<h3 id="setup-tone-mapping">Setup Tone Mapping</h3>
+
+<p><img src="../Tone-Mapping/Setup-ToneMapping.jpg" alt="ToneMapping" /></p>
+
+<ol>
+  <li>Go to Project Settings &gt; Quality, Under Render Pipeline Asset, select the active URP Asset</li>
+  <li>Select the Universal Renderer Data, then add the ZLZ Anime ToneMapping feature.</li>
+  <li>Create a Global Volume and add ZLZ Anime ToneMapping and Bloom overrides.</li>
+</ol>
+
+<h3 id="post-processing--high-dynamic-range">Post Processing &gt; High Dynamic Range</h3>
+
+<p><img src="../Tone-Mapping/HDR.png" alt="HDR" /></p>
+
+<p>Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Processing settings.</p>
+
+<h3 id="using-tone-mapping">Using Tone Mapping</h3>
+<ul>
+  <li>By default, ZLZ Anime Shader provides two tone mapping options: Anime Curve and Filmic Curve</li>
+  <li>You can adjust the parameters to fine-tune the image based on your desired art direction</li>
+  <li>While adjusting, you can preview the result using the Curve Preview in the Editor in real-time</li>
+  <li>After tuning, you can click Save as My Default to store your settings, and use Reset to My Default to restore them at any time</li>
+  <li>If needed, you can click Restore Factory to revert back to the original default settings</li>
+</ul>
+
+<h3 id="anime-curve-parameters">Anime Curve Parameters</h3>
+
+<p><img src="../Tone-Mapping/Anime_Curve.png" alt="Anime_Curve" /></p>
+
+<ul>
+  <li>Exposure : Adjusts the overall brightness of the image</li>
+  <li>Tone Map Scale : Controls tone mapping intensity → used with Exposure</li>
+  <li>Highlight Rolloff : Controls how quickly highlights transition toward maximum brightness</li>
+  <li>Highlight Lift : Increases overall highlight brightness → makes bright areas stand out more</li>
+  <li>White Clip : Defines the highlight range → controls how far highlights can reach maximum brightness</li>
+  <li>Shadow Pedestal : Raises shadow levels → prevents the image from becoming too dark or fully crushed</li>
+  <li>Mid Contrast : Increases contrast in the mid-range → enhances image clarity without heavily affecting highlights</li>
+  <li>Saturation Retention : Preserves color saturation in bright areas → reduces washed-out highlights</li>
+</ul>
+
+<h3 id="filmic-curve-parameters">Filmic Curve Parameters</h3>
+
+<p><img src="../Tone-Mapping/Filmic_Curve.png" alt="Filmic_Curve" /></p>
+
+<ul>
+  <li>Exposure : Adjusts the overall brightness of the image</li>
+  <li>Tone Map Scale : Controls tone mapping intensity → used with Exposure</li>
+  <li>Shoulder Strength : Controls highlight compression → smooths highlight transition</li>
+  <li>Linear Strength : Controls the clarity of the mid-range → affects the overall contrast of the image</li>
+  <li>Linear Angle : Adjusts the light transition in the mid-range → helps balance between midtones and highlights</li>
+  <li>Toe Strength : Controls the shadow transition → makes shadows smoother and less harsh</li>
+  <li>Black Level : Raises black levels → prevents shadows from becoming fully crushed</li>
+  <li>Denominator Balance : Adjusts the overall shape of the curve → affects how light is distributed across the image</li>
+  <li>White Point : Defines the maximum brightness range → controls how highlights are mapped</li>
+  <li>Saturation : Adjusts color intensity after tone mapping → helps control the overall vibrancy of the image</li>
+</ul>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
