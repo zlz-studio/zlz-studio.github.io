@@ -87,3 +87,11 @@ Texture : Used for viewing detailed information about all Textures currently use
 - Supports separate platform settings such as PC / Android / iOS
 - Allows optimization settings to be applied across the entire Character at once
 
+![5](./images/5.png)
+
+5.Summary Bar Per Material : Displays the total Shader Cost and Texture VRAM of the currently selected Material.
+- Helps users quickly understand how heavy the selected Material is
+- Shows the total Shader Cost and VRAM usage in one place for easier reading
+- The Optimize Texture All button opens the Character Texture Optimization window from section 4
+
+
