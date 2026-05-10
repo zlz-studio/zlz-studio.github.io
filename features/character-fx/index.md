@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Character-FX
+last_modified_at: 2026-04-18
 ---
 # Character FX
 
@@ -23,6 +24,7 @@ If no mask is defined in this channel, the Emissive effect will not be applied.
 - **Emissive Color :** Adjusts the color of the emissive effect
 - **Emissive Intensity :** Controls the brightness of the emissive effect
 
+last_modified_at: 2026-04-18
 ---
 
 ## Dissolve Character
@@ -40,6 +42,7 @@ Dissolve Character is used to gradually fade a character out of the scene. It is
 - **End Dissolve :** Adjusts the ending point of the dissolve effect. *Used to fix cases where the character is still partially visible when Dissolve Value reaches 1, or disappears too quickly*
 - **SizeGlowDissolve :** Controls the size of the glow edge displayed during the dissolve
 
+last_modified_at: 2026-04-18
 ---
 
 ## Target Darken
@@ -84,6 +87,7 @@ The Target Darken system separates control into two levels:
     
 3. Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)
 
+last_modified_at: 2026-04-18
 ---
 
 ## Indicator / Target Select
@@ -100,6 +104,7 @@ It helps players immediately recognize **“which character is about to be affec
 - **Indicator Color :** Adjusts the color applied to the character affected by Indicator / Target Select
 - **FreshnelPowerIndicator :** Controls the position and width of the edge effect around the character *(higher values bring the effect closer to the silhouette edge)*
 
+last_modified_at: 2026-04-18
 ---
 
 ## GetHit
@@ -116,6 +121,7 @@ It helps players immediately recognize **“which character is about to be affec
 
 *(higher values bring the effect closer to the silhouette edge)*
 
+last_modified_at: 2026-04-18
 ---
 
 ## LightSweep
@@ -160,6 +166,7 @@ When this feature is enabled, the effect plays immediately and runs in a continu
 `LightSweepDirX = 1` and `LightSweepDirY = 1` will result in a diagonal sweep toward the upper-right direction.
 > 
 
+last_modified_at: 2026-04-18
 ---
 
 ## Upgrade

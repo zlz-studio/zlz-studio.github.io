@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout with full git history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Auto-update last_modified_at from git log
+        run: |
+          find . -name "*.md" -not -path "./.git/*" | while read file; do
+            date=$(git log -1 --format="%Y-%m-%d" -- "$file")
+            if [ -n "$date" ] && grep -q "^last_modified_at:" "$file"; then
+              sed -i "s/^last_modified_at:.*/last_modified_at: $date/" "$file"
+            fi
+          done
+
+      - name: Build Jekyll
+        run: bundle exec jekyll build
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site

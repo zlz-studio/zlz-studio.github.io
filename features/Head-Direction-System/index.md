@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Head Direction System
+last_modified_at: 2026-04-21
 ---
 
 # ZLZ_HeadDirectionBinder (Required Script)
@@ -15,6 +16,7 @@ This script is required for all of the following features:
 - Hair Transparent
 - Hair Shadow
 
+last_modified_at: 2026-04-21
 ---
 
 ### What does it do  
@@ -24,6 +26,7 @@ The script reads the position and direction of the Head Bone (in World Space) an
 - Head Right Direction
 These values are then used in the shader to calculate lighting behavior and various visual effects on the face and hair.
 
+last_modified_at: 2026-04-21
 ---
 
 ### Why This Script Is Required  
@@ -35,6 +38,7 @@ Using the Head Bone as a reference helps ensure that:
 - Hair Transparent works properly based on the viewing angle
 - Hair Shadow is positioned accurately
 
+last_modified_at: 2026-04-21
 ---
 
 ### If This Script Is Not Used
@@ -43,12 +47,14 @@ Features may not work correctly, such as:
 - Hair Transparent may render incorrectly (eyes and eyebrows may disappear)
 - Hair Shadow will not align with the light direction
 
+last_modified_at: 2026-04-21
 ---
 
 ### Summary
 ZLZ_HeadDirectionBinder is the core of the system.
 Without this script, features that rely on head direction will not function correctly.
 
+last_modified_at: 2026-04-21
 ---
 
 ## Setup Script ZLZ_Head Direction Binder
@@ -63,6 +69,7 @@ Off: The script runs only at Runtime to reduce material changes in Version Contr
 
 💡 Recommended: Turn this off after setup is complete
 
+last_modified_at: 2026-04-21
 ---
 
 ### 2. Head Bone
@@ -71,6 +78,7 @@ Assign the character’s Head Bone
 The Head Bone is used as the main reference for direction calculations,
 ensuring features like Face Shadow and Hair Effects work correctly
 
+last_modified_at: 2026-04-21
 ---
 
 ### 3. Element → Renderer
@@ -82,6 +90,7 @@ Assign the Mesh Renderer that will receive data from the script
 
 The script will send data to the materials used by this renderer
 
+last_modified_at: 2026-04-21
 ---
 
 ### 4. Element → Material Indices
@@ -93,6 +102,7 @@ You can find the indices in the Renderer (material order in the mesh)
 - Face material
 - Hair material
 
+last_modified_at: 2026-04-21
 ---
 
 ### 5. Forward Axis
@@ -105,6 +115,7 @@ Examples:
   
 ⚠️ Must be set correctly, otherwise Face Shadow may appear inverted
 
+last_modified_at: 2026-04-21
 ---
 
 ### 6. Right Axis
@@ -117,6 +128,7 @@ Examples:
 
 ⚠️ Used together with Forward Axis to ensure correct direction calculations
 
+last_modified_at: 2026-04-21
 ---
 
 ### Important Note

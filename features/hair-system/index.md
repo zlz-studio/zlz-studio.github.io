@@ -1,12 +1,14 @@
 ---
 layout: docs
 title: Hair-System
+last_modified_at: 2026-04-21
 ---
 
 # Hair System
 
 {% include youtube.html id="tDF0kKeQD4k" %}
 
+last_modified_at: 2026-04-21
 ---
 
 # Hair Transparent
@@ -42,6 +44,7 @@ This system simplifies the setup of transparent hair rendering by **fading hair 
 - **HeadTopCutOff (Top View Only) :** Adjusts the top cutoff position for EYE_BACKFACE_CLIP
 - **HairFadeRange :** Controls the softness of the hair fade for HAIR_BACKFACE_FADE
 
+last_modified_at: 2026-04-21
 ---
 
 # Hair Shadow

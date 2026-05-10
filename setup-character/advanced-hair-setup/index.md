@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Advanced Setup
+last_modified_at: 2026-04-20
 ---
 
 # Advanced Hair Setup
@@ -22,6 +23,7 @@ without blocking the face and eyes, which is a commonly used approach in product
 and require more detailed control over the hair rendering system.
 > 
 
+last_modified_at: 2026-04-20
 ---
 
 ### Material Presets Advanced Hair Setup
@@ -40,6 +42,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ![Path_Material_Advanced](../images/Path_Material_Advanced.png)
 
+last_modified_at: 2026-04-20
 ---
 
 ## Step 1 : Material Preparation (Advanced Hair Setup)
@@ -48,6 +51,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
 
+last_modified_at: 2026-04-20
 ---
 
 ## Step 2 : Apply Material Presets (Advanced Hair Setup)
@@ -56,6 +60,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
 
+last_modified_at: 2026-04-20
 ---
 
 ## Step 3 :Head Direction Script Setup (Advanced Hair Setup)
@@ -64,6 +69,7 @@ When setting up a single character, this system uses a total of **six main Mater
 
 ![Step3-SetupCharacter](../images/Step3-SetupCharacter.png)
 
+last_modified_at: 2026-04-20
 ---
 
 ## Step 4 : Select Forward Axis (Advanced Hair Setup)
@@ -77,6 +83,7 @@ Script: ZLZ_HeadDirectionBinder works with the Hair Transparent, Hair Shadow, an
 
 ![Step4-SetupCharacter](../images/Step4-SetupCharacter.png)
 
+last_modified_at: 2026-04-20
 ---
 
 ## Final Setup Overview

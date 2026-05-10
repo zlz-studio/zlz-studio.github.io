@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Features Overview
+last_modified_at: 2026-04-25
 ---
 
 # Video Showcase
@@ -10,6 +11,7 @@ title: Features Overview
 {% include youtube.html id="xnA9aQ0pEfE" %}
 {% include youtube.html id="hImKw7_LWJ4" %}
 
+last_modified_at: 2026-04-25
 ---
 
 # Features
@@ -34,6 +36,7 @@ These features are optional, allowing users to enable or disable them as needed.
 - When disabled, the system removes the related calculations entirely, helping maintain appropriate shader performance
 - Features in this group cannot be toggled at runtime and should be configured during setup or before use
 
+last_modified_at: 2026-04-25
 ---
 
 ## Texture Character
@@ -64,4 +67,5 @@ A texture used to control the operating areas of various features by masking eac
 > Some features may affect the whole character or not work as expected.
 > 
 
+last_modified_at: 2026-04-25
 ---

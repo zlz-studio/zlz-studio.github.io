@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Outline
+last_modified_at: 2026-04-24
 ---
 
 ## Outline
@@ -62,4 +63,5 @@ title: Outline
 - **Outline Color :** Directly sets the outline color
 - **Outline Z Offset :** Adjusts the offset distance of the outline from the character surface, used to prevent z-fighting with the surface or to increase outline prominence
 
+last_modified_at: 2026-04-24
 ---

@@ -1,3 +1,5 @@
+---
+---
 <!doctype html>
 <html lang="th">
 <head>
@@ -645,10 +647,10 @@
       <section class="card docsBlock">
         <h2>Setup Character</h2>
         <div class="scrollList show-4">
-          <a class="item" href="/setup-character/"><span>Overview</span><small>setup-character/</small></a>
-          <a class="item" href="/setup-character/standard-setup/"><span>Standard Setup</span><small>…/standard-setup/</small></a>
-          <a class="item" href="/setup-character/advanced-hair-setup/"><span>Advanced Hair Setup</span><small>…/advanced-hair-setup/</small></a>
-          <a class="item" href="/setup-character/Tone-Mapping/"><span>Tone Mapping</span><small>…/Tone-Mapping/</small></a>
+          {% assign p = site.pages | where: "url", "/setup-character/" | first %}<a class="item" href="/setup-character/"><span>Overview</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/setup-character/standard-setup/" | first %}<a class="item" href="/setup-character/standard-setup/"><span>Standard Setup</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/setup-character/advanced-hair-setup/" | first %}<a class="item" href="/setup-character/advanced-hair-setup/"><span>Advanced Hair Setup</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/setup-character/Tone-Mapping/" | first %}<a class="item" href="/setup-character/Tone-Mapping/"><span>Tone Mapping</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
         </div>
       </section>
 
@@ -656,20 +658,20 @@
       <section class="card docsBlock">
         <h2>Features</h2>
         <div class="scrollList show-8">
-          <a class="item" href="/features/"><span>Overview</span><small>features/</small></a>
-          <a class="item" href="/features/hair-system/"><span>Hair System</span><small>…/hair-system/</small></a>
-          <a class="item" href="/features/faceshadow/"><span>Face Shadow</span><small>…/faceshadow/</small></a>
-          <a class="item" href="/features/Head-Direction-System/"><span>Head Direction System</span><small>…/Head-Direction-System/</small></a>
-          <a class="item" href="/features/Base-Character-Lighting/"><span>Base Character Lighting</span><small>…/Base-Character-Lighting/</small></a>
-          <a class="item" href="/features/Base-Character-Colors/"><span>Base Character Colors</span><small>…/Base-Character-Colors/</small></a>
-          <a class="item" href="/features/Outline/"><span>Outline</span><small>…/Outline/</small></a>
-          <a class="item" href="/features/NormalMap/"><span>NormalMap (V 1.4.0)</span><small>…/NormalMap/</small></a>
-          <a class="item" href="/features/Metallic/"><span>Metallic</span><small>…/Metallic/</small></a>
-          <a class="item" href="/features/Soft-Light/"><span>Soft Light</span><small>…/Soft-Light/</small></a>
-          <a class="item" href="/features/Hair-Highlight/"><span>Hair Highlight</span><small>…/Hair-Highlight/</small></a>
-          <a class="item" href="/features/ToonRampSmooth/"><span>ToonRampSmooth</span><small>…/ToonRampSmooth/</small></a>
-          <a class="item" href="/features/surface-stylization/"><span>Surface & Stylization</span><small>…/surface-stylization/</small></a>
-          <a class="item" href="/features/character-fx/"><span>Character FX</span><small>…/character-fx/</small></a>
+          {% assign p = site.pages | where: "url", "/features/" | first %}<a class="item" href="/features/"><span>Overview</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/hair-system/" | first %}<a class="item" href="/features/hair-system/"><span>Hair System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/faceshadow/" | first %}<a class="item" href="/features/faceshadow/"><span>Face Shadow</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Head-Direction-System/" | first %}<a class="item" href="/features/Head-Direction-System/"><span>Head Direction System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Base-Character-Lighting/" | first %}<a class="item" href="/features/Base-Character-Lighting/"><span>Base Character Lighting</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Base-Character-Colors/" | first %}<a class="item" href="/features/Base-Character-Colors/"><span>Base Character Colors</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Outline/" | first %}<a class="item" href="/features/Outline/"><span>Outline</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/NormalMap/" | first %}<a class="item" href="/features/NormalMap/"><span>NormalMap (V 1.4.0)</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Metallic/" | first %}<a class="item" href="/features/Metallic/"><span>Metallic</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Soft-Light/" | first %}<a class="item" href="/features/Soft-Light/"><span>Soft Light</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Hair-Highlight/" | first %}<a class="item" href="/features/Hair-Highlight/"><span>Hair Highlight</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/ToonRampSmooth/" | first %}<a class="item" href="/features/ToonRampSmooth/"><span>ToonRampSmooth</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/surface-stylization/" | first %}<a class="item" href="/features/surface-stylization/"><span>Surface & Stylization</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/character-fx/" | first %}<a class="item" href="/features/character-fx/"><span>Character FX</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
         </div>
       </section>
 

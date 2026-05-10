@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Tone-Mapping
+last_modified_at: 2026-05-04
 ---
 
 ## Tone Mapping (Update in Version 1.3.0)
@@ -11,6 +12,7 @@ title: Tone-Mapping
 
 Tone Mapping is the process of adjusting the brightness of an image so it can be properly displayed on screen.
 
+last_modified_at: 2026-05-04
 ---
 
 ### What does Tone Mapping actually fix?
@@ -24,6 +26,7 @@ What Tone Mapping controls:
 - Whether colors are preserved or desaturated
 - The overall contrast of the image
 
+last_modified_at: 2026-05-04
 ---
 
 ### Built-in Tone Mapping vs ZLZ Tone Mapping
@@ -53,6 +56,7 @@ Characteristics:
 - Shadows can become overly dark (crushed)
 - Very bright areas may appear too intense or lose detail
 
+last_modified_at: 2026-05-04
 ---
 
 ### ZLZ Tone Mapping
@@ -84,6 +88,7 @@ Key features:
 - Highlights are controlled and do not blow out too quickly
 - Shadows remain softer and more natural
 
+last_modified_at: 2026-05-04
 ---
 
 ### Compare Tone Mapping
@@ -141,6 +146,7 @@ Key features:
 
 </div>
 
+last_modified_at: 2026-05-04
 ---
 
 ### Setup Tone Mapping
@@ -157,6 +163,7 @@ Key features:
 
 Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Processing settings.
 
+last_modified_at: 2026-05-04
 ---
 
 ### Using Tone Mapping
@@ -166,6 +173,7 @@ Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Pr
 - After tuning, you can click Save as My Default to store your settings, and use Reset to My Default to restore them at any time
 - If needed, you can click Restore Factory to revert back to the original default settings
 
+last_modified_at: 2026-05-04
 ---
 
 ### Anime Curve Parameters
@@ -181,6 +189,7 @@ Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Pr
 - Mid Contrast : Increases contrast in the mid-range → enhances image clarity without heavily affecting highlights
 - Saturation Retention : Preserves color saturation in bright areas → reduces washed-out highlights
 
+last_modified_at: 2026-05-04
 ---
 
 ### Filmic Curve Parameters
