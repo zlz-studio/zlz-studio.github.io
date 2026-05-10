@@ -30,6 +30,3 @@ This section is used to adjust the character’s base color tones. It is designe
 - **Texture Brightness :** Adjusts the brightness of the main texture
 - **Base Color :** Controls the overall color tone of the character
 - **Shadow Color :** Adjusts the color and intensity of shadows to control the character’s mood and contrast
-
-last_modified_at: 2026-04-24
----
