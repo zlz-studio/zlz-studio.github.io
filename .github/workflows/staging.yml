@@ -22,6 +22,39 @@ jobs:
       - name: Install dependencies
         run: gem install jekyll kramdown kramdown-parser-gfm
 
+      - name: Auto-update last_modified_at from git log
+        run: |
+          python3 - <<'EOF'
+          import subprocess, re, os
+
+          for root, dirs, files in os.walk('.'):
+              dirs[:] = [d for d in dirs if d not in ['.git', '_site', '_includes', '_layouts']]
+              for fname in files:
+                  if not fname.endswith('.md'):
+                      continue
+                  path = os.path.join(root, fname)
+                  result = subprocess.run(
+                      ['git', 'log', '-1', '--format=%Y-%m-%d', '--', path],
+                      capture_output=True, text=True
+                  )
+                  date = result.stdout.strip()
+                  if not date:
+                      continue
+                  with open(path, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  new_content = re.sub(
+                      r'^last_modified_at:.*$',
+                      f'last_modified_at: {date}',
+                      content,
+                      count=1,
+                      flags=re.MULTILINE
+                  )
+                  if new_content != content:
+                      with open(path, 'w', encoding='utf-8') as f:
+                          f.write(new_content)
+                      print(f'Updated: {path} -> {date}')
+          EOF
+
       - name: Build Jekyll (staging)
         run: jekyll clean && jekyll build --baseurl /staging
 
