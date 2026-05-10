@@ -22,6 +22,8 @@ last_modified_at: 2026-04-24
 </div>
 
 ## ZLZ Smooth Normal Bake (Update in 1.4.0)
+![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
+
 It helps make the outline smoother and cleaner, achieving the highest outline quality with just a single click on “Bake All.”
 <div class="compare-container">
   <div class="compare-base">
