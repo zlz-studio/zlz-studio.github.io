@@ -15,20 +15,6 @@ As a result, optimizing the ZLZ Anime Shader is straightforward simply enable on
 
 ---
 
-## Test Code Stripping by Toggling the Rim Light Feature
-
-When inspecting the fragment shader, you can clearly see that disabled features leave behind neither properties nor any related calculations in the code.
-
-Rim Light On
-
-![Performacne_On](./images/Performacne_On.png)
-
-Rim Light Off
-
-![Performacne_Off](./images/Performacne_Off.png)
-
----
-
 ## ZLZ Shader Optimizer (New in V 1.4.0)
 
 ![Optimize_1](./images/Optimize_1.png)
