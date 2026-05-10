@@ -127,3 +127,16 @@ This script is a critical part of the system and is required for the following f
 - Hair Shadow
 
 If configured incorrectly, these features may not work as expected
+
+---
+
+## ZLZ Head Direction Binder (Update in V.1.4.0)
+
+![Head_DirectionBinder](../Head-Direction-System/Head_DirectionBinder.png)
+
+The script has been improved to provide a more convenient workflow:
+- For Humanoid characters, there is no need to manually assign the Head Bone. The system can detect it automatically.  
+- For Generic characters, users only need to manually assign the Head Bone.
+- Users no longer need to manually select the correct axis. The script can automatically detect it with a single click.
+- No need to manually assign Meshes or Materials. The script automatically sends the required values for you.
+- Displays the current status to indicate whether everything is working correctly. If something is not properly configured, a warning message will be shown.
