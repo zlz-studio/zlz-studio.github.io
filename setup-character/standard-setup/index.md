@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Standard Setup
 last_modified_at: 2026-04-18

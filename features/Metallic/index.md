@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Metallic
 last_modified_at: 2026-05-09

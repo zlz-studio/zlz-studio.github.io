@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Soft Light
 last_modified_at: 2026-04-23

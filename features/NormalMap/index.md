@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Normal-Map
 last_modified_at: 2026-05-09

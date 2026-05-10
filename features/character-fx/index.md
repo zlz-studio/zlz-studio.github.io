@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Character-FX
 last_modified_at: 2026-04-18

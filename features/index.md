@@ -1,4 +1,4 @@
-﻿---
+---
 layout: docs
 title: Features Overview
 last_modified_at: 2026-04-25
