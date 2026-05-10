@@ -22,7 +22,9 @@ title: Metallic
 
 ![Showcase_Metallic_On](../Metallic/Showcase_Metallic_On.gif)
 
-![metallic](../images/metallic.png)
+
+## Example setup for the metallic effect on the sword above.
+![Parameter_Metallic](../Metallic/Parameter_Metallic.png)
 
 Metallic is used for character parts made of metal materials, adding shine and surface depth.
 
