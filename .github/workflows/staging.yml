@@ -36,7 +36,7 @@ jobs:
                       continue
                   path = os.path.join(root, fname)
                   result = subprocess.run(
-                      ['git', 'log', '-1', '--format=%Y-%m-%d', '--', path],
+                      ['git', 'log', '-1', '--format=%ad', '--date=format:%Y-%m-%d', '--', path],
                       capture_output=True, text=True
                   )
                   date = result.stdout.strip()
