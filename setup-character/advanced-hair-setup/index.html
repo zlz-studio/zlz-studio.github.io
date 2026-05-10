@@ -1,0 +1,107 @@
+<h1 id="advanced-hair-setup">Advanced Hair Setup</h1>
+
+<p><img src="../images/Advanced.png" alt="Advanced" /></p>
+
+<p>Suitable for users who want to enhance the visual quality of their characters.</p>
+
+<p>Especially for rendering front hair to appear transparent and natural,</p>
+
+<p>without blocking the face and eyes, which is a commonly used approach in production-level anime games.</p>
+
+<ul>
+  <li>Fully supports all core shader features</li>
+  <li>Ready to use immediately, though additional documentation for this section may be required</li>
+  <li><strong>Supports</strong> transparent hair rendering, allowing the face, eyes, and eyebrows to remain visible through front hair <em>(Hair Transparent)</em></li>
+  <li><strong>Supports</strong> the hair shadow system <em>(Hair Shadow)</em></li>
+</ul>
+
+<blockquote>
+  <p>This setup approach is suitable for users who aim for visual quality on the same level as commercial anime games
+and require more detailed control over the hair rendering system.</p>
+
+</blockquote>
+
+<h2 id="last_modified_at-y--">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="material-presets-advanced-hair-setup">Material Presets Advanced Hair Setup</h3>
+
+<p>When setting up a single character, this system uses a total of <strong>six main Material Presets</strong>, as listed below:</p>
+
+<ol>
+  <li><strong>ZLZ_Adv_Char_Body</strong> — Used for the character’s outfit or body parts</li>
+  <li><strong>ZLZ_Adv_Char_Face</strong> — Used on the character’s face and serves as the base for visibility control, allowing hair to render transparently in a correct manner</li>
+  <li><strong>ZLZ_Adv_Char_Face_Reveal</strong> — Used for the eyes, eyebrows, and facial elements that need to remain visible even when partially occluded by hair</li>
+  <li><strong>ZLZ_Adv_Char_Hair_Main</strong> — Used for the main hair of the character and acts as the primary material for hair rendering</li>
+  <li><strong>ZLZ_Adv_Char_Hair_Shadow_VariantFromMain</strong> — Used for hair layers that require transparent rendering, helping reduce occlusion of the character’s face and eyes</li>
+  <li><strong>ZLZ_Adv_Char_Hair_Transparent_VariantFromMain</strong> — Used to generate additional hair shadows, enhancing depth and overall visual quality of the character</li>
+</ol>
+
+<blockquote>
+  <p>Path : Assets/ZLZ_AnimeShader/Material_Preset/Advanced_Hair_Setup</p>
+
+</blockquote>
+
+<p><img src="../images/Path_Material_Advanced.png" alt="Path_Material_Advanced" /></p>
+
+<h2 id="last_modified_at-y---1">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="step-1--material-preparation-advanced-hair-setup">Step 1 : Material Preparation (Advanced Hair Setup)</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/-Qr4eKoO0XU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p><img src="../images/Step1-SetupCharacter.png" alt="Step1-SetupCharacter" /></p>
+
+<h2 id="last_modified_at-y---2">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="step-2--apply-material-presets-advanced-hair-setup">Step 2 : Apply Material Presets (Advanced Hair Setup)</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/d2omoCJ5JyI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p><img src="../images/Step2-SetupCharacter.png" alt="Step2-SetupCharacter" /></p>
+
+<h2 id="last_modified_at-y---3">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="step-3-head-direction-script-setup-advanced-hair-setup">Step 3 :Head Direction Script Setup (Advanced Hair Setup)</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/ZGY9uj1AxBQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p><img src="../images/Step3-SetupCharacter.png" alt="Step3-SetupCharacter" /></p>
+
+<h2 id="last_modified_at-y---4">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="step-4--select-forward-axis-advanced-hair-setup">Step 4 : Select Forward Axis (Advanced Hair Setup)</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/5YfiHBkY5vg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>Update in Version 1.2.0<br />
+4.1. Select the axis that points forward from face (Head Bone)<br />
+4.2. Select the axis that points to the character’s right side (Head Bone)<br />
+Script: ZLZ_HeadDirectionBinder works with the Hair Transparent, Hair Shadow, and Face Shadow features.</p>
+
+<p><img src="../images/Step4-SetupCharacter.png" alt="Step4-SetupCharacter" /></p>
+
+<h2 id="last_modified_at-y---5">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="final-setup-overview">Final Setup Overview</h2>
+
+<p><img src="../images/Final.png" alt="Final" /></p>

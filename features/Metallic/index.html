@@ -1,0 +1,40 @@
+<h2 id="metallic">Metallic</h2>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Metallic/Metallic_Off.jpg" alt="Metallic_Off" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Metallic/Metallic_On.jpg" alt="Metallic_On" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Metallic Off</div>
+  <div class="compare-label after">Metallic On</div>
+</div>
+
+<p><img src="../Metallic/Showcase_Metallic_On.gif" alt="Showcase_Metallic_On" /></p>
+
+<h2 id="example-setup-for-the-metallic-effect-on-the-sword-above">Example setup for the metallic effect on the sword above.</h2>
+<p><img src="../Metallic/Parameter_Metallic.png" alt="Parameter_Metallic" /></p>
+
+<p>Metallic is used for character parts made of metal materials, adding shine and surface depth.</p>
+
+<p>If no <strong>Feature Mask (Red Channel)</strong> is assigned to define the active area, this feature will not be applied.</p>
+
+<h3 id="parameters">Parameters</h3>
+
+<ul>
+  <li><strong>Gradient Metallic :</strong> Uses the <code class="language-plaintext highlighter-rouge">T_Gradient_Metallic</code> texture to control the metallic reflection behavior. Adjusting Tiling and Offset is not recommended, in order to achieve results as intended by the design</li>
+  <li><strong>MetalNormalMap :</strong> Uses a normal texture to add surface detail to metallic areas. The default texture is <code class="language-plaintext highlighter-rouge">T_Normal</code>
+    <ul>
+      <li><strong>Lower <em>Tiling</em> values</strong> (e.g. 0.05 × 0.05) produce a more toon-style look</li>
+      <li><strong>Higher <em>Tiling</em> values</strong> (e.g. 30 × 30) produce a more semi-realistic look</li>
+    </ul>
+  </li>
+  <li><strong>Intensity Metal :</strong> Controls the brightness of the metallic areas</li>
+</ul>
+
+<h2 id="last_modified_at-y--">last_modified_at: %Y-&gt;-</h2>

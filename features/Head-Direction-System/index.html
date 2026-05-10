@@ -1,0 +1,141 @@
+<h1 id="zlz_headdirectionbinder-required-script">ZLZ_HeadDirectionBinder (Required Script)</h1>
+
+<p><img src="../images/DiagramScriptHDB.png" alt="Features_Overall" /></p>
+
+<h3 id="overview">Overview</h3>
+<p>ZLZ_HeadDirectionBinder is the core script used to control the direction of the Head Bone and send that data to the shader, ensuring that related features work correctly.</p>
+
+<p>This script is required for all of the following features:</p>
+<ul>
+  <li>Face Shadow</li>
+  <li>Hair Transparent</li>
+  <li>Hair Shadow</li>
+</ul>
+
+<h2 id="last_modified_at-y--">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="what-does-it-do">What does it do</h3>
+<p>The script reads the position and direction of the Head Bone (in World Space) and passes this data to the material, such as:</p>
+<ul>
+  <li>Head Center Position</li>
+  <li>Head Forward Direction</li>
+  <li>Head Right Direction
+These values are then used in the shader to calculate lighting behavior and various visual effects on the face and hair.</li>
+</ul>
+
+<h2 id="last_modified_at-y---1">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="why-this-script-is-required">Why This Script Is Required</h3>
+<p>Features like Face Shadow and Hair Effects cannot rely on mesh data alone to determine correct directions,
+because each character may have different axis setups and rig configurations.</p>
+
+<p>Using the Head Bone as a reference helps ensure that:</p>
+<ul>
+  <li>Facial shadows align correctly with the actual light direction</li>
+  <li>Hair Transparent works properly based on the viewing angle</li>
+  <li>Hair Shadow is positioned accurately</li>
+</ul>
+
+<h2 id="last_modified_at-y---2">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="if-this-script-is-not-used">If This Script Is Not Used</h3>
+<p>Features may not work correctly, such as:</p>
+<ul>
+  <li>Face Shadow will not function</li>
+  <li>Hair Transparent may render incorrectly (eyes and eyebrows may disappear)</li>
+  <li>Hair Shadow will not align with the light direction</li>
+</ul>
+
+<h2 id="last_modified_at-y---3">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="summary">Summary</h3>
+<p>ZLZ_HeadDirectionBinder is the core of the system.
+Without this script, features that rely on head direction will not function correctly.</p>
+
+<h2 id="last_modified_at-y---4">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="setup-script-zlz_head-direction-binder">Setup Script ZLZ_Head Direction Binder</h2>
+
+<p><img src="../images/Head_Tutorial_01.png" alt="Features_Overall" /></p>
+
+<h3 id="1-editor-preview">1. Editor Preview</h3>
+<p>Used to preview results in the Editor</p>
+
+<p>On: Displays results instantly in the Editor (recommended during setup)
+Off: The script runs only at Runtime to reduce material changes in Version Control</p>
+
+<p>💡 Recommended: Turn this off after setup is complete</p>
+
+<h2 id="last_modified_at-y---5">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="2-head-bone">2. Head Bone</h3>
+<p>Assign the character’s Head Bone</p>
+
+<p>The Head Bone is used as the main reference for direction calculations,
+ensuring features like Face Shadow and Hair Effects work correctly</p>
+
+<h2 id="last_modified_at-y---6">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="3-element--renderer">3. Element → Renderer</h3>
+<p>Assign the Mesh Renderer that will receive data from the script</p>
+
+<p>💡 Recommended:</p>
+<ul>
+  <li>Face Mesh</li>
+  <li>Hair Mesh</li>
+</ul>
+
+<p>The script will send data to the materials used by this renderer</p>
+
+<h2 id="last_modified_at-y---7">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="4-element--material-indices">4. Element → Material Indices</h3>
+<p>Specify which Material Indices the script should send data to</p>
+
+<p>You can find the indices in the Renderer (material order in the mesh)</p>
+
+<p>💡 Recommended:</p>
+<ul>
+  <li>Face material</li>
+  <li>Hair material</li>
+</ul>
+
+<h2 id="last_modified_at-y---8">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="5-forward-axis">5. Forward Axis</h3>
+<p>Define the axis of the Head Bone that points forward from the face</p>
+
+<p>Examples:</p>
+<ul>
+  <li>Z+</li>
+  <li>-Z</li>
+  <li>X+</li>
+</ul>
+
+<p>⚠️ Must be set correctly, otherwise Face Shadow may appear inverted</p>
+
+<h2 id="last_modified_at-y---9">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="6-right-axis">6. Right Axis</h3>
+<p>Define the axis of the Head Bone that points to the character’s right side</p>
+
+<p>Examples:</p>
+<ul>
+  <li>X+</li>
+  <li>-X</li>
+  <li>Z+</li>
+</ul>
+
+<p>⚠️ Used together with Forward Axis to ensure correct direction calculations</p>
+
+<h2 id="last_modified_at-y---10">last_modified_at: %Y-&gt;-</h2>
+
+<h3 id="important-note">Important Note</h3>
+<p>This script is a critical part of the system and is required for the following features:</p>
+<ul>
+  <li>Face Shadow</li>
+  <li>Hair Transparent</li>
+  <li>Hair Shadow</li>
+</ul>
+
+<p>If configured incorrectly, these features may not work as expected</p>

@@ -1,0 +1,95 @@
+<h1 id="video-showcase">Video Showcase</h1>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/tDF0kKeQD4k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/GS7kpy4XTZM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/xnA9aQ0pEfE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/hImKw7_LWJ4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<h2 id="last_modified_at-y--">last_modified_at: %Y-&gt;-</h2>
+
+<h1 id="features">Features</h1>
+
+<p><img src="./images/Features_Overall.png" alt="Features_Overall" /></p>
+
+<p>The features of this shader are designed to be divided into <strong>two main groups</strong>, based on their roles and impact on performance.</p>
+
+<h3 id="1-locked-features">1. Locked Features</h3>
+
+<p>These features form the core systems of the shader and are designed to be <strong>always enabled</strong>.</p>
+
+<ul>
+  <li>They provide the fundamental structure required for the shader to function</li>
+  <li>They cannot be disabled</li>
+  <li>Enabling these features does not impact performance</li>
+</ul>
+
+<h3 id="2-on--off-features">2. On / Off Features</h3>
+
+<p>These features are optional, allowing users to enable or disable them as needed.</p>
+
+<ul>
+  <li>They can be toggled on or off through the material</li>
+  <li>When disabled, the system removes the related calculations entirely, helping maintain appropriate shader performance</li>
+  <li>Features in this group cannot be toggled at runtime and should be configured during setup or before use</li>
+</ul>
+
+<h2 id="last_modified_at-y---1">last_modified_at: %Y-&gt;-</h2>
+
+<h2 id="texture-character">Texture Character</h2>
+
+<p><img src="./images/TextureCharacter.png" alt="TextureCharacter" /></p>
+
+<p>This shader uses <strong>two main types of textures</strong>, as described below:</p>
+
+<h3 id="1-main-texture-rgba">1. Main Texture (RGBA)</h3>
+
+<p>The primary texture used for rendering the character’s surface.</p>
+
+<h3 id="parameters">Parameters</h3>
+
+<ul>
+  <li><strong>RGB (Red, Green, Blue) :</strong> Defines the character’s base color</li>
+  <li><strong>A (Alpha) :</strong> Controls the character’s transparency; darker masked areas become more transparent</li>
+</ul>
+
+<h3 id="2-feature-mask-rgb">2. Feature Mask (RGB)</h3>
+
+<p>A texture used to control the operating areas of various features by masking each channel.</p>
+
+<h3 id="parameters-1">Parameters</h3>
+
+<ul>
+  <li><strong>R (Red) :</strong> Defines where the <strong>Metallic</strong> feature is applied</li>
+  <li><strong>G (Green) :</strong> Defines where the <strong>Hair Highlight</strong> feature is applied</li>
+  <li><strong>B (Blue) :</strong> Defines where the <strong>Emissive</strong> feature is applied</li>
+</ul>
+
+<blockquote>
+  <p>Some features may affect the whole character or not work as expected.</p>
+
+</blockquote>
+
+<h2 id="last_modified_at-y---2">last_modified_at: %Y-&gt;-</h2>

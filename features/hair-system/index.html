@@ -1,0 +1,87 @@
+<h1 id="hair-system">Hair System</h1>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/tDF0kKeQD4k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<h2 id="last_modified_at-y--">last_modified_at: %Y-&gt;-</h2>
+
+<h1 id="hair-transparent">Hair Transparent</h1>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Hair_Transparent_Off.jpg" alt="Hair_Transparent_Off" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Hair_Transparent_On.jpg" alt="Hair_Transparent_On" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Hair Transparent Off</div>
+  <div class="compare-label after">Hair Transparent On</div>
+</div>
+
+<p><img src="../images/HairTransparent.png" alt="HairTransparent" /></p>
+
+<p>This feature is designed to be used exclusively with the hair Transparent material
+(ZLZ_Char_Hair_Transparent_Variant)</p>
+
+<p>This system simplifies the setup of transparent hair rendering by <strong>fading hair at the character’s side angles based on the camera position</strong> and <strong>clipping certain facial elements when the camera is positioned behind the character</strong>, helping to avoid unwanted visual artifacts.</p>
+
+<h3 id="parameters">Parameters</h3>
+
+<ul>
+  <li><strong>Setup Hair Transparent (Button)</strong> : Performs the entire setup process instantly with a single click</li>
+  <li><strong>EYE_BACKFACE_CLIP :</strong> Clips meshes using ZLZ_Adv_Char_Face_Reveal &amp; ZLZ_Adv_Char_Hair_Shadow_VariantFromMain when the camera is behind the character</li>
+  <li><strong>HAIR_BACKFACE_FADE :</strong> Fades hair using ZLZ_Adv_Char_Hair_Transparent_VariantFromMain when the camera is behind the character</li>
+  <li><strong>HeadBackCutoff :</strong> Adjusts the side cutoff position for EYE_BACKFACE_CLIP</li>
+  <li><strong>HeadTopCutOff (Top View Only) :</strong> Adjusts the top cutoff position for EYE_BACKFACE_CLIP</li>
+  <li><strong>HairFadeRange :</strong> Controls the softness of the hair fade for HAIR_BACKFACE_FADE</li>
+</ul>
+
+<h2 id="last_modified_at-y---1">last_modified_at: %Y-&gt;-</h2>
+
+<h1 id="hair-shadow">Hair Shadow</h1>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../images/Hair_Shadow_Off.jpg" alt="Hair_Shadow_Off" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../images/Hair_Shadow_On.jpg" alt="Hair_Shadow_On" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Hair Shadow Off</div>
+  <div class="compare-label after">Hair Shadow On</div>
+</div>
+
+<p><img src="../images/hairshadow.png" alt="hairshadow" /></p>
+
+<p>This feature is designed to be used exclusively with the hair shadow material
+(ZLZ_Adv_Char_Hair_Shadow_VariantFromMain)</p>
+
+<p>The system <strong>scales and offsets the hair shadow mesh</strong> to generate shadows behind the actual hair, allowing precise control over the position, shape, and coverage of the hair shadows. It also lets you define which areas of the hair should display the shadow mesh.</p>
+
+<p>Traditionally, setting up this type of hair shadow system requires multiple steps and fine adjustments. To simplify the workflow, we provide a <strong>one-click setup</strong> that automatically configures the material for you.</p>
+
+<p>After the initial setup, you may fine-tune the <strong>Scale and Offset</strong> values to better match the proportions and hairstyle of each individual character.</p>
+
+<h3 id="parameters-1">Parameters</h3>
+
+<ul>
+  <li><strong>Setup Hair Shadow (Button)</strong> : Performs the entire setup process with a single click</li>
+  <li><strong>HairShadowFadePos :</strong> Controls where the hair shadow appears</li>
+  <li><strong>HairShadowFadeSoft :</strong> Adjusts the softness of the hair shadow fade</li>
+  <li><strong>HairShadowScaleOS :</strong> Scales the hair shadow mesh</li>
+  <li><strong>HairShadowOffsetX :</strong> Offsets the hair shadow mesh along the X axis (left / right)</li>
+  <li><strong>HairShadowOffsetY :</strong> Offsets the hair shadow mesh along the Y axis (up / down)</li>
+  <li><strong>HairShadowOffsetZ :</strong> Offsets the hair shadow mesh along the Z axis (front / back)</li>
+</ul>
