@@ -75,3 +75,15 @@ Texture : Used for viewing detailed information about all Textures currently use
 - Displays the amount of VRAM used by each Texture
 - Users can click a Texture to adjust Compression settings directly
 - Supports separate platform settings such as PC / Android / iOS
+
+![4](./images/4.png)
+
+4.Character Texture Optimization : Used for optimizing the Texture Max Size of the entire Character all at once.
+- Allows users to adjust Texture Max Size based on usage type such as MainTex, Mask, Normal Map, and other Textures
+- Helps balance image quality and VRAM usage more easily
+- Includes default values for beginners
+- Users can customize the settings to better fit their own project
+- Displays real-time VRAM comparison before and after optimization
+- Supports separate platform settings such as PC / Android / iOS
+- Allows optimization settings to be applied across the entire Character at once
+
