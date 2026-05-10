@@ -662,8 +662,54 @@
 
 <h2 id="zlz-shader-optimizer-new-in-v-140">ZLZ Shader Optimizer (New in V 1.4.0)</h2>
 
+<p><img src="./images/Optimize_1.png" alt="Optimize_1" /></p>
+
+<p>ZLZ Shader Optimizer was created to help users understand how much resources their character is using,
+and make it easier to optimize for different target platforms.</p>
+
+<h3 id="understanding-zlz-shader-optimizer">Understanding ZLZ Shader Optimizer</h3>
+
 <p><img src="./images/Optimize_2.png" alt="Optimize_2" /></p>
 
+<p>1.Performance Budget : Acts like a ruler for checking whether a Material is becoming too heavy, or if the overall Character is too expensive.</p>
+<ul>
+  <li>Used to define what Shader Cost and VRAM usage should be considered “Light” or “Heavy”</li>
+  <li>Supports separate settings for each platform such as PC / Android / iOS</li>
+  <li>Values set here are used as reference lines in the Bar Chart from section 2</li>
+  <li>Includes default values for beginners</li>
+  <li>Users can customize the values to better fit their own project</li>
+  <li>Press Reset Defaults to restore the original default values</li>
+</ul>
+
+<p>2.Bar Chart : Used to view the overall resource usage of all Materials in the Character, making it easier to identify which parts are heavy or overusing resources.</p>
+<ul>
+  <li>Shader Cost represents how expensive the Shader is when calculating features and effects</li>
+  <li>VRAM (MB) represents the amount of memory used by Textures</li>
+  <li>The chart displays all Materials together for a clearer overview of the Character</li>
+  <li>The colored lines above are based on the Performance Budget settings from section 1</li>
+  <li>Makes it easy to quickly identify which Materials are exceeding the budget</li>
+  <li>Clicking a Material in the chart will show more detailed information in section 3</li>
+</ul>
+
+<p>3.Material Detail : Displays detailed information about the selected Material.
+The left side shows Shader Cost information, while the right side shows Texture information.</p>
+
+<p>Shader Cost : Helps users understand which features are contributing the most to the Material’s Shader Cost.</p>
+<ul>
+  <li>Shows how much Shader Cost each feature is using</li>
+  <li>Users can enable or disable features to test their impact on performance in real time</li>
+  <li>Makes it easier to decide which features should be enabled or disabled for each platform</li>
+  <li>Shows whether a feature requires additional Textures</li>
+</ul>
+
+<p>Texture : Used for viewing detailed information about all Textures currently used by the Material.</p>
+<ul>
+  <li>Displays the current Texture size</li>
+  <li>Displays the Texture Compression status</li>
+  <li>Displays the amount of VRAM used by each Texture</li>
+  <li>Users can click a Texture to adjust Compression settings directly</li>
+  <li>Supports separate platform settings such as PC / Android / iOS</li>
+</ul>
 
       </div>
     </main>
