@@ -44,6 +44,7 @@ jobs:
                       continue
                   with open(path, 'r', encoding='utf-8') as f:
                       content = f.read()
+                  content = content.replace('\r\n', '\n')
                   new_content = re.sub(
                       r'^last_modified_at:.*$',
                       f'last_modified_at: {date}',
