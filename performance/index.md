@@ -38,7 +38,7 @@ and make it easier to optimize for different target platforms.
 
 ### Understanding ZLZ Shader Optimizer
 
-![Optimize_2](./images/Optimize_2.png)
+![1](./images/1.png)
 
 1.Performance Budget : Acts like a ruler for checking whether a Material is becoming too heavy, or if the overall Character is too expensive.
 - Used to define what Shader Cost and VRAM usage should be considered “Light” or “Heavy”
@@ -48,6 +48,8 @@ and make it easier to optimize for different target platforms.
 - Users can customize the values to better fit their own project
 - Press Reset Defaults to restore the original default values
 
+![2](./images/2.png)
+
 2.Bar Chart : Used to view the overall resource usage of all Materials in the Character, making it easier to identify which parts are heavy or overusing resources.
 - Shader Cost represents how expensive the Shader is when calculating features and effects
 - VRAM (MB) represents the amount of memory used by Textures
@@ -55,6 +57,8 @@ and make it easier to optimize for different target platforms.
 - The colored lines above are based on the Performance Budget settings from section 1
 - Makes it easy to quickly identify which Materials are exceeding the budget
 - Clicking a Material in the chart will show more detailed information in section 3
+
+![3](./images/3.png)
 
 3.Material Detail : Displays detailed information about the selected Material.
 The left side shows Shader Cost information, while the right side shows Texture information.
