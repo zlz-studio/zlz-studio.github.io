@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: FaceShadow
 last_modified_at: 2026-04-20
@@ -52,5 +52,3 @@ It also includes a Face Shadow Paint texture that can be reused across multiple 
 - **Face Shadow UV Offset Y** : Adjust the offset on the Y axis to align it correctly
 - **Flip UV Face** : Used to flip the UV on the Y axis in case the UV is upside down
 
-last_modified_at: 2026-04-20
----

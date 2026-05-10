@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: Standard Setup
 last_modified_at: 2026-04-18
@@ -19,8 +19,6 @@ Suitable for general use and for characters that do not require a transparent ha
 and is the recommended starting point for users of all experience levels.
 > 
 
-last_modified_at: 2026-04-18
----
 
 ### Material Presets Standard Setup
 

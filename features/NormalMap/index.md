@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: Normal-Map
 last_modified_at: 2026-05-09
@@ -48,5 +48,3 @@ This section is used to control the character’s Normal Map settings, adding mo
 
 ![NormalMap_Pass](../NormalMap/NormalMap_Pass.png)
 
-last_modified_at: 2026-05-09
----

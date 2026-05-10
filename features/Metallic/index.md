@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: Metallic
 last_modified_at: 2026-05-09
@@ -39,5 +39,3 @@ If no **Feature Mask (Red Channel)** is assigned to define the active area, this
     - **Higher *Tiling* values** (e.g. 30 × 30) produce a more semi-realistic look
 - **Intensity Metal :** Controls the brightness of the metallic areas
 
-last_modified_at: 2026-05-10
----

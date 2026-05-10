@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: ToonRampShade
 last_modified_at: 2026-04-24
@@ -27,5 +27,3 @@ last_modified_at: 2026-04-24
 - Lower values produce sharper, harder lighting edges
 - Higher values result in smoother, more gradual light transitions
 
-last_modified_at: 2026-04-24
----

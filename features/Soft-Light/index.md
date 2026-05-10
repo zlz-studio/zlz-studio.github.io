@@ -1,4 +1,4 @@
----
+﻿---
 layout: docs
 title: Soft Light
 last_modified_at: 2026-04-23
@@ -31,5 +31,3 @@ It enhances contrast and smoothness for a more subtle, softer look, and is appli
 
 - **Soft Light Highlight** : Controls the strength of the effect by blending between the original color and the Soft Light result
 
-last_modified_at: 2026-04-23
----
