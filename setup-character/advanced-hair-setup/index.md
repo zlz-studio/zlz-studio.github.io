@@ -77,3 +77,7 @@ Script: ZLZ_HeadDirectionBinder works with the Hair Transparent, Hair Shadow, an
 ## Final Setup Overview
 
 ![Final](../images/Final.png)
+
+## Setup Character in 3 min in version 1.4.0 coming soon
+
+{% include youtube.html id="huoHvZexRxo" %}
