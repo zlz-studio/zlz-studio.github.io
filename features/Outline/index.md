@@ -23,7 +23,7 @@ last_modified_at: 2026-04-24
 
 ---
 
-## ZLZ Smooth Normal Bake (Update in 1.4.0)
+## ZLZ Smooth Normal Bake
 ![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
 
 When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.  
@@ -46,7 +46,7 @@ If the mesh is updated later, simply press “Bake All” to rebake and finish t
 
 ---
 
-## ZLZ Outline Batch (Update in 1.4.0)
+## ZLZ Outline Batch
 ![ZLZ_Outline_Batch](../Outline/ZLZ_Outline_Batch.png)
 
 ZLZ Outline Batch automatically optimizes outline rendering by generating shared batching tags,  
