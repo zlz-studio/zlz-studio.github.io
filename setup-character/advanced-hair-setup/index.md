@@ -41,43 +41,15 @@ When setting up a single character, this system uses a total of **six main Mater
 ![Path_Material_Advanced](../images/Path_Material_Advanced.png)
 
 
-## Step 1 : Material Preparation (Advanced Hair Setup)
+## Setup Character in 3 min in version 1.4.0
 
-{% include youtube.html id="-Qr4eKoO0XU" %}
+{% include youtube.html id="huoHvZexRxo" %}
 
 ![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
 
-
-## Step 2 : Apply Material Presets (Advanced Hair Setup)
-
-{% include youtube.html id="d2omoCJ5JyI" %}
-
 ![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
-
-
-## Step 3 :Head Direction Script Setup (Advanced Hair Setup)
-
-{% include youtube.html id="ZGY9uj1AxBQ" %}
-
-![Step3-SetupCharacter](../images/Step3-SetupCharacter.png)
-
-
-## Step 4 : Select Forward Axis (Advanced Hair Setup)
-
-{% include youtube.html id="5YfiHBkY5vg" %}
-
-Update in Version 1.2.0  
-4.1. Select the axis that points forward from face (Head Bone)  
-4.2. Select the axis that points to the character's right side (Head Bone)  
-Script: ZLZ_HeadDirectionBinder works with the Hair Transparent, Hair Shadow, and Face Shadow features.
-
-![Step4-SetupCharacter](../images/Step4-SetupCharacter.png)
 
 
 ## Final Setup Overview
 
 ![Final](../images/Final.png)
-
-## Setup Character in 3 min in version 1.4.0 coming soon
-
-{% include youtube.html id="huoHvZexRxo" %}
