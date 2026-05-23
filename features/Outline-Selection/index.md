@@ -6,20 +6,7 @@ last_modified_at: 2026-05-23
 
 ## Outline Selection
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../NormalMap/NormalMap1_Off.jpg" alt="NormalMap_Off">
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../NormalMap/NormalMap1_On.jpg" alt="NormalMap_On">
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">NormalMap_Off</div>
-  <div class="compare-label after">NormalMap_On</div>
-</div>
+![OutlineSelection](../Outline-Selection/OutlineSelection.gif)
 
 ![Parameter_NormalMap](../NormalMap/Parameter_NormalMap.png)
 
