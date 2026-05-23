@@ -4,46 +4,71 @@ title: Outline-Selection
 last_modified_at: 2026-05-23
 ---
 
-## Outline Selection
+## Selection Outline
 
 ![OutlineSelection](../Outline-Selection/OutlineSelection.gif)
 
-มอบ Visual Feedback ให้ผู้เล่นได้ทันที — ไฮไลต์ตัวละคร ศัตรู หรือ Item ด้วย Outline แบบ Animate ที่พัลส์และจางออกอย่างสวยงาม
+Give your players instant visual feedback - highlight characters, enemies, or items
+with an animated outline that pulses and fades with style.
 
 ---
 
-ภาพรวม
+### Overview
 
-Selection Outline คือ URP Renderer Feature ที่วาด Outline Silhouette แบบ Animate รอบ GameObject ที่ต้องการขณะ Runtime ออกแบบมาสำหรับระบบต่อสู้ การ Lock-on และ Object โต้ตอบได้ — รองรับทั้ง PC และ Mobile
+Selection Outline is a URP Renderer Feature that draws an animated silhouette outline
+around any GameObject at runtime. Designed for combat systems, lock-on targeting,
+and interactive objects, works on both PC and Mobile.
 
-- 3 ประเภทในตัว — Character, Enemy, Item (แต่ละประเภทมีสีเป็นของตัวเอง และรองรับ HDR)
-- สามารถปรับสีและความหนาของ Outline ได้
-- Animation ลื่นไหล — Intro ค่อยๆ ปรากฏ → Loop พัลส์ → Outro ค่อยๆ หาย
-- Setup คลิกเดียว ผ่าน Character Dashboard
-- ควบคุมผ่าน Script — เรียก Select() และ Deselect() จาก Script ใดก็ได้
-- รองรับการใช้งานกับกล้อง Orthographic
+- 3 built-in types : Character, Enemy, Item (each with its own color and HDR support)
+- Adjustable outline color and width per type
+- Smooth animation : Intro fade-in → Loop pulse → Outro fade-out
+- One-click setup via Character Dashboard
+- API-driven : call Select() and Deselect() from any script
+- Supports Orthographic cameras
 
 ---
 
-การติดตั้ง
+### Setup
+
+1. Open the Character Dashboard in the Inspector → choose a Selection Type
+(Character, Enemy, or Item)
 
 ![Dashbord_Outline_Selection](../Outline-Selection/Dashbord_Outline_Selection.png)
 
-1. เปิด Character Dashboard ของตัวละครใน Inspector → เลือก Select Type ที่ต้องการ (Character, Enemy, Item)
+2. Open Universal Renderer Data and find ZLZ Selection Outline → adjust color,
+width, and Animation Curves here
 
 ![Universal Render Data](../Outline-Selection/Universal_Render_Data.png)
 
-2. เปิด Universal Renderer Data จะเจอ ZLZ Selection Outline → ปรับสี + ความหนา + Animation Curve ได้ที่นี่
-
 ---
 
-การใช้งานผ่าน Script
-เพิ่ม using ZLZ.AnimeShader; แล้วอ้างอิง ZLZ_SelectionController จากนั้นเรียกใช้
+### Scripting
 
-> // แบบ Animate (แนะนำ) — เล่น Intro → Loop → Outro  
+Add `using ZLZ.AnimeShader;` and get a reference to `ZLZ_SelectionController`,
+then call:
+
+> // Animated (recommended) - plays Intro → Loop → Outro  
 > ctrl.Select();  
 > ctrl.Deselect();  
 > ctrl.ToggleSelection();  
 >   
-> // เช็คสถานะ  
+> // Check state  
 > bool active = ctrl.IsSelected();  
+
+Example - highlight on click:  
+> void OnMouseDown()  
+> {  
+>     GetComponent\<ZLZ_SelectionController\>().ToggleSelection();  
+> }
+
+Example - highlight on lock-on:
+
+> void LockOn(GameObject target)  
+> {  
+>     target.GetComponent\<ZLZ_SelectionController\>()?.Select();  
+> }  
+>   
+> void Unlock(GameObject previous)  
+> {  
+>     previous.GetComponent\<ZLZ_SelectionController\>()?.Deselect();  
+> }
