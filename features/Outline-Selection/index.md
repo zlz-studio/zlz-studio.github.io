@@ -14,19 +14,36 @@ last_modified_at: 2026-05-23
 
 ภาพรวม
 
-![Universal Render Data](../Outline-Selection/Universal Render Data.png)
-
 Selection Outline คือ URP Renderer Feature ที่วาด Outline Silhouette แบบ Animate รอบ GameObject ที่ต้องการขณะ Runtime ออกแบบมาสำหรับระบบต่อสู้ การ Lock-on และ Object โต้ตอบได้ — รองรับทั้ง PC และ Mobile
 
-3 ประเภทในตัว — Character, Enemy, Item (แต่ละประเภทมีสีเป็นของตัวเอง)
-Animation ลื่นไหล — Intro ค่อยๆ ปรากฏ → Loop พัลส์ → Outro ค่อยๆ หาย
-Setup คลิกเดียว ผ่าน Character Dashboard
-ควบคุมผ่าน Script — เรียก Select() และ Deselect() จาก Script ใดก็ได้
+- 3 ประเภทในตัว — Character, Enemy, Item (แต่ละประเภทมีสีเป็นของตัวเอง และรองรับ HDR)
+- สามารถปรับสีและความหนาของ Outline ได้
+- Animation ลื่นไหล — Intro ค่อยๆ ปรากฏ → Loop พัลส์ → Outro ค่อยๆ หาย
+- Setup คลิกเดียว ผ่าน Character Dashboard
+- ควบคุมผ่าน Script — เรียก Select() และ Deselect() จาก Script ใดก็ได้
+- รองรับการใช้งานกับกล้อง Orthographic
 
-### Parameters
+---
 
-- **Normal Strength :** Controls the intensity of the Normal Map and how strongly it affects the surface details
+การติดตั้ง
 
-### Preview NormalMap Pass
+![Dashbord_Outline_Selection](../Outline-Selection/Dashbord_Outline_Selection.png)
 
-![NormalMap_Pass](../NormalMap/NormalMap_Pass.png)
+1. เปิด Character Dashboard ของตัวละครใน Inspector → เลือก Select Type ที่ต้องการ (Character, Enemy, Item)
+
+![Universal Render Data](../Outline-Selection/Universal_Render_Data.png)
+
+2. เปิด Universal Renderer Data จะเจอ ZLZ Selection Outline → ปรับสี + ความหนา + Animation Curve ได้ที่นี่
+
+---
+
+การใช้งานผ่าน Script
+เพิ่ม using ZLZ.AnimeShader; แล้วอ้างอิง ZLZ_SelectionController จากนั้นเรียกใช้
+
+> // แบบ Animate (แนะนำ) — เล่น Intro → Loop → Outro  
+> ctrl.Select();  
+> ctrl.Deselect();  
+> ctrl.ToggleSelection();  
+>   
+> // เช็คสถานะ  
+> bool active = ctrl.IsSelected();  
