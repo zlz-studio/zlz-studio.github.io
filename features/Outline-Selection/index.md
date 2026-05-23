@@ -13,6 +13,8 @@ with an animated outline that pulses and fades with style.
 
 ---
 
+![Showcase_Gameplay](../Outline-Selection/Showcase_Gameplay.gif)
+
 ### Overview
 
 Selection Outline is a URP Renderer Feature that draws an animated silhouette outline
