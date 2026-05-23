@@ -30,12 +30,12 @@ and interactive objects, works on both PC and Mobile.
 
 ### Setup
 
-1. Open the Character Dashboard in the Inspector → choose a Selection Type
+1.Open the Character Dashboard in the Inspector → choose a Selection Type
 (Character, Enemy, or Item)
 
 ![Dashbord_Outline_Selection](../Outline-Selection/Dashbord_Outline_Selection.png)
 
-2. Open Universal Renderer Data and find ZLZ Selection Outline → adjust color,
+2.Open Universal Renderer Data and find ZLZ Selection Outline → adjust color,
 width, and Animation Curves here
 
 ![Universal Render Data](../Outline-Selection/Universal_Render_Data.png)
