@@ -27,21 +27,17 @@ Adjust Animation Curve
 
 ### Usage
 
-![upgrade](../images/upgrade.png)
+![gethit](../images/gethit.png)
 
-**Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
+**Get Hit** is a feature used to visualize when a character is attacked, providing immediate visual feedback so players can clearly recognize that a hit has occurred.
 
 ### Parameters
 
-- **UpgradeActive :** Enables or disables the effect *(0 = off / 1 = on)*
-- **Upgrade Color :** Sets the color of the effect when an upgrade occurs
-- **Upgrade Intensity :** Controls the brightness of the effect
-    
-    *(higher values make the effect more pronounced)*
-    
-- **Upgrade Min Brightness :** Controls the minimum brightness of the effect
-    
-    *(higher values make the effect more visible / lower values reduce brightness, allowing the main texture to remain more visible)*
+- **GetHit Strength :** Controls the Get Hit effect (0 = off / 1 = on)
+- **GetHit Color :** Adjusts the color applied to the character when Get Hit is triggered
+- **FreshnelPowerHit :** Controls the position and width of the edge effect around the character
+
+*(higher values bring the effect closer to the silhouette edge)*
 
 ---
 
