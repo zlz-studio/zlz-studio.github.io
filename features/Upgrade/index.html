@@ -714,39 +714,36 @@
 
 <p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:</p>
 
-<blockquote>
-  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
-vfx.Upgrade.Activate();<br />
-vfx.Upgrade.Deactivate();<br />
-vfx.Upgrade.ToggleUpgrade();</p>
-
-  <p>// Check state<br />
-bool active = vfx.Upgrade.IsActive();</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Animated (recommended) - plays Intro → Loop → Outro  
+vfx.Upgrade.Activate();  
+vfx.Upgrade.Deactivate();  
+vfx.Upgrade.ToggleUpgrade();  
+  
+// Check state  
+bool active = vfx.Upgrade.IsActive();
+</code></pre></div></div>
 
 <p>Example - power-up on key press:</p>
 
-<blockquote>
-  <p>void Update()<br />
-{<br />
-    if (Input.GetKeyDown(KeyCode.Q))<br />
-        GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void Update()  
+{  
+    if (Input.GetKeyDown(KeyCode.Q))  
+        GetComponent&lt;ZLZ_CharacterVFX&gt;().Upgrade.ToggleUpgrade();  
+}
+</code></pre></div></div>
 
 <p>Example - buff a player when they pick up a power-up:</p>
 
-<blockquote>
-  <p>void OnPickupPowerUp(GameObject player)<br />
-{<br />
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
-}</ZLZ_CharacterVFX></p>
-
-  <p>void OnPowerUpExpires(GameObject player)<br />
-{<br />
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnPickupPowerUp(GameObject player)  
+{  
+    player.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Upgrade.Activate();  
+}  
+  
+void OnPowerUpExpires(GameObject player)  
+{  
+    player.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Upgrade.Deactivate();  
+}
+</code></pre></div></div>
 
       </div>
     </main>
