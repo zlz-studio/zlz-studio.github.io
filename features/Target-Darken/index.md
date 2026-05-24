@@ -101,15 +101,17 @@ Example - toggle global darken from a button:
 > }  
   
 Example - cinematic spotlight on a boss (everyone else darkens):  
-  
-> void OnBossAppear(GameObject boss)  
-> {  
->     boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
->     ZLZ_DarkenManager.Instance.Darken();  
-> }  
->   
-> void OnBossDefeated(GameObject boss)  
-> {  
->     ZLZ_DarkenManager.Instance.Restore();  
->     boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Include();  
-> }  
+
+```
+void OnBossAppear(GameObject boss)  
+{  
+boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
+    ZLZ_DarkenManager.Instance.Darken();  
+}  
+ 
+void OnBossDefeated(GameObject boss)  
+{  
+    ZLZ_DarkenManager.Instance.Restore();  
+    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Include();  
+}
+```
