@@ -65,7 +65,7 @@ Example - power-up on key press:
 void Update()  
 {  
     if (Input.GetKeyDown(KeyCode.Q))  
-        GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+    GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
 }
 ```
 
