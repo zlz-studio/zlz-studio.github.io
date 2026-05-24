@@ -6,6 +6,8 @@ last_modified_at: 2026-04-24
 
 ## Transparency
 
+![transparency](../Transparency/Transparency.gif)
+
 ![transparency](../images/transparency.png)
 
 ### Parameters
