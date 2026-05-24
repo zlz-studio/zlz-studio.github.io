@@ -6,6 +6,8 @@ last_modified_at: 2026-04-24
 
 ## Emissive
 
+![Emissive](../Emissive/Emissive.png)
+
 ![emissive](../images/emissive.png)
 
 Emissive is used to add light to specific areas of the character, making them appear glowing or visually prominent. It is suitable for elements such as gems, eyes, or special effects on the character.
