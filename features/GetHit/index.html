@@ -644,10 +644,10 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h2 id="gethit">GetHit</h2>
+        <h2 id="gethit-fx-runtine">GetHit FX Runtine</h2>
 
 <h3 id="demo-gethit-runtime">Demo GetHit Runtime</h3>
-<p><img src="../Upgrade/Demo_Upgrade.gif" alt="Demo_Upgrade" /></p>
+<p><img src="../GetHit/Demo_GetHit.gif" alt="Demo_GetHit" /></p>
 
 <hr />
 
@@ -661,7 +661,7 @@
 
 <p>Adjust Animation Curve</p>
 
-<p><img src="../Upgrade/Upgrade_Settings.png" alt="Upgrade_Settings" /></p>
+<p><img src="../GetHit/GetHit_Settings.png" alt="GetHit_Settings" /></p>
 
 <hr />
 
@@ -685,39 +685,33 @@
 
 <h3 id="scripting">Scripting</h3>
 
-<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:</p>
+<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:</p>
 
 <blockquote>
-  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
-vfx.Upgrade.Activate();<br />
-vfx.Upgrade.Deactivate();<br />
-vfx.Upgrade.ToggleUpgrade();</p>
+  <p>// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades<br />
+vfx.GetHit.Hit();<br />
+vfx.GetHit.Deactivate();   // cancel mid-flash (rare)</p>
 
   <p>// Check state<br />
-bool active = vfx.Upgrade.IsActive();</p>
+bool active = vfx.GetHit.IsActive();</p>
 </blockquote>
 
-<p>Example - power-up on key press:</p>
+<p>Example - flash on taking damage:</p>
 
 <blockquote>
-  <p>void Update()<br />
+  <p>void TakeDamage(int amount)<br />
 {<br />
-    if (Input.GetKeyDown(KeyCode.Q))<br />
-        GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+    health -= amount;<br />
+    GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
 }</ZLZ_CharacterVFX></p>
 </blockquote>
 
-<p>Example - buff a player when they pick up a power-up:</p>
+<p>Example - flash an enemy when hit by a player attack:</p>
 
 <blockquote>
-  <p>void OnPickupPowerUp(GameObject player)<br />
+  <p>void DealDamage(GameObject enemy, int amount)<br />
 {<br />
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
-}</ZLZ_CharacterVFX></p>
-
-  <p>void OnPowerUpExpires(GameObject player)<br />
-{<br />
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
+    enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
 }</ZLZ_CharacterVFX></p>
 </blockquote>
 
