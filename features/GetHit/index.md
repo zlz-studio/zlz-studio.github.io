@@ -4,10 +4,10 @@ title: GetHit FX Runtime
 last_modified_at: 2026-05-24
 ---
 
-## GetHit
+## GetHit FX Runtine
 
 ### Demo GetHit Runtime
-![Demo_Upgrade](../Upgrade/Demo_Upgrade.gif)
+![Demo_GetHit](../GetHit/Demo_GetHit.gif)
 
 ---
 
@@ -21,7 +21,7 @@ Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
 Adjust Animation Curve
 
-![Upgrade_Settings](../Upgrade/Upgrade_Settings.png)
+![GetHit_Settings](../GetHit/GetHit_Settings.png)
 
 ---
 
@@ -43,32 +43,26 @@ Adjust Animation Curve
 
 ### Scripting
 
-Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:  
+Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:  
 
-> // Animated (recommended) - plays Intro → Loop → Outro  
-> vfx.Upgrade.Activate();  
-> vfx.Upgrade.Deactivate();  
-> vfx.Upgrade.ToggleUpgrade();  
+> // Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
+> vfx.GetHit.Hit();  
+> vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
 >   
 > // Check state  
-> bool active = vfx.Upgrade.IsActive();  
-
-Example - power-up on key press:  
-
-> void Update()  
+> bool active = vfx.GetHit.IsActive();  
+  
+Example - flash on taking damage:  
+  
+> void TakeDamage(int amount)  
 > {  
->     if (Input.GetKeyDown(KeyCode.Q))  
->         GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+>     health -= amount;  
+>     GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
 > }  
-
-Example - buff a player when they pick up a power-up:  
-
-> void OnPickupPowerUp(GameObject player)  
+  
+Example - flash an enemy when hit by a player attack:  
+  
+> void DealDamage(GameObject enemy, int amount)  
 > {  
->     player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
-> }  
->   
-> void OnPowerUpExpires(GameObject player)  
-> {  
->     player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
+>     enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
 > }  
