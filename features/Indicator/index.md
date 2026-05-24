@@ -44,31 +44,37 @@ It helps players immediately recognize **“which character is about to be affec
 ### Scripting
 
 Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Indicator block:  
+
+```
+// Animated (recommended) - plays Intro → Loop → Outro  
+vfx.Indicator.Activate();  
+vfx.Indicator.Deactivate();  
+vfx.Indicator.ToggleIndicator();  
   
-> // Animated (recommended) - plays Intro → Loop → Outro  
-> vfx.Indicator.Activate();  
-> vfx.Indicator.Deactivate();  
-> vfx.Indicator.ToggleIndicator();  
->   
-> // Check state  
-> bool active = vfx.Indicator.IsActive();  
-  
+// Check state  
+bool active = vfx.Indicator.IsActive();  
+```
+ 
 Example - toggle aim mode on key press:  
-  
-> void Update()  
-> {  
->     if (Input.GetKeyDown(KeyCode.Q))  
->         GetComponent<ZLZ_CharacterVFX>().Indicator.ToggleIndicator();  
-> }  
-  
+
+```
+void Update()  
+{  
+    if (Input.GetKeyDown(KeyCode.Q))  
+    GetComponent<ZLZ_CharacterVFX>().Indicator.ToggleIndicator();  
+}  
+```
+
 Example - highlight a target on lock-on:  
+
+```
+void LockOn(GameObject target)  
+{
+    target.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Activate();  
+}  
   
-> void LockOn(GameObject target)  
-> {
->     target.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Activate();  
-> }  
->   
-> void Unlock(GameObject previous)  
-> {  
->     previous.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Deactivate();  
-> }  
+void Unlock(GameObject previous)  
+{  
+    previous.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Deactivate();  
+}
+```
