@@ -45,43 +45,51 @@ Dissolve Character is used to gradually fade a character out of the scene. It is
 ### Scripting
 
 Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Dissolve block:  
+
+```
+// Dissolve out (death / despawn) - plays 0 → 1, then holds  
+vfx.Dissolve.Dissolve();  
+vfx.Dissolve.Restore();    // optional: animate back to visible (1 → 0)  
   
-> // Dissolve out (death / despawn) - plays 0 → 1, then holds  
-> vfx.Dissolve.Dissolve();  
-> vfx.Dissolve.Restore();    // optional: animate back to visible (1 → 0)  
->   
-> // Spawn in - animates from dissolved (1) to visible (0)  
-> vfx.Dissolve.SetInstant(1f);    // pre-set fully dissolved  
-> vfx.Dissolve.Spawn();            // then fade in  
->   
-> // Check state  
-> bool active = vfx.Dissolve.IsActive();  
+// Spawn in - animates from dissolved (1) to visible (0)  
+vfx.Dissolve.SetInstant(1f);    // pre-set fully dissolved  
+vfx.Dissolve.Spawn();            // then fade in  
   
+// Check state  
+bool active = vfx.Dissolve.IsActive();  
+```
+
 Example - dissolve on death:  
-  
-> void OnDeath(GameObject character)  
-> {  
->     character.GetComponent<ZLZ_CharacterVFX>()?.Dissolve.Dissolve();  
-> }  
+
+```
+void OnDeath(GameObject character)  
+{  
+    character.GetComponent<ZLZ_CharacterVFX>()?.Dissolve.Dissolve();  
+}
+```
   
 Example - spawn a character into the scene:  
-  
-> void SpawnCharacter(GameObject character)  
-> {  
->     var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
->     if (vfx == null) return;  
->     vfx.Dissolve.SetInstant(1f);   // hide instantly  
->     vfx.Dissolve.Spawn();           // fade in  
-> }  
-  
+
+```
+void SpawnCharacter(GameObject character)  
+{  
+    var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+    if (vfx == null) return;  
+    vfx.Dissolve.SetInstant(1f);   // hide instantly  
+    vfx.Dissolve.Spawn();           // fade in  
+}  
+```
+
 Example - teleport (dissolve out → move → spawn in):  
-  
-> IEnumerator Teleport(GameObject character, Vector3 destination)  
-> {  
->     var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
->     if (vfx == null) yield break;  
->     vfx.Dissolve.Dissolve();  
->     yield return new WaitForSeconds(1f);  
->     character.transform.position = destination;  
->     vfx.Dissolve.Spawn();  
-> }  
+
+```
+IEnumerator Teleport(GameObject character, Vector3 destination)  
+{  
+    var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+    if (vfx == null) yield break;  
+    vfx.Dissolve.Dissolve();  
+    yield return new WaitForSeconds(1f);  
+    character.transform.position = destination;  
+    vfx.Dissolve.Spawn();  
+}
+```
