@@ -662,7 +662,7 @@
         <h2 id="target-darken-fx-runtine">Target-Darken FX Runtine</h2>
 
 <h3 id="demo-target-darken-runtime">Demo Target-Darken Runtime</h3>
-<p><img src="../GetHit/Demo_GetHit.gif" alt="Demo_GetHit" /></p>
+<p><img src="../Target-Darken/Demo_Target-Darken.gif" alt="Demo_Target-Darken" /></p>
 
 <hr />
 
@@ -676,7 +676,7 @@
 
 <p>Adjust Animation Curve</p>
 
-<p><img src="../GetHit/GetHit_Settings.png" alt="GetHit_Settings" /></p>
+<p><img src="../Target-Darken/Target-Darken_Settings.png" alt="Target-Darken_Settings" /></p>
 
 <hr />
 
@@ -743,49 +743,62 @@
 
     <p><code class="language-plaintext highlighter-rouge">Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_GlobalDarkenController.cs</code></p>
   </li>
+  <li>Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)</li>
 </ol>
 
 <hr />
 
 <h3 id="scripting">Scripting</h3>
 
-<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:</p>
+<p>Target Darken has two layers, a scene-wide controller animates the global value, and each character can opt out to stay bright.</p>
+
+<p>Global control (scene-wide)  Add using ZLZ.AnimeShader; and access the manager via its static Instance:</p>
 
 <blockquote>
-  <p>// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades<br />
-vfx.GetHit.Hit();<br />
-vfx.GetHit.Deactivate();   // cancel mid-flash (rare)</p>
+  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
+ZLZ_DarkenManager.Instance.Darken();<br />
+ZLZ_DarkenManager.Instance.Restore();<br />
+ZLZ_DarkenManager.Instance.ToggleDarken();<br />
+ZLZ_DarkenManager.Instance.SetInstant(0.5f);   // direct value (no animation)</p>
 
   <p>// Check state<br />
-bool active = vfx.GetHit.IsActive();</p>
+bool active = ZLZ_DarkenManager.Instance.IsActive();<br />
+Per-character control (opt out of global)<br />
+Get a reference to ZLZ_CharacterVFX, then access the Darken block:</p>
+
+  <p>// Stay bright when global darken is active (local = 0)<br />
+vfx.Darken.Exclude();<br />
+vfx.Darken.Include();             // follow global again (default)<br />
+vfx.Darken.SetExcluded(true);     // direct boolean</p>
+
+  <p>// Check state<br />
+bool excluded = vfx.Darken.IsExcluded;</p>
 </blockquote>
 
-<p>Example - flash on taking damage:</p>
+<p>Example - toggle global darken from a button:</p>
 
 <blockquote>
-  <p>void TakeDamage(int amount)<br />
+  <p>void OnDimButtonClicked()<br />
 {<br />
-    health -= amount;<br />
-    GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
-}</ZLZ_CharacterVFX></p>
+    ZLZ_DarkenManager.Instance.ToggleDarken();<br />
+}</p>
 </blockquote>
 
-<p>Example - flash an enemy when hit by a player attack:</p>
+<p>Example - cinematic spotlight on a boss (everyone else darkens):</p>
 
 <blockquote>
-  <p>void DealDamage(GameObject enemy, int amount)<br />
+  <p>void OnBossAppear(GameObject boss)<br />
 {<br />
-    enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
+    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
+    ZLZ_DarkenManager.Instance.Darken();  
+}</ZLZ_CharacterVFX></p>
+
+  <p>void OnBossDefeated(GameObject boss)<br />
+{<br />
+    ZLZ_DarkenManager.Instance.Restore();<br />
+    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Include();  
 }</ZLZ_CharacterVFX></p>
 </blockquote>
-
-<hr />
-
-<ol>
-  <li>Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)</li>
-</ol>
-
-<hr />
 
       </div>
     </main>
