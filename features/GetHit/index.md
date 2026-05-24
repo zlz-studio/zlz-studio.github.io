@@ -45,24 +45,30 @@ Adjust Animation Curve
 
 Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:  
 
-> // Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
-> vfx.GetHit.Hit();  
-> vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
->   
-> // Check state  
-> bool active = vfx.GetHit.IsActive();  
+```
+// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
+vfx.GetHit.Hit();  
+vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
   
+// Check state  
+bool active = vfx.GetHit.IsActive();  
+```
+
 Example - flash on taking damage:  
-  
-> void TakeDamage(int amount)  
-> {  
->     health -= amount;  
->     GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
-> }  
+
+```
+void TakeDamage(int amount)  
+{  
+    health -= amount;  
+    GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
+}
+```
   
 Example - flash an enemy when hit by a player attack:  
-  
-> void DealDamage(GameObject enemy, int amount)  
-> {  
->     enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
-> }  
+
+```
+void DealDamage(GameObject enemy, int amount)  
+{  
+    enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
+}
+```
