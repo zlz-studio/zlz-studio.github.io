@@ -759,41 +759,39 @@
 
 <p>Global control (scene-wide)  Add using ZLZ.AnimeShader; and access the manager via its static Instance:</p>
 
-<blockquote>
-  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
-ZLZ_DarkenManager.Instance.Darken();<br />
-ZLZ_DarkenManager.Instance.Restore();<br />
-ZLZ_DarkenManager.Instance.ToggleDarken();<br />
-ZLZ_DarkenManager.Instance.SetInstant(0.5f);   // direct value (no animation)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Animated (recommended) - plays Intro → Loop → Outro  
+ZLZ_DarkenManager.Instance.Darken();  
+ZLZ_DarkenManager.Instance.Restore();  
+ZLZ_DarkenManager.Instance.ToggleDarken();  
+ZLZ_DarkenManager.Instance.SetInstant(0.5f);   // direct value (no animation)  
 
-  <p>// Check state<br />
-bool active = ZLZ_DarkenManager.Instance.IsActive();<br />
-Per-character control (opt out of global)<br />
-Get a reference to ZLZ_CharacterVFX, then access the Darken block:</p>
-
-  <p>// Stay bright when global darken is active (local = 0)<br />
-vfx.Darken.Exclude();<br />
-vfx.Darken.Include();             // follow global again (default)<br />
-vfx.Darken.SetExcluded(true);     // direct boolean</p>
-
-  <p>// Check state<br />
-bool excluded = vfx.Darken.IsExcluded;</p>
-</blockquote>
+// Check state  
+bool active = ZLZ_DarkenManager.Instance.IsActive();  
+Per-character control (opt out of global)  
+Get a reference to ZLZ_CharacterVFX, then access the Darken block:  
+ 
+// Stay bright when global darken is active (local = 0)  
+vfx.Darken.Exclude();  
+vfx.Darken.Include();             // follow global again (default)  
+vfx.Darken.SetExcluded(true);     // direct boolean  
+ 
+// Check state  
+bool excluded = vfx.Darken.IsExcluded;  
+</code></pre></div></div>
 
 <p>Example - toggle global darken from a button:</p>
 
-<blockquote>
-  <p>void OnDimButtonClicked()<br />
-{<br />
-    ZLZ_DarkenManager.Instance.ToggleDarken();<br />
-}</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnDimButtonClicked()  
+{  
+    ZLZ_DarkenManager.Instance.ToggleDarken();  
+}
+</code></pre></div></div>
 
 <p>Example - cinematic spotlight on a boss (everyone else darkens):</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnBossAppear(GameObject boss)  
 {  
-boss.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Darken.Exclude();  
+    boss.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Darken.Exclude();  
     ZLZ_DarkenManager.Instance.Darken();  
 }  
  
