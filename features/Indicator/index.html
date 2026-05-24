@@ -707,39 +707,36 @@
 
 <p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Indicator block:</p>
 
-<blockquote>
-  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
-vfx.Indicator.Activate();<br />
-vfx.Indicator.Deactivate();<br />
-vfx.Indicator.ToggleIndicator();</p>
-
-  <p>// Check state<br />
-bool active = vfx.Indicator.IsActive();</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Animated (recommended) - plays Intro → Loop → Outro  
+vfx.Indicator.Activate();  
+vfx.Indicator.Deactivate();  
+vfx.Indicator.ToggleIndicator();  
+  
+// Check state  
+bool active = vfx.Indicator.IsActive();  
+</code></pre></div></div>
 
 <p>Example - toggle aim mode on key press:</p>
 
-<blockquote>
-  <p>void Update()<br />
-{<br />
-    if (Input.GetKeyDown(KeyCode.Q))<br />
-        GetComponent<ZLZ_CharacterVFX>().Indicator.ToggleIndicator();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void Update()  
+{  
+    if (Input.GetKeyDown(KeyCode.Q))  
+    GetComponent&lt;ZLZ_CharacterVFX&gt;().Indicator.ToggleIndicator();  
+}  
+</code></pre></div></div>
 
 <p>Example - highlight a target on lock-on:</p>
 
-<blockquote>
-  <p>void LockOn(GameObject target)<br />
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void LockOn(GameObject target)  
 {
-    target.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Activate();  
-}</ZLZ_CharacterVFX></p>
-
-  <p>void Unlock(GameObject previous)<br />
-{<br />
-    previous.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Deactivate();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+    target.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Indicator.Activate();  
+}  
+  
+void Unlock(GameObject previous)  
+{  
+    previous.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Indicator.Deactivate();  
+}
+</code></pre></div></div>
 
       </div>
     </main>
