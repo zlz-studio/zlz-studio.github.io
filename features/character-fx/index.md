@@ -24,6 +24,7 @@ If no mask is defined in this channel, the Emissive effect will not be applied.
 - **Emissive Color :** Adjusts the color of the emissive effect
 - **Emissive Intensity :** Controls the brightness of the emissive effect
 
+---
 
 ## Dissolve Character
 
@@ -40,6 +41,7 @@ Dissolve Character is used to gradually fade a character out of the scene. It is
 - **End Dissolve :** Adjusts the ending point of the dissolve effect. *Used to fix cases where the character is still partially visible when Dissolve Value reaches 1, or disappears too quickly*
 - **SizeGlowDissolve :** Controls the size of the glow edge displayed during the dissolve
 
+---
 
 ## Target Darken
 
@@ -83,20 +85,7 @@ The Target Darken system separates control into two levels:
     
 3. Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)
 
-
-## Indicator / Target Select
-
-![indicator](..//images/indicator.png)
-
-**Indicator / Target Select** is a feature used to highlight characters that are currently selected as targets, such as characters being locked onto, selected for attack, or about to be affected by certain skills.
-
-It helps players immediately recognize **“which character is about to be affected and how.”**
-
-### Parameters
-
-- **Indicator Strength :** Controls the Indicator / Target Select effect *(0 = off / 1 = on)*
-- **Indicator Color :** Adjusts the color applied to the character affected by Indicator / Target Select
-- **FreshnelPowerIndicator :** Controls the position and width of the edge effect around the character *(higher values bring the effect closer to the silhouette edge)*
+---
 
 ## LightSweep
 
