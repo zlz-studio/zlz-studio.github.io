@@ -1,3 +1,8 @@
+---
+layout: docs
+title: Upgrade FX Runtime
+last_modified_at: 2026-05-24
+---
 
 ## Upgrade
 
