@@ -689,74 +689,6 @@
 
 <hr />
 
-<h2 id="target-darken">Target Darken</h2>
-
-<p><img src="../images/targetdarken.png" alt="targetdarken" /></p>
-
-<p><strong>Target Darken</strong> is a feature used to reduce the brightness of selected characters in order to draw attention to specific ones, such as characters using skills, appearing in cutscenes, or highlighted during important moments in a scene.</p>
-
-<h3 id="concept">Concept</h3>
-
-<p>The Target Darken system separates control into two levels:</p>
-
-<ul>
-  <li><strong>Global</strong> : Enables or disables Darken mode for all characters in the scene</li>
-  <li><strong>Local</strong> : Determines whether each individual character is affected by Darken</li>
-</ul>
-
-<blockquote>
-  <p>Overall concept</p>
-
-  <ul>
-    <li><strong>Global =</strong> Enables Darken mode for the entire scene</li>
-    <li><strong>Local =</strong> Selects which characters are <em>not</em> darkened</li>
-  </ul>
-</blockquote>
-
-<h3 id="parameters-1">Parameters</h3>
-
-<ul>
-  <li>
-    <p><strong>TargetDarkenIntensity</strong> <strong>:</strong> Controls how dark the character becomes</p>
-
-    <blockquote>
-      <p>Lower values → the character appears darker</p>
-
-    </blockquote>
-  </li>
-  <li><strong>TargetDarkenLocal</strong> <strong>:</strong> Controls whether an individual character is affected by Darken
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">0</code> = Not darkened (remains fully lit)</li>
-      <li><code class="language-plaintext highlighter-rouge">1</code> = Darkened</li>
-    </ul>
-  </li>
-  <li><strong>_TargetDarkenGlobal</strong> : A property intended for developer-side control
-    <ul>
-      <li>Not exposed in the Inspector</li>
-      <li>Used to switch all characters into Darken mode simultaneously</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="a-test-script-is-provided-for-evaluation">A test script is provided for evaluation</h3>
-
-<ol>
-  <li>Enable the <strong>Target Darken</strong> feature in the character’s material
-    <ul>
-      <li>Set <code class="language-plaintext highlighter-rouge">TargetDarkenLocal = 1</code> → the character can be darkened</li>
-      <li>Set <code class="language-plaintext highlighter-rouge">TargetDarkenLocal = 0</code> → the character will not be darkened</li>
-    </ul>
-  </li>
-  <li>
-    <p>Create an Empty GameObject and attach the script</p>
-
-    <p><code class="language-plaintext highlighter-rouge">Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_GlobalDarkenController.cs</code></p>
-  </li>
-  <li>Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)</li>
-</ol>
-
-<hr />
-
 <h2 id="lightsweep">LightSweep</h2>
 
 <p><img src="../images/lightsweep.png" alt="lightsweep" /></p>
@@ -767,7 +699,7 @@
 
 <p>When this feature is enabled, the effect plays immediately and runs in a continuous loop based on the configured values.</p>
 
-<h3 id="parameters-2">Parameters</h3>
+<h3 id="parameters-1">Parameters</h3>
 
 <ul>
   <li>
