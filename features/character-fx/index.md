@@ -98,22 +98,6 @@ It helps players immediately recognize **“which character is about to be affec
 - **Indicator Color :** Adjusts the color applied to the character affected by Indicator / Target Select
 - **FreshnelPowerIndicator :** Controls the position and width of the edge effect around the character *(higher values bring the effect closer to the silhouette edge)*
 
-
-## GetHit
-
-![gethit](../images/gethit.png)
-
-**Get Hit** is a feature used to visualize when a character is attacked, providing immediate visual feedback so players can clearly recognize that a hit has occurred.
-
-### Parameters
-
-- **GetHit Strength :** Controls the Get Hit effect (0 = off / 1 = on)
-- **GetHit Color :** Adjusts the color applied to the character when Get Hit is triggered
-- **FreshnelPowerHit :** Controls the position and width of the edge effect around the character
-
-*(higher values bring the effect closer to the silhouette edge)*
-
-
 ## LightSweep
 
 ![lightsweep](../images/lightsweep.png)
