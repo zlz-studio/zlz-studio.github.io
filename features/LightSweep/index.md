@@ -41,9 +41,11 @@ When this feature is enabled, the effect plays immediately and runs in a continu
     
     *(1 = back → front / -1 = front → back)*
     
-
-> Light Sweep directions can be combined.
+```
+Light Sweep directions can be combined.
+```
 
 **For example:**
+```
 `LightSweepDirX = 1` and `LightSweepDirY = 1` will result in a diagonal sweep toward the upper-right direction.
-> 
+```
