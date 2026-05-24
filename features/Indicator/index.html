@@ -652,7 +652,7 @@
         <h2 id="indicator-fx-runtine">Indicator FX Runtine</h2>
 
 <h3 id="demo-indicator-runtime">Demo Indicator Runtime</h3>
-<p><img src="../GetHit/Demo_GetHit.gif" alt="Demo_GetHit" /></p>
+<p><img src="../Indicator/Demo_Indicator.gif" alt="Demo_Indicator" /></p>
 
 <hr />
 
@@ -666,7 +666,7 @@
 
 <p>Adjust Animation Curve</p>
 
-<p><img src="../GetHit/GetHit_Settings.png" alt="GetHit_Settings" /></p>
+<p><img src="../Indicator/Indicator_Settings.png" alt="Indicator_Settings" /></p>
 
 <hr />
 
@@ -690,36 +690,41 @@
 
 <h3 id="scripting">Scripting</h3>
 
-<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:</p>
+<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Indicator block:</p>
 
 <blockquote>
-  <p>// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades<br />
-vfx.GetHit.Hit();<br />
-vfx.GetHit.Deactivate();   // cancel mid-flash (rare)</p>
+  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
+vfx.Indicator.Activate();<br />
+vfx.Indicator.Deactivate();<br />
+vfx.Indicator.ToggleIndicator();</p>
 
   <p>// Check state<br />
-bool active = vfx.GetHit.IsActive();</p>
+bool active = vfx.Indicator.IsActive();</p>
 </blockquote>
 
-<p>Example - flash on taking damage:</p>
+<p>Example - toggle aim mode on key press:</p>
 
 <blockquote>
-  <p>void TakeDamage(int amount)<br />
+  <p>void Update()<br />
 {<br />
-    health -= amount;<br />
-    GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
+    if (Input.GetKeyDown(KeyCode.Q))<br />
+        GetComponent<ZLZ_CharacterVFX>().Indicator.ToggleIndicator();  
 }</ZLZ_CharacterVFX></p>
 </blockquote>
 
-<p>Example - flash an enemy when hit by a player attack:</p>
+<p>Example - highlight a target on lock-on:</p>
 
 <blockquote>
-  <p>void DealDamage(GameObject enemy, int amount)<br />
+  <p>void LockOn(GameObject target)<br />
+{
+    target.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Activate();  
+}</ZLZ_CharacterVFX></p>
+
+  <p>void Unlock(GameObject previous)<br />
 {<br />
-    enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
+    previous.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Deactivate();  
 }</ZLZ_CharacterVFX></p>
 </blockquote>
-
 
       </div>
     </main>
