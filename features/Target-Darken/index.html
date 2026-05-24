@@ -791,19 +791,18 @@ bool excluded = vfx.Darken.IsExcluded;</p>
 
 <p>Example - cinematic spotlight on a boss (everyone else darkens):</p>
 
-<blockquote>
-  <p>void OnBossAppear(GameObject boss)<br />
-{<br />
-    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnBossAppear(GameObject boss)  
+{  
+boss.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Darken.Exclude();  
     ZLZ_DarkenManager.Instance.Darken();  
-}</ZLZ_CharacterVFX></p>
-
-  <p>void OnBossDefeated(GameObject boss)<br />
-{<br />
-    ZLZ_DarkenManager.Instance.Restore();<br />
-    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Include();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+}  
+ 
+void OnBossDefeated(GameObject boss)  
+{  
+    ZLZ_DarkenManager.Instance.Restore();  
+    boss.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Darken.Include();  
+}
+</code></pre></div></div>
 
       </div>
     </main>
