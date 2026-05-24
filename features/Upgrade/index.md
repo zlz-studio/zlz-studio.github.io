@@ -21,6 +21,8 @@ Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
 ---
 
+### Usage
+
 ![upgrade](../images/upgrade.png)
 
 **Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
