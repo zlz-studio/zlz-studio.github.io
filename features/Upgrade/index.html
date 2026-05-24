@@ -644,9 +644,17 @@
 <h3 id="demo-upgrade-runtime">Demo Upgrade Runtime</h3>
 <p><img src="../Upgrade/Demo_Upgrade.gif" alt="Demo_Upgrade" /></p>
 
+<hr />
+
 <h3 id="auto-setup">Auto Setup</h3>
 
+<p>Done in a single step, just click Setup VFX Features and Refresh Renderers.</p>
+
 <p><img src="../Upgrade/VFX_Features.png" alt="VFX_Features" /></p>
+
+<p><img src="../Upgrade/Character_VFX.png" alt="Character_VFX" /></p>
+
+<hr />
 
 <p><img src="../images/upgrade.png" alt="upgrade" /></p>
 
@@ -668,6 +676,46 @@
     <p><em>(higher values make the effect more visible / lower values reduce brightness, allowing the main texture to remain more visible)</em></p>
   </li>
 </ul>
+
+<hr />
+
+<h3 id="scripting">Scripting</h3>
+
+<p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:</p>
+
+<blockquote>
+  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
+vfx.Upgrade.Activate();<br />
+vfx.Upgrade.Deactivate();<br />
+vfx.Upgrade.ToggleUpgrade();</p>
+
+  <p>// Check state<br />
+bool active = vfx.Upgrade.IsActive();</p>
+</blockquote>
+
+<p>Example - power-up on key press:</p>
+
+<blockquote>
+  <p>void Update()<br />
+{<br />
+    if (Input.GetKeyDown(KeyCode.Q))<br />
+        GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+}</ZLZ_CharacterVFX></p>
+</blockquote>
+
+<p>Example - buff a player when they pick up a power-up:</p>
+
+<blockquote>
+  <p>void OnPickupPowerUp(GameObject player)<br />
+{<br />
+    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
+}</ZLZ_CharacterVFX></p>
+
+  <p>void OnPowerUpExpires(GameObject player)<br />
+{<br />
+    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
+}</ZLZ_CharacterVFX></p>
+</blockquote>
 
       </div>
     </main>
