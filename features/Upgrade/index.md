@@ -19,6 +19,10 @@ Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
 ![Character_VFX](../Upgrade/Character_VFX.png)
 
+Adjust Animation Curve
+
+![Upgrade_Settings](../Upgrade/Upgrade_Settings.png)
+
 ---
 
 ### Usage
