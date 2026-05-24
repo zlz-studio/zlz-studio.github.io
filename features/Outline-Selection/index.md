@@ -49,28 +49,35 @@ width, and Animation Curves here
 Add `using ZLZ.AnimeShader;` and get a reference to `ZLZ_SelectionController`,
 then call:
 
-> // Animated (recommended) - plays Intro → Loop → Outro  
-> ctrl.Select();  
-> ctrl.Deselect();  
-> ctrl.ToggleSelection();  
->   
-> // Check state  
-> bool active = ctrl.IsSelected();  
+```
+// Animated (recommended) - plays Intro → Loop → Outro  
+ctrl.Select();  
+ctrl.Deselect();  
+ctrl.ToggleSelection();  
+  
+// Check state  
+bool active = ctrl.IsSelected();  
+```
 
 Example - highlight on click:  
-> void OnMouseDown()  
-> {  
->     GetComponent\<ZLZ_SelectionController\>().ToggleSelection();  
-> }
+
+```
+void OnMouseDown()  
+{  
+    GetComponent\<ZLZ_SelectionController\>().ToggleSelection();  
+}
+```
 
 Example - highlight on lock-on:
 
-> void LockOn(GameObject target)  
-> {  
->     target.GetComponent\<ZLZ_SelectionController\>()?.Select();  
-> }  
->   
-> void Unlock(GameObject previous)  
-> {  
->     previous.GetComponent\<ZLZ_SelectionController\>()?.Deselect();  
-> }
+```
+void LockOn(GameObject target)  
+{  
+    target.GetComponent\<ZLZ_SelectionController\>()?.Select();  
+}  
+  
+void Unlock(GameObject previous)  
+{  
+    previous.GetComponent\<ZLZ_SelectionController\>()?.Deselect();  
+}
+```
