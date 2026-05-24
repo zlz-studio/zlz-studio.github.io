@@ -6,6 +6,13 @@ last_modified_at: 2026-05-24
 
 ## Upgrade
 
+### Demo Upgrade Runtime
+![Demo_Upgrade](../Upgrade/Demo_Upgrade.gif)
+
+### Auto Setup
+
+![VFX_Features](../Upgrade/VFX_Features.png)
+
 ![upgrade](../images/upgrade.png)
 
 **Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
