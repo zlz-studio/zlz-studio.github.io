@@ -708,53 +708,49 @@
 
 <p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Dissolve block:</p>
 
-<blockquote>
-  <p>// Dissolve out (death / despawn) - plays 0 → 1, then holds<br />
-vfx.Dissolve.Dissolve();<br />
-vfx.Dissolve.Restore();    // optional: animate back to visible (1 → 0)</p>
-
-  <p>// Spawn in - animates from dissolved (1) to visible (0)<br />
-vfx.Dissolve.SetInstant(1f);    // pre-set fully dissolved<br />
-vfx.Dissolve.Spawn();            // then fade in</p>
-
-  <p>// Check state<br />
-bool active = vfx.Dissolve.IsActive();</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Dissolve out (death / despawn) - plays 0 → 1, then holds  
+vfx.Dissolve.Dissolve();  
+vfx.Dissolve.Restore();    // optional: animate back to visible (1 → 0)  
+  
+// Spawn in - animates from dissolved (1) to visible (0)  
+vfx.Dissolve.SetInstant(1f);    // pre-set fully dissolved  
+vfx.Dissolve.Spawn();            // then fade in  
+  
+// Check state  
+bool active = vfx.Dissolve.IsActive();  
+</code></pre></div></div>
 
 <p>Example - dissolve on death:</p>
 
-<blockquote>
-  <p>void OnDeath(GameObject character)<br />
-{<br />
-    character.GetComponent<ZLZ_CharacterVFX>()?.Dissolve.Dissolve();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnDeath(GameObject character)  
+{  
+    character.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Dissolve.Dissolve();  
+}
+</code></pre></div></div>
 
 <p>Example - spawn a character into the scene:</p>
 
-<blockquote>
-  <p>void SpawnCharacter(GameObject character)<br />
-{<br />
-    var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void SpawnCharacter(GameObject character)  
+{  
+    var vfx = character.GetComponent&lt;ZLZ_CharacterVFX&gt;();  
     if (vfx == null) return;  
     vfx.Dissolve.SetInstant(1f);   // hide instantly  
     vfx.Dissolve.Spawn();           // fade in  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+}  
+</code></pre></div></div>
 
 <p>Example - teleport (dissolve out → move → spawn in):</p>
 
-<blockquote>
-  <p>IEnumerator Teleport(GameObject character, Vector3 destination)<br />
-{<br />
-    var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IEnumerator Teleport(GameObject character, Vector3 destination)  
+{  
+    var vfx = character.GetComponent&lt;ZLZ_CharacterVFX&gt;();  
     if (vfx == null) yield break;  
     vfx.Dissolve.Dissolve();  
     yield return new WaitForSeconds(1f);  
     character.transform.position = destination;  
     vfx.Dissolve.Spawn();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+}
+</code></pre></div></div>
 
       </div>
     </main>
