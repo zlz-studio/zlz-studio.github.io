@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Dissolve FX Runtine
 
 ### Demo Dissolve Runtime
-![Demo_GetHit](../GetHit/Demo_GetHit.gif)
+![Demo_Dissolve](../Dissolve/Demo_Dissolve.gif)
 
 ---
 
@@ -21,7 +21,7 @@ Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
 Adjust Animation Curve
 
-![GetHit_Settings](../GetHit/GetHit_Settings.png)
+![Dissolve_Settings](../Dissolve/Dissolve_Settings.png)
 
 ---
 
@@ -40,28 +40,48 @@ Dissolve Character is used to gradually fade a character out of the scene. It is
 - **End Dissolve :** Adjusts the ending point of the dissolve effect. *Used to fix cases where the character is still partially visible when Dissolve Value reaches 1, or disappears too quickly*
 - **SizeGlowDissolve :** Controls the size of the glow edge displayed during the dissolve
 
+---
+
 ### Scripting
 
-Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:  
-
-> // Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
-> vfx.GetHit.Hit();  
-> vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
+Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Dissolve block:  
+  
+> // Dissolve out (death / despawn) - plays 0 → 1, then holds  
+> vfx.Dissolve.Dissolve();  
+> vfx.Dissolve.Restore();    // optional: animate back to visible (1 → 0)  
+>   
+> // Spawn in - animates from dissolved (1) to visible (0)  
+> vfx.Dissolve.SetInstant(1f);    // pre-set fully dissolved  
+> vfx.Dissolve.Spawn();            // then fade in  
 >   
 > // Check state  
-> bool active = vfx.GetHit.IsActive();  
+> bool active = vfx.Dissolve.IsActive();  
   
-Example - flash on taking damage:  
+Example - dissolve on death:  
   
-> void TakeDamage(int amount)  
+> void OnDeath(GameObject character)  
 > {  
->     health -= amount;  
->     GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
+>     character.GetComponent<ZLZ_CharacterVFX>()?.Dissolve.Dissolve();  
 > }  
   
-Example - flash an enemy when hit by a player attack:  
+Example - spawn a character into the scene:  
   
-> void DealDamage(GameObject enemy, int amount)  
+> void SpawnCharacter(GameObject character)  
 > {  
->     enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
+>     var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+>     if (vfx == null) return;  
+>     vfx.Dissolve.SetInstant(1f);   // hide instantly  
+>     vfx.Dissolve.Spawn();           // fade in  
+> }  
+  
+Example - teleport (dissolve out → move → spawn in):  
+  
+> IEnumerator Teleport(GameObject character, Vector3 destination)  
+> {  
+>     var vfx = character.GetComponent<ZLZ_CharacterVFX>();  
+>     if (vfx == null) yield break;  
+>     vfx.Dissolve.Dissolve();  
+>     yield return new WaitForSeconds(1f);  
+>     character.transform.position = destination;  
+>     vfx.Dissolve.Spawn();  
 > }  
