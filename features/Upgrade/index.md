@@ -49,30 +49,36 @@ Adjust Animation Curve
 
 Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:  
 
-> // Animated (recommended) - plays Intro → Loop → Outro  
-> vfx.Upgrade.Activate();  
-> vfx.Upgrade.Deactivate();  
-> vfx.Upgrade.ToggleUpgrade();  
->   
-> // Check state  
-> bool active = vfx.Upgrade.IsActive();  
+```
+// Animated (recommended) - plays Intro → Loop → Outro  
+vfx.Upgrade.Activate();  
+vfx.Upgrade.Deactivate();  
+vfx.Upgrade.ToggleUpgrade();  
+  
+// Check state  
+bool active = vfx.Upgrade.IsActive();
+``` 
 
 Example - power-up on key press:  
 
-> void Update()  
-> {  
->     if (Input.GetKeyDown(KeyCode.Q))  
->         GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
-> }  
+```
+void Update()  
+{  
+    if (Input.GetKeyDown(KeyCode.Q))  
+        GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+}
+```
 
 Example - buff a player when they pick up a power-up:  
 
-> void OnPickupPowerUp(GameObject player)  
-> {  
->     player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
-> }  
->   
-> void OnPowerUpExpires(GameObject player)  
-> {  
->     player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
-> }  
+```
+void OnPickupPowerUp(GameObject player)  
+{  
+    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
+}  
+  
+void OnPowerUpExpires(GameObject player)  
+{  
+    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
+}
+```
