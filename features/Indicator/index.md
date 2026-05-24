@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Indicator FX Runtine
 
 ### Demo Indicator Runtime
-![Demo_GetHit](../GetHit/Demo_GetHit.gif)
+![Demo_Indicator](../Indicator/Demo_Indicator.gif)
 
 ---
 
@@ -21,7 +21,7 @@ Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
 Adjust Animation Curve
 
-![GetHit_Settings](../GetHit/GetHit_Settings.png)
+![Indicator_Settings](../Indicator/Indicator_Settings.png)
 
 ---
 
@@ -43,27 +43,32 @@ It helps players immediately recognize **“which character is about to be affec
 
 ### Scripting
 
-Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:  
-
-> // Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
-> vfx.GetHit.Hit();  
-> vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
+Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Indicator block:  
+  
+> // Animated (recommended) - plays Intro → Loop → Outro  
+> vfx.Indicator.Activate();  
+> vfx.Indicator.Deactivate();  
+> vfx.Indicator.ToggleIndicator();  
 >   
 > // Check state  
-> bool active = vfx.GetHit.IsActive();  
+> bool active = vfx.Indicator.IsActive();  
   
-Example - flash on taking damage:  
+Example - toggle aim mode on key press:  
   
-> void TakeDamage(int amount)  
+> void Update()  
 > {  
->     health -= amount;  
->     GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
+>     if (Input.GetKeyDown(KeyCode.Q))  
+>         GetComponent<ZLZ_CharacterVFX>().Indicator.ToggleIndicator();  
 > }  
   
-Example - flash an enemy when hit by a player attack:  
+Example - highlight a target on lock-on:  
   
-> void DealDamage(GameObject enemy, int amount)  
-> {  
->     enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
+> void LockOn(GameObject target)  
+> {
+>     target.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Activate();  
 > }  
-
+>   
+> void Unlock(GameObject previous)  
+> {  
+>     previous.GetComponent<ZLZ_CharacterVFX>()?.Indicator.Deactivate();  
+> }  
