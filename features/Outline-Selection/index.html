@@ -711,37 +711,35 @@ width, and Animation Curves here</p>
 <p>Add <code class="language-plaintext highlighter-rouge">using ZLZ.AnimeShader;</code> and get a reference to <code class="language-plaintext highlighter-rouge">ZLZ_SelectionController</code>,
 then call:</p>
 
-<blockquote>
-  <p>// Animated (recommended) - plays Intro → Loop → Outro<br />
-ctrl.Select();<br />
-ctrl.Deselect();<br />
-ctrl.ToggleSelection();</p>
-
-  <p>// Check state<br />
-bool active = ctrl.IsSelected();</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Animated (recommended) - plays Intro → Loop → Outro  
+ctrl.Select();  
+ctrl.Deselect();  
+ctrl.ToggleSelection();  
+  
+// Check state  
+bool active = ctrl.IsSelected();  
+</code></pre></div></div>
 
 <p>Example - highlight on click:</p>
-<blockquote>
-  <p>void OnMouseDown()<br />
-{<br />
-    GetComponent&lt;ZLZ_SelectionController&gt;().ToggleSelection();<br />
-}</p>
-</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnMouseDown()  
+{  
+    GetComponent\&lt;ZLZ_SelectionController\&gt;().ToggleSelection();  
+}
+</code></pre></div></div>
 
 <p>Example - highlight on lock-on:</p>
 
-<blockquote>
-  <p>void LockOn(GameObject target)<br />
-{<br />
-    target.GetComponent&lt;ZLZ_SelectionController&gt;()?.Select();<br />
-}</p>
-
-  <p>void Unlock(GameObject previous)<br />
-{<br />
-    previous.GetComponent&lt;ZLZ_SelectionController&gt;()?.Deselect();<br />
-}</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void LockOn(GameObject target)  
+{  
+    target.GetComponent\&lt;ZLZ_SelectionController\&gt;()?.Select();  
+}  
+  
+void Unlock(GameObject previous)  
+{  
+    previous.GetComponent\&lt;ZLZ_SelectionController\&gt;()?.Deselect();  
+}
+</code></pre></div></div>
 
       </div>
     </main>
