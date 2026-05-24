@@ -4,7 +4,7 @@ title: Upgrade FX Runtime
 last_modified_at: 2026-05-24
 ---
 
-## Upgrade
+## Upgrade FX Runtime
 
 ### Demo Upgrade Runtime
 ![Demo_Upgrade](../Upgrade/Demo_Upgrade.gif)
