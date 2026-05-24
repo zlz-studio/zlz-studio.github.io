@@ -74,38 +74,42 @@ Target Darken has two layers, a scene-wide controller animates the global value,
   
 Global control (scene-wide)  Add using ZLZ.AnimeShader; and access the manager via its static Instance:  
 
-> // Animated (recommended) - plays Intro → Loop → Outro  
-> ZLZ_DarkenManager.Instance.Darken();  
-> ZLZ_DarkenManager.Instance.Restore();  
-> ZLZ_DarkenManager.Instance.ToggleDarken();  
-> ZLZ_DarkenManager.Instance.SetInstant(0.5f);   // direct value (no animation)  
->   
-> // Check state  
-> bool active = ZLZ_DarkenManager.Instance.IsActive();  
-> Per-character control (opt out of global)  
-> Get a reference to ZLZ_CharacterVFX, then access the Darken block:  
->   
-> // Stay bright when global darken is active (local = 0)  
-> vfx.Darken.Exclude();  
-> vfx.Darken.Include();             // follow global again (default)  
-> vfx.Darken.SetExcluded(true);     // direct boolean  
->   
-> // Check state  
-> bool excluded = vfx.Darken.IsExcluded;  
-  
+```
+// Animated (recommended) - plays Intro → Loop → Outro  
+ZLZ_DarkenManager.Instance.Darken();  
+ZLZ_DarkenManager.Instance.Restore();  
+ZLZ_DarkenManager.Instance.ToggleDarken();  
+ZLZ_DarkenManager.Instance.SetInstant(0.5f);   // direct value (no animation)  
+
+// Check state  
+bool active = ZLZ_DarkenManager.Instance.IsActive();  
+Per-character control (opt out of global)  
+Get a reference to ZLZ_CharacterVFX, then access the Darken block:  
+ 
+// Stay bright when global darken is active (local = 0)  
+vfx.Darken.Exclude();  
+vfx.Darken.Include();             // follow global again (default)  
+vfx.Darken.SetExcluded(true);     // direct boolean  
+ 
+// Check state  
+bool excluded = vfx.Darken.IsExcluded;  
+```
+
 Example - toggle global darken from a button:  
-  
-> void OnDimButtonClicked()  
-> {  
->     ZLZ_DarkenManager.Instance.ToggleDarken();  
-> }  
+
+```
+void OnDimButtonClicked()  
+{  
+    ZLZ_DarkenManager.Instance.ToggleDarken();  
+}
+```
   
 Example - cinematic spotlight on a boss (everyone else darkens):  
 
 ```
 void OnBossAppear(GameObject boss)  
 {  
-boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
+    boss.GetComponent<ZLZ_CharacterVFX>()?.Darken.Exclude();  
     ZLZ_DarkenManager.Instance.Darken();  
 }  
  
