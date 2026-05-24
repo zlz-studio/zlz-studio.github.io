@@ -707,33 +707,30 @@
 
 <p>Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the GetHit block:</p>
 
-<blockquote>
-  <p>// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades<br />
-vfx.GetHit.Hit();<br />
-vfx.GetHit.Deactivate();   // cancel mid-flash (rare)</p>
-
-  <p>// Check state<br />
-bool active = vfx.GetHit.IsActive();</p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Trigger the hit flash - plays Intro → Loop → Outro, auto-fades  
+vfx.GetHit.Hit();  
+vfx.GetHit.Deactivate();   // cancel mid-flash (rare)  
+  
+// Check state  
+bool active = vfx.GetHit.IsActive();  
+</code></pre></div></div>
 
 <p>Example - flash on taking damage:</p>
 
-<blockquote>
-  <p>void TakeDamage(int amount)<br />
-{<br />
-    health -= amount;<br />
-    GetComponent<ZLZ_CharacterVFX>().GetHit.Hit();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TakeDamage(int amount)  
+{  
+    health -= amount;  
+    GetComponent&lt;ZLZ_CharacterVFX&gt;().GetHit.Hit();  
+}
+</code></pre></div></div>
 
 <p>Example - flash an enemy when hit by a player attack:</p>
 
-<blockquote>
-  <p>void DealDamage(GameObject enemy, int amount)<br />
-{<br />
-    enemy.GetComponent<ZLZ_CharacterVFX>()?.GetHit.Hit();  
-}</ZLZ_CharacterVFX></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void DealDamage(GameObject enemy, int amount)  
+{  
+    enemy.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.GetHit.Hit();  
+}
+</code></pre></div></div>
 
       </div>
     </main>
