@@ -757,6 +757,46 @@
 if any feature crosses into Mask 2, the Mask 2 slot appears automatically.</p>
 </blockquote>
 
+<hr />
+
+<h2 id="zlz-mask-packer-update-in-v-150">ZLZ Mask Packer (Update in v 1.5.0)</h2>
+
+<p><img src="./images/ZLZ_Mask_Packer.png" alt="ZLZ_Mask_Packer" /></p>
+
+<p>A tool that bakes individual mask textures into a packed RGBA texture automatically — no need to open Photoshop to combine channels manually.</p>
+
+<h3 id="how-to-open">How to Open</h3>
+<ul>
+  <li>Click the “Pack Masks…” button in Mask Layout (Material Inspector)</li>
+  <li>Or from menu: Window &gt; ZLZ &gt; Mask Packer</li>
+</ul>
+
+<h3 id="how-to-use-1">How to Use</h3>
+<ol>
+  <li>Select a Target Material</li>
+  <li>The tool shows only features that are enabled on the material</li>
+  <li>For each feature:
+    <ul>
+      <li>✓ Use Mask → drop a texture and pick the destination channel</li>
+      <li>☐ Unchecked → do nothing (feature will apply to the whole mesh)</li>
+    </ul>
+  </li>
+  <li>Click Bake &amp; Apply to Material</li>
+</ol>
+
+<h3 id="what-the-tool-does-automatically">What the Tool Does Automatically</h3>
+<ul>
+  <li>Combines textures → creates MaterialName_Mask1.png (and Mask2 if needed) next to the material</li>
+  <li>Configures the importer (sRGB Off, Mipmap On)</li>
+  <li>Assigns textures back to the material + sets channel mappings + refreshes keywords</li>
+</ul>
+
+<h3 id="things-to-know">Things to Know</h3>
+<ul>
+  <li>The tool reads the R channel of each source texture as the mask value (supports both grayscale and color textures)</li>
+  <li>If two features target the same channel → a warning appears and Bake is disabled</li>
+  <li>Existing Mask1 / Mask2 files will be overwritten</li>
+</ul>
 
       </div>
     </main>
