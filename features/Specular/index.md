@@ -37,10 +37,10 @@ Specular is a reflected light effect that appears on a surface when the view dir
 
 ### Parameter
 
-- **Color (HDR)** : สีของ Specular
-- **Intensity** : ความสว่างของ Specular ทั้งก้อน
-- **Sharpness** : ควบคุมความแคบ/กว้างของ Highlight
-- **Threshold** : บีบ Specular ให้แสดงผลในจุดที่สว่างที่สุด
-- **Toon Step** : ความคมของ Specular
+- **Color (HDR)** : Controls the color of the specular highlight
+- **Intensity** : Controls the overall brightness of the specular
+- **Sharpness** : Controls the size of the highlight
+- **Threshold** : Limits the specular to the brightest areas
+- **Toon Step** : Controls the sharpness of the specular edge
 
 ---
