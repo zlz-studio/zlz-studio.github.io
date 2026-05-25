@@ -666,6 +666,7 @@
           {% assign p = site.pages | where: "url", "/features/Base-Character-Colors/" | first %}<a class="item" href="/features/Base-Character-Colors/"><span>Base Character Colors</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/Outline/" | first %}<a class="item" href="/features/Outline/"><span>Outline</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/NormalMap/" | first %}<a class="item" href="/features/NormalMap/"><span>NormalMap</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/Specular/" | first %}<a class="item" href="/features/Specular/"><span>Specular (Update in V 1.5.0)</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/Metallic/" | first %}<a class="item" href="/features/Metallic/"><span>Metallic</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/Soft-Light/" | first %}<a class="item" href="/features/Soft-Light/"><span>Soft Light</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/Hair-Highlight/" | first %}<a class="item" href="/features/Hair-Highlight/"><span>Hair Highlight</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
@@ -700,6 +701,7 @@
             </p>
 
             <div class="roadmapList">
+              <div class="roadmapSlot">Add Specular feature.</div>
               <div class="roadmapSlot">Outline Selection (V 1.5.0)</div>
               <div class="roadmapSlot">5 runtime Character FX (one-click setup) (V 1.5.0)</div>
               <div class="roadmapSlot">Support Decal DBuffer (Screen Space only before). (V 1.5.0)</div>
@@ -720,7 +722,7 @@
             <div class="roadmapList">
               <div class="roadmapSlot">Create a scene for future tone mapping tests.</div>
               <div class="roadmapSlot">Add Dither Fade feature.</div>
-              <div class="roadmapSlot">Add Specular feature.</div>
+              <div class="roadmapSlot">Add Tool Pack Texture Mask.</div>
             </div>
           </div>
 
