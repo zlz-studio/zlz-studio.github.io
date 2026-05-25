@@ -8,6 +8,8 @@ last_modified_at: 2026-05-24
 
 ![Specular](../Specular/Specular.gif)
 
+![Specular2](../Specular/Specular2.gif)
+
 ---
 
 ### Compare Specular On/ Off
