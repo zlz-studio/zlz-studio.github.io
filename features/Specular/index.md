@@ -13,7 +13,7 @@ last_modified_at: 2026-05-24
 
 ### Usage
 
-![targetdarken](../images/targetdarken.png)
+![Specular](../Specular/Specular.png)
 
 ### Parameter
 
