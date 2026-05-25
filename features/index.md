@@ -45,18 +45,31 @@ The primary texture used for rendering the character’s surface.
 
 ---
 
-## Mask Layout
+## Mask Layout (Update in v 1.5.0)
 
-### Feature Mask (RGB)
+![Mark_LayOut](./images/Mark_LayOut.png)
+
+A mask texture management system for ZLZ Anime Shader, packs masks for multiple features into a single texture to save VRAM and reduce texture samples
+
+### Feature Mask (RGBA)
 
 A texture used to control the operating areas of various features by masking each channel.
 
-### Parameters
+### Concept
 
-- **R (Red) :** Defines where the **Metallic** feature is applied
-- **G (Green) :** Defines where the **Hair Highlight** feature is applied
-- **B (Blue) :** Defines where the **Emissive** feature is applied
+- One texture has 4 channels (R/G/B/A) → 1 channel = 1 feature mask → 1 texture supports 4 features.
+- ZLZ Anime Shader supports up to 2 mask textures = 8 features total.
 
-> Some features may affect the whole character or not work as expected.
-> 
+### Default Layout:
+- Mask 1: R = Metallic, G = Hair Highlight, B = Emissive, A = Outline
+- Mask 2: R = Specular
+
+### How to Use
+
+Each feature has a "Use Mask" checkbox:
+- ✓ Checked : Reads mask from the selected channel → feature applies according to the mask
+- ☐ Unchecked : 	Feature applies to the whole mesh → no texture needed
+
+> You can change each feature's dropdown to point to a different channel if you want to design your own layout,  
+> if any feature crosses into Mask 2, the Mask 2 slot appears automatically.  
 
