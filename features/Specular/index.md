@@ -6,7 +6,6 @@ last_modified_at: 2026-05-24
 
 ## Specular
 
-### Demo Target-Darken Runtime
 ![Specular](../Specular/Specular.gif)
 
 ---
