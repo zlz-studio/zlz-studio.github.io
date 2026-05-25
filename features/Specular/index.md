@@ -20,8 +20,6 @@ last_modified_at: 2026-05-24
 
 ### Parameter
 
-The Target Darken system separates control into two levels:
-
 - **Color (HDR)** : สีของ Specular
 - **Intensity** : ความสว่างของ Specular ทั้งก้อน
 - **Sharpness** : ควบคุมความแคบ/กว้างของ Highlight
