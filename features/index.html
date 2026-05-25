@@ -721,23 +721,40 @@
 
 <hr />
 
-<h2 id="mask-layout">Mask Layout</h2>
+<h2 id="mask-layout-update-in-v-150">Mask Layout (Update in v 1.5.0)</h2>
 
-<h3 id="feature-mask-rgb">Feature Mask (RGB)</h3>
+<p><img src="./images/Mark_LayOut.png" alt="Mark_LayOut" /></p>
+
+<p>A mask texture management system for ZLZ Anime Shader, packs masks for multiple features into a single texture to save VRAM and reduce texture samples</p>
+
+<h3 id="feature-mask-rgba">Feature Mask (RGBA)</h3>
 
 <p>A texture used to control the operating areas of various features by masking each channel.</p>
 
-<h3 id="parameters-1">Parameters</h3>
+<h3 id="concept">Concept</h3>
 
 <ul>
-  <li><strong>R (Red) :</strong> Defines where the <strong>Metallic</strong> feature is applied</li>
-  <li><strong>G (Green) :</strong> Defines where the <strong>Hair Highlight</strong> feature is applied</li>
-  <li><strong>B (Blue) :</strong> Defines where the <strong>Emissive</strong> feature is applied</li>
+  <li>One texture has 4 channels (R/G/B/A) → 1 channel = 1 feature mask → 1 texture supports 4 features.</li>
+  <li>ZLZ Anime Shader supports up to 2 mask textures = 8 features total.</li>
+</ul>
+
+<h3 id="default-layout">Default Layout:</h3>
+<ul>
+  <li>Mask 1: R = Metallic, G = Hair Highlight, B = Emissive, A = Outline</li>
+  <li>Mask 2: R = Specular</li>
+</ul>
+
+<h3 id="how-to-use">How to Use</h3>
+
+<p>Each feature has a “Use Mask” checkbox:</p>
+<ul>
+  <li>✓ Checked : Reads mask from the selected channel → feature applies according to the mask</li>
+  <li>☐ Unchecked : 	Feature applies to the whole mesh → no texture needed</li>
 </ul>
 
 <blockquote>
-  <p>Some features may affect the whole character or not work as expected.</p>
-
+  <p>You can change each feature’s dropdown to point to a different channel if you want to design your own layout,<br />
+if any feature crosses into Mask 2, the Mask 2 slot appears automatically.</p>
 </blockquote>
 
 
