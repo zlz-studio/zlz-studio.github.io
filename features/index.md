@@ -4,14 +4,6 @@ title: Features Overview
 last_modified_at: 2026-04-25
 ---
 
-# Video Showcase
-
-{% include youtube.html id="tDF0kKeQD4k" %}
-{% include youtube.html id="GS7kpy4XTZM" %}
-{% include youtube.html id="xnA9aQ0pEfE" %}
-{% include youtube.html id="hImKw7_LWJ4" %}
-
-
 # Features
 
 ![Features_Overall](./images/Features_Overall.png)
@@ -34,6 +26,7 @@ These features are optional, allowing users to enable or disable them as needed.
 - When disabled, the system removes the related calculations entirely, helping maintain appropriate shader performance
 - Features in this group cannot be toggled at runtime and should be configured during setup or before use
 
+---
 
 ## Texture Character
 
@@ -41,7 +34,7 @@ These features are optional, allowing users to enable or disable them as needed.
 
 This shader uses **two main types of textures**, as described below:
 
-### 1. Main Texture (RGBA)
+### Main Texture (RGBA)
 
 The primary texture used for rendering the character’s surface.
 
@@ -50,7 +43,11 @@ The primary texture used for rendering the character’s surface.
 - **RGB (Red, Green, Blue) :** Defines the character’s base color
 - **A (Alpha) :** Controls the character’s transparency; darker masked areas become more transparent
 
-### 2. Feature Mask (RGB)
+---
+
+## Mask Layout
+
+### Feature Mask (RGB)
 
 A texture used to control the operating areas of various features by masking each channel.
 
