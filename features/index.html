@@ -674,37 +674,7 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="video-showcase">Video Showcase</h1>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube.com/embed/tDF0kKeQD4k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube.com/embed/GS7kpy4XTZM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube.com/embed/xnA9aQ0pEfE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube.com/embed/hImKw7_LWJ4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<h1 id="features">Features</h1>
+        <h1 id="features">Features</h1>
 
 <p><img src="./images/Features_Overall.png" alt="Features_Overall" /></p>
 
@@ -730,13 +700,15 @@
   <li>Features in this group cannot be toggled at runtime and should be configured during setup or before use</li>
 </ul>
 
+<hr />
+
 <h2 id="texture-character">Texture Character</h2>
 
 <p><img src="./images/TextureCharacter.png" alt="TextureCharacter" /></p>
 
 <p>This shader uses <strong>two main types of textures</strong>, as described below:</p>
 
-<h3 id="1-main-texture-rgba">1. Main Texture (RGBA)</h3>
+<h3 id="main-texture-rgba">Main Texture (RGBA)</h3>
 
 <p>The primary texture used for rendering the character’s surface.</p>
 
@@ -747,7 +719,11 @@
   <li><strong>A (Alpha) :</strong> Controls the character’s transparency; darker masked areas become more transparent</li>
 </ul>
 
-<h3 id="2-feature-mask-rgb">2. Feature Mask (RGB)</h3>
+<hr />
+
+<h2 id="mask-layout">Mask Layout</h2>
+
+<h3 id="feature-mask-rgb">Feature Mask (RGB)</h3>
 
 <p>A texture used to control the operating areas of various features by masking each channel.</p>
 
