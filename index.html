@@ -658,7 +658,7 @@
       <section class="card docsBlock">
         <h2>Features</h2>
         <div class="scrollList show-8">
-          {% assign p = site.pages | where: "url", "/features/" | first %}<a class="item" href="/features/"><span>Overview</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+          {% assign p = site.pages | where: "url", "/features/" | first %}<a class="item" href="/features/"><span>Overview (Update in V 1.5.0)</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/hair-system/" | first %}<a class="item" href="/features/hair-system/"><span>Hair System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/faceshadow/" | first %}<a class="item" href="/features/faceshadow/"><span>Face Shadow</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           {% assign p = site.pages | where: "url", "/features/Head-Direction-System/" | first %}<a class="item" href="/features/Head-Direction-System/"><span>Head Direction System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
@@ -703,6 +703,7 @@
             <div class="roadmapList">
               <div class="roadmapSlot">Add Specular feature. (V 1.5.0)</div>
               <div class="roadmapSlot">Outline Selection (V 1.5.0)</div>
+              <div class="roadmapSlot">Add Tool Pack Texture Mask. (V 1.5.0)</div>
               <div class="roadmapSlot">5 runtime Character FX (one-click setup) (V 1.5.0)</div>
               <div class="roadmapSlot">Support Decal DBuffer (Screen Space only before). (V 1.5.0)</div>
               <div class="roadmapSlot">Enhanced Normal Map depth. (V 1.5.0)</div>
@@ -722,7 +723,6 @@
             <div class="roadmapList">
               <div class="roadmapSlot">Create a scene for future tone mapping tests.</div>
               <div class="roadmapSlot">Add Dither Fade feature.</div>
-              <div class="roadmapSlot">Add Tool Pack Texture Mask. (V 1.5.0)</div>
             </div>
           </div>
 
