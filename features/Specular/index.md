@@ -11,9 +11,6 @@ last_modified_at: 2026-05-24
 
 ---
 
-
----
-
 ### Usage
 
 ![targetdarken](../images/targetdarken.png)
@@ -25,7 +22,5 @@ last_modified_at: 2026-05-24
 - **Sharpness** : ควบคุมความแคบ/กว้างของ Highlight
 - **Threshold** : บีบ Specular ให้แสดงผลในจุดที่สว่างที่สุด
 - **Toon Step** : ความคมของ Specular
-
-
 
 ---
