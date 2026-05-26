@@ -16,7 +16,7 @@ last_modified_at: 2026-05-24
 
 ### Auto Setup
 
-Done in a single step, just click Setup VFX Features and Refresh Renderers.
+Done in a single step, just click Setup ZLZ Dither.
 
 ![ZLZ_Dither](../Dither/ZLZ_Dither.png)
 
@@ -28,9 +28,18 @@ Adjust Animation Curve
 
 ### Usage
 
-![upgrade](../images/upgrade.png)
+**Dither** is a pixel-stipple transparency effect built on Bayer ordered-dither patterns — a drop-in alternative to Alpha Blend with several advantages:
+- Writes depth normally → Outline pass still works
+- No draw-order sort → free of transparent sort artifacts
+- Cheaper → no texture sample (Bayer is a constant lookup)
+- Stylized → reads as intentional, fits Anime / Cartoon art
 
-**Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
+The feature contains three subsystems that compose freely:
+- Hide / Show / Spawn - Manual API to fade a character out or in (stealth, teleport, spawn-in)
+- Camera Near Fade - Auto fade when the camera gets close to the character (VRChat / first-person / camera-collision)
+- Receive Occlusion Fade - Auto fade when the character blocks the camera-to-player line of sight (Star Rail-style)
+
+The final dither alpha is max(manual, occlusion, cameraNear) — all three subsystems can run at the same time without conflict.
 
 ### Parameters
 
@@ -58,38 +67,59 @@ Receive Occlusion Fade
 
 ### Scripting
 
-Add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Upgrade block:  
+> Camera Near Fade works automatically when using the Shader together with the Character Dashboard.
+
+> Receive Occlusion Fade also works automatically at runtime, but the scene’s ZLZ_OcclusionFader needs a TargetTransform.
+> If the player already exists in the scene, just drag it into the Inspector. If the player is spawned at runtime, use the snippet below.
+
+If you want to drive Dither yourself, add using ZLZ.AnimeShader; and get a reference to ZLZ_CharacterVFX, then access the Dither block: 
 
 ```
-// Animated (recommended) - plays Intro → Loop → Outro  
-vfx.Upgrade.Activate();  
-vfx.Upgrade.Deactivate();  
-vfx.Upgrade.ToggleUpgrade();  
-  
-// Check state  
-bool active = vfx.Upgrade.IsActive();
+// Manual API — Hide / Show / Spawn
+vfx.Dither.Hide();          // Intro 0 → 1 — character fades out
+vfx.Dither.Show();          // Outro 1 → 0 — character fades back in
+vfx.Dither.Spawn();         // Outro only — spawn-in / teleport-in workflow
+
+// Set immediately (bypass animation)
+vfx.Dither.SetInstant(1f);  // fully dithered, no fade
+
+// Check state
+bool active = vfx.Dither.IsActive();
 ``` 
-
-Example - power-up on key press:  
+Example - toggle stealth on key press:  
 
 ```
-void Update()  
-{  
-    if (Input.GetKeyDown(KeyCode.Q))  
-    GetComponent<ZLZ_CharacterVFX>().Upgrade.ToggleUpgrade();  
+void Update()
+{
+    var vfx = GetComponent<ZLZ_CharacterVFX>();
+    if (Input.GetKeyDown(KeyCode.H))
+    {
+        if (vfx.Dither.IsActive()) vfx.Dither.Show();
+        else                       vfx.Dither.Hide();
+    }
 }
 ```
 
-Example - buff a player when they pick up a power-up:  
+Example - spawn an enemy with a fade-in:  
 
 ```
-void OnPickupPowerUp(GameObject player)  
-{  
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Activate();  
-}  
-  
-void OnPowerUpExpires(GameObject player)  
-{  
-    player.GetComponent<ZLZ_CharacterVFX>()?.Upgrade.Deactivate();  
+void SpawnEnemy(GameObject prefab, Vector3 position)
+{
+    var enemy = Instantiate(prefab, position, Quaternion.identity);
+    enemy.GetComponent<ZLZ_CharacterVFX>()?.Dither.Spawn();
+}
+```
+
+Example - cloak on item pickup:  
+
+```
+void OnPickupCloak(GameObject player)
+{
+    player.GetComponent<ZLZ_CharacterVFX>()?.Dither.Hide();
+}
+
+void OnCloakExpires(GameObject player)
+{
+    player.GetComponent<ZLZ_CharacterVFX>()?.Dither.Show();
 }
 ```
