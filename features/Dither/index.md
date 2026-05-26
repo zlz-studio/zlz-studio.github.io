@@ -34,15 +34,25 @@ Adjust Animation Curve
 
 ### Parameters
 
-- **UpgradeActive :** Enables or disables the effect *(0 = off / 1 = on)*
-- **Upgrade Color :** Sets the color of the effect when an upgrade occurs
-- **Upgrade Intensity :** Controls the brightness of the effect
-    
-    *(higher values make the effect more pronounced)*
-    
-- **Upgrade Min Brightness :** Controls the minimum brightness of the effect
-    
-    *(higher values make the effect more visible / lower values reduce brightness, allowing the main texture to remain more visible)*
+Master
+- **Enable Dither :** Toggles the whole feature (drives the _DITHER_ON keyword)
+- **Pattern - Dither matrix :** Bayer4 (4×4, coarser and sharper) or Bayer8 (8×8, finer and smoother)
+- **Animation Settings :** ScriptableObject holding Intro / Outro durations and Occlusion levels
+
+Camera Near Fade
+- **Enable :** Activates camera-distance auto-fade
+- **Near Distance :** Distance at which the character is fully dithered (default 2 / max 20)
+- **Far Distance :** Distance at which the dither begins (default 5 / max 20) Camera ≥ Far → no dither; ≤ Near → full dither; in between → smooth ramp.
+
+> Camera Near Fade works automatically without requiring any script. Simply install the Character Dashboard on the character that needs Dither support.
+
+Receive Occlusion Fade
+- **Enable :** Opts this character in to dither out when it blocks the camera-to-target line
+- **Level :** Maximum dither preset
+
+> Soft (0.9 = faint silhouette remains)  
+> Full (1.0 = fully clipped)  
+> Requires a ZLZ_OcclusionFader in the scene with Target Transform pointing at the player — Setup Dither creates one automatically.  
 
 ---
 
