@@ -6,8 +6,11 @@ last_modified_at: 2026-05-24
 
 ## Dither FX Runtime
 
-### Demo Dither Runtime
-![Demo_Upgrade](../Upgrade/Demo_Upgrade.gif)
+### Demo Dither Occlusion Runtime
+![Dither_Occlusion](../Dither/Dither_Occlusion.gif)
+
+### Demo Dither Fade Camera Runtime
+![Dither_Fade_Camera](../Dither/Dither_Fade_Camera.gif)
 
 ---
 
