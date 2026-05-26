@@ -704,20 +704,35 @@
 
 <h3 id="parameters">Parameters</h3>
 
+<p>Master</p>
 <ul>
-  <li><strong>UpgradeActive :</strong> Enables or disables the effect <em>(0 = off / 1 = on)</em></li>
-  <li><strong>Upgrade Color :</strong> Sets the color of the effect when an upgrade occurs</li>
-  <li>
-    <p><strong>Upgrade Intensity :</strong> Controls the brightness of the effect</p>
-
-    <p><em>(higher values make the effect more pronounced)</em></p>
-  </li>
-  <li>
-    <p><strong>Upgrade Min Brightness :</strong> Controls the minimum brightness of the effect</p>
-
-    <p><em>(higher values make the effect more visible / lower values reduce brightness, allowing the main texture to remain more visible)</em></p>
-  </li>
+  <li><strong>Enable Dither :</strong> Toggles the whole feature (drives the _DITHER_ON keyword)</li>
+  <li><strong>Pattern - Dither matrix :</strong> Bayer4 (4×4, coarser and sharper) or Bayer8 (8×8, finer and smoother)</li>
+  <li><strong>Animation Settings :</strong> ScriptableObject holding Intro / Outro durations and Occlusion levels</li>
 </ul>
+
+<p>Camera Near Fade</p>
+<ul>
+  <li><strong>Enable :</strong> Activates camera-distance auto-fade</li>
+  <li><strong>Near Distance :</strong> Distance at which the character is fully dithered (default 2 / max 20)</li>
+  <li><strong>Far Distance :</strong> Distance at which the dither begins (default 5 / max 20) Camera ≥ Far → no dither; ≤ Near → full dither; in between → smooth ramp.</li>
+</ul>
+
+<blockquote>
+  <p>Camera Near Fade works automatically without requiring any script. Simply install the Character Dashboard on the character that needs Dither support.</p>
+</blockquote>
+
+<p>Receive Occlusion Fade</p>
+<ul>
+  <li><strong>Enable :</strong> Opts this character in to dither out when it blocks the camera-to-target line</li>
+  <li><strong>Level :</strong> Maximum dither preset</li>
+</ul>
+
+<blockquote>
+  <p>Soft (0.9 = faint silhouette remains)<br />
+Full (1.0 = fully clipped)<br />
+Requires a ZLZ_OcclusionFader in the scene with Target Transform pointing at the player — Setup Dither creates one automatically.</p>
+</blockquote>
 
 <hr />
 
