@@ -106,7 +106,12 @@ Example - spawn an enemy with a fade-in:
 void SpawnEnemy(GameObject prefab, Vector3 position)
 {
     var enemy = Instantiate(prefab, position, Quaternion.identity);
-    enemy.GetComponent<ZLZ_CharacterVFX>()?.Dither.Spawn();
+    var vfx   = enemy.GetComponent<ZLZ_CharacterVFX>();
+    if (vfx != null)
+    {
+        vfx.Dither.SetInstant(1f);   // start fully invisible — no first-frame flicker
+        vfx.Dither.Spawn();           // fade in (1 → 0)
+    }
 }
 ```
 
