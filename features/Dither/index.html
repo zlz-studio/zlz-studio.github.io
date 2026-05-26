@@ -796,7 +796,12 @@ bool active = vfx.Dither.IsActive();
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void SpawnEnemy(GameObject prefab, Vector3 position)
 {
     var enemy = Instantiate(prefab, position, Quaternion.identity);
-    enemy.GetComponent&lt;ZLZ_CharacterVFX&gt;()?.Dither.Spawn();
+    var vfx   = enemy.GetComponent&lt;ZLZ_CharacterVFX&gt;();
+    if (vfx != null)
+    {
+        vfx.Dither.SetInstant(1f);   // start fully invisible — no first-frame flicker
+        vfx.Dither.Spawn();           // fade in (1 → 0)
+    }
 }
 </code></pre></div></div>
 
