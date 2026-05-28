@@ -739,7 +739,7 @@ bool active = ctrl.IsSelected();
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void OnMouseDown()  
 {  
-    GetComponent\&lt;ZLZ_SelectionController\&gt;().ToggleSelection();  
+    GetComponent&lt;ZLZ_SelectionController&gt;().ToggleSelection();  
 }
 </code></pre></div></div>
 
@@ -747,12 +747,12 @@ bool active = ctrl.IsSelected();
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void LockOn(GameObject target)  
 {  
-    target.GetComponent\&lt;ZLZ_SelectionController\&gt;()?.Select();  
+    target.GetComponent&lt;ZLZ_SelectionController&gt;()?.Select();  
 }  
   
 void Unlock(GameObject previous)  
 {  
-    previous.GetComponent\&lt;ZLZ_SelectionController\&gt;()?.Deselect();  
+    previous.GetComponent&lt;ZLZ_SelectionController&gt;()?.Deselect();  
 }
 </code></pre></div></div>
 
