@@ -64,7 +64,7 @@ Example - highlight on click:
 ```
 void OnMouseDown()  
 {  
-    GetComponent\<ZLZ_SelectionController\>().ToggleSelection();  
+    GetComponent<ZLZ_SelectionController>().ToggleSelection();  
 }
 ```
 
@@ -73,11 +73,11 @@ Example - highlight on lock-on:
 ```
 void LockOn(GameObject target)  
 {  
-    target.GetComponent\<ZLZ_SelectionController\>()?.Select();  
+    target.GetComponent<ZLZ_SelectionController>()?.Select();  
 }  
   
 void Unlock(GameObject previous)  
 {  
-    previous.GetComponent\<ZLZ_SelectionController\>()?.Deselect();  
+    previous.GetComponent<ZLZ_SelectionController>()?.Deselect();  
 }
 ```
