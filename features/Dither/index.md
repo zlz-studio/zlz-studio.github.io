@@ -45,10 +45,9 @@ The final dither alpha is max(manual, occlusion, cameraNear) — all three subsy
 
 Master
 - **Enable Dither :** Toggles the whole feature (drives the _DITHER_ON keyword)
-- **Pattern - Dither matrix :** Bayer4 (4×4, coarser and sharper) or Bayer8 (8×8, finer and smoother)
 - **Animation Settings :** ScriptableObject holding Intro / Outro durations and Occlusion levels
 
-Camera Near Fade
+Camera Near Fade (Main Character Only)
 - **Enable :** Activates camera-distance auto-fade
 - **Near Distance :** Distance at which the character is fully dithered (default 2 / max 20)
 - **Far Distance :** Distance at which the dither begins (default 5 / max 20) Camera ≥ Far → no dither; ≤ Near → full dither; in between → smooth ramp.
