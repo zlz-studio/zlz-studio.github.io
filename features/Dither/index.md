@@ -36,8 +36,8 @@ Adjust Animation Curve
 
 The feature contains three subsystems that compose freely:
 - Hide / Show / Spawn - Manual API to fade a character out or in (stealth, teleport, spawn-in)
-- Camera Near Fade - Auto fade when the camera gets close to the character (VRChat / first-person / camera-collision)
-- Receive Occlusion Fade - Auto fade when the character blocks the camera-to-player line of sight (Star Rail-style)
+- Camera Near Fade - Auto fade when the camera gets close to the character
+- Receive Occlusion Fade - Auto fade when the character blocks the camera-to-player line of sight
 
 The final dither alpha is max(manual, occlusion, cameraNear) — all three subsystems can run at the same time without conflict.
 
@@ -49,8 +49,8 @@ Master
 
 Camera Near Fade (Main Character Only)
 - **Enable :** Activates camera-distance auto-fade
-- **Near Distance :** Distance at which the character is fully dithered (default 2 / max 20)
-- **Far Distance :** Distance at which the dither begins (default 5 / max 20) Camera ≥ Far → no dither; ≤ Near → full dither; in between → smooth ramp.
+- **Near Distance :** Distance at which the character is fully dithered (default 1 / max 20)
+- **Far Distance :** Distance at which the dither begins (default 1.25 / max 20) Camera ≥ Far → no dither; ≤ Near → full dither; in between → smooth ramp.
 
 > Camera Near Fade works automatically without requiring any script. Simply install the Character Dashboard on the character that needs Dither support.
 
