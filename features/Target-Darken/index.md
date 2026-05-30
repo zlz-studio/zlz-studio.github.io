@@ -63,7 +63,7 @@ The Target Darken system separates control into two levels:
     - Set `TargetDarkenLocal = 0` → the character will not be darkened
 2. Create an Empty GameObject and attach the script
     
-    `Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_GlobalDarkenController.cs`
+    `Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_DarkenDemo.cs`
 3. Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)
 
 ---
@@ -73,6 +73,11 @@ The Target Darken system separates control into two levels:
 Target Darken has two layers, a scene-wide controller animates the global value, and each character can opt out to stay bright.  
   
 Global control (scene-wide)  Add using ZLZ.AnimeShader; and access the manager via its static Instance:  
+
+```
+**Required:** Add a **ZLZ_DarkenManager** to your scene (Add Component → ZLZ/Anime Shader/ZLZ_Darken Manager)   
+before calling `ZLZ_DarkenManager.Instance`. Without it, `Instance` is null and the call throws a NullReferenceException.
+```
 
 ```
 // Animated (recommended) - plays Intro → Loop → Outro  
