@@ -761,7 +761,7 @@
   <li>
     <p>Create an Empty GameObject and attach the script</p>
 
-    <p><code class="language-plaintext highlighter-rouge">Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_GlobalDarkenController.cs</code></p>
+    <p><code class="language-plaintext highlighter-rouge">Assets/ZLZ_AnimeShader/Demo/Scripts/ZLZ_DarkenDemo.cs</code></p>
   </li>
   <li>Test by adjusting the Global Darken value in the script (0 = normal brightness / 1 = darkened)</li>
 </ol>
@@ -773,6 +773,10 @@
 <p>Target Darken has two layers, a scene-wide controller animates the global value, and each character can opt out to stay bright.</p>
 
 <p>Global control (scene-wide)  Add using ZLZ.AnimeShader; and access the manager via its static Instance:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**Required:** Add a **ZLZ_DarkenManager** to your scene (Add Component → ZLZ/Anime Shader/ZLZ_Darken Manager)   
+before calling `ZLZ_DarkenManager.Instance`. Without it, `Instance` is null and the call throws a NullReferenceException.
+</code></pre></div></div>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Animated (recommended) - plays Intro → Loop → Outro  
 ZLZ_DarkenManager.Instance.Darken();  
