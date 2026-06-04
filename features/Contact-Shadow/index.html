@@ -679,110 +679,70 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h2 id="contact-shadow">Contact Shadow</h2>
+        <h2 id="character-contact-shadow">Character Contact Shadow</h2>
+
+<p>A soft, short-range self-shadow for where one part of the character blocks the
+light from another — hair onto the face, an arm onto the body. It keeps close-ups
+looking grounded, with no real-time shadow map needed.</p>
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Outline_Off.jpg" alt="Outline_Off" />
+    <img src="../Character-Contact-Shadow/ContactShadow_Off.jpg" alt="Contact Shadow Off" />
   </div>
-
   <div class="compare-overlay">
-    <img src="../Outline/Outline_On.jpg" alt="Outline_On" />
+    <img src="../Character-Contact-Shadow/ContactShadow_On.jpg" alt="Contact Shadow On" />
   </div>
-
   <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Off</div>
-  <div class="compare-label after">Outline On</div>
+  <div class="compare-label before">Off</div>
+  <div class="compare-label after">On</div>
 </div>
 
 <hr />
 
-<h2 id="zlz-character-contact-shadow">ZLZ Character Contact Shadow</h2>
-<p><img src="../Outline/Script_SmoothNormalBake.png" alt="Script_SmoothNormalBake" /></p>
+<h2 id="enable-it">Enable it</h2>
 
-<p>When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.<br />
-This helps make the outline smoother and cleaner, ensuring the highest outline quality.<br />
-If the mesh is updated later, simply press “Bake All” to rebake and finish the setup.</p>
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/No_SmoothNormalBake.jpg" alt="No_SmoothNormalBake" />
-  </div>
+<p><img src="../Contact-Shadow/ContactShadow.png" alt="ContactShadow" /></p>
 
-  <div class="compare-overlay">
-    <img src="../Outline/SmoothNormalBake.jpg" alt="SmoothNormalBake" />
-  </div>
+<p>The Dashboard does the setup for you:</p>
 
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">No SmoothNormalBake</div>
-  <div class="compare-label after">SmoothNormalBake</div>
-</div>
+<ol>
+  <li>Open <strong>ZLZ Character Dashboard → ZLZ Character Contact Shadow</strong>.</li>
+  <li>Add Render Features.</li>
+  <li>Turn it <strong>On</strong>.</li>
+</ol>
 
 <hr />
 
-<h2 id="zlz-outline-batch">ZLZ Outline Batch</h2>
-<p><img src="../Outline/ZLZ_Outline_Batch.png" alt="ZLZ_Outline_Batch" /></p>
+<h2 id="parameters">Parameters</h2>
 
-<p>ZLZ Outline Batch automatically optimizes outline rendering by generating shared batching tags,<br />
-reducing unnecessary draw calls while preserving the original visual quality.</p>
+<p><img src="../Contact-Shadow/ContactShadowSettings.png" alt="ContactShadowSettings" /></p>
 
-<p><img src="../Outline/Showcase_Outline_Batch.png" alt="Showcase_Outline_Batch" /></p>
+<blockquote>
+  <p>Can be adjusted in the Render Feature settings.</p>
+</blockquote>
 
-<hr />
-
-<h3 id="parameters">Parameters</h3>
-
-<p><img src="../images/outline.png" alt="outline" /></p>
-
+<p><strong>Look</strong></p>
 <ul>
-  <li><strong>Outline Z Mode :</strong> Provides two modes:
-    <ul>
-      <li><strong>Legacy —</strong> Allows the use of Outline Z Offset, but may cause issues when used with certain types of reflections</li>
-      <li><strong>Planar Safe —</strong> Resolves compatibility issues with some reflection types, but disables the use of Outline Z Offset</li>
-    </ul>
-  </li>
-  <li><strong>Outline Width :</strong> Adjusts the thickness of the outline</li>
-  <li><strong>Outline Intensity :</strong> Controls the brightness of the outline <em>(0 = black / 1 = uses the Base Color from the Main Texture)</em></li>
-  <li><strong>Outline Color :</strong> Directly sets the outline color</li>
-  <li><strong>Outline Z Offset :</strong> Adjusts the offset distance of the outline from the character surface, used to prevent z-fighting with the surface or to increase outline prominence</li>
+  <li><strong>Strength</strong> — overall darkness of the shadow. <em>(0–1)</em></li>
+  <li><strong>Offset</strong> — how far the shadow reaches toward the light. Higher = longer.</li>
+  <li><strong>Max Range</strong> — only blockers closer than this (metres) cast, so it stays
+short and contact-like (e.g. hair → face).</li>
 </ul>
 
-<hr />
-
-<h3 id="example-outline-colors">Example Outline Colors</h3>
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/Outline_Example1.jpg" alt="Outline_Example1" />
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../Outline/Outline_Example2.jpg" alt="Outline_Example2" />
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Showcase Color Example1</div>
-  <div class="compare-label after">Outline Showcase Color Example2</div>
-</div>
-
-<hr />
-
-<h3 id="example-z-offset">Example Z Offset</h3>
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0" />
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../Outline/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025" />
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Z Offset : 0</div>
-  <div class="compare-label after">Outline Z Offset : 0.025</div>
-</div>
+<p><strong>Setup &amp; performance</strong></p>
+<ul>
+  <li><strong>Caster Layers</strong> — set to your character layer(s).</li>
+  <li><strong>Resolution</strong> — how detailed the depth buffer the effect uses is. Higher keeps
+contact edges crisp; lower uses less memory &amp; bandwidth (edges get softer).
+    <ul>
+      <li><strong>Full</strong> — full resolution</li>
+      <li><strong>Half</strong> — 1/2 width &amp; height (1/4 the pixels)</li>
+      <li><strong>Quarter</strong> — 1/4 width &amp; height (1/16 the pixels)</li>
+      <li><strong>Eighth</strong> — 1/8 width &amp; height (1/64 the pixels)</li>
+    </ul>
+  </li>
+  <li><strong>Depth Bias</strong> — raise slightly if you see speckles on self-shadowed surfaces.</li>
+</ul>
 
       </div>
     </main>
