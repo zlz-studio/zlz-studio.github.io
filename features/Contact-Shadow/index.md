@@ -4,102 +4,56 @@ title: Contact Shadow
 last_modified_at: 2026-04-24
 ---
 
-## Contact Shadow
+## Character Contact Shadow
+
+A soft, short-range self-shadow for where one part of the character blocks the
+light from another — hair onto the face, an arm onto the body. It keeps close-ups
+looking grounded, with no real-time shadow map needed.
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Outline_Off.jpg" alt="Outline_Off">
+    <img src="../Character-Contact-Shadow/ContactShadow_Off.jpg" alt="Contact Shadow Off">
   </div>
-
   <div class="compare-overlay">
-    <img src="../Outline/Outline_On.jpg" alt="Outline_On">
+    <img src="../Character-Contact-Shadow/ContactShadow_On.jpg" alt="Contact Shadow On">
   </div>
-
   <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Off</div>
-  <div class="compare-label after">Outline On</div>
+  <div class="compare-label before">Off</div>
+  <div class="compare-label after">On</div>
 </div>
 
 ---
 
-## ZLZ Character Contact Shadow
-![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
+## Enable it
 
-When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.  
-This helps make the outline smoother and cleaner, ensuring the highest outline quality.  
-If the mesh is updated later, simply press “Bake All” to rebake and finish the setup.  
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/No_SmoothNormalBake.jpg" alt="No_SmoothNormalBake">
-  </div>
+![ContactShadow](../Contact-Shadow/ContactShadow.png)
 
-  <div class="compare-overlay">
-    <img src="../Outline/SmoothNormalBake.jpg" alt="SmoothNormalBake">
-  </div>
+The Dashboard does the setup for you:
 
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">No SmoothNormalBake</div>
-  <div class="compare-label after">SmoothNormalBake</div>
-</div>
+1. Open **ZLZ Character Dashboard → ZLZ Character Contact Shadow**.
+2. Add Render Features.
+3. Turn it **On**.
 
 ---
 
-## ZLZ Outline Batch
-![ZLZ_Outline_Batch](../Outline/ZLZ_Outline_Batch.png)
+## Parameters
 
-ZLZ Outline Batch automatically optimizes outline rendering by generating shared batching tags,  
-reducing unnecessary draw calls while preserving the original visual quality.
+![ContactShadowSettings](../Contact-Shadow/ContactShadowSettings.png)
 
-![Showcase_Outline_Batch](../Outline/Showcase_Outline_Batch.png)
+> Can be adjusted in the Render Feature settings.
 
----
+**Look**
+- **Strength** — overall darkness of the shadow. *(0–1)*
+- **Offset** — how far the shadow reaches toward the light. Higher = longer.
+- **Max Range** — only blockers closer than this (metres) cast, so it stays
+  short and contact-like (e.g. hair → face).
 
-### Parameters
-
-![outline](../images/outline.png)
-
-- **Outline Z Mode :** Provides two modes:
-    - **Legacy —** Allows the use of Outline Z Offset, but may cause issues when used with certain types of reflections
-    - **Planar Safe —** Resolves compatibility issues with some reflection types, but disables the use of Outline Z Offset
-- **Outline Width :** Adjusts the thickness of the outline
-- **Outline Intensity :** Controls the brightness of the outline *(0 = black / 1 = uses the Base Color from the Main Texture)*
-- **Outline Color :** Directly sets the outline color
-- **Outline Z Offset :** Adjusts the offset distance of the outline from the character surface, used to prevent z-fighting with the surface or to increase outline prominence
-
----
-
-### Example Outline Colors
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/Outline_Example1.jpg" alt="Outline_Example1">
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../Outline/Outline_Example2.jpg" alt="Outline_Example2">
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Showcase Color Example1</div>
-  <div class="compare-label after">Outline Showcase Color Example2</div>
-</div>
-
----
-
-### Example Z Offset
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Outline/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0">
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../Outline/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025">
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Outline Z Offset : 0</div>
-  <div class="compare-label after">Outline Z Offset : 0.025</div>
-</div>
+**Setup & performance**
+- **Caster Layers** — set to your character layer(s).
+- **Resolution** — how detailed the depth buffer the effect uses is. Higher keeps
+  contact edges crisp; lower uses less memory & bandwidth (edges get softer).
+    - **Full** — full resolution
+    - **Half** — 1/2 width & height (1/4 the pixels)
+    - **Quarter** — 1/4 width & height (1/16 the pixels)
+    - **Eighth** — 1/8 width & height (1/64 the pixels)
+- **Depth Bias** — raise slightly if you see speckles on self-shadowed surfaces.
