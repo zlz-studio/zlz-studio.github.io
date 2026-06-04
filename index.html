@@ -19,8 +19,8 @@
     }
     
     .stage{
-      width:1280px;                /* ✅ ขนาดจริงของเกม (ต้องตรงกับ itch viewport) */
-      height:780px;
+      width:1280px;                /* ✅ ขนาดจริงของเกม — 16:9 ให้ตรงกับ build */
+      height:720px;
       transform-origin: top left;
       /* scale จะถูกคำนวณด้วย JS ด้านล่าง */
     }
@@ -28,7 +28,7 @@
     
     .stage iframe{
       width:1280px;
-      height:780px;
+      height:720px;
       border:0;
       display:block;
     }
@@ -883,7 +883,7 @@
     if(!wrap || !stage) return;
 
     const baseW = 1280; // ต้องตรงกับ stage width
-    const baseH = 780;  // ต้องตรงกับ stage height
+    const baseH = 720;  // ต้องตรงกับ stage height (16:9)
     const scale = wrap.clientWidth / baseW;
 
     stage.style.transform = `scale(${scale})`;
