@@ -10,16 +10,18 @@ A soft, short-range self-shadow for where one part of the character blocks the
 light from another — hair onto the face, an arm onto the body. It keeps close-ups
 looking grounded, with no real-time shadow map needed.
 
+> When the shadow intensity is increased, this shadow area becomes darker as well.
+
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Character-Contact-Shadow/ContactShadow_Off.jpg" alt="Contact Shadow Off">
+    <img src="../Contact-Shadow/ContactShadow_Off.jpg" alt="ContactShadow_Off">
   </div>
   <div class="compare-overlay">
-    <img src="../Character-Contact-Shadow/ContactShadow_On.jpg" alt="Contact Shadow On">
+    <img src="../Contact-Shadow/ContactShadow_On.jpg" alt="ContactShadow_On">
   </div>
   <div class="compare-handle"></div>
-  <div class="compare-label before">Off</div>
-  <div class="compare-label after">On</div>
+  <div class="compare-label before">ContactShadow Off</div>
+  <div class="compare-label after">ContactShadow On</div>
 </div>
 
 ---
