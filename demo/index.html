@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+  <title>ZLZ Anime Shader</title>
+  <style>
+    html, body { margin:0; padding:0; height:100%; background:#0e1116; overflow:hidden;
+                 font-family:-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    #unity-container { position:absolute; inset:0; }
+    #unity-canvas    { width:100%; height:100%; display:block; background:#0e1116; }
+
+    /* ── Loading overlay ───────────────────────────── */
+    #zlz-loading {
+      position:absolute; inset:0; z-index:10;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
+      background:radial-gradient(120% 120% at 50% 30%, #1b2230 0%, #0e1116 72%);
+      color:#e7ecf3; transition:opacity .6s ease;
+    }
+    #zlz-loading.hidden { opacity:0; pointer-events:none; }
+    #zlz-title { font-size:24px; font-weight:600; letter-spacing:.5px; }
+    #zlz-sub   { font-size:13px; opacity:.5; margin-top:-12px; }
+    #zlz-bar   { width:320px; max-width:60vw; height:6px; border-radius:6px;
+                 background:rgba(255,255,255,.10); overflow:hidden; }
+    #zlz-fill  { width:0%; height:100%; border-radius:6px;
+                 background:linear-gradient(90deg, #ff9ecb, #9ec5ff); transition:width .2s ease; }
+    #zlz-pct   { font-size:12px; opacity:.65; font-variant-numeric:tabular-nums; }
+
+    /* ── Fullscreen button ─────────────────────────── */
+    #zlz-fs { position:absolute; right:14px; bottom:12px; z-index:11;
+              width:36px; height:36px; border:0; border-radius:8px; cursor:pointer;
+              background:rgba(255,255,255,.10); color:#e7ecf3; font-size:16px; line-height:36px; }
+    #zlz-fs:hover { background:rgba(255,255,255,.22); }
+  </style>
+</head>
+<body>
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+    <div id="zlz-loading">
+      <div id="zlz-title">ZLZ Anime Shader</div>
+      <div id="zlz-sub">Loading demo…</div>
+      <div id="zlz-bar"><div id="zlz-fill"></div></div>
+      <div id="zlz-pct">0%</div>
+    </div>
+
+    <button id="zlz-fs" title="Fullscreen" style="display:none">⛶</button>
+  </div>
+
+  <script>
+    var canvas  = document.querySelector("#unity-canvas");
+    var loading = document.querySelector("#zlz-loading");
+    var fill    = document.querySelector("#zlz-fill");
+    var pct     = document.querySelector("#zlz-pct");
+    var fsBtn   = document.querySelector("#zlz-fs");
+
+    var config = {
+      dataUrl:      "Build/Build.data.unityweb",
+      frameworkUrl: "Build/Build.framework.js.unityweb",
+      codeUrl:      "Build/Build.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName:    "ZLZ Studio",
+      productName:    "ZLZ Anime Shader",
+      productVersion: "0.1.0",
+    };
+
+    var script = document.createElement("script");
+    script.src = "Build/Build.loader.js";
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) {
+        var v = Math.round(p * 100);
+        fill.style.width = v + "%";
+        pct.textContent  = v + "%";
+      }).then(function (unity) {
+        loading.classList.add("hidden");          // fade out the loading screen
+        fsBtn.style.display = "block";
+        fsBtn.onclick = function () { unity.SetFullscreen(1); };
+      }).catch(function (msg) { alert(msg); });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
