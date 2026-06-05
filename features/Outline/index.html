@@ -688,22 +688,142 @@
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Outline_Off.jpg" alt="Outline_Off" />
+    <img src="../Outline/Debug_Hull.png" alt="Debug_Hull" />
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/Outline_On.jpg" alt="Outline_On" />
+    <img src="../Outline/Debug_SSO.png" alt="Debug_SSO" />
   </div>
 
   <div class="compare-handle"></div>
 
-  <div class="compare-label before">Outline Off</div>
-  <div class="compare-label after">Outline On</div>
+  <div class="compare-label before">Debug Hull</div>
+  <div class="compare-label after">Debug SSO</div>
 </div>
 
 <hr />
 
-<h2 id="zlz-smooth-normal-bake">ZLZ Smooth Normal Bake</h2>
+<h2 id="shared-hull--screen-space">Shared (Hull &amp; Screen Space)</h2>
+
+<h3 id="hull-vs-screen-space">Hull vs Screen Space</h3>
+
+<p>Two ways to draw the outline. Each makes a different kind of line:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Inverted Hull</th>
+      <th>Screen Space Outline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Draws</strong></td>
+      <td>The character’s outer silhouette</td>
+      <td>Interior detail lines (creases, overlapping parts)</td>
+    </tr>
+    <tr>
+      <td><strong>Built from</strong></td>
+      <td>Extruded mesh geometry (per-object)</td>
+      <td>The character’s depth &amp; normals (screen space)</td>
+    </tr>
+    <tr>
+      <td><strong>Line weight</strong></td>
+      <td>Follows the model and camera distance</td>
+      <td>Constant width in pixels on screen</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="setup">Setup</h3>
+
+<p><img src="../Outline/ZLZ_Outline.png" alt="ZLZ_Outline" /></p>
+
+<p>The outline is managed from one place: <strong>Character Dashboard &gt; ZLZ Outline</strong>. Enable it there and choose the type (<strong>Inverted Hull</strong> or <strong>Screen Space</strong>); the Dashboard installs and configures everything for you, including filling in <strong>Character Layers</strong> when you pick Screen Space.</p>
+
+<p><strong>Where each type’s settings live</strong></p>
+
+<ul>
+  <li><strong>Inverted Hull :</strong> on the character <strong>material</strong> (the Outline section)</li>
+  <li><strong>Screen Space :</strong> on its <strong>Renderer Feature</strong> in the <strong>Universal Renderer Data</strong></li>
+</ul>
+
+<h3 id="outline-mask">Outline Mask</h3>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Outline/SSO_Mask_Off.jpg" alt="SSO_Mask_Off" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Outline/SSO_Mask_On.jpg" alt="SSO_Mask_On" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Mask Off</div>
+  <div class="compare-label after">Mask On</div>
+</div>
+
+<p>The Outline Mask lets you <strong>hide the outline on chosen parts</strong> of the character (the inside of the mouth, eyes, or small props) from one setting that drives <strong>both</strong> outline methods.</p>
+
+<p>Because the outline is a core part of the shader, the Outline Mask is <strong>always available</strong> in the material’s <strong>Outline</strong> section. No other feature needs to be enabled first.</p>
+
+<ul>
+  <li>Tick <strong>Use Mask</strong> and pick a channel from the <strong>Feature Mask</strong> system</li>
+  <li>Paint the chosen channel:
+    <ul>
+      <li><strong>White (1) = show the outline</strong></li>
+      <li><strong>Black (0) = hide the outline</strong></li>
+    </ul>
+  </li>
+  <li>The same mask drives both methods, so you set it once</li>
+</ul>
+
+<blockquote>
+  <p>Selecting a channel automatically reveals the matching texture slot in the <strong>Mask Layout</strong> section, where you can pack it alongside other feature masks with the <strong>ZLZ Mask Packer</strong>.</p>
+</blockquote>
+
+<h3 id="compare-inverted-hull-vs-screen-space">Compare Inverted Hull vs Screen Space</h3>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Outline/Hull_Near.jpg" alt="Hull_Near" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Outline/SSO_Near.jpg" alt="SSO_Near" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Inverted Hull Near</div>
+  <div class="compare-label after">Screen Space Near</div>
+</div>
+
+<div class="compare-container">
+  <div class="compare-base">
+    <img src="../Outline/Hull_Far.jpg" alt="Hull_Far" />
+  </div>
+
+  <div class="compare-overlay">
+    <img src="../Outline/SSO_Far.jpg" alt="SSO_Far" />
+  </div>
+
+  <div class="compare-handle"></div>
+
+  <div class="compare-label before">Inverted Hull Far</div>
+  <div class="compare-label after">Screen Space Far</div>
+</div>
+
+<hr />
+
+<h2 id="inverted-hull-outline">Inverted Hull Outline</h2>
+
+<p>The default outline. After running the Character Dashboard Setup it is enabled automatically.</p>
+
+<h3 id="zlz-smooth-normal-bake">ZLZ Smooth Normal Bake</h3>
 <p><img src="../Outline/Script_SmoothNormalBake.png" alt="Script_SmoothNormalBake" /></p>
 
 <p>When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.<br />
@@ -726,8 +846,7 @@ If the mesh is updated later, simply press “Bake All” to rebake and finish t
 
 <hr />
 
-<h2 id="zlz-outline-batch">ZLZ Outline Batch</h2>
-<p><img src="../Outline/ZLZ_Outline_Batch.png" alt="ZLZ_Outline_Batch" /></p>
+<h3 id="zlz-outline-batch">ZLZ Outline Batch</h3>
 
 <p>ZLZ Outline Batch automatically optimizes outline rendering by generating shared batching tags,<br />
 reducing unnecessary draw calls while preserving the original visual quality.</p>
@@ -738,13 +857,13 @@ reducing unnecessary draw calls while preserving the original visual quality.</p
 
 <h3 id="parameters">Parameters</h3>
 
-<p><img src="../images/outline.png" alt="outline" /></p>
+<p><img src="../Outline/Mat_Hull.png" alt="Mat_Hull" /></p>
 
 <ul>
   <li><strong>Outline Z Mode :</strong> Provides two modes:
     <ul>
-      <li><strong>Legacy —</strong> Allows the use of Outline Z Offset, but may cause issues when used with certain types of reflections</li>
-      <li><strong>Planar Safe —</strong> Resolves compatibility issues with some reflection types, but disables the use of Outline Z Offset</li>
+      <li><strong>Legacy :</strong> Allows the use of Outline Z Offset, but may cause issues with certain types of reflections</li>
+      <li><strong>Planar Safe :</strong> Resolves compatibility issues with some reflection types, but disables the use of Outline Z Offset</li>
     </ul>
   </li>
   <li><strong>Outline Width :</strong> Adjusts the thickness of the outline</li>
@@ -784,10 +903,93 @@ reducing unnecessary draw calls while preserving the original visual quality.</p
   </div>
 
   <div class="compare-handle"></div>
-
+  
   <div class="compare-label before">Outline Z Offset : 0</div>
   <div class="compare-label after">Outline Z Offset : 0.025</div>
 </div>
+
+<hr />
+
+<h2 id="screen-space-outline-sso">Screen Space Outline (SSO)</h2>
+
+<p>A URP Renderer Feature that draws outlines from the character’s depth and normals, without adding geometry.</p>
+
+<p>The inverted hull handles the outer silhouette. Screen Space Outline adds the interior lines a hull can’t reach: folds in clothing, hair over the face, fingers, and layered armor.</p>
+
+<h3 id="parameters-1">Parameters</h3>
+
+<p><img src="../Outline/ZLZ_OutlineSSO.png" alt="ZLZ_OutlineSSO" /></p>
+
+<p><strong>Layers</strong></p>
+
+<ul>
+  <li><strong>Character Layers :</strong> Layers treated as characters. Only these get an outline. The Dashboard fills this in during Setup.</li>
+</ul>
+
+<p><strong>Line</strong></p>
+
+<ul>
+  <li><strong>Outline Color :</strong> Line color</li>
+  <li><strong>Thickness :</strong> Line width in <strong>pixels</strong> <em>(0.5 - 4)</em>. Stays consistent on screen at any distance</li>
+  <li><strong>Intensity :</strong> Line strength / alpha <em>(0 = invisible / 1 = full)</em></li>
+</ul>
+
+<p><strong>Edge Sources</strong></p>
+
+<ul>
+  <li><strong>Normal Edge :</strong> Lines where the surface bends sharply, like creases and folds
+    <ul>
+      <li><strong>Normal Sensitivity :</strong> higher = more edges</li>
+    </ul>
+  </li>
+  <li><strong>Depth Edge :</strong> Lines where one part overlaps another, leaving a depth gap
+    <ul>
+      <li><strong>Depth Sensitivity :</strong> higher = catches smaller gaps</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Occlusion</strong></p>
+
+<ul>
+  <li><strong>Occlusion Test :</strong> Hides the line where the character is behind scene geometry
+    <ul>
+      <li><strong>Occlusion Bias :</strong> depth tolerance; only matters when partially occluded</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Distance Fade</strong></p>
+
+<ul>
+  <li><strong>Distance Fade :</strong> Fades the outline out with distance from the camera
+    <ul>
+      <li><strong>Fade Distance :</strong> in metres. <code class="language-plaintext highlighter-rouge">x</code> = fade starts, <code class="language-plaintext highlighter-rouge">y</code> = fully faded</li>
+      <li><strong>Far Intensity :</strong> strength at the far distance <em>(0 = gone)</em></li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Debug</strong></p>
+
+<ul>
+  <li><strong>Debug View :</strong> Shows one channel full-screen to tune a slider. Keep <strong>Off</strong> for normal rendering.
+    <ul>
+      <li><strong>Coverage :</strong> the character area</li>
+      <li><strong>Normal Edge :</strong> edges from surface orientation</li>
+      <li><strong>Depth Edge :</strong> edges from depth gaps</li>
+      <li><strong>Combined Edge :</strong> both edge sources</li>
+      <li><strong>Distance Fade :</strong> how the line fades</li>
+      <li><strong>Occlusion :</strong> where the line is hidden</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Injection</strong> <em>(advanced)</em></p>
+
+<ul>
+  <li><strong>Injection Point :</strong> When the pass runs in the pipeline. <strong>After Rendering Opaques</strong> fits most projects; change only if needed.</li>
+</ul>
 
       </div>
     </main>
