@@ -2,11 +2,11 @@
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/ShadowEdge_Off.jpg" alt="ShadowEdge_Off">
+    <img src="../ShadowEdge/ShadowEdge_Off.jpg" alt="ShadowEdge_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/ShadowEdge_On.jpg" alt="ShadowEdge_On">
+    <img src="../ShadowEdge/ShadowEdge_On.jpg" alt="ShadowEdge_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -17,7 +17,7 @@
 
 A darker band along the boundary between light and shadow (the terminator). It deepens only the transition and fades out in both full light and deep shadow, so it adds form and volume without flattening either side. Strongest on rounded surfaces like hair and cheeks, and needs no texture.
 
-![Shadow Edge](../images/ShadowEdge.png)
+![Shadow Edge](../ShadowEdge/ShadowEdge.png)
 
 ### Parameters
 
