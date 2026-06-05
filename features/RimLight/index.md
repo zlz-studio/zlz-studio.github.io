@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: RimLight
+last_modified_at: 2026-06-05
 ---
 
 ## Rim Light
