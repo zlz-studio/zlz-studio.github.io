@@ -1,3 +1,8 @@
+---
+layout: docs
+title: ShadowEdge
+---
+
 ## Shadow Edge
 
 <div class="compare-container">
