@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: ShadowEdge
+last_modified_at: 2026-06-05
 ---
 
 ## Shadow Edge
