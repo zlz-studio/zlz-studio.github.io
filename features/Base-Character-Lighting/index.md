@@ -50,7 +50,7 @@ This section controls the character’s lighting and shadow behavior.
   - **Higher values** = sharper shadows
 - **Shadow Edge Smooth** : Controls the softness of Receive Shadow edges.
   - **Lower values** = softer and more blurred shadow edges
-  - **Higher values** = sharper shadow edges
+  - **Higher values** = sharper shadow edges  
 <br>
 > Tip: For maximum effect, make sure Soft Shadows is enabled in the URP Renderer Asset. Without it, shadow softness may appear limited.  
 
