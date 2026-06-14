@@ -50,7 +50,7 @@ This section controls the character’s lighting and shadow behavior.
   - **Higher values** = sharper shadows
 - **Shadow Edge Smooth** : Controls the softness of Receive Shadow edges.
   - **Lower values** = softer and more blurred shadow edges
-  - **Higher values** = sharper shadow edges
+  - **Higher values** = sharper shadow edges  
 > Tip: For maximum effect, make sure Soft Shadows is enabled in the URP Renderer Asset. Without it, shadow softness may appear limited.  
 
 <br>  
@@ -58,7 +58,7 @@ This section controls the character’s lighting and shadow behavior.
 - **Reject Self-Shadow** : Enable this option when you want the character to receive shadows from the environment while preventing shadows cast by the character itself.
 - **Reject Self-Shadow Distance** : Controls the distance threshold used to remove self-shadowing.
   - Lower values = more self-shadows are preserved
-  - Higher values = fewer self-shadows are visible, or they may be completely removed
+  - Higher values = fewer self-shadows are visible, or they may be completely removed  
 > Tip: Increase this value until unwanted self-shadows disappear while keeping shadows from other objects intact.  
 
 <br>  
