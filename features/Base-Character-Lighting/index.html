@@ -755,14 +755,57 @@
   <div class="compare-label after">Baked ShadowMask Point Light On</div>
 </div>
 
-<p><img src="../images/basecharacterlighting.png" alt="basecharacterlighting" /></p>
+<p><img src="../Base-Character-Lighting/Lighting.png" alt="Lighting" /></p>
 
 <p>This section controls the character’s lighting and shadow behavior.</p>
 
 <h3 id="parameters">Parameters</h3>
 
 <ul>
-  <li><strong>Receive Shadow</strong> : Enables or disables receiving shadows cast by other objects <em>(disabling this option does <strong>not</strong> affect the character’s ability to cast shadows onto surrounding objects)</em></li>
+  <li><strong>Receive Shadow</strong> : Enables or disables receiving shadows cast by other objects
+    <ul>
+      <li><strong>When to Enable</strong> = Allow environmental objects to cast shadows onto characters.</li>
+      <li><strong>When to Disable</strong> = Characters that should not receive projected shadows from other objects.</li>
+    </ul>
+  </li>
+  <li><strong>Shadow Softness</strong> : Controls the softness of Receive Shadows.
+    <ul>
+      <li><strong>Lower values</strong> = softer and more blurred shadows</li>
+      <li><strong>Higher values</strong> = sharper shadows</li>
+    </ul>
+  </li>
+  <li><strong>Shadow Edge Smooth</strong> : Controls the softness of Receive Shadow edges.
+    <ul>
+      <li><strong>Lower values</strong> = softer and more blurred shadow edges</li>
+      <li><strong>Higher values</strong> = sharper shadow edges
+        <blockquote>
+          <p>Tip: For maximum effect, make sure Soft Shadows is enabled in the URP Renderer Asset. Without it, shadow softness may appear limited.</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>Reject Self-Shadow</strong> : Enable this option when you want the character to receive shadows from the environment while preventing shadows cast by the character itself.</li>
+  <li><strong>Reject Self-Shadow Distance</strong> : Controls the distance threshold used to remove self-shadowing.
+    <ul>
+      <li>Lower values = more self-shadows are preserved</li>
+      <li>Higher values = fewer self-shadows are visible, or they may be completely removed
+        <blockquote>
+          <p>Tip: Increase this value until unwanted self-shadows disappear while keeping shadows from other objects intact.</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>Contact Self-Shadow</strong> : Enables contact shadows cast by the character itself, commonly used to render hair shadows on the face.</li>
   <li><strong>Additional Light Intensity</strong> : Controls the intensity of secondary lights such as Point Lights and Spot Lights; this value does not affect the main Directional Light in the scene</li>
 </ul>
 
