@@ -14,10 +14,10 @@ looking grounded, with no real-time shadow map needed.
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Contact-Shadow/ContactShadow_Off.jpg" alt="ContactShadow_Off">
+    <img src="../Contact-Shadow/ContactShadow_Off.webp" alt="ContactShadow_Off">
   </div>
   <div class="compare-overlay">
-    <img src="../Contact-Shadow/ContactShadow_On.jpg" alt="ContactShadow_On">
+    <img src="../Contact-Shadow/ContactShadow_On.webp" alt="ContactShadow_On">
   </div>
   <div class="compare-handle"></div>
   <div class="compare-label before">ContactShadow Off</div>
@@ -28,7 +28,7 @@ looking grounded, with no real-time shadow map needed.
 
 ## Enable it
 
-![ContactShadow](../Contact-Shadow/ContactShadow.png)
+![ContactShadow](../Contact-Shadow/ContactShadow.webp)
 
 The Dashboard does the setup for you:
 
@@ -40,7 +40,7 @@ The Dashboard does the setup for you:
 
 ## Parameters
 
-![ContactShadowSettings](../Contact-Shadow/ContactShadowSettings.png)
+![ContactShadowSettings](../Contact-Shadow/ContactShadowSettings.webp)
 
 > Can be adjusted in the Render Feature settings.
 

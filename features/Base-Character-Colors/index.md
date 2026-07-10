@@ -8,11 +8,11 @@ last_modified_at: 2026-04-24
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/BaseColor1.jpg" alt="BaseColor1">
+    <img src="../images/BaseColor1.webp" alt="BaseColor1">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/BaseColor2.jpg" alt="BaseColor2">
+    <img src="../images/BaseColor2.webp" alt="BaseColor2">
   </div>
 
   <div class="compare-handle"></div>
@@ -21,7 +21,7 @@ last_modified_at: 2026-04-24
   <div class="compare-label after">Base Character Colors Example 2</div>
 </div>
 
-![basecharactercolors](../images/basecharactercolors.png)
+![basecharactercolors](../images/basecharactercolors.webp)
 
 This section is used to adjust the character’s base color tones. It is designed to allow direct visual tuning through the material, without the need to repeatedly modify texture assets.
 

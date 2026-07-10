@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Dissolve FX Runtine
 
 ### Demo Dissolve Runtime
-![Demo_Dissolve](../Dissolve/Demo_Dissolve.gif)
+![Demo_Dissolve](../Dissolve/Demo_Dissolve.webp)
 
 ---
 
@@ -15,19 +15,19 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
-![VFX_Features](../Upgrade/VFX_Features.png)
+![VFX_Features](../Upgrade/VFX_Features.webp)
 
-![Character_VFX](../Upgrade/Character_VFX.png)
+![Character_VFX](../Upgrade/Character_VFX.webp)
 
 Adjust Animation Curve
 
-![Dissolve_Settings](../Dissolve/Dissolve_Settings.png)
+![Dissolve_Settings](../Dissolve/Dissolve_Settings.webp)
 
 ---
 
 ### Usage
 
-![dissolve](../images/dissolve.png)
+![dissolve](../images/dissolve.webp)
 
 Dissolve Character is used to gradually fade a character out of the scene. It is commonly applied when a character dies, warps, or is removed from the scene. The effect allows flexible control over the pattern, color, and timing of the dissolve.
 

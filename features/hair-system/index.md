@@ -14,11 +14,11 @@ last_modified_at: 2026-04-21
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/Hair_Transparent_Off.jpg" alt="Hair_Transparent_Off">
+    <img src="../images/Hair_Transparent_Off.webp" alt="Hair_Transparent_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/Hair_Transparent_On.jpg" alt="Hair_Transparent_On">
+    <img src="../images/Hair_Transparent_On.webp" alt="Hair_Transparent_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -27,7 +27,7 @@ last_modified_at: 2026-04-21
   <div class="compare-label after">Hair Transparent On</div>
 </div>
 
-![HairTransparent](../images/HairTransparent.png)
+![HairTransparent](../images/HairTransparent.webp)
 
 This feature is designed to be used exclusively with the hair Transparent material
 (ZLZ_Char_Hair_Transparent_Variant)
@@ -49,11 +49,11 @@ This system simplifies the setup of transparent hair rendering by **fading hair 
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/Hair_Shadow_Off.jpg" alt="Hair_Shadow_Off">
+    <img src="../images/Hair_Shadow_Off.webp" alt="Hair_Shadow_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/Hair_Shadow_On.jpg" alt="Hair_Shadow_On">
+    <img src="../images/Hair_Shadow_On.webp" alt="Hair_Shadow_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -62,7 +62,7 @@ This system simplifies the setup of transparent hair rendering by **fading hair 
   <div class="compare-label after">Hair Shadow On</div>
 </div>
 
-![hairshadow](../images/hairshadow.png)
+![hairshadow](../images/hairshadow.webp)
 
 This feature is designed to be used exclusively with the hair shadow material
 (ZLZ_Adv_Char_Hair_Shadow_VariantFromMain)

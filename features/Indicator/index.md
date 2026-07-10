@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Indicator FX Runtine
 
 ### Demo Indicator Runtime
-![Demo_Indicator](../Indicator/Demo_Indicator.gif)
+![Demo_Indicator](../Indicator/Demo_Indicator.webp)
 
 ---
 
@@ -15,19 +15,19 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
-![VFX_Features](../Upgrade/VFX_Features.png)
+![VFX_Features](../Upgrade/VFX_Features.webp)
 
-![Character_VFX](../Upgrade/Character_VFX.png)
+![Character_VFX](../Upgrade/Character_VFX.webp)
 
 Adjust Animation Curve
 
-![Indicator_Settings](../Indicator/Indicator_Settings.png)
+![Indicator_Settings](../Indicator/Indicator_Settings.webp)
 
 ---
 
 ### Usage
 
-![indicator](..//images/indicator.png)
+![indicator](..//images/indicator.webp)
 
 **Indicator / Target Select** is a feature used to highlight characters that are currently selected as targets, such as characters being locked onto, selected for attack, or about to be affected by certain skills.
 

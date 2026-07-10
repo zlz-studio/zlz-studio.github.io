@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Target-Darken FX Runtine
 
 ### Demo Target-Darken Runtime
-![Demo_Target-Darken](../Target-Darken/Demo_Target-Darken.gif)
+![Demo_Target-Darken](../Target-Darken/Demo_Target-Darken.webp)
 
 ---
 
@@ -15,19 +15,19 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
-![VFX_Features](../Upgrade/VFX_Features.png)
+![VFX_Features](../Upgrade/VFX_Features.webp)
 
-![Character_VFX](../Upgrade/Character_VFX.png)
+![Character_VFX](../Upgrade/Character_VFX.webp)
 
 Adjust Animation Curve
 
-![Target-Darken_Settings](../Target-Darken/Target-Darken_Settings.png)
+![Target-Darken_Settings](../Target-Darken/Target-Darken_Settings.webp)
 
 ---
 
 ### Usage
 
-![targetdarken](../images/targetdarken.png)
+![targetdarken](../images/targetdarken.webp)
 
 **Target Darken** is a feature used to reduce the brightness of selected characters in order to draw attention to specific ones, such as characters using skills, appearing in cutscenes, or highlighted during important moments in a scene.
 

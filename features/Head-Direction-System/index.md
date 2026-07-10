@@ -6,7 +6,7 @@ last_modified_at: 2026-04-21
 
 # ZLZ_HeadDirectionBinder (Required Script)
 
-![Features_Overall](../images/DiagramScriptHDB.png)
+![Features_Overall](../images/DiagramScriptHDB.webp)
 
 ### Overview
 ZLZ_HeadDirectionBinder is the core script used to control the direction of the Head Bone and send that data to the shader, ensuring that related features work correctly.
@@ -54,7 +54,7 @@ Without this script, features that rely on head direction will not function corr
 
 ## Setup Script ZLZ_Head Direction Binder
 
-![Head_DirectionBinder](../Head-Direction-System/Head_DirectionBinder.png)
+![Head_DirectionBinder](../Head-Direction-System/Head_DirectionBinder.webp)
 
 The script has been improved to provide a more convenient workflow:
 - For Humanoid characters, there is no need to manually assign the Head Bone. The system can detect it automatically.  

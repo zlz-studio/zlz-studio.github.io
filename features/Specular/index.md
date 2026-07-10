@@ -6,9 +6,9 @@ last_modified_at: 2026-05-24
 
 ## Specular
 
-![Specular](../Specular/Specular.gif)
+![Specular](../Specular/Specular_anim.webp)
 
-![Specular2](../Specular/Specular2.gif)
+![Specular2](../Specular/Specular2.webp)
 
 ---
 
@@ -16,11 +16,11 @@ last_modified_at: 2026-05-24
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Specular/Specular_Off.jpg" alt="Specular_Off">
+    <img src="../Specular/Specular_Off.webp" alt="Specular_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Specular/Specular_On.jpg" alt="Specular_On">
+    <img src="../Specular/Specular_On.webp" alt="Specular_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -33,7 +33,7 @@ last_modified_at: 2026-05-24
 
 ### Usage
 
-![Specular](../Specular/Specular.png)
+![Specular](../Specular/Specular.webp)
 
 Specular is a reflected light effect that appears on a surface when the view direction and light direction align, creating visible highlights on materials such as hair, metal, or plastic.
 

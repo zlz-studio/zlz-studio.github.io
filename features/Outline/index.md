@@ -8,11 +8,11 @@ last_modified_at: 2026-06-05
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Debug_Hull.png" alt="Debug_Hull">
+    <img src="../Outline/Debug_Hull.webp" alt="Debug_Hull">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/Debug_SSO.png" alt="Debug_SSO">
+    <img src="../Outline/Debug_SSO.webp" alt="Debug_SSO">
   </div>
 
   <div class="compare-handle"></div>
@@ -37,7 +37,7 @@ Two ways to draw the outline. Each makes a different kind of line:
 
 ### Setup
 
-![ZLZ_Outline](../Outline/ZLZ_Outline.png)
+![ZLZ_Outline](../Outline/ZLZ_Outline.webp)
 
 The outline is managed from one place: **Character Dashboard > ZLZ Outline**. Enable it there and choose the type (**Inverted Hull** or **Screen Space**); the Dashboard installs and configures everything for you, including filling in **Character Layers** when you pick Screen Space.
 
@@ -50,11 +50,11 @@ The outline is managed from one place: **Character Dashboard > ZLZ Outline**. En
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/SSO_Mask_Off.jpg" alt="SSO_Mask_Off">
+    <img src="../Outline/SSO_Mask_Off.webp" alt="SSO_Mask_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/SSO_Mask_On.jpg" alt="SSO_Mask_On">
+    <img src="../Outline/SSO_Mask_On.webp" alt="SSO_Mask_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -79,11 +79,11 @@ Because the outline is a core part of the shader, the Outline Mask is **always a
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Hull_Near.jpg" alt="Hull_Near">
+    <img src="../Outline/Hull_Near.webp" alt="Hull_Near">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/SSO_Near.jpg" alt="SSO_Near">
+    <img src="../Outline/SSO_Near.webp" alt="SSO_Near">
   </div>
 
   <div class="compare-handle"></div>
@@ -94,11 +94,11 @@ Because the outline is a core part of the shader, the Outline Mask is **always a
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Hull_Far.jpg" alt="Hull_Far">
+    <img src="../Outline/Hull_Far.webp" alt="Hull_Far">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/SSO_Far.jpg" alt="SSO_Far">
+    <img src="../Outline/SSO_Far.webp" alt="SSO_Far">
   </div>
 
   <div class="compare-handle"></div>
@@ -114,18 +114,18 @@ Because the outline is a core part of the shader, the Outline Mask is **always a
 The default outline. After running the Character Dashboard Setup it is enabled automatically.
 
 ### ZLZ Smooth Normal Bake
-![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.png)
+![Script_SmoothNormalBake](../Outline/Script_SmoothNormalBake.webp)
 
 When installing the ZLZ_Character Dashboard, the system will automatically bake everything for you.  
 This helps make the outline smoother and cleaner, ensuring the highest outline quality.  
 If the mesh is updated later, simply press “Bake All” to rebake and finish the setup.  
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/No_SmoothNormalBake.jpg" alt="No_SmoothNormalBake">
+    <img src="../Outline/No_SmoothNormalBake.webp" alt="No_SmoothNormalBake">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/SmoothNormalBake.jpg" alt="SmoothNormalBake">
+    <img src="../Outline/SmoothNormalBake.webp" alt="SmoothNormalBake">
   </div>
 
   <div class="compare-handle"></div>
@@ -141,13 +141,13 @@ If the mesh is updated later, simply press “Bake All” to rebake and finish t
 ZLZ Outline Batch automatically optimizes outline rendering by generating shared batching tags,  
 reducing unnecessary draw calls while preserving the original visual quality.
 
-![Showcase_Outline_Batch](../Outline/Showcase_Outline_Batch.png)
+![Showcase_Outline_Batch](../Outline/Showcase_Outline_Batch.webp)
 
 ---
 
 ### Parameters
 
-![Mat_Hull](../Outline/Mat_Hull.png)
+![Mat_Hull](../Outline/Mat_Hull.webp)
 
 - **Outline Z Mode :** Provides two modes:
     - **Legacy :** Allows the use of Outline Z Offset, but may cause issues with certain types of reflections
@@ -162,11 +162,11 @@ reducing unnecessary draw calls while preserving the original visual quality.
 ### Example Outline Colors
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Outline_Example1.jpg" alt="Outline_Example1">
+    <img src="../Outline/Outline_Example1.webp" alt="Outline_Example1">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/Outline_Example2.jpg" alt="Outline_Example2">
+    <img src="../Outline/Outline_Example2.webp" alt="Outline_Example2">
   </div>
 
   <div class="compare-handle"></div>
@@ -180,11 +180,11 @@ reducing unnecessary draw calls while preserving the original visual quality.
 ### Example Z Offset
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Outline/Outline_Z_Offset_0.jpg" alt="Outline_Z_Offset_0">
+    <img src="../Outline/Outline_Z_Offset_0.webp" alt="Outline_Z_Offset_0">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Outline/Outline_Z_Offset_0.025.jpg" alt="Outline_Z_Offset_0.025">
+    <img src="../Outline/Outline_Z_Offset_0.025.webp" alt="Outline_Z_Offset_0.025">
   </div>
 
   <div class="compare-handle"></div>
@@ -203,7 +203,7 @@ The inverted hull handles the outer silhouette. Screen Space Outline adds the in
 
 ### Parameters
 
-![ZLZ_OutlineSSO](../Outline/ZLZ_OutlineSSO.png)
+![ZLZ_OutlineSSO](../Outline/ZLZ_OutlineSSO.webp)
 
 **Layers**
 

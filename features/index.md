@@ -6,7 +6,7 @@ last_modified_at: 2026-04-25
 
 # Features
 
-![Features_Overall](./images/Features_Overall.png)
+![Features_Overall](./images/Features_Overall.webp)
 
 The features of this shader are designed to be divided into **two main groups**, based on their roles and impact on performance.
 
@@ -30,7 +30,7 @@ These features are optional, allowing users to enable or disable them as needed.
 
 ## Texture Character
 
-![TextureCharacter](./images/TextureCharacter.png)
+![TextureCharacter](./images/TextureCharacter.webp)
 
 This shader uses **two main types of textures**, as described below:
 
@@ -47,7 +47,7 @@ The primary texture used for rendering the character’s surface.
 
 ## Mask Layout (Update in v 1.5.0)
 
-![Mark_LayOut](./images/Mark_LayOut.png)
+![Mark_LayOut](./images/Mark_LayOut.webp)
 
 A mask texture management system for ZLZ Anime Shader, packs masks for multiple features into a single texture to save VRAM and reduce texture samples
 
@@ -77,7 +77,7 @@ Each feature has a "Use Mask" checkbox:
 
 ## ZLZ Mask Packer (Update in v 1.5.0)
 
-![ZLZ_Mask_Packer](./images/ZLZ_Mask_Packer.png)
+![ZLZ_Mask_Packer](./images/ZLZ_Mask_Packer.webp)
 
 A tool that bakes individual mask textures into a packed RGBA texture automatically — no need to open Photoshop to combine channels manually.
 

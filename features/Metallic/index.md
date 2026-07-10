@@ -8,11 +8,11 @@ last_modified_at: 2026-05-09
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../Metallic/Metallic_Off.jpg" alt="Metallic_Off">
+    <img src="../Metallic/Metallic_Off.webp" alt="Metallic_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../Metallic/Metallic_On.jpg" alt="Metallic_On">
+    <img src="../Metallic/Metallic_On.webp" alt="Metallic_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -21,11 +21,11 @@ last_modified_at: 2026-05-09
   <div class="compare-label after">Metallic On</div>
 </div>
 
-![Showcase_Metallic_On](../Metallic/Showcase_Metallic_On.gif)
+![Showcase_Metallic_On](../Metallic/Showcase_Metallic_On.webp)
 
 
 ## Example setup for the metallic effect on the sword above.
-![Parameter_Metallic](../Metallic/Parameter_Metallic.png)
+![Parameter_Metallic](../Metallic/Parameter_Metallic.webp)
 
 Metallic is used for character parts made of metal materials, adding shine and surface depth.
 

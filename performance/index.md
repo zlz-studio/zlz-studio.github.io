@@ -6,7 +6,7 @@ last_modified_at: 2026-04-24
 
 # Performance
 
-![Features_Overall](./images/Features_Overall.png)
+![Features_Overall](./images/Features_Overall.webp)
 
 Our shader includes a wide range of features, each designed to operate independently. When a feature is enabled or disabled, unused code is **actually stripped at compile time**, ensuring that only the active features are processed.
 
@@ -18,14 +18,14 @@ As a result, optimizing the ZLZ Anime Shader is straightforward simply enable on
 
 ## ZLZ Shader Optimizer (New in V 1.4.0)
 
-![Optimize_1](./images/Optimize_1.png)
+![Optimize_1](./images/Optimize_1.webp)
 
 ZLZ Shader Optimizer was created to help users understand how much resources their character is using,
 and make it easier to optimize for different target platforms.
 
 ### Understanding ZLZ Shader Optimizer
 
-![1](./images/1.png)
+![1](./images/1.webp)
 
 1.Performance Budget : Acts like a ruler for checking whether a Material is becoming too heavy, or if the overall Character is too expensive.
 - Used to define what Shader Cost and VRAM usage should be considered “Light” or “Heavy”
@@ -35,7 +35,7 @@ and make it easier to optimize for different target platforms.
 - Users can customize the values to better fit their own project
 - Press Reset Defaults to restore the original default values
 
-![2](./images/2.png)
+![2](./images/2.webp)
 
 2.Bar Chart : Used to view the overall resource usage of all Materials in the Character, making it easier to identify which parts are heavy or overusing resources.
 - Shader Cost represents how expensive the Shader is when calculating features and effects
@@ -45,7 +45,7 @@ and make it easier to optimize for different target platforms.
 - Makes it easy to quickly identify which Materials are exceeding the budget
 - Clicking a Material in the chart will show more detailed information in section 3
 
-![3](./images/3.png)
+![3](./images/3.webp)
 
 3.Material Detail : Displays detailed information about the selected Material.
 The left side shows Shader Cost information, while the right side shows Texture information.
@@ -63,7 +63,7 @@ Texture : Used for viewing detailed information about all Textures currently use
 - Users can click a Texture to adjust Compression settings directly
 - Supports separate platform settings such as PC / Android / iOS
 
-![4](./images/4.png)
+![4](./images/4.webp)
 
 4.Character Texture Optimization : Used for optimizing the Texture Max Size of the entire Character all at once.
 - Allows users to adjust Texture Max Size based on usage type such as MainTex, Mask, Normal Map, and other Textures
@@ -74,7 +74,7 @@ Texture : Used for viewing detailed information about all Textures currently use
 - Supports separate platform settings such as PC / Android / iOS
 - Allows optimization settings to be applied across the entire Character at once
 
-![5](./images/5.png)
+![5](./images/5.webp)
 
 5.Summary Bar Per Material : Displays the total Shader Cost and Texture VRAM of the currently selected Material.
 - Helps users quickly understand how heavy the selected Material is

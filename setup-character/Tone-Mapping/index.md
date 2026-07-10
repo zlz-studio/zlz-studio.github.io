@@ -31,7 +31,7 @@ By default, Unity provides two main tone mapping options: Neutral and ACES
 
 ### Neutral
 
-![Netural](../Tone-Mapping/Netural.jpg)
+![Netural](../Tone-Mapping/Netural.webp)
 
 Neutral tone mapping is designed to preserve the original color response as much as possible.
 
@@ -42,7 +42,7 @@ Characteristics:
 
 ### ACES
 
-![ACES](../Tone-Mapping/ACES.jpg)
+![ACES](../Tone-Mapping/ACES.webp)
 
 ACES is designed to produce a more cinematic and physically-inspired result.
 
@@ -58,7 +58,7 @@ ZLZ Tone Mapping provides two curve options:
 
 ### 1. Anime Curve (Recommended)
 
-![Anime](../Tone-Mapping/Anime.jpg)
+![Anime](../Tone-Mapping/Anime.webp)
 
 Designed to preserve the visual quality of Anime-style rendering
 
@@ -71,7 +71,7 @@ Key features:
 
 ### 2. Filmic Curve
 
-![Filmic](../Tone-Mapping/Filmic.jpg)
+![Filmic](../Tone-Mapping/Filmic.webp)
 
 Designed for a more cinematic and natural-looking result
 
@@ -95,13 +95,13 @@ Key features:
       </div>
       <div class="compare-picker-btns" id="left-picker">
         <button class="compare-btn left-btn" data-val="Netural"
-          data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+          data-src="/setup-character/Tone-Mapping/Netural.webp">Netural</button>
         <button class="compare-btn left-btn active-left" data-val="ACES"
-          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+          data-src="/setup-character/Tone-Mapping/ACES.webp">ACES</button>
         <button class="compare-btn left-btn" data-val="ZLZ_Anime"
-          data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+          data-src="/setup-character/Tone-Mapping/Anime.webp">ZLZ_Anime</button>
         <button class="compare-btn left-btn" data-val="ZLZ_Filmic"
-          data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
+          data-src="/setup-character/Tone-Mapping/Filmic.webp">ZLZ_Filmic</button>
       </div>
     </div>
 
@@ -111,13 +111,13 @@ Key features:
       </div>
       <div class="compare-picker-btns" id="right-picker">
         <button class="compare-btn right-btn" data-val="Netural"
-          data-src="/setup-character/Tone-Mapping/Netural.jpg">Netural</button>
+          data-src="/setup-character/Tone-Mapping/Netural.webp">Netural</button>
         <button class="compare-btn right-btn" data-val="ACES"
-          data-src="/setup-character/Tone-Mapping/ACES.jpg">ACES</button>
+          data-src="/setup-character/Tone-Mapping/ACES.webp">ACES</button>
         <button class="compare-btn right-btn active-right" data-val="ZLZ_Anime"
-          data-src="/setup-character/Tone-Mapping/Anime.jpg">ZLZ_Anime</button>
+          data-src="/setup-character/Tone-Mapping/Anime.webp">ZLZ_Anime</button>
         <button class="compare-btn right-btn" data-val="ZLZ_Filmic"
-          data-src="/setup-character/Tone-Mapping/Filmic.jpg">ZLZ_Filmic</button>
+          data-src="/setup-character/Tone-Mapping/Filmic.webp">ZLZ_Filmic</button>
           
       </div>
     </div>
@@ -126,10 +126,10 @@ Key features:
 
   <div class="compare-stage">
     <div class="compare-base">
-      <img src="/setup-character/Tone-Mapping/ACES.jpg" alt="ACES">
+      <img src="/setup-character/Tone-Mapping/ACES.webp" alt="ACES">
     </div>
     <div class="compare-overlay">
-      <img src="/setup-character/Tone-Mapping/Anime.jpg" alt="ZLZ_Anime">
+      <img src="/setup-character/Tone-Mapping/Anime.webp" alt="ZLZ_Anime">
     </div>
     <div class="compare-handle"></div>
     <span class="compare-label before">ACES</span>
@@ -141,7 +141,7 @@ Key features:
 
 ### Setup Tone Mapping
 
-![ToneMapping](../Tone-Mapping/Setup-ToneMapping.jpg)
+![ToneMapping](../Tone-Mapping/Setup-ToneMapping.webp)
 
 1. Go to Project Settings > Quality, Under Render Pipeline Asset, select the active URP Asset  
 2. Select the Universal Renderer Data, then add the ZLZ Anime ToneMapping feature.  
@@ -149,7 +149,7 @@ Key features:
 
 ### Post Processing > High Dynamic Range
 
-![HDR](../Tone-Mapping/HDR.png)
+![HDR](../Tone-Mapping/HDR.webp)
 
 Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Processing settings.
 
@@ -164,7 +164,7 @@ Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Pr
 
 ### Anime Curve Parameters
 
-![Anime_Curve](../Tone-Mapping/Anime_Curve.png)
+![Anime_Curve](../Tone-Mapping/Anime_Curve.webp)
 
 - Exposure : Adjusts the overall brightness of the image
 - Tone Map Scale : Controls tone mapping intensity → used with Exposure
@@ -178,7 +178,7 @@ Important: Make sure that High Dynamic Range (HDR) is enabled in the URP Post Pr
 
 ### Filmic Curve Parameters
 
-![Filmic_Curve](../Tone-Mapping/Filmic_Curve.png)
+![Filmic_Curve](../Tone-Mapping/Filmic_Curve.webp)
 
 - Exposure : Adjusts the overall brightness of the image
 - Tone Map Scale : Controls tone mapping intensity → used with Exposure

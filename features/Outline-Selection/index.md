@@ -6,14 +6,14 @@ last_modified_at: 2026-05-23
 
 ## Selection Outline
 
-![OutlineSelection](../Outline-Selection/OutlineSelection.gif)
+![OutlineSelection](../Outline-Selection/OutlineSelection.webp)
 
 Give your players instant visual feedback - highlight characters, enemies, or items
 with an animated outline that pulses and fades with style.
 
 ---
 
-![Showcase_Gameplay](../Outline-Selection/Showcase_Gameplay.gif)
+![Showcase_Gameplay](../Outline-Selection/Showcase_Gameplay.webp)
 
 ### Overview
 
@@ -35,12 +35,12 @@ and interactive objects, works on both PC and Mobile.
 1.Open the Character Dashboard in the Inspector → choose a Selection Type
 (Character, Enemy, or Item)
 
-![Dashbord_Outline_Selection](../Outline-Selection/Dashbord_Outline_Selection.png)
+![Dashbord_Outline_Selection](../Outline-Selection/Dashbord_Outline_Selection.webp)
 
 2.Open Universal Renderer Data and find ZLZ Selection Outline → adjust color,
 width, and Animation Curves here
 
-![Universal Render Data](../Outline-Selection/Universal_Render_Data.png)
+![Universal Render Data](../Outline-Selection/Universal_Render_Data.webp)
 
 ---
 

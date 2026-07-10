@@ -8,11 +8,11 @@ last_modified_at: 2026-04-20
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/FaceShadow_Off.jpg" alt="FaceShadow_Off">
+    <img src="../images/FaceShadow_Off.webp" alt="FaceShadow_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/FaceShadow_On.jpg" alt="FaceShadow_On">
+    <img src="../images/FaceShadow_On.webp" alt="FaceShadow_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -23,11 +23,11 @@ last_modified_at: 2026-04-20
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/FaceShadow_Debug.jpg" alt="FaceShadow_Debug">
+    <img src="../images/FaceShadow_Debug.webp" alt="FaceShadow_Debug">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/FaceShadow_On.jpg" alt="FaceShadow_On">
+    <img src="../images/FaceShadow_On.webp" alt="FaceShadow_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -38,7 +38,7 @@ last_modified_at: 2026-04-20
 
 {% include youtube.html id="_ofUJvzlflg" %}
 
-![basecharacterlighting](../images/FaceShadow.png)
+![basecharacterlighting](../images/FaceShadow.webp)
 
 Face Shadow is designed to be flexible and works with a wide variety of characters, regardless of how their face UVs are set up.  
 It also includes a Face Shadow Paint texture that can be reused across multiple characters, so you don’t need to switch textures frequently.

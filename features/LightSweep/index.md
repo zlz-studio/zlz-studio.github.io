@@ -6,9 +6,9 @@ last_modified_at: 2026-04-18
 
 ## LightSweep
 
-![LightSweep](../LightSweep/LightSweep.gif)
+![LightSweep](../LightSweep/LightSweep.webp)
 
-![lightsweep](../images/lightsweep.png)
+![lightsweep](../images/lightsweep.webp)
 
 **Light Sweep** is a feature that adds a moving light effect sweeping across an object.
 

@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## GetHit FX Runtine
 
 ### Demo GetHit Runtime
-![Demo_GetHit](../GetHit/Demo_GetHit.gif)
+![Demo_GetHit](../GetHit/Demo_GetHit.webp)
 
 ---
 
@@ -15,19 +15,19 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
-![VFX_Features](../Upgrade/VFX_Features.png)
+![VFX_Features](../Upgrade/VFX_Features.webp)
 
-![Character_VFX](../Upgrade/Character_VFX.png)
+![Character_VFX](../Upgrade/Character_VFX.webp)
 
 Adjust Animation Curve
 
-![GetHit_Settings](../GetHit/GetHit_Settings.png)
+![GetHit_Settings](../GetHit/GetHit_Settings.webp)
 
 ---
 
 ### Usage
 
-![gethit](../images/gethit.png)
+![gethit](../images/gethit.webp)
 
 **Get Hit** is a feature used to visualize when a character is attacked, providing immediate visual feedback so players can clearly recognize that a hit has occurred.
 

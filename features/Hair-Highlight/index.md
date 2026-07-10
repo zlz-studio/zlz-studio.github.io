@@ -9,11 +9,11 @@ last_modified_at: 2026-04-23
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../images/HairHighlight_Off.jpg" alt="HairHighlight_Off">
+    <img src="../images/HairHighlight_Off.webp" alt="HairHighlight_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../images/HairHighlight_On.jpg" alt="HairHighlight_On">
+    <img src="../images/HairHighlight_On.webp" alt="HairHighlight_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -22,7 +22,7 @@ last_modified_at: 2026-04-23
   <div class="compare-label after">HairHighlight On</div>
 </div>
 
-![hairhighlight](../images/hairhighlight.png)
+![hairhighlight](../images/hairhighlight.webp)
 
 Hair Highlight is used to add light highlights to the character’s hair, with the highlight appearing only in areas that receive light.
 

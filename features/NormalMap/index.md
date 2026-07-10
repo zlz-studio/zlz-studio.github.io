@@ -8,11 +8,11 @@ last_modified_at: 2026-05-09
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../NormalMap/NormalMap1_Off.jpg" alt="NormalMap_Off">
+    <img src="../NormalMap/NormalMap1_Off.webp" alt="NormalMap_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../NormalMap/NormalMap1_On.jpg" alt="NormalMap_On">
+    <img src="../NormalMap/NormalMap1_On.webp" alt="NormalMap_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -23,11 +23,11 @@ last_modified_at: 2026-05-09
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="../NormalMap/NormalMap2_Off.jpg" alt="NormalMap_Off">
+    <img src="../NormalMap/NormalMap2_Off.webp" alt="NormalMap_Off">
   </div>
 
   <div class="compare-overlay">
-    <img src="../NormalMap/NormalMap2_On.jpg" alt="NormalMap_On">
+    <img src="../NormalMap/NormalMap2_On.webp" alt="NormalMap_On">
   </div>
 
   <div class="compare-handle"></div>
@@ -36,7 +36,7 @@ last_modified_at: 2026-05-09
   <div class="compare-label after">NormalMap_On</div>
 </div>
 
-![Parameter_NormalMap](../NormalMap/Parameter_NormalMap.png)
+![Parameter_NormalMap](../NormalMap/Parameter_NormalMap.webp)
 
 This section is used to control the character’s Normal Map settings, adding more surface detail and improving the appearance of lighting and shadows.
 
@@ -46,5 +46,5 @@ This section is used to control the character’s Normal Map settings, adding mo
 
 ### Preview NormalMap Pass
 
-![NormalMap_Pass](../NormalMap/NormalMap_Pass.png)
+![NormalMap_Pass](../NormalMap/NormalMap_Pass.webp)
 

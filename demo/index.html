@@ -75,7 +75,10 @@
         loading.classList.add("hidden");          // fade out the loading screen
         fsBtn.style.display = "block";
         fsBtn.onclick = function () { unity.SetFullscreen(1); };
-      }).catch(function (msg) { alert(msg); });
+      }).catch(function (msg) {
+        document.querySelector("#zlz-sub").textContent = "Failed to load demo: " + msg;
+        fill.style.background = "#ef4444";
+      });
     };
     document.body.appendChild(script);
   </script>

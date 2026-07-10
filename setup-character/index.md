@@ -21,7 +21,7 @@ without being required to use every feature.
 
 ### Importance of Tone Mapping
 
-![ToneMapping](./Tone-Mapping/ToneMapping.jpg)
+![ToneMapping](./Tone-Mapping/ToneMapping.webp)
 
 Tone Mapping has a significant impact on the final look of the character.
 It is recommended to set up Tone Mapping before adjusting the character’s materials.
@@ -30,11 +30,11 @@ It is recommended to set up Tone Mapping before adjusting the character’s mate
 
 <div class="compare-container">
   <div class="compare-base">
-    <img src="./images/Standard_Setup.jpg" alt="Standard Setup">
+    <img src="./images/Standard_Setup.webp" alt="Standard Setup">
   </div>
 
   <div class="compare-overlay">
-    <img src="./images/Advanced_Setup.jpg" alt="Advanced Setup">
+    <img src="./images/Advanced_Setup.webp" alt="Advanced Setup">
   </div>
 
   <div class="compare-handle"></div>

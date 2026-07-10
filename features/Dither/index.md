@@ -7,10 +7,10 @@ last_modified_at: 2026-05-24
 ## Dither FX Runtime
 
 ### Demo Dither Occlusion Runtime
-![Dither_Occlusion](../Dither/Dither_Occlusion.gif)
+![Dither_Occlusion](../Dither/Dither_Occlusion.webp)
 
 ### Demo Dither Fade Camera Runtime
-![Dither_Fade_Camera](../Dither/Dither_Fade_Camera.gif)
+![Dither_Fade_Camera](../Dither/Dither_Fade_Camera.webp)
 
 ---
 
@@ -18,11 +18,11 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup ZLZ Dither.
 
-![ZLZ_Dither](../Dither/ZLZ_Dither.png)
+![ZLZ_Dither](../Dither/ZLZ_Dither.webp)
 
 Adjust Animation Curve
 
-![Dither_Setttings](../Dither/Dither_Setttings.png)
+![Dither_Setttings](../Dither/Dither_Setttings.webp)
 
 ---
 

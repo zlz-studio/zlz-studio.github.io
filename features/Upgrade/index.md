@@ -7,7 +7,7 @@ last_modified_at: 2026-05-24
 ## Upgrade FX Runtime
 
 ### Demo Upgrade Runtime
-![Demo_Upgrade](../Upgrade/Demo_Upgrade.gif)
+![Demo_Upgrade](../Upgrade/Demo_Upgrade.webp)
 
 ---
 
@@ -15,19 +15,19 @@ last_modified_at: 2026-05-24
 
 Done in a single step, just click Setup VFX Features and Refresh Renderers.
 
-![VFX_Features](../Upgrade/VFX_Features.png)
+![VFX_Features](../Upgrade/VFX_Features.webp)
 
-![Character_VFX](../Upgrade/Character_VFX.png)
+![Character_VFX](../Upgrade/Character_VFX.webp)
 
 Adjust Animation Curve
 
-![Upgrade_Settings](../Upgrade/Upgrade_Settings.png)
+![Upgrade_Settings](../Upgrade/Upgrade_Settings.webp)
 
 ---
 
 ### Usage
 
-![upgrade](../images/upgrade.png)
+![upgrade](../images/upgrade.webp)
 
 **Upgrade** is a feature used to visualize when a character or weapon is upgraded, providing clear visual feedback to convey progression and change to the player.
 

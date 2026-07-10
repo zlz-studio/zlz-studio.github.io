@@ -6,9 +6,9 @@ last_modified_at: 2026-04-24
 
 ## Transparency
 
-![transparency](../Transparency/Transparency.gif)
+![transparency](../Transparency/Transparency.webp)
 
-![transparency](../images/transparency.png)
+![transparency](../images/transparency.webp)
 
 ### Parameters
 

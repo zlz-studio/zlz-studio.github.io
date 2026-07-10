@@ -6,7 +6,7 @@ last_modified_at: 2026-04-20
 
 # Advanced Hair Setup
 
-![Advanced](../images/Advanced.png)
+![Advanced](../images/Advanced.webp)
 
 Suitable for users who want to enhance the visual quality of their characters.
 
@@ -38,18 +38,18 @@ When setting up a single character, this system uses a total of **six main Mater
 > Path : Assets/ZLZ_AnimeShader/Material_Preset/Advanced_Hair_Setup
 > 
 
-![Path_Material_Advanced](../images/Path_Material_Advanced.png)
+![Path_Material_Advanced](../images/Path_Material_Advanced.webp)
 
 
 ## Setup Character in 3 min in version 1.4.0
 
 {% include youtube.html id="huoHvZexRxo" %}
 
-![Step1-SetupCharacter](../images/Step1-SetupCharacter.png)
+![Step1-SetupCharacter](../images/Step1-SetupCharacter.webp)
 
-![Step2-SetupCharacter](../images/Step2-SetupCharacter.png)
+![Step2-SetupCharacter](../images/Step2-SetupCharacter.webp)
 
 
 ## Final Setup Overview
 
-![Final](../images/Final.png)
+![Final](../images/Final.webp)
