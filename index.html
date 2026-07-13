@@ -10,7 +10,7 @@
     .item a { text-decoration: underline; }
     /* ===== Scaled WebGL Embed ===== */
     .embedScaled{
-      width: min(100%, 960px);     /* ✅ ขนาดที่คุณอยากให้แสดงบนหน้า (ปรับได้) */
+      width: min(100%, 960px);     /* display width on the page (adjustable) */
       margin: 0 auto;
       border-radius:14px;
       overflow:hidden;
@@ -19,10 +19,10 @@
     }
     
     .stage{
-      width:1280px;                /* ✅ ขนาดจริงของเกม — 16:9 ให้ตรงกับ build */
+      width:1280px;                /* actual game size — 16:9, must match the build */
       height:720px;
       transform-origin: top left;
-      /* scale จะถูกคำนวณด้วย JS ด้านล่าง */
+      /* scale is computed by the JS below */
     }
 
     
@@ -61,7 +61,17 @@
       position:relative;
       z-index:1;
     }
-    .top{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;}
+    .top{
+      position:sticky; top:12px; z-index:50;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; margin-bottom:18px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(11,15,20,.72);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
     .brand{font-weight:900; letter-spacing:.6px;}
     .pill{
       border:1px solid var(--line);
@@ -283,7 +293,7 @@
       flex-direction:column;
       gap:10px;
     
-      max-height:166px;      /* ประมาณ 3 ช่อง */
+      max-height:166px;      /* roughly 3 slots */
       overflow-y:auto;
       padding-right:6px;
     }
@@ -564,23 +574,145 @@
         height:44px;
         font-size:24px;
       }
-    
+
       .gameInfo{
         flex-direction:column;
         align-items:flex-start;
       }
     }
-    
+
+    /* ===== Product Switcher (top bar) ===== */
+    .top{flex-wrap:wrap;}
+
+    .productTabs{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:4px;
+      border:1px solid var(--line);
+      background:rgba(17,24,39,.55);
+      border-radius:999px;
+    }
+
+    .productTab{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 16px;
+      border:none;
+      border-radius:999px;
+      background:transparent;
+      color:var(--muted);
+      font-family:inherit;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      transition:all .2s ease;
+      white-space:nowrap;
+    }
+
+    .productTab:hover{color:var(--text);}
+
+    .productTab.active{
+      background:var(--accent);
+      color:#111;
+    }
+
+    .productTab[data-tab="env"].active{
+      background:#22c55e;
+      color:#052e16;
+    }
+
+    .productTab .soonTag{
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.05em;
+      padding:2px 7px;
+      border-radius:999px;
+      border:1px solid rgba(34,197,94,.45);
+      color:#22c55e;
+    }
+
+    .productTab[data-tab="env"].active .soonTag{
+      border-color:rgba(5,46,22,.35);
+      color:#052e16;
+    }
+
+    @media (max-width:760px){
+      .productTabs{width:100%; justify-content:stretch;}
+      .productTab{flex:1; justify-content:center;}
+    }
+
+
+    /* ===== Feature thumbnail grid ===== */
+    .featGroupTitle{
+      font-size:12px; margin:18px 0 10px; color:var(--muted);
+      text-transform:uppercase; letter-spacing:.08em; font-weight:700;
+    }
+    .featGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+      gap:12px;
+    }
+    .featCard{
+      display:flex; flex-direction:column;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px; overflow:hidden;
+      background:rgba(255,255,255,.03);
+      transition:all .2s ease;
+    }
+    .featCard:hover{
+      background:rgba(255,255,255,.07);
+      transform:translateY(-2px);
+      border-color:rgba(255,255,255,.16);
+    }
+    .featCard img{
+      width:100%; aspect-ratio:16/9; object-fit:cover;
+      display:block; background:#0f172a;
+    }
+    .featMeta{padding:10px 12px;}
+    .featName{display:block; font-size:13px; font-weight:700; line-height:1.35;}
+    .featDate{display:block; margin-top:3px; color:var(--muted); font-size:11px;}
+    @media (max-width:760px){
+      .featGrid{grid-template-columns:repeat(2, minmax(0,1fr));}
+    }
+
+
+    /* ===== Env teaser & tab pulse ===== */
+    .tabDot{
+      width:7px; height:7px; border-radius:999px;
+      background:#22c55e;
+      animation:tabPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes tabPulse{
+      0%,100%{opacity:1; box-shadow:0 0 0 0 rgba(34,197,94,.55);}
+      50%{opacity:.7; box-shadow:0 0 0 5px rgba(34,197,94,0);}
+    }
+
+
+    /* ===== Hover-to-animate thumbnails ===== */
+    .featCard{position:relative;}
+    .featCard img[data-anim] ~ .featMeta .featName::after{
+      content:"B6";
+      margin-left:6px;
+      font-size:9px;
+      color:var(--accent);
+      vertical-align:2px;
+    }
+
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="top">
       <div class="brand">ZLZ Studio</div>
-      <div class="pill">ZLZ Anime Shader • URP</div>
+      <div class="productTabs" role="tablist" aria-label="Select product">
+        <button class="productTab active" data-tab="anime" type="button" role="tab" aria-selected="true">ZLZ Anime Shader</button>
+        <button class="productTab" data-tab="env" type="button" role="tab" aria-selected="false"><span class="tabDot" aria-hidden="true"></span>ZLZ Env Shader <span class="soonTag">SOON</span></button>
+      </div>
     </div>
 
-    <section class="hero">
+    <section class="hero" data-product="anime">
       <div class="heroRow">
         <div class="heroLeft">
           <h1>ZLZ Anime Shader for Unity URP</h1>
@@ -618,8 +750,66 @@
       </div>
     </section>
 
+
+    <!-- ===== ZLZ Env Shader — Hero (same structure as Anime) ===== -->
+    <section class="hero" data-product="env" style="display:none;">
+      <div class="heroRow">
+        <div class="heroLeft">
+          <h1>ZLZ Env Shader for Unity URP</h1>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <span class="btn assetBtn" style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#22c55e; cursor:default;">
+              Coming Soon on Unity Asset Store
+            </span>
+          </div>
+        </div>
+
+        <div class="heroRight">
+          <a class="socialIcon" href="https://www.youtube.com/@ZLZ-zhugeliangz" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8ZM9.6 15.5v-7L15.8 12l-6.2 3.5Z"/>
+            </svg>
+          </a>
+
+          <a class="socialIcon" href="https://x.com/zlz_studio" target="_blank" rel="noopener" title="X" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-5-6.5L6.2 22H3.1l7.3-8.4L.8 2h6.4l4.5 6 5.2-6ZM17.8 20h1.7L6.3 3.9H4.5L17.8 20Z"/>
+            </svg>
+          </a>
+
+          <a class="socialIcon" href="https://www.artstation.com/zhugeliangz" target="_blank" rel="noopener" title="ArtStation" aria-label="ArtStation">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13.8 17.9H3l1.8 3.1a1.7 1.7 0 0 0 1.5.9h9.3l-1.8-4ZM24 17.9l-4.3-7.5a1.7 1.7 0 0 0-1.5-.9h-4.6l8 13.4V19a2.2 2.2 0 0 1 .4-1.1ZM13.8 2l7.7 13.3H6.1L13.8 2Z"/>
+            </svg>
+          </a>
+
+          <a class="socialIcon" href="https://discussions.unity.com/t/30-launch-discount-first-7-days-zlz-anime-shader-transparent-hair-shader-for-unity-urp/1711422" target="_blank" rel="noopener" title="Unity Forum" aria-label="Unity Forum">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 3.5 7v10L12 22l8.5-5V7L12 2Zm0 2.2 6.5 3.8v7.9L12 19.8l-6.5-3.9V8l6.5-3.8Zm-3.2 9.1h6.4v1.8H8.8v-1.8Zm0-3.4h6.4v1.8H8.8V9.9Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ZLZ Env Shader — WebGL Demo (reserved slot) ===== -->
+    <section class="demo" data-product="env" style="display:none;">
+      <div class="demoHead">
+        <div>
+          <h2>WebGL Demo Coming Soon</h2>
+          <small>Try ZLZ Env Shader in browser (WebGL)</small>
+        </div>
+      </div>
+
+      <div class="embedScaled" style="aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px; background:radial-gradient(600px 300px at 50% 30%, #14261b 0%, #0e1116 72%);">
+        <div style="width:74px; height:74px; border-radius:999px; border:2px dashed rgba(34,197,94,.55); display:flex; align-items:center; justify-content:center; font-size:30px; color:#22c55e;">▶</div>
+        <div style="font-weight:800;">Demo slot — reserved</div>
+        <small style="color:var(--muted);">Reserved for the ZLZ Env Shader WebGL demo</small>
+      </div>
+    </section>
+
     <!-- ===== WebGL Demo (Embed) ===== -->
-    <section class="demo" id="demo">
+    <section class="demo" id="demo" data-product="anime">
       <div class="demoHead">
         <div>
           <h2>WebGL Demo Version 1.6.0</h2>
@@ -641,121 +831,234 @@
 
     <div id="docs" class="grid">
       <!-- Setup Character -->
-      <section class="card docsBlock">
+      <section class="card docsBlock" data-product="anime">
         <h2>Setup Character</h2>
-        <div class="scrollList show-4">
-          {% assign p = site.pages | where: "url", "/setup-character/" | first %}<a class="item" href="/setup-character/"><span>Overview</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/setup-character/standard-setup/" | first %}<a class="item" href="/setup-character/standard-setup/"><span>Standard Setup</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/setup-character/advanced-hair-setup/" | first %}<a class="item" href="/setup-character/advanced-hair-setup/"><span>Advanced Hair Setup</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/setup-character/Tone-Mapping/" | first %}<a class="item" href="/setup-character/Tone-Mapping/"><span>Tone Mapping</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+        <div class="featGrid">
+          {% assign p = site.pages | where: "url", "/setup-character/standard-setup/" | first %}<a class="featCard" href="/setup-character/standard-setup/">
+            <img src="/images/thumbs/setup-standard.webp" alt="Standard Setup" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Standard Setup</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/setup-character/advanced-hair-setup/" | first %}<a class="featCard" href="/setup-character/advanced-hair-setup/">
+            <img src="/images/thumbs/setup-advanced.webp" alt="Advanced Hair Setup" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Advanced Hair Setup</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/setup-character/Tone-Mapping/" | first %}<a class="featCard" href="/setup-character/Tone-Mapping/">
+            <img src="/images/thumbs/setup-tonemapping.webp" alt="Tone Mapping" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Tone Mapping</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
         </div>
       </section>
 
       <!-- Features -->
-      <section class="card docsBlock">
+      <section class="card docsBlock" data-product="anime">
         <h2>Features</h2>
-        <div class="scrollList show-8">
-          {% assign p = site.pages | where: "url", "/features/" | first %}<a class="item" href="/features/"><span>Overview</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/hair-system/" | first %}<a class="item" href="/features/hair-system/"><span>Hair System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/faceshadow/" | first %}<a class="item" href="/features/faceshadow/"><span>Face Shadow</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Contact-Shadow/" | first %}<a class="item" href="/features/Contact-Shadow/"><span>Character Contact Shadow</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Head-Direction-System/" | first %}<a class="item" href="/features/Head-Direction-System/"><span>Head Direction System</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Base-Character-Lighting/" | first %}<a class="item" href="/features/Base-Character-Lighting/"><span>Base Character Lighting</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Base-Character-Colors/" | first %}<a class="item" href="/features/Base-Character-Colors/"><span>Base Character Colors</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Outline/" | first %}<a class="item" href="/features/Outline/"><span>Outline</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/NormalMap/" | first %}<a class="item" href="/features/NormalMap/"><span>NormalMap</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Specular/" | first %}<a class="item" href="/features/Specular/"><span>Specular</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Metallic/" | first %}<a class="item" href="/features/Metallic/"><span>Metallic</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Soft-Light/" | first %}<a class="item" href="/features/Soft-Light/"><span>Soft Light</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/RimLight/" | first %}<a class="item" href="/features/RimLight/"><span>RimLight</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/ShadowEdge/" | first %}<a class="item" href="/features/ShadowEdge/"><span>ShadowEdge</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Hair-Highlight/" | first %}<a class="item" href="/features/Hair-Highlight/"><span>Hair Highlight</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Emissive/" | first %}<a class="item" href="/features/Emissive/"><span>Emissive</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/ToonRampSmooth/" | first %}<a class="item" href="/features/ToonRampSmooth/"><span>ToonRampSmooth</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Transparency/" | first %}<a class="item" href="/features/Transparency/"><span>Transparency</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Outline-Selection/" | first %}<a class="item" href="/features/Outline-Selection/"><span>Outline-Selection FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Dither/" | first %}<a class="item" href="/features/Dither/"><span>Dither FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Dissolve/" | first %}<a class="item" href="/features/Dissolve/"><span>Dissolve FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/GetHit/" | first %}<a class="item" href="/features/GetHit/"><span>GetHit FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Target-Darken/" | first %}<a class="item" href="/features/Target-Darken/"><span>Target-Darken FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Upgrade/" | first %}<a class="item" href="/features/Upgrade/"><span>Upgrade FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/Indicator/" | first %}<a class="item" href="/features/Indicator/"><span>Indicator FX Runtime</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
-          {% assign p = site.pages | where: "url", "/features/LightSweep/" | first %}<a class="item" href="/features/LightSweep/"><span>LightSweep</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
+        <div class="featGrid">
+          {% assign p = site.pages | where: "url", "/features/" | first %}<a class="featCard" href="/features/">
+            <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Overview</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/hair-system/" | first %}<a class="featCard" href="/features/hair-system/">
+            <img src="/images/thumbs/hair-system.webp" alt="Hair System" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Hair System</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/faceshadow/" | first %}<a class="featCard" href="/features/faceshadow/">
+            <img src="/images/thumbs/faceshadow.webp" alt="Face Shadow" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Face Shadow</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Contact-Shadow/" | first %}<a class="featCard" href="/features/Contact-Shadow/">
+            <img src="/images/thumbs/contact-shadow.webp" alt="Character Contact Shadow" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Character Contact Shadow</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Head-Direction-System/" | first %}<a class="featCard" href="/features/Head-Direction-System/">
+            <img src="/images/thumbs/head-direction.webp" alt="Head Direction System" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Head Direction System</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Base-Character-Lighting/" | first %}<a class="featCard" href="/features/Base-Character-Lighting/">
+            <img src="/images/thumbs/base-lighting.webp" alt="Base Character Lighting" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Base Character Lighting</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Base-Character-Colors/" | first %}<a class="featCard" href="/features/Base-Character-Colors/">
+            <img src="/images/thumbs/base-colors.webp" alt="Base Character Colors" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Base Character Colors</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Outline/" | first %}<a class="featCard" href="/features/Outline/">
+            <img src="/images/thumbs/outline.webp" alt="Outline" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Outline</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/NormalMap/" | first %}<a class="featCard" href="/features/NormalMap/">
+            <img src="/images/thumbs/normalmap.webp" alt="NormalMap" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">NormalMap</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Specular/" | first %}<a class="featCard" href="/features/Specular/">
+            <img src="/images/thumbs/specular.webp" data-anim="/features/Specular/Specular_anim.webp" alt="Specular" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Specular</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Metallic/" | first %}<a class="featCard" href="/features/Metallic/">
+            <img src="/images/thumbs/metallic.webp" data-anim="/features/Metallic/Showcase_Metallic_On.webp" alt="Metallic" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Metallic</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Soft-Light/" | first %}<a class="featCard" href="/features/Soft-Light/">
+            <img src="/images/thumbs/soft-light.webp" alt="Soft Light" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Soft Light</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/RimLight/" | first %}<a class="featCard" href="/features/RimLight/">
+            <img src="/images/thumbs/rimlight.webp" alt="RimLight" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">RimLight</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/ShadowEdge/" | first %}<a class="featCard" href="/features/ShadowEdge/">
+            <img src="/images/thumbs/shadowedge.webp" alt="ShadowEdge" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">ShadowEdge</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Hair-Highlight/" | first %}<a class="featCard" href="/features/Hair-Highlight/">
+            <img src="/images/thumbs/hair-highlight.webp" alt="Hair Highlight" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Hair Highlight</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Emissive/" | first %}<a class="featCard" href="/features/Emissive/">
+            <img src="/images/thumbs/emissive.webp" alt="Emissive" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Emissive</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/ToonRampSmooth/" | first %}<a class="featCard" href="/features/ToonRampSmooth/">
+            <img src="/images/thumbs/toonramp.webp" alt="ToonRampSmooth" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">ToonRampSmooth</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Transparency/" | first %}<a class="featCard" href="/features/Transparency/">
+            <img src="/images/thumbs/transparency.webp" data-anim="/features/Transparency/Transparency.webp" alt="Transparency" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Transparency</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/LightSweep/" | first %}<a class="featCard" href="/features/LightSweep/">
+            <img src="/images/thumbs/lightsweep.webp" data-anim="/features/LightSweep/LightSweep.webp" alt="LightSweep" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">LightSweep</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
         </div>
       </section>
 
-      <!-- Development Roadmap -->
-      <section class="card full">
-        <h2>Development Roadmap</h2>
-        <p class="sectionLead">
-          Track upcoming features, active development, and future plans for ZLZ Anime Shader.
-        </p>
-
-        <div class="roadmapGrid">
-          <div class="roadmapCard stage-ready">
-            <div class="roadmapHead">
-              <h3 class="roadmapTitle">Ready for Next Version</h3>
-              <span class="roadmapBadge">Scheduled</span>
-            </div>
-            <p class="roadmapDesc">
-              Features completed and planned for the next release.
-            </p>
-
-            <div class="roadmapList">
-              <div class="roadmapSlot"></div>
-            </div>
-          </div>
-
-          <div class="roadmapCard stage-dev">
-            <div class="roadmapHead">
-              <h3 class="roadmapTitle">In Development</h3>
-              <span class="roadmapBadge">Active</span>
-            </div>
-            <p class="roadmapDesc">
-              Features currently being implemented or tested.
-            </p>
-
-            <div class="roadmapList">
-              <div class="roadmapSlot">Create a scene for tests.</div>
-            </div>
-          </div>
-
-          <div class="roadmapCard stage-plan">
-            <div class="roadmapHead">
-              <h3 class="roadmapTitle">Planned</h3>
-              <span class="roadmapBadge">Planned</span>
-            </div>
-            <p class="roadmapDesc">
-              Features planned for future updates after current priorities.
-            </p>
-
-            <div class="roadmapList">
-              <div class="roadmapSlot"></div>
-            </div>
-          </div>
-
-          <div class="roadmapCard stage-idea">
-            <div class="roadmapHead">
-              <h3 class="roadmapTitle">Ideas / Under Consideration</h3>
-              <span class="roadmapBadge">Review</span>
-            </div>
-            <p class="roadmapDesc">
-              Experimental ideas and possible future directions under evaluation.
-            </p>
-
-            <div class="roadmapList">
-              <div class="roadmapSlot">Strip shader variant.</div>
-              <div class="roadmapSlotempty"></div>
-              <div class="roadmapSlotempty"></div>
-            </div>
-          </div>
+      <!-- FX Runtime -->
+      <section class="card docsBlock" data-product="anime">
+        <h2>FX Runtime</h2>
+        <div class="featGrid">
+          {% assign p = site.pages | where: "url", "/features/Outline-Selection/" | first %}<a class="featCard" href="/features/Outline-Selection/">
+            <img src="/images/thumbs/outline-selection.webp" data-anim="/features/Outline-Selection/OutlineSelection.webp" alt="Outline-Selection FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Outline-Selection FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Dither/" | first %}<a class="featCard" href="/features/Dither/">
+            <img src="/images/thumbs/dither.webp" data-anim="/features/Dither/Dither_Occlusion.webp" alt="Dither FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Dither FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Dissolve/" | first %}<a class="featCard" href="/features/Dissolve/">
+            <img src="/images/thumbs/dissolve.webp" data-anim="/features/Dissolve/Demo_Dissolve.webp" alt="Dissolve FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Dissolve FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/GetHit/" | first %}<a class="featCard" href="/features/GetHit/">
+            <img src="/images/thumbs/gethit.webp" data-anim="/features/GetHit/Demo_GetHit.webp" alt="GetHit FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">GetHit FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Target-Darken/" | first %}<a class="featCard" href="/features/Target-Darken/">
+            <img src="/images/thumbs/target-darken.webp" data-anim="/features/Target-Darken/Demo_Target-Darken.webp" alt="Target-Darken FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Target-Darken FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Upgrade/" | first %}<a class="featCard" href="/features/Upgrade/">
+            <img src="/images/thumbs/upgrade.webp" data-anim="/features/Upgrade/Demo_Upgrade.webp" alt="Upgrade FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Upgrade FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
+          {% assign p = site.pages | where: "url", "/features/Indicator/" | first %}<a class="featCard" href="/features/Indicator/">
+            <img src="/images/thumbs/indicator.webp" data-anim="/features/Indicator/Demo_Indicator.webp" alt="Indicator FX Runtime" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Indicator FX Runtime</span>
+              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>
         </div>
       </section>
 
-      <!-- Single pages -->
-      <section class="card full">
-        <h2>Other</h2>
+      <!-- Resources -->
+      <section class="card full" data-product="anime">
+        <h2>Resources</h2>
         <div class="list">
+          <a class="item" href="/changelog/"><span>Changelog</span><small>What's new in each version</small></a>
           {% assign p = site.pages | where: "url", "/performance/" | first %}<a class="item" href="/performance/"><span>Performance</span><small>Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small></a>
           <a class="item" href="/faq/"><span>FAQ</span><small>faq/</small></a>
         </div>
@@ -873,17 +1176,47 @@
 
   <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
   <script>
+  // ===== Product Switcher =====
+  (function(){
+    var tabs = document.querySelectorAll(".productTab");
+
+    function selectProduct(key){
+      document.querySelectorAll("[data-product]").forEach(function(el){
+        el.style.display = (el.dataset.product === key) ? "" : "none";
+      });
+      tabs.forEach(function(t){
+        var active = t.dataset.tab === key;
+        t.classList.toggle("active", active);
+        t.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      // demo needs re-scaling after becoming visible again
+      if (key === "anime" && typeof fitItchDemo === "function") fitItchDemo();
+    }
+
+    tabs.forEach(function(t){
+      t.addEventListener("click", function(){
+        selectProduct(t.dataset.tab);
+        history.replaceState(null, "", t.dataset.tab === "anime" ? "#anime" : "#env");
+      });
+    });
+
+    // open tab from URL: /#env or /#anime (shareable per-product links)
+    var initial = (location.hash === "#env") ? "env" : "anime";
+    selectProduct(initial);
+  })();
+  </script>
+  <script>
   function fitItchDemo(){
     const wrap = document.getElementById("demoWrap");
     const stage = document.getElementById("demoStage");
     if(!wrap || !stage) return;
 
-    const baseW = 1280; // ต้องตรงกับ stage width
-    const baseH = 720;  // ต้องตรงกับ stage height (16:9)
+    const baseW = 1280; // must match stage width
+    const baseH = 720;  // must match stage height (16:9)
     const scale = wrap.clientWidth / baseW;
 
     stage.style.transform = `scale(${scale})`;
-    wrap.style.height = (baseH * scale) + "px"; // กันไม่ให้โดนตัด
+    wrap.style.height = (baseH * scale) + "px"; // prevent clipping
   }
 
   window.addEventListener("load", fitItchDemo);
@@ -945,6 +1278,20 @@
     });
 
     updateSlider();
+  });
+  </script>
+
+  <script>
+  // Hover-to-animate thumbnails: animated file loads only on first hover
+  document.querySelectorAll(".featCard img[data-anim]").forEach(function(img){
+    var card = img.closest(".featCard");
+    card.addEventListener("mouseenter", function(){
+      if (!img.dataset.staticSrc) img.dataset.staticSrc = img.getAttribute("src");
+      img.src = img.dataset.anim;
+    });
+    card.addEventListener("mouseleave", function(){
+      if (img.dataset.staticSrc) img.src = img.dataset.staticSrc;
+    });
   });
   </script>
 </body>
