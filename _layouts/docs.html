@@ -87,6 +87,28 @@
       font-weight: 600;
     }
 
+    /* tree-style sub items (e.g. changelog versions under Overview) */
+    .sidebar .sideTree {
+      margin-left: 14px;
+      border-left: 1px solid #2b3648;
+    }
+
+    .sidebar .sideTree a {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 12px;
+    }
+
+    .sidebar .sideTree a::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #2b3648;
+    }
+
     .content {
       flex: 1;
       width: 100%;
