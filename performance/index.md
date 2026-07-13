@@ -16,7 +16,7 @@ As a result, optimizing the ZLZ Anime Shader is straightforward simply enable on
 
 ---
 
-## ZLZ Shader Optimizer (New in V 1.4.0)
+## ZLZ Shader Optimizer
 
 ![Optimize_1](./images/Optimize_1.webp)
 
