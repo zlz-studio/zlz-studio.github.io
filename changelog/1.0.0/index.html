@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metallic | ZLZ Anime Shader</title>
+  <title>v1.0.0 — Initial Release | ZLZ Anime Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -616,7 +616,7 @@
 </a>
 
 <a href="/features/Metallic/"
-   class="active">
+   class="">
    Metallic
 </a>
    
@@ -752,7 +752,7 @@
 </a>
 
 <a href="/changelog/1.0.0/"
-   class="">
+   class="active">
    v1.0.0
 </a>
 
@@ -763,45 +763,48 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h2 id="metallic">Metallic</h2>
+        <p><a href="/changelog/">← All versions</a></p>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Metallic/Metallic_Off.webp" alt="Metallic_Off" />
-  </div>
+<h1 id="v100--initial-release">v1.0.0 — Initial Release</h1>
 
-  <div class="compare-overlay">
-    <img src="../Metallic/Metallic_On.webp" alt="Metallic_On" />
-  </div>
+<p><strong>Released:</strong> March 3, 2026</p>
 
-  <div class="compare-handle"></div>
+<p>Initial release of <strong>ZLZ Anime Shader</strong> for the Universal Render Pipeline (URP) — an anime-style character shader designed for real production use, suitable for both Artists and Technical Artists.</p>
 
-  <div class="compare-label before">Metallic Off</div>
-  <div class="compare-label after">Metallic On</div>
-</div>
-
-<p><img src="../Metallic/Showcase_Metallic_On.webp" alt="Showcase_Metallic_On" /></p>
-
-<h2 id="example-setup-for-the-metallic-effect-on-the-sword-above">Example setup for the metallic effect on the sword above.</h2>
-<p><img src="../Metallic/Parameter_Metallic.webp" alt="Parameter_Metallic" /></p>
-
-<p>Metallic is used for character parts made of metal materials, adding shine and surface depth.</p>
-
-<p>If no <strong>Feature Mask (Red Channel)</strong> is assigned to define the active area, this feature will not be applied.</p>
-
-<h3 id="parameters">Parameters</h3>
+<h3 id="features">Features</h3>
 
 <ul>
-  <li><strong>Gradient Metallic :</strong> Uses the <code class="language-plaintext highlighter-rouge">T_Gradient_Metallic</code> texture to control the metallic reflection behavior. Adjusting Tiling and Offset is not recommended, in order to achieve results as intended by the design</li>
-  <li><strong>MetalNormalMap :</strong> Uses a normal texture to add surface detail to metallic areas. The default texture is <code class="language-plaintext highlighter-rouge">T_Normal</code>
-    <ul>
-      <li><strong>Lower <em>Tiling</em> values</strong> (e.g. 0.05 × 0.05) produce a more toon-style look</li>
-      <li><strong>Higher <em>Tiling</em> values</strong> (e.g. 30 × 30) produce a more semi-realistic look</li>
-    </ul>
-  </li>
-  <li><strong>Intensity Metal :</strong> Controls the brightness of the metallic areas</li>
+  <li><strong>Hair Transparent</strong> : Transparent hair rendering for clear facial visibility</li>
+  <li><strong>Hair Shadow</strong> : Sharp and high-quality hair shadows that add depth and realism</li>
+  <li><strong>Base Character Colors</strong> : Direct control over base color and shadow color of the character</li>
+  <li><strong>Face Shadow</strong> : Face shadow control for clear and readable anime-style facial shading</li>
+  <li><strong>Receive Realtime Shadow</strong> : Supports receiving realtime shadows from scene lighting</li>
+  <li><strong>Lighting</strong> : Supports Main Directional Light and Additional Lights</li>
+  <li><strong>Toon Shade Ramp</strong> : Controls sharpness and smooth transitions between light and shadow</li>
+  <li><strong>Outline</strong> : Adjustable character outline with controllable thickness and color</li>
+  <li><strong>Metallic</strong> : Tuned metallic surface support for anime-style materials</li>
+  <li><strong>Hair Highlight</strong> : Adds stylized highlights to hair for shine and depth</li>
+  <li><strong>Emissive</strong> : Controls emissive color and intensity for special effects</li>
+  <li><strong>Dissolve</strong> : Dissolve effect for character appearance and disappearance</li>
+  <li><strong>Transparency</strong> : Supports transparent materials for special use cases</li>
+  <li><strong>Soft Light</strong> : Soft additive lighting to enhance skin smoothness</li>
+  <li><strong>Rim Light</strong> : Rim lighting to separate the character from the background</li>
+  <li><strong>Target Darken</strong> : Darkens the character to emphasize targets or important scenes</li>
+  <li><strong>Indicator</strong> : Visual indicator effects for character states or targets</li>
+  <li><strong>Get Hit</strong> : Reactive visual effect when the character is hit</li>
+  <li><strong>Upgrade</strong> : Visual effects for character or equipment upgrades</li>
+  <li><strong>Light Sweep</strong> : Sweeping light effect for showcasing weapons or special moments</li>
 </ul>
 
+<h3 id="performance--compatibility">Performance &amp; Compatibility</h3>
+
+<ul>
+  <li>Built for the Universal Render Pipeline (URP)</li>
+  <li>Optimized for mobile and real-time projects</li>
+  <li>Feature-based shader variants for efficient performance</li>
+  <li>Compatible with SRP Batcher</li>
+  <li>Designed for Mobile and PC platforms</li>
+</ul>
 
       </div>
     </main>

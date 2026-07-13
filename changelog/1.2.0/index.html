@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metallic | ZLZ Anime Shader</title>
+  <title>v1.2.0 — Face Shadow Accuracy & Workflow Update | ZLZ Anime Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -616,7 +616,7 @@
 </a>
 
 <a href="/features/Metallic/"
-   class="active">
+   class="">
    Metallic
 </a>
    
@@ -742,7 +742,7 @@
 </a>
 
 <a href="/changelog/1.2.0/"
-   class="">
+   class="active">
    v1.2.0
 </a>
 
@@ -763,45 +763,27 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h2 id="metallic">Metallic</h2>
+        <p><a href="/changelog/">← All versions</a></p>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Metallic/Metallic_Off.webp" alt="Metallic_Off" />
-  </div>
+<h1 id="v120--face-shadow-accuracy--workflow-update">v1.2.0 — Face Shadow Accuracy &amp; Workflow Update</h1>
 
-  <div class="compare-overlay">
-    <img src="../Metallic/Metallic_On.webp" alt="Metallic_On" />
-  </div>
+<p>This version focuses on improving the Face Shadow system and overall workflow, making it more accurate, easier to use, and visually refined. It also provides better control over behavior in the Editor, reducing unnecessary material changes and preventing unwanted Version Control updates.</p>
 
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Metallic Off</div>
-  <div class="compare-label after">Metallic On</div>
-</div>
-
-<p><img src="../Metallic/Showcase_Metallic_On.webp" alt="Showcase_Metallic_On" /></p>
-
-<h2 id="example-setup-for-the-metallic-effect-on-the-sword-above">Example setup for the metallic effect on the sword above.</h2>
-<p><img src="../Metallic/Parameter_Metallic.webp" alt="Parameter_Metallic" /></p>
-
-<p>Metallic is used for character parts made of metal materials, adding shine and surface depth.</p>
-
-<p>If no <strong>Feature Mask (Red Channel)</strong> is assigned to define the active area, this feature will not be applied.</p>
-
-<h3 id="parameters">Parameters</h3>
+<h3 id="whats-new">What’s New</h3>
 
 <ul>
-  <li><strong>Gradient Metallic :</strong> Uses the <code class="language-plaintext highlighter-rouge">T_Gradient_Metallic</code> texture to control the metallic reflection behavior. Adjusting Tiling and Offset is not recommended, in order to achieve results as intended by the design</li>
-  <li><strong>MetalNormalMap :</strong> Uses a normal texture to add surface detail to metallic areas. The default texture is <code class="language-plaintext highlighter-rouge">T_Normal</code>
+  <li>Improved facial lighting and shadow behavior to correctly respond to light direction</li>
+  <li>Enhanced accuracy of nose and facial shadow rendering</li>
+  <li>Smoother shadow fading, reducing harsh edges and abrupt cutoffs</li>
+  <li>Updated Face Shadow system to be driven by the <strong>Head Bone</strong>, improving compatibility with non-standard character orientations and overall accuracy</li>
+  <li>Added a helper to notify users if the required script or Head Bone for Face Shadow is not assigned</li>
+  <li>Updated Script: <strong>ZLZ_Head Direction Binder</strong> to support enabling/disabling Editor Preview:
     <ul>
-      <li><strong>Lower <em>Tiling</em> values</strong> (e.g. 0.05 × 0.05) produce a more toon-style look</li>
-      <li><strong>Higher <em>Tiling</em> values</strong> (e.g. 30 × 30) produce a more semi-realistic look</li>
+      <li><strong>Enabled:</strong> the script runs in the Editor, ensuring correct visual results immediately, but updates material values, which may cause changes in Version Control</li>
+      <li><strong>Disabled:</strong> the script runs only at Runtime and does not send values to materials in the Editor, preventing changes in Version Control</li>
     </ul>
   </li>
-  <li><strong>Intensity Metal :</strong> Controls the brightness of the metallic areas</li>
 </ul>
-
 
       </div>
     </main>

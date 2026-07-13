@@ -713,7 +713,47 @@
 
 <a href="/changelog/"
    class="active">
-   Changelog
+   Overview
+</a>
+
+<a href="/changelog/1.7.0/"
+   class="">
+   v1.7.0
+</a>
+
+<a href="/changelog/1.6.0/"
+   class="">
+   v1.6.0
+</a>
+
+<a href="/changelog/1.5.0/"
+   class="">
+   v1.5.0
+</a>
+
+<a href="/changelog/1.4.0/"
+   class="">
+   v1.4.0
+</a>
+
+<a href="/changelog/1.3.0/"
+   class="">
+   v1.3.0
+</a>
+
+<a href="/changelog/1.2.0/"
+   class="">
+   v1.2.0
+</a>
+
+<a href="/changelog/1.1.0/"
+   class="">
+   v1.1.0
+</a>
+
+<a href="/changelog/1.0.0/"
+   class="">
+   v1.0.0
 </a>
 
 </div>
@@ -725,250 +765,22 @@
         <a class="top-link" href="/">← Back to Home</a>
         <h1 id="changelog">Changelog</h1>
 
-<p>All notable changes to <strong>ZLZ Anime Shader</strong> are documented here.</p>
-
-<p><strong>Versions:</strong>
-<a href="#v1-7-0">1.7.0</a> ·
-<a href="#v1-6-0">1.6.0</a> ·
-<a href="#v1-5-0">1.5.0</a> ·
-<a href="#v1-4-0">1.4.0</a> ·
-<a href="#v1-3-0">1.3.0</a> ·
-<a href="#v1-2-0">1.2.0</a> ·
-<a href="#v1-1-0">1.1.0</a> ·
-<a href="#v1-0-0">1.0.0</a></p>
-
-<!--
-=== HOW TO ADD A NEW VERSION ===
-1. Copy the template below and paste it right under this comment (newest version stays on top).
-2. Add a link to the "Versions:" list above.
-3. Update last_modified_at in the frontmatter.
-
-## vX.Y.Z — Update Name {#vx-y-z}
-
-**Released:** Month DD, YYYY
-
-### New Features
-- ...
-
-### Improved Workflow
-- ...
-
-### Bug Fixes
-- ...
-
----
--->
-
-<h2 id="v1-7-0">v1.7.0 — Receive Shadow Update</h2>
-
-<p><strong>Released:</strong> June 15, 2026 · <strong>Current version</strong></p>
-
-<h3 id="new-features">New Features</h3>
+<p>All notable changes to <strong>ZLZ Anime Shader</strong> are documented here. Select a version:</p>
 
 <ul>
-  <li>Added <strong>Soft Shadow</strong> support for Receive Shadow</li>
-  <li>Added Receive Shadow <strong>softness and sharpness controls</strong></li>
-  <li>Added <strong>Self-Shadow Rejection</strong> support to prevent characters from receiving shadows cast by themselves while still receiving shadows from other objects</li>
-  <li>Added <strong>per-material Self-Shadow Rejection</strong> settings for greater customization</li>
+  <li><a href="/changelog/1.7.0/">v1.7.0 — Receive Shadow Update</a> — Released June 15, 2026 · <strong>Current version</strong></li>
+  <li><a href="/changelog/1.6.0/">v1.6.0 — Shadow &amp; Outline Update</a></li>
+  <li><a href="/changelog/1.5.0/">v1.5.0 — Texture Mask &amp; Character Effects Update</a></li>
+  <li><a href="/changelog/1.4.0/">v1.4.0 — Character Workflow &amp; Performance Optimization Update</a></li>
+  <li><a href="/changelog/1.3.0/">v1.3.0 — Stylized Tone Mapping &amp; Workflow Update</a></li>
+  <li><a href="/changelog/1.2.0/">v1.2.0 — Face Shadow Accuracy &amp; Workflow Update</a></li>
+  <li><a href="/changelog/1.1.0/">v1.1.0 — Face Shadow Redesign</a></li>
+  <li><a href="/changelog/1.0.0/">v1.0.0 — Initial Release</a> — Released March 3, 2026</li>
 </ul>
 
-<h3 id="improved-workflow">Improved Workflow</h3>
-
-<ul>
-  <li>Improved Receive Shadow customization and control</li>
-</ul>
-
-<h3 id="bug-fixes">Bug Fixes</h3>
-
-<ul>
-  <li>Improved shadow rendering stability and character shadow separation</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-6-0">v1.6.0 — Shadow &amp; Outline Update</h2>
-
-<h3 id="new-features-1">New Features</h3>
-
-<ul>
-  <li>Added <strong>Character Contact Shadow</strong> support for hair shadow replacement</li>
-  <li>Added <strong>Shadow Edge</strong> support for enhanced light and shadow transitions</li>
-  <li>Added <strong>Screen Space Outline</strong> support</li>
-  <li>Added <strong>Screen Space Outline Mask</strong> support</li>
-</ul>
-
-<h3 id="improved-workflow-1">Improved Workflow</h3>
-
-<ul>
-  <li>Updated WebGL Demo for v1.6.0</li>
-</ul>
-
-<h3 id="bug-fixes-1">Bug Fixes</h3>
-
-<ul>
-  <li>Fixed ShadowCaster support for proper Shadow Cascade rendering</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-5-0">v1.5.0 — Texture Mask &amp; Character Effects Update</h2>
-
-<h3 id="new-features-2">New Features</h3>
-
-<ul>
-  <li>Added configurable <strong>Texture Mask Channel</strong> assignments for Shader features</li>
-  <li>Added <strong>Specular</strong> support for stylized highlights on characters and materials</li>
-  <li>Added <strong>Outline Selection</strong> support for character highlighting and target indication</li>
-  <li>Added <strong>Dither Camera Fade</strong> for automatic camera obstruction fading</li>
-  <li>Added <strong>Dither Occlusion Fade</strong> for automatic object occlusion fading</li>
-  <li>Added <strong>Texture Mask Packer</strong> — a tool designed to simplify texture mask creation and management:
-    <ul>
-      <li>Pack multiple mask textures into RGBA channels</li>
-      <li>Preview channel assignments before packing</li>
-      <li>Generate optimized mask textures for Shader features</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="improved-workflow-2">Improved Workflow</h3>
-
-<ul>
-  <li>Added runtime helper scripts to make FX features easier to set up and ready to use with minimal configuration</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-4-0">v1.4.0 — Character Workflow &amp; Performance Optimization Update</h2>
-
-<h3 id="new-features-3">New Features</h3>
-
-<ul>
-  <li>Added <strong>Normal Map</strong> support</li>
-  <li>Added <strong>Alpha Channel</strong> support for masking unwanted Outline areas</li>
-  <li>Optimized Shader performance for lower rendering cost and better efficiency</li>
-  <li>Added <strong>Character Dashboard</strong> — a centralized hub designed to make character setup faster and more convenient:
-    <ul>
-      <li>Faster character setup with Auto Head Bone Detection</li>
-      <li>Smooth Normal Bake tool for higher-quality and more optimized Outline rendering</li>
-      <li>One-click Tone Mapping setup directly from the Character Dashboard</li>
-      <li>Auto Setup Outline Draws to reduce draw calls generated by Outline rendering</li>
-    </ul>
-  </li>
-  <li>Added <strong>ZLZ Shader Optimizer</strong> — a tool designed to help analyze and optimize character performance more efficiently:
-    <ul>
-      <li>Overview of Materials, Shader Cost, and Texture Usage</li>
-      <li>Performance Budget presets for PC / Android / iOS</li>
-      <li>Toggle Shader features on/off to instantly preview Shader Cost impact</li>
-      <li>Compress Texture Size per Material or optimize the entire character at once</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="bug-fixes-2">Bug Fixes</h3>
-
-<ul>
-  <li>Fixed GI Lighting leaking into character shadows causing incorrect shadow colors</li>
-  <li>Fixed Filmic Curve incorrectly using Anime Mode Exposure settings</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-3-0">v1.3.0 — Stylized Tone Mapping &amp; Workflow Update</h2>
-
-<p>This version introduces a new Tone Mapping system designed to enhance anime, cartoon, and stylized visuals. It also improves the usability of the Head Direction Binder script, making setup simpler and more intuitive for users.</p>
-
-<h3 id="whats-new">What’s New</h3>
-
-<ul>
-  <li>Added <strong>Auto-Detect Head Bone Axis</strong>, allowing one-click setup without manual configuration</li>
-  <li>Fixed an issue where Head Bone alignment was incorrect on certain characters</li>
-  <li>Introduced a <strong>Tone Mapping system</strong> for controlling brightness, contrast, and color intensity</li>
-  <li>Added two Tone Mapping modes: <strong>Anime</strong> and <strong>Filmic</strong></li>
-  <li>Enabled full customization of Tone Mapping settings, with the ability to save and reuse presets</li>
-  <li>Added a <strong>Preview Curve</strong> in the Unity Editor for intuitive Tone Mapping adjustment</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-2-0">v1.2.0 — Face Shadow Accuracy &amp; Workflow Update</h2>
-
-<p>This version focuses on improving the Face Shadow system and overall workflow, making it more accurate, easier to use, and visually refined. It also provides better control over behavior in the Editor, reducing unnecessary material changes and preventing unwanted Version Control updates.</p>
-
-<h3 id="whats-new-1">What’s New</h3>
-
-<ul>
-  <li>Improved facial lighting and shadow behavior to correctly respond to light direction</li>
-  <li>Enhanced accuracy of nose and facial shadow rendering</li>
-  <li>Smoother shadow fading, reducing harsh edges and abrupt cutoffs</li>
-  <li>Updated Face Shadow system to be driven by the <strong>Head Bone</strong>, improving compatibility with non-standard character orientations and overall accuracy</li>
-  <li>Added a helper to notify users if the required script or Head Bone for Face Shadow is not assigned</li>
-  <li>Updated Script: <strong>ZLZ_Head Direction Binder</strong> to support enabling/disabling Editor Preview:
-    <ul>
-      <li><strong>Enabled:</strong> the script runs in the Editor, ensuring correct visual results immediately, but updates material values, which may cause changes in Version Control</li>
-      <li><strong>Disabled:</strong> the script runs only at Runtime and does not send values to materials in the Editor, preventing changes in Version Control</li>
-    </ul>
-  </li>
-</ul>
-
-<hr />
-
-<h2 id="v1-1-0">v1.1.0 — Face Shadow Redesign</h2>
-
-<p>This update completely redesigns the Face Shadow system, making it more visually appealing, more flexible, and easier to use across a wide range of characters.</p>
-
-<h3 id="whats-new-2">What’s New</h3>
-
-<ul>
-  <li>Improved UX/UI to make the Face Shadow feature more prominent and easier to use</li>
-  <li>Supports a wide variety of face UV layouts</li>
-  <li>Includes a reusable Face Shadow texture (no need to switch textures per character)</li>
-  <li>Added <strong>Debug Face UV</strong> mode for setup and troubleshooting</li>
-  <li>Added <strong>UV Scale and Offset</strong> controls for precise adjustment</li>
-  <li>Added <strong>Flip UV</strong> option for handling inverted UVs</li>
-</ul>
-
-<hr />
-
-<h2 id="v1-0-0">v1.0.0 — Initial Release</h2>
-
-<p><strong>Released:</strong> March 3, 2026</p>
-
-<p>Initial release of <strong>ZLZ Anime Shader</strong> for the Universal Render Pipeline (URP) — an anime-style character shader designed for real production use, suitable for both Artists and Technical Artists.</p>
-
-<h3 id="features">Features</h3>
-
-<ul>
-  <li><strong>Hair Transparent</strong> : Transparent hair rendering for clear facial visibility</li>
-  <li><strong>Hair Shadow</strong> : Sharp and high-quality hair shadows that add depth and realism</li>
-  <li><strong>Base Character Colors</strong> : Direct control over base color and shadow color of the character</li>
-  <li><strong>Face Shadow</strong> : Face shadow control for clear and readable anime-style facial shading</li>
-  <li><strong>Receive Realtime Shadow</strong> : Supports receiving realtime shadows from scene lighting</li>
-  <li><strong>Lighting</strong> : Supports Main Directional Light and Additional Lights</li>
-  <li><strong>Toon Shade Ramp</strong> : Controls sharpness and smooth transitions between light and shadow</li>
-  <li><strong>Outline</strong> : Adjustable character outline with controllable thickness and color</li>
-  <li><strong>Metallic</strong> : Tuned metallic surface support for anime-style materials</li>
-  <li><strong>Hair Highlight</strong> : Adds stylized highlights to hair for shine and depth</li>
-  <li><strong>Emissive</strong> : Controls emissive color and intensity for special effects</li>
-  <li><strong>Dissolve</strong> : Dissolve effect for character appearance and disappearance</li>
-  <li><strong>Transparency</strong> : Supports transparent materials for special use cases</li>
-  <li><strong>Soft Light</strong> : Soft additive lighting to enhance skin smoothness</li>
-  <li><strong>Rim Light</strong> : Rim lighting to separate the character from the background</li>
-  <li><strong>Target Darken</strong> : Darkens the character to emphasize targets or important scenes</li>
-  <li><strong>Indicator</strong> : Visual indicator effects for character states or targets</li>
-  <li><strong>Get Hit</strong> : Reactive visual effect when the character is hit</li>
-  <li><strong>Upgrade</strong> : Visual effects for character or equipment upgrades</li>
-  <li><strong>Light Sweep</strong> : Sweeping light effect for showcasing weapons or special moments</li>
-</ul>
-
-<h3 id="performance--compatibility">Performance &amp; Compatibility</h3>
-
-<ul>
-  <li>Built for the Universal Render Pipeline (URP)</li>
-  <li>Optimized for mobile and real-time projects</li>
-  <li>Feature-based shader variants for efficient performance</li>
-  <li>Compatible with SRP Batcher</li>
-  <li>Designed for Mobile and PC platforms</li>
-</ul>
+<!-- To add a new version: create changelog/X.Y.Z/index.md (copy an existing
+     version page), add it to the list above (newest on top), and add a link
+     in _includes/sidebar.html under CHANGELOG. -->
 
       </div>
     </main>
