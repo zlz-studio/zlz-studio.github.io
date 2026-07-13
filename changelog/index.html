@@ -1,1 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog | ZLZ Anime Shader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    /* Markdown tables */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .content th,
+    .content td {
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #1f2937;
+    }
+
+    .content thead th {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content td:first-child {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .content tbody tr:nth-child(even) {
+      background: #0f1521;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      <div class="sidebar">
+<h2>ZLZ Docs</h2>
+
+<h3>Setup Character</h3>
+
+<a href="/setup-character/"
+   class="">
+   Overview
+</a>
+
+<a href="/setup-character/standard-setup/"
+   class="">
+   Standard Setup
+</a>
+
+<a href="/setup-character/advanced-hair-setup/"
+   class="">
+   Advanced Hair Setup
+</a>
+
+<a href="/setup-character/Tone-Mapping/"
+   class="">
+   Tone Mapping
+</a>
+
+<h3>Features</h3>
+
+<a href="/features/"
+   class="">
+   Overview
+</a>
+
+<a href="/features/hair-system/"
+   class="">
+   hair-system
+</a>
+
+<a href="/features/faceshadow/"
+   class="">
+   FaceShadow
+</a>
+
+<a href="/features/Contact-Shadow/"
+   class="">
+   Character Contact Shadow
+</a>
+
+<a href="/features/Head-Direction-System/"
+   class="">
+   Head Direction System
+</a>
+
+<a href="/features/Base-Character-Lighting/"
+   class="">
+   Base Character Lighting
+</a>
+
+<a href="/features/Base-Character-Colors/"
+   class="">
+   Base Character Colors
+</a>
+
+<a href="/features/Outline/"
+   class="">
+   Outline
+</a>
+
+<a href="/features/NormalMap/"
+   class="">
+   NormalMap
+</a>
+
+<a href="/features/Specular/"
+   class="">
+   Specular
+</a>
+
+<a href="/features/Metallic/"
+   class="">
+   Metallic
+</a>
+   
+<a href="/features/Soft-Light/"
+   class="">
+   Soft Light
+</a>
+
+<a href="/features/RimLight/"
+   class="">
+   RimLight
+</a>
+
+<a href="/features/ShadowEdge/"
+   class="">
+   ShadowEdge
+</a>
+
+<a href="/features/Hair-Highlight/"
+   class="">
+   Hair Highlight
+</a>
+
+<a href="/features/Emissive/"
+   class="">
+   Emissive
+</a>
+
+<a href="/features/ToonRampSmooth/"
+   class="">
+   ToonRampSmooth
+</a>
+
+<a href="/features/Transparency/"
+   class="">
+   Transparency
+</a>
+
+<a href="/features/Outline-Selection/"
+   class="">
+   Outline-Selection FX Runtime
+</a>
+
+<a href="/features/Dither/"
+   class="">
+   Dither FX Runtime
+</a>
+
+<a href="/features/Dissolve/"
+   class="">
+   Dissolve FX Runtime
+</a>
+   
+<a href="/features/GetHit/"
+   class="">
+   GetHit FX Runtime
+</a>
+
+<a href="/features/Target-Darken/"
+   class="">
+   Target-Darken FX Runtime
+</a>
+
+<a href="/features/Upgrade/"
+   class="">
+   Upgrade FX Runtime
+</a>
+
+<a href="/features/Indicator/"
+   class="">
+   Indicator FX Runtime
+</a>
+
+<a href="/features/LightSweep/"
+   class="">
+   LightSweep
+</a>
+
+<h3>Performance</h3>
+
+<a href="/performance/"
+   class="">
+   Performance
+</a>
+
+<h3>FAQ</h3>
+
+<a href="/faq/"
+   class="">
+   FAQ
+</a>
+
+<h3>Changelog</h3>
+
+<a href="/changelog/"
+   class="active">
+   Changelog
+</a>
+
+</div>
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h1 id="changelog">Changelog</h1>
+
+<p>All notable changes to <strong>ZLZ Anime Shader</strong> are documented here.</p>
+
+<p><strong>Versions:</strong>
+<a href="#v1-7-0">1.7.0</a> ·
+<a href="#v1-6-0">1.6.0</a> ·
+<a href="#v1-5-0">1.5.0</a> ·
+<a href="#v1-4-0">1.4.0</a> ·
+<a href="#v1-3-0">1.3.0</a> ·
+<a href="#v1-2-0">1.2.0</a> ·
+<a href="#v1-1-0">1.1.0</a> ·
+<a href="#v1-0-0">1.0.0</a></p>
+
+<!--
+=== HOW TO ADD A NEW VERSION ===
+1. Copy the template below and paste it right under this comment (newest version stays on top).
+2. Add a link to the "Versions:" list above.
+3. Update last_modified_at in the frontmatter.
+
+## vX.Y.Z — Update Name {#vx-y-z}
+
+**Released:** Month DD, YYYY
+
+### New Features
+- ...
+
+### Improved Workflow
+- ...
+
+### Bug Fixes
+- ...
+
+---
+-->
+
+<h2 id="v1-7-0">v1.7.0 — Receive Shadow Update</h2>
+
+<p><strong>Released:</strong> June 15, 2026 · <strong>Current version</strong></p>
+
+<h3 id="new-features">New Features</h3>
+
+<ul>
+  <li>Added <strong>Soft Shadow</strong> support for Receive Shadow</li>
+  <li>Added Receive Shadow <strong>softness and sharpness controls</strong></li>
+  <li>Added <strong>Self-Shadow Rejection</strong> support to prevent characters from receiving shadows cast by themselves while still receiving shadows from other objects</li>
+  <li>Added <strong>per-material Self-Shadow Rejection</strong> settings for greater customization</li>
+</ul>
+
+<h3 id="improved-workflow">Improved Workflow</h3>
+
+<ul>
+  <li>Improved Receive Shadow customization and control</li>
+</ul>
+
+<h3 id="bug-fixes">Bug Fixes</h3>
+
+<ul>
+  <li>Improved shadow rendering stability and character shadow separation</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-6-0">v1.6.0 — Shadow &amp; Outline Update</h2>
+
+<h3 id="new-features-1">New Features</h3>
+
+<ul>
+  <li>Added <strong>Character Contact Shadow</strong> support for hair shadow replacement</li>
+  <li>Added <strong>Shadow Edge</strong> support for enhanced light and shadow transitions</li>
+  <li>Added <strong>Screen Space Outline</strong> support</li>
+  <li>Added <strong>Screen Space Outline Mask</strong> support</li>
+</ul>
+
+<h3 id="improved-workflow-1">Improved Workflow</h3>
+
+<ul>
+  <li>Updated WebGL Demo for v1.6.0</li>
+</ul>
+
+<h3 id="bug-fixes-1">Bug Fixes</h3>
+
+<ul>
+  <li>Fixed ShadowCaster support for proper Shadow Cascade rendering</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-5-0">v1.5.0 — Texture Mask &amp; Character Effects Update</h2>
+
+<h3 id="new-features-2">New Features</h3>
+
+<ul>
+  <li>Added configurable <strong>Texture Mask Channel</strong> assignments for Shader features</li>
+  <li>Added <strong>Specular</strong> support for stylized highlights on characters and materials</li>
+  <li>Added <strong>Outline Selection</strong> support for character highlighting and target indication</li>
+  <li>Added <strong>Dither Camera Fade</strong> for automatic camera obstruction fading</li>
+  <li>Added <strong>Dither Occlusion Fade</strong> for automatic object occlusion fading</li>
+  <li>Added <strong>Texture Mask Packer</strong> — a tool designed to simplify texture mask creation and management:
+    <ul>
+      <li>Pack multiple mask textures into RGBA channels</li>
+      <li>Preview channel assignments before packing</li>
+      <li>Generate optimized mask textures for Shader features</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="improved-workflow-2">Improved Workflow</h3>
+
+<ul>
+  <li>Added runtime helper scripts to make FX features easier to set up and ready to use with minimal configuration</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-4-0">v1.4.0 — Character Workflow &amp; Performance Optimization Update</h2>
+
+<h3 id="new-features-3">New Features</h3>
+
+<ul>
+  <li>Added <strong>Normal Map</strong> support</li>
+  <li>Added <strong>Alpha Channel</strong> support for masking unwanted Outline areas</li>
+  <li>Optimized Shader performance for lower rendering cost and better efficiency</li>
+  <li>Added <strong>Character Dashboard</strong> — a centralized hub designed to make character setup faster and more convenient:
+    <ul>
+      <li>Faster character setup with Auto Head Bone Detection</li>
+      <li>Smooth Normal Bake tool for higher-quality and more optimized Outline rendering</li>
+      <li>One-click Tone Mapping setup directly from the Character Dashboard</li>
+      <li>Auto Setup Outline Draws to reduce draw calls generated by Outline rendering</li>
+    </ul>
+  </li>
+  <li>Added <strong>ZLZ Shader Optimizer</strong> — a tool designed to help analyze and optimize character performance more efficiently:
+    <ul>
+      <li>Overview of Materials, Shader Cost, and Texture Usage</li>
+      <li>Performance Budget presets for PC / Android / iOS</li>
+      <li>Toggle Shader features on/off to instantly preview Shader Cost impact</li>
+      <li>Compress Texture Size per Material or optimize the entire character at once</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="bug-fixes-2">Bug Fixes</h3>
+
+<ul>
+  <li>Fixed GI Lighting leaking into character shadows causing incorrect shadow colors</li>
+  <li>Fixed Filmic Curve incorrectly using Anime Mode Exposure settings</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-3-0">v1.3.0 — Stylized Tone Mapping &amp; Workflow Update</h2>
+
+<p>This version introduces a new Tone Mapping system designed to enhance anime, cartoon, and stylized visuals. It also improves the usability of the Head Direction Binder script, making setup simpler and more intuitive for users.</p>
+
+<h3 id="whats-new">What’s New</h3>
+
+<ul>
+  <li>Added <strong>Auto-Detect Head Bone Axis</strong>, allowing one-click setup without manual configuration</li>
+  <li>Fixed an issue where Head Bone alignment was incorrect on certain characters</li>
+  <li>Introduced a <strong>Tone Mapping system</strong> for controlling brightness, contrast, and color intensity</li>
+  <li>Added two Tone Mapping modes: <strong>Anime</strong> and <strong>Filmic</strong></li>
+  <li>Enabled full customization of Tone Mapping settings, with the ability to save and reuse presets</li>
+  <li>Added a <strong>Preview Curve</strong> in the Unity Editor for intuitive Tone Mapping adjustment</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-2-0">v1.2.0 — Face Shadow Accuracy &amp; Workflow Update</h2>
+
+<p>This version focuses on improving the Face Shadow system and overall workflow, making it more accurate, easier to use, and visually refined. It also provides better control over behavior in the Editor, reducing unnecessary material changes and preventing unwanted Version Control updates.</p>
+
+<h3 id="whats-new-1">What’s New</h3>
+
+<ul>
+  <li>Improved facial lighting and shadow behavior to correctly respond to light direction</li>
+  <li>Enhanced accuracy of nose and facial shadow rendering</li>
+  <li>Smoother shadow fading, reducing harsh edges and abrupt cutoffs</li>
+  <li>Updated Face Shadow system to be driven by the <strong>Head Bone</strong>, improving compatibility with non-standard character orientations and overall accuracy</li>
+  <li>Added a helper to notify users if the required script or Head Bone for Face Shadow is not assigned</li>
+  <li>Updated Script: <strong>ZLZ_Head Direction Binder</strong> to support enabling/disabling Editor Preview:
+    <ul>
+      <li><strong>Enabled:</strong> the script runs in the Editor, ensuring correct visual results immediately, but updates material values, which may cause changes in Version Control</li>
+      <li><strong>Disabled:</strong> the script runs only at Runtime and does not send values to materials in the Editor, preventing changes in Version Control</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="v1-1-0">v1.1.0 — Face Shadow Redesign</h2>
+
+<p>This update completely redesigns the Face Shadow system, making it more visually appealing, more flexible, and easier to use across a wide range of characters.</p>
+
+<h3 id="whats-new-2">What’s New</h3>
+
+<ul>
+  <li>Improved UX/UI to make the Face Shadow feature more prominent and easier to use</li>
+  <li>Supports a wide variety of face UV layouts</li>
+  <li>Includes a reusable Face Shadow texture (no need to switch textures per character)</li>
+  <li>Added <strong>Debug Face UV</strong> mode for setup and troubleshooting</li>
+  <li>Added <strong>UV Scale and Offset</strong> controls for precise adjustment</li>
+  <li>Added <strong>Flip UV</strong> option for handling inverted UVs</li>
+</ul>
+
+<hr />
+
+<h2 id="v1-0-0">v1.0.0 — Initial Release</h2>
+
+<p><strong>Released:</strong> March 3, 2026</p>
+
+<p>Initial release of <strong>ZLZ Anime Shader</strong> for the Universal Render Pipeline (URP) — an anime-style character shader designed for real production use, suitable for both Artists and Technical Artists.</p>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li><strong>Hair Transparent</strong> : Transparent hair rendering for clear facial visibility</li>
+  <li><strong>Hair Shadow</strong> : Sharp and high-quality hair shadows that add depth and realism</li>
+  <li><strong>Base Character Colors</strong> : Direct control over base color and shadow color of the character</li>
+  <li><strong>Face Shadow</strong> : Face shadow control for clear and readable anime-style facial shading</li>
+  <li><strong>Receive Realtime Shadow</strong> : Supports receiving realtime shadows from scene lighting</li>
+  <li><strong>Lighting</strong> : Supports Main Directional Light and Additional Lights</li>
+  <li><strong>Toon Shade Ramp</strong> : Controls sharpness and smooth transitions between light and shadow</li>
+  <li><strong>Outline</strong> : Adjustable character outline with controllable thickness and color</li>
+  <li><strong>Metallic</strong> : Tuned metallic surface support for anime-style materials</li>
+  <li><strong>Hair Highlight</strong> : Adds stylized highlights to hair for shine and depth</li>
+  <li><strong>Emissive</strong> : Controls emissive color and intensity for special effects</li>
+  <li><strong>Dissolve</strong> : Dissolve effect for character appearance and disappearance</li>
+  <li><strong>Transparency</strong> : Supports transparent materials for special use cases</li>
+  <li><strong>Soft Light</strong> : Soft additive lighting to enhance skin smoothness</li>
+  <li><strong>Rim Light</strong> : Rim lighting to separate the character from the background</li>
+  <li><strong>Target Darken</strong> : Darkens the character to emphasize targets or important scenes</li>
+  <li><strong>Indicator</strong> : Visual indicator effects for character states or targets</li>
+  <li><strong>Get Hit</strong> : Reactive visual effect when the character is hit</li>
+  <li><strong>Upgrade</strong> : Visual effects for character or equipment upgrades</li>
+  <li><strong>Light Sweep</strong> : Sweeping light effect for showcasing weapons or special moments</li>
+</ul>
+
+<h3 id="performance--compatibility">Performance &amp; Compatibility</h3>
+
+<ul>
+  <li>Built for the Universal Render Pipeline (URP)</li>
+  <li>Optimized for mobile and real-time projects</li>
+  <li>Feature-based shader variants for efficient performance</li>
+  <li>Compatible with SRP Batcher</li>
+  <li>Designed for Mobile and PC platforms</li>
+</ul>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
