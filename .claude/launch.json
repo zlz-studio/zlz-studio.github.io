@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "zlz-design-system",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "C:/Users/User/Documents/Learning/ZLZ-Design-System"],
+      "port": 8765
+    },
+    {
+      "name": "zlz-website-local",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "C:/Users/User/Documents/Learning/ZLZ-Website-Redesign"],
+      "port": 8766
+    }
+  ]
+}

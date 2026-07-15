@@ -1,3 +1,68 @@
+{% if page.url contains '/env/' %}
+
+<div class="sidebar">
+<h2>ZLZ Env Shader</h2>
+
+<h3>Paint Mode</h3>
+
+<a href="{{ '/env/paint-mode/' | relative_url }}"
+   class="{% if page.url == '/env/paint-mode/' or page.url == '/env/paint-mode/index.html' %}active{% endif %}">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<!-- TODO: Paint Mode sub-pages -->
+
+</div>
+
+<h3>Grass</h3>
+
+<a href="{{ '/env/grass/' | relative_url }}"
+   class="{% if page.url == '/env/grass/' or page.url == '/env/grass/index.html' %}active{% endif %}">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<!-- TODO: Grass sub-pages -->
+
+</div>
+
+<h3>Reflection</h3>
+
+<a href="{{ '/env/reflection/' | relative_url }}"
+   class="{% if page.url == '/env/reflection/' or page.url == '/env/reflection/index.html' %}active{% endif %}">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<!-- TODO: Reflection sub-pages -->
+
+</div>
+
+<h3>Features</h3>
+
+<a href="{{ '/env/features/' | relative_url }}"
+   class="{% if page.url == '/env/features/' or page.url == '/env/features/index.html' %}active{% endif %}">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<!-- TODO: Features sub-pages -->
+
+</div>
+
+<h3>Other Products</h3>
+
+<a href="{{ '/features/' | relative_url }}">ZLZ Anime Shader Docs</a>
+
+</div>
+
+{% else %}
+
 <div class="sidebar">
 <h2>ZLZ Docs</h2>
 
@@ -228,4 +293,10 @@
 
 </div>
 
+<h3>Other Products</h3>
+
+<a href="{{ '/env/paint-mode/' | relative_url }}">ZLZ Env Shader Docs</a>
+
 </div>
+
+{% endif %}
