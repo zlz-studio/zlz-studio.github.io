@@ -3,6 +3,14 @@
 <div class="sidebar">
 <h2>ZLZ Env Shader</h2>
 
+{% comment %}
+  Env nav is driven off site.pages so that draft pages (published: false)
+  drop out of the sidebar automatically on the live site, and reappear
+  when previewing locally with: jekyll serve --unpublished
+{% endcomment %}
+
+{% assign p = site.pages | where: "url", "/env/paint-mode/" | first %}
+{% if p %}
 <h3>Paint Mode</h3>
 
 <a href="{{ '/env/paint-mode/' | relative_url }}"
@@ -15,7 +23,10 @@
 <!-- TODO: Paint Mode sub-pages -->
 
 </div>
+{% endif %}
 
+{% assign p = site.pages | where: "url", "/env/grass/" | first %}
+{% if p %}
 <h3>Grass</h3>
 
 <a href="{{ '/env/grass/' | relative_url }}"
@@ -28,7 +39,10 @@
 <!-- TODO: Grass sub-pages -->
 
 </div>
+{% endif %}
 
+{% assign p = site.pages | where: "url", "/env/reflection/" | first %}
+{% if p %}
 <h3>Reflection</h3>
 
 <a href="{{ '/env/reflection/' | relative_url }}"
@@ -41,7 +55,10 @@
 <!-- TODO: Reflection sub-pages -->
 
 </div>
+{% endif %}
 
+{% assign p = site.pages | where: "url", "/env/features/" | first %}
+{% if p %}
 <h3>Features</h3>
 
 <a href="{{ '/env/features/' | relative_url }}"
@@ -54,6 +71,7 @@
 <!-- TODO: Features sub-pages -->
 
 </div>
+{% endif %}
 
 <h3>Other Products</h3>
 
@@ -293,9 +311,12 @@
 
 </div>
 
+{% assign envHome = site.pages | where: "url", "/env/paint-mode/" | first %}
+{% if envHome %}
 <h3>Other Products</h3>
 
 <a href="{{ '/env/paint-mode/' | relative_url }}">ZLZ Env Shader Docs</a>
+{% endif %}
 
 </div>
 

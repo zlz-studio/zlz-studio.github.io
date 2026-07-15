@@ -2,7 +2,10 @@
 layout: docs
 title: Env Features Overview
 last_modified_at: 2026-07-15
+published: false
 ---
+
+<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Features
 

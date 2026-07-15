@@ -2,7 +2,15 @@
 layout: docs
 title: Paint Mode Overview
 last_modified_at: 2026-07-15
+published: false
 ---
+
+<!--
+  DRAFT — ยังไม่ขึ้นเว็บจริง (published: false)
+  เขียนภาษาไทยก่อน แล้วค่อยแปลอังกฤษทับทีเดียวตอนจบ
+  พรีวิวในเครื่อง: jekyll serve --unpublished
+  พร้อมขึ้นเว็บเมื่อไหร่: ลบบรรทัด published: false ออก
+-->
 
 # Paint Mode
 

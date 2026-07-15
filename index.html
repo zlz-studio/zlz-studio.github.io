@@ -830,11 +830,19 @@
     </section>
 
     <div id="docs" class="grid">
+      {% comment %}
+        Each env card renders only if its page is in site.pages. Draft pages
+        (published: false) are absent from site.pages, so the card disappears
+        from the live site. Preview drafts locally: jekyll serve --unpublished
+      {% endcomment %}
+
       <!-- Env: Paint Mode -->
+      {% assign p = site.pages | where: "url", "/env/paint-mode/" | first %}
+      {% if p %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Paint Mode</h2>
         <div class="featGrid">
-          {% assign p = site.pages | where: "url", "/env/paint-mode/" | first %}<a class="featCard" href="/env/paint-mode/">
+          <a class="featCard" href="/env/paint-mode/">
             <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Overview</span>
@@ -844,12 +852,15 @@
           <!-- TODO: Paint Mode sub-pages -->
         </div>
       </section>
+      {% endif %}
 
       <!-- Env: Grass -->
+      {% assign p = site.pages | where: "url", "/env/grass/" | first %}
+      {% if p %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Grass</h2>
         <div class="featGrid">
-          {% assign p = site.pages | where: "url", "/env/grass/" | first %}<a class="featCard" href="/env/grass/">
+          <a class="featCard" href="/env/grass/">
             <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Overview</span>
@@ -859,12 +870,15 @@
           <!-- TODO: Grass sub-pages -->
         </div>
       </section>
+      {% endif %}
 
       <!-- Env: Reflection -->
+      {% assign p = site.pages | where: "url", "/env/reflection/" | first %}
+      {% if p %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Reflection</h2>
         <div class="featGrid">
-          {% assign p = site.pages | where: "url", "/env/reflection/" | first %}<a class="featCard" href="/env/reflection/">
+          <a class="featCard" href="/env/reflection/">
             <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Overview</span>
@@ -874,12 +888,15 @@
           <!-- TODO: Reflection sub-pages -->
         </div>
       </section>
+      {% endif %}
 
       <!-- Env: Features -->
+      {% assign p = site.pages | where: "url", "/env/features/" | first %}
+      {% if p %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Features</h2>
         <div class="featGrid">
-          {% assign p = site.pages | where: "url", "/env/features/" | first %}<a class="featCard" href="/env/features/">
+          <a class="featCard" href="/env/features/">
             <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Overview</span>
@@ -889,6 +906,7 @@
           <!-- TODO: Features sub-pages -->
         </div>
       </section>
+      {% endif %}
 
       <!-- Setup Character -->
       <section class="card docsBlock" data-product="anime">
