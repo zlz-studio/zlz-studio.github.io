@@ -18,6 +18,14 @@ last_modified_at: 2026-07-16
 ## ShowcasePaintMode - Debug
 {% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
 
+### Setup - PaintMode
+![Setup_PaintMode](Setup_PaintMode.png)
+
+- The Mesh you want to paint must be under `Base_Terrain`, or under a Parent that has the `Env Dashboard` script attached
+  - Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab
+- Assign a Material that uses ZLZ_Environment_Shader
+  - Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader
+
 ### What Can PaintMode Do?
 - Paint additional decorative textures onto meshes you authored, whether in Maya or Blender
 - Paint on both horizontal and vertical surfaces
