@@ -16,6 +16,9 @@ published: false
 ## ShowcasePaintMode - Brush
 {% include video.html src="/env/paint-mode/PaintMode_Brush_Web.mp4" %}
 
+## ShowcasePaintMode - Brush
+{% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
+
 # PaintMode - Tools
 
 ### Mask Source
