@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base Character Lighting | ZLZ Anime Shader</title>
+  <title>Paint Mode Overview | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -563,241 +563,38 @@
       
 
 <div class="sidebar">
-<h2>ZLZ Docs</h2>
+<h2>ZLZ Env Shader</h2>
 
-<h3>Setup Character</h3>
 
-<a href="/setup-character/"
-   class="">
-   Overview
-</a>
 
-<div class="sideTree">
 
-<a href="/setup-character/standard-setup/"
-   class="">
-   Standard Setup
-</a>
 
-<a href="/setup-character/advanced-hair-setup/"
-   class="">
-   Advanced Hair Setup
-</a>
+<h3>Paint Mode</h3>
 
-<a href="/setup-character/Tone-Mapping/"
-   class="">
-   Tone Mapping
-</a>
-
-</div>
-
-<h3>Features</h3>
-
-<a href="/features/"
-   class="">
-   Overview
-</a>
-
-<div class="sideTree">
-
-<a href="/features/hair-system/"
-   class="">
-   hair-system
-</a>
-
-<a href="/features/faceshadow/"
-   class="">
-   FaceShadow
-</a>
-
-<a href="/features/Contact-Shadow/"
-   class="">
-   Character Contact Shadow
-</a>
-
-<a href="/features/Head-Direction-System/"
-   class="">
-   Head Direction System
-</a>
-
-<a href="/features/Base-Character-Lighting/"
+<a href="/env/paint-mode/"
    class="active">
-   Base Character Lighting
-</a>
-
-<a href="/features/Base-Character-Colors/"
-   class="">
-   Base Character Colors
-</a>
-
-<a href="/features/Outline/"
-   class="">
-   Outline
-</a>
-
-<a href="/features/NormalMap/"
-   class="">
-   NormalMap
-</a>
-
-<a href="/features/Specular/"
-   class="">
-   Specular
-</a>
-
-<a href="/features/Metallic/"
-   class="">
-   Metallic
-</a>
-   
-<a href="/features/Soft-Light/"
-   class="">
-   Soft Light
-</a>
-
-<a href="/features/RimLight/"
-   class="">
-   RimLight
-</a>
-
-<a href="/features/ShadowEdge/"
-   class="">
-   ShadowEdge
-</a>
-
-<a href="/features/Hair-Highlight/"
-   class="">
-   Hair Highlight
-</a>
-
-<a href="/features/Emissive/"
-   class="">
-   Emissive
-</a>
-
-<a href="/features/ToonRampSmooth/"
-   class="">
-   ToonRampSmooth
-</a>
-
-<a href="/features/Transparency/"
-   class="">
-   Transparency
-</a>
-
-<a href="/features/Outline-Selection/"
-   class="">
-   Outline-Selection FX Runtime
-</a>
-
-<a href="/features/Dither/"
-   class="">
-   Dither FX Runtime
-</a>
-
-<a href="/features/Dissolve/"
-   class="">
-   Dissolve FX Runtime
-</a>
-   
-<a href="/features/GetHit/"
-   class="">
-   GetHit FX Runtime
-</a>
-
-<a href="/features/Target-Darken/"
-   class="">
-   Target-Darken FX Runtime
-</a>
-
-<a href="/features/Upgrade/"
-   class="">
-   Upgrade FX Runtime
-</a>
-
-<a href="/features/Indicator/"
-   class="">
-   Indicator FX Runtime
-</a>
-
-<a href="/features/LightSweep/"
-   class="">
-   LightSweep
-</a>
-
-</div>
-
-<h3>Performance</h3>
-
-<a href="/performance/"
-   class="">
-   Performance
-</a>
-
-<h3>FAQ</h3>
-
-<a href="/faq/"
-   class="">
-   FAQ
-</a>
-
-<h3>Changelog</h3>
-
-<a href="/changelog/"
-   class="">
    Overview
 </a>
 
 <div class="sideTree">
 
-<a href="/changelog/1.7.0/"
-   class="">
-   v1.7.0
-</a>
-
-<a href="/changelog/1.6.0/"
-   class="">
-   v1.6.0
-</a>
-
-<a href="/changelog/1.5.0/"
-   class="">
-   v1.5.0
-</a>
-
-<a href="/changelog/1.4.0/"
-   class="">
-   v1.4.0
-</a>
-
-<a href="/changelog/1.3.0/"
-   class="">
-   v1.3.0
-</a>
-
-<a href="/changelog/1.2.0/"
-   class="">
-   v1.2.0
-</a>
-
-<a href="/changelog/1.1.0/"
-   class="">
-   v1.1.0
-</a>
-
-<a href="/changelog/1.0.0/"
-   class="">
-   v1.0.0
-</a>
+<!-- TODO: Paint Mode sub-pages -->
 
 </div>
+
+
+
+
+
+
+
+
 
 
 
 <h3>Other Products</h3>
 
-<a href="/env/paint-mode/">ZLZ Env Shader Docs</a>
-
+<a href="/features/">ZLZ Anime Shader Docs</a>
 
 </div>
 
@@ -808,93 +605,84 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="base-character-lighting">Base Character Lighting</h1>
+        <h1 id="paintmode---tools">PaintMode - Tools</h1>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../images/ReceiveShadow_Off.webp" alt="ReceiveShadow_Off" />
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../images/ReceiveShadow_On.webp" alt="ReceiveShadow_On" />
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Realtime Lighting ReceiveShadow Off</div>
-  <div class="compare-label after">Realtime Lighting ReceiveShadow On</div>
+<h2 id="showcasepaintmode---control">ShowcasePaintMode - Control</h2>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video src="/env/paint-mode/PaintMode_Controller_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  </video>
 </div>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../images/ShadowMask_PointLight_Off.webp" alt="ShadowMask_PointLight_Off" />
-  </div>
-
-  <div class="compare-overlay">
-    <img src="../images/ShadowMask_PointLight_On.webp" alt="ShadowMask_PointLight_On" />
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">Baked ShadowMask Point Light Off</div>
-  <div class="compare-label after">Baked ShadowMask Point Light On</div>
+<h2 id="showcasepaintmode---texture">ShowcasePaintMode - Texture</h2>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video src="/env/paint-mode/PaintMode_Texture_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  </video>
 </div>
 
-<p><img src="../Base-Character-Lighting/Lighting.webp" alt="Lighting" /></p>
+<h2 id="showcasepaintmode---brush">ShowcasePaintMode - Brush</h2>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video src="/env/paint-mode/PaintMode_Brush_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  </video>
+</div>
 
-<p>This section controls the character’s lighting and shadow behavior.</p>
+<h2 id="showcasepaintmode---debug">ShowcasePaintMode - Debug</h2>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video src="/env/paint-mode/PaintMode_Debug_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  </video>
+</div>
+
+<h3 id="what-can-paintmode-do">What Can PaintMode Do?</h3>
+<ul>
+  <li>Paint additional decorative textures onto meshes you authored, whether in Maya or Blender</li>
+  <li>Paint on both horizontal and vertical surfaces</li>
+  <li>Customize your own brushes</li>
+  <li>Freely control brush size and hardness</li>
+  <li>Once enabled, it works alongside every other feature in the Shader</li>
+</ul>
+
+<h3 id="mask-source">Mask Source</h3>
+<ul>
+  <li>Chooses where the “paint data” is stored. Switched via a shader keyword at build time — it is not a runtime value</li>
+  <li>Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel</li>
+  <li>Vertex Color = stored in the mesh’s vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density</li>
+  <li>If data exists in both Mask and Vertex Color, only the selected source is displayed</li>
+  <li>The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump</li>
+</ul>
+
+<h3 id="active-layers-1-4">Active Layers (1-4)</h3>
+<ul>
+  <li>Choose how many Layers to use; unused Layers are hidden</li>
+  <li>Assign a Texture to each Layer, selecting which Texture goes in which slot</li>
+  <li>Adjust the Size of each Texture</li>
+</ul>
+
+<h3 id="mask">Mask</h3>
+<ul>
+  <li>Name the Mask Texture file — it is exported automatically once painting is done</li>
+  <li>Set the Resolution (512, 1024, 2048)</li>
+  <li>Specify the destination where the Mask Texture file is saved after painting</li>
+  <li>New Mask : create a new Mask Texture</li>
+  <li>Clear : erase all existing data on the current Mask Texture</li>
+  <li>Revert to Saved : roll back to the last saved state</li>
+  <li>Undo : up to 8 steps back, or press Ctrl + Z</li>
+  <li>Debug Mode : available only while Start Painting is enabled</li>
+</ul>
+
+<h1 id="paintmode---material">PaintMode - Material</h1>
+
+<p><img src="PaintMode.png" alt="PaintMode" /></p>
+
+<h3 id="albedo-rgb--tiling--offset">Albedo (RGB) / Tiling / Offset</h3>
+<ul>
+  <li>The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it</li>
+  <li>Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers</li>
+  <li>If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness</li>
+</ul>
 
 <h3 id="parameters">Parameters</h3>
-
 <ul>
-  <li><strong>Receive Shadow</strong> : Enables or disables receiving shadows cast by other objects
-    <ul>
-      <li><strong>When to Enable</strong> = Allow environmental objects to cast shadows onto characters.</li>
-      <li><strong>When to Disable</strong> = Characters that should not receive projected shadows from other objects.</li>
-    </ul>
-  </li>
-  <li><strong>Shadow Softness</strong> : Controls the softness of Receive Shadows.
-    <ul>
-      <li><strong>Lower values</strong> = softer and more blurred shadows</li>
-      <li><strong>Higher values</strong> = sharper shadows</li>
-    </ul>
-  </li>
-  <li><strong>Shadow Edge Smooth</strong> : Controls the softness of Receive Shadow edges.
-    <ul>
-      <li><strong>Lower values</strong> = softer and more blurred shadow edges</li>
-      <li><strong>Higher values</strong> = sharper shadow edges<br />
-<br /></li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="../Base-Character-Lighting/SoftShadow.webp" alt="SoftShadow" /></p>
-<blockquote>
-  <p>Tip: For maximum effect, make sure Soft Shadows is enabled in the URP Renderer Asset. Without it, shadow softness may appear limited.</p>
-</blockquote>
-
-<p><br /></p>
-
-<ul>
-  <li><strong>Reject Self-Shadow</strong> : Enable this option when you want the character to receive shadows from the environment while preventing shadows cast by the character itself.</li>
-  <li><strong>Reject Self-Shadow Distance</strong> : Controls the distance threshold used to remove self-shadowing.
-    <ul>
-      <li>Lower values = more self-shadows are preserved</li>
-      <li>Higher values = fewer self-shadows are visible, or they may be completely removed<br />
-<br />
-        <blockquote>
-          <p>Tip: Increase this value until unwanted self-shadows disappear while keeping shadows from other objects intact.</p>
-        </blockquote>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<ul>
-  <li><strong>Contact Self-Shadow</strong> : Enables contact shadows cast by the character itself, commonly used to render hair shadows on the face.</li>
-  <li><strong>Additional Light Intensity</strong> : Controls the intensity of secondary lights such as Point Lights and Spot Lights; this value does not affect the main Directional Light in the scene</li>
+  <li>Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint</li>
+  <li>Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut</li>
 </ul>
 
       </div>
