@@ -31,3 +31,5 @@ published: false
 - Mask Smoothness = ความนุ่มของขอบ ค่าสูง = ขอบนุ่ม ไล่สีเนียน ค่าต่ำ = ขอบคม เข้าใกล้ 0 จะเป็นขอบตัดแข็งแบบ 2 สีชัดๆ
 
 # PaintMode - Tools
+
+![PaintMode](../paint-mode/PaintMode_Tools.png)
