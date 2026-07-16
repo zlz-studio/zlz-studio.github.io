@@ -19,45 +19,45 @@ published: false
 ## ShowcasePaintMode - Brush
 {% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
 
-### PaintMode ทำอะไรได้บ้าง
-- สามารถ Paint Texture ตกแต่งเพิ่มเติมได้บน Mesh ที่คุณสร้างมา ไม่ว่าจะ Maya หรือ Blender
-- สามารถ Paint ได้ทั้งแนวนอนและแนวตั้ง
-- สามารถ ปรับแต่ง Brush ได้เอง
-- ควบคุมขนาด ความคม ได้อย่างอิสระ
-- เมื่อใช้งานแล้วสามารถทำงานควบคู่ได้กับฟีเจอร์ทั้งหมดใน Shader
+### What Can PaintMode Do?
+- Paint additional decorative textures onto meshes you authored, whether in Maya or Blender
+- Paint on both horizontal and vertical surfaces
+- Customize your own brushes
+- Freely control brush size and hardness
+- Once enabled, it works alongside every other feature in the Shader
 
 ### Mask Source
-- เลือกว่า "ข้อมูลการระบาย" เก็บอยู่ที่ไหน สลับด้วย keyword ตอน build ไม่ใช่ค่า runtime
-- Mask = เก็บใน texture (_PaintMask) ระบายละเอียดได้เท่าความละเอียดของ texture ไม่ผูกกับจำนวน vertex แต่ mesh ต้องมี UV ที่สะอาดในช่องที่เลือก และต้องมีไฟล์ mask เพิ่มในโปรเจกต์
-- Vertex Color = เก็บลง vertex color ของ mesh ตรงๆ ไม่ใช้ texture ไม่ใช้ UV เลย เบากว่า และ mesh ที่ศิลปินระบาย vertex color มาจาก DCC จะขึ้นให้เห็นทันที แต่ความละเอียดถูกจำกัดด้วยความถี่ของ vertex
-- หากมีข้อมูลอยู่ทั้ง Mask และ Vertex Color จะแสดงผลตามที่เลือกเท่านั้น
-- ระบบ Grass จะอ่านตามค่านี้ พอสลับ Mask Source ระบบจะ re-sample หญ้าทุกกอใหม่ให้อัตโนมัติ
+- Chooses where the "paint data" is stored. Switched via a shader keyword at build time — it is not a runtime value
+- Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel
+- Vertex Color = stored in the mesh's vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density
+- If data exists in both Mask and Vertex Color, only the selected source is displayed
+- The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump
 
 ### Active Layers (1-4)
-- เลือกว่าจะใช้กี่ Layer ซึ่ง Layer ที่ไม่ถูกใช้จะถูกซ่อน
-- สามารถใส่ Texture ในแต่ละ Layer ได้ว่าจะใช้ Texture ไหนในแต่ละช่อง
-- สามารถปรับ Size ของ Texture ได้
+- Choose how many Layers to use; unused Layers are hidden
+- Assign a Texture to each Layer, selecting which Texture goes in which slot
+- Adjust the Size of each Texture
 
 ### Mask
-- สามารถตั้งชื่อไฟล์ Mask Texture ได้  โดยที่หลัง Paint เสร็จจะ Export ให้ อัตติโนมัติ
-- สามารถตั้ง Resolution ได้ (512, 1024, 2048)
-- ระบุตำแหน่งที่ตั้งได้ว่าหลังจาก Paint เสร็จแล้วไฟล์ Mask Texture จะไปถูกเก็บไว้ที่ไหน
-- New Mask : สร้าง Mask Texture ใหม่
-- Clear : ล้างข้อมูลเก่าทั้งหมดใน Mask Texture แผ่นเดิม
-- Revert to Saved : ย้อนกลับถึงจุดที่ Save
-- Undo : สามารถย้อนกลับได้ทั้งหมด 8 ครั้ง หรือ สามารถกดปุ่ม Ctrl + Z ได้
-- Debug Mode : สามารถใช้งานได้เมื่อเปิด Start Painting เท่านั้น
+- Name the Mask Texture file — it is exported automatically once painting is done
+- Set the Resolution (512, 1024, 2048)
+- Specify the destination where the Mask Texture file is saved after painting
+- New Mask : create a new Mask Texture
+- Clear : erase all existing data on the current Mask Texture
+- Revert to Saved : roll back to the last saved state
+- Undo : up to 8 steps back, or press Ctrl + Z
+- Debug Mode : available only while Start Painting is enabled
 
 # PaintMode - Material
 
 ![PaintMode](../paint-mode/PaintMode.png)
 
 ### Albedo (RGB) / Tiling / Offset
-- Texture ฐานของ material ตัวนี้ คือสิ่งที่เห็นในบริเวณที่ ยังไม่ได้ระบาย ทุก Paint Layer วางทับลงบนตัวนี้อีกที
-- Tiling/Offset เป็นของ Unity มาตรฐาน (_MainTex_ST) มีผลกับ Albedo ฐานเท่านั้น ไม่เกี่ยวกับ Layer
-- ถ้าเปิด Triplanar ช่องนี้จะถูกแทนด้วย World Tiling + Blend Sharpness
+- The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it
+- Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers
+- If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness
 
 
 ### Parameters
-- Mask Cutoff = ร่นขอบเข้า ยิ่งเพิ่ม รอยที่ระบายจางๆ จะหายไป เหลือแต่ตรงที่ระบายหนัก ใช้เก็บงานแทนการเอาแปรงไปลบเอง
-- Mask Smoothness = ความนุ่มของขอบ ค่าสูง = ขอบนุ่ม ไล่สีเนียน ค่าต่ำ = ขอบคม เข้าใกล้ 0 จะเป็นขอบตัดแข็งแบบ 2 สีชัดๆ
+- Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint
+- Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut
