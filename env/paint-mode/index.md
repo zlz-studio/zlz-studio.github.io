@@ -19,7 +19,12 @@ published: false
 ## ShowcasePaintMode - Brush
 {% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
 
-# PaintMode - Tools
+### PaintMode ทำอะไรได้บ้าง
+- สามารถ Paint Texture ตกแต่งเพิ่มเติมได้บน Mesh ที่คุณสร้างมา ไม่ว่าจะ Maya หรือ Blender
+- สามารถ Paint ได้ทั้งแนวนอนและแนวตั้ง
+- สามารถ ปรับแต่ง Brush ได้เอง
+- ควบคุมขนาด ความคม ได้อย่างอิสระ
+- เมื่อใช้งานแล้วสามารถทำงานควบคู่ได้กับฟีเจอร์ทั้งหมดใน Shader
 
 ### Mask Source
 - เลือกว่า "ข้อมูลการระบาย" เก็บอยู่ที่ไหน สลับด้วย keyword ตอน build ไม่ใช่ค่า runtime
