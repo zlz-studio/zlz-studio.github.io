@@ -5,7 +5,7 @@ last_modified_at: 2026-07-15
 published: false
 ---
 
-# PaintMode
+# PaintMode - Material
 
 ![PaintMode](../paint-mode/PaintMode.png)
 
@@ -29,3 +29,5 @@ published: false
 ### Parameters
 - Mask Cutoff = ร่นขอบเข้า ยิ่งเพิ่ม รอยที่ระบายจางๆ จะหายไป เหลือแต่ตรงที่ระบายหนัก ใช้เก็บงานแทนการเอาแปรงไปลบเอง
 - Mask Smoothness = ความนุ่มของขอบ ค่าสูง = ขอบนุ่ม ไล่สีเนียน ค่าต่ำ = ขอบคม เข้าใกล้ 0 จะเป็นขอบตัดแข็งแบบ 2 สีชัดๆ
+
+# PaintMode - Tools
