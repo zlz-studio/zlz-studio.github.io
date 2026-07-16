@@ -1,8 +1,7 @@
 ---
 layout: docs
 title: Paint Mode Overview
-last_modified_at: 2026-07-15
-published: false
+last_modified_at: 2026-07-16
 ---
 
 # PaintMode - Tools
@@ -16,7 +15,7 @@ published: false
 ## ShowcasePaintMode - Brush
 {% include video.html src="/env/paint-mode/PaintMode_Brush_Web.mp4" %}
 
-## ShowcasePaintMode - Brush
+## ShowcasePaintMode - Debug
 {% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
 
 ### What Can PaintMode Do?
@@ -50,7 +49,7 @@ published: false
 
 # PaintMode - Material
 
-![PaintMode](../paint-mode/PaintMode.png)
+![PaintMode](PaintMode.png)
 
 ### Albedo (RGB) / Tiling / Offset
 - The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it

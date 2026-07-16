@@ -1,0 +1,13 @@
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video
+    src="{{ include.src }}"
+    {% if include.poster %}poster="{{ include.poster }}"{% endif %}
+    autoplay
+    loop
+    muted
+    playsinline
+    preload="metadata"
+    {% unless include.controls == false %}controls{% endunless %}
+    style="display: block; width: 100%; height: auto;">
+  </video>
+</div>
