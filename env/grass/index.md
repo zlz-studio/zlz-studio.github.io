@@ -45,6 +45,14 @@ published: false
 - หญ้าใช้ GPU Instancing และได้รับการ Optimize เยอะมาก  เพื่อให้ได้ FPS สูงที่สุด
 
 ### ระบบ LOD
-- 
+![Grass_LOD](Grass_LOD.png)
 
-
+- สามารถ Optimize หญ้าได้ที่ `ZLZ_Global_Grass`
+- Performance บอกข้อมูลของหญ้าที่มีในฉากปัจจุบัน
+- ผู้ใช้สามารถปรับได้ว่าในแต่ละระยะจะแสดงผล LOD ไหน
+- LOD 0 = Mesh หญ้าปกติ
+- LOD 1 = Low Mesh + ลดจำนวน
+- Culled = ตัดหญ้าออก
+- Debug LOD Distance จะแสดงผลในแต่ละระยะ
+- LOD 1 Density = ปรับจำนวนของหญ้าที่อยู่ในระยะ LOD 1 ว่าจะลดลงมากแค่ไหน
+- มีระบบ Distance Fade เพื่อทำให้การสวิช LOD ในแต่ละระยะเกิดขึ้นอย่างเรียบเนียน
