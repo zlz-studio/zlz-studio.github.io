@@ -44,8 +44,16 @@ published: false
 - มีระบบ (LOD 0 = Mesh ปกติ, LOD 1 = Optimize Mesh, Culling = นำหญ้าออกหากอยู่ไกลเกินไป)
 - หญ้าใช้ GPU Instancing และได้รับการ Optimize เยอะมาก  เพื่อให้ได้ FPS สูงที่สุด
 
-### ระบบ หญ้า Interactive กับตัวละคร
+### ระบบ หญ้า Interaction กับตัวละคร
+{% include video.html src="/env/grass/Grass_Interaction.mp4" %}
 
+หญ้าจะตอบสนองเมื่อมีตัวละครหรือวัตถุเคลื่อนที่ผ่าน
+
+- ติดตั้ง `ZLZ_Env Grass Interactor` ให้กับตัวละครที่ต้องการ Interaction กับหญ้า
+- Radius : ปรับขนาดของพื้นที่ให้เหมาะสมกับตัวละคร  เพื่อ Interaction กับหญ้า
+- Push : กำหนดว่าใบหญ้าจะเอนออกด้านข้าง หนีออกจากวัตถุ มากแค่ไหน
+- Flatter : กำหนดว่าใบหญ้าจะถูกกดลงล่าง เข้าหาพื้น มากแค่ไหน
+- Debug Mode : Interaction เพื่อเช็คพื้นที่ที่ส่งผลกับหญ้า
 
 ### ระบบ LOD
 {% include video.html src="/env/grass/Grass_LOD_Web.mp4" %}
