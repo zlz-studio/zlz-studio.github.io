@@ -44,6 +44,9 @@ published: false
 - มีระบบ (LOD 0 = Mesh ปกติ, LOD 1 = Optimize Mesh, Culling = นำหญ้าออกหากอยู่ไกลเกินไป)
 - หญ้าใช้ GPU Instancing และได้รับการ Optimize เยอะมาก  เพื่อให้ได้ FPS สูงที่สุด
 
+### ระบบ หญ้า Interactive กับตัวละคร
+
+
 ### ระบบ LOD
 {% include video.html src="/env/grass/Grass_LOD_Web.mp4" %}
 
