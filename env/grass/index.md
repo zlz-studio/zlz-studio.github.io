@@ -9,24 +9,42 @@ published: false
 
 # Grass
 
-<!-- ![Grass_Overall](../images/Grass_Overall.webp) -->
+## ShowcasePaintMode - Control
+{% include video.html src="/env/paint-mode/PaintMode_Controller_Web.mp4" %}
 
-<!-- TODO: What the grass system is, and what it is designed for. -->
+## ShowcasePaintMode - Texture
+{% include video.html src="/env/paint-mode/PaintMode_Texture_Web.mp4" %}
 
----
+## ShowcasePaintMode - Brush
+{% include video.html src="/env/paint-mode/PaintMode_Brush_Web.mp4" %}
 
-## How It Works
+## ShowcasePaintMode - Debug
+{% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
 
-<!-- TODO: the concept — mesh/billboard, wind, interaction, LOD -->
+### Setup - PaintMode
+![Setup_PaintMode](Setup_PaintMode.png)
 
----
+- The Mesh you want to paint must be under `Base_Terrain`, or under a Parent that has the `Env Dashboard` script attached
+  - Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab
+- Assign a Material that uses ZLZ_Environment_Shader
+  - Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader
 
-## Pages in This Section
+### ระบบหญ้าของ ZLZ Env Shader ทำอะไรได้บ้าง?
+- หญ้าถูกควบคุมผ่าน ZLZ_EnvDashboard (เลือกพื้นผิว, เลือก Grass Type, Paint, Grow) สามารถสร้างหญ้าได้ภายในคลิ๊กเดียว
+- ข้อมูลหญ้าถูกเก็บใน ZLZ_EnvGrassData ไม่ใช่บน Scene  ทำให้ Scene เล็ก และหญ้าจะอยู่ใน Prefab  ฉะนั้นจะรองรับการทำงานทั้งแบบ Scene และแบบ Prefab
+- สร้างหญ้าขึ้นอัตติโนมัติ โดยเลือกพื้นที่ที่จะเกิดหญ้าจาก Mask Texture ผู้ใช้งานไม่จำเป็นต้องมานั่ง Paint หรือ ระบายเอง
+- ผู้ใช้งานสามารถ Paint Grass เพิ่มเติมเองได้หากต้องการ
+- รองรับการใช้งานหญ้า + ดอกไม้ ได้หลากหลายประเภทพร้อมกัน
+- ลดขนาดหญ้าในบริเวณเส้นขอบ  ระหว่างจุดที่มีหญ้าและไม่มีหญ้า  ทำให้หญ้าเรียบเนียน
+- สามารถสร้างพื้นที่ที่ไม่มีหญ้าได้ ผ่านระบบ Blocking Layer
+- หญ้ามีระบบ Interactive กับตัวละคร
+- หญ้าทำงานคู่กับระบบลม ZLZ_Global_Wind และการทำงานของหญ้าจะ Sync กับลม
+- หญ้ารับค่าสีจากกล้อง  ทำให้สีของหญ้าตรงกับสีพื้นตลอดเวลา และถูก Optimize กล้องอย่างดีทำให้กล้องแทบไม่ส่งผลต่อ Performance
+- รองรับการใช้งานบนทั้ง PC และ Mobile
+- มีระบบ (LOD 0 = Mesh ปกติ, LOD 1 = Optimize Mesh, Culling = นำหญ้าออกหากอยู่ไกลเกินไป)
+- หญ้าใช้ GPU Instancing และได้รับการ Optimize เยอะมาก  เพื่อให้ได้ FPS สูงที่สุด
 
-<!-- TODO: link each sub-page once created, e.g.
+### ระบบ LOD
+- 
 
-- [Sub Page Name](../grass/sub-page/) — one-line summary
 
--->
-
----
