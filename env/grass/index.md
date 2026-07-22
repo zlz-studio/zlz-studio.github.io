@@ -45,6 +45,8 @@ published: false
 - หญ้าใช้ GPU Instancing และได้รับการ Optimize เยอะมาก  เพื่อให้ได้ FPS สูงที่สุด
 
 ### ระบบ LOD
+{% include video.html src="/env/grass/Grass_LOD_Web.mp4" %}
+
 ![Grass_LOD](Grass_LOD.png)
 
 - สามารถ Optimize หญ้าได้ที่ `ZLZ_Global_Grass`
