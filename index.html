@@ -856,9 +856,10 @@
 
       <!-- Env: Grass -->
       {% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
+      {% assign grassColorCamera = site.pages | where: "url", "/env/grass/grass-color-camera/" | first %}
       {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
       {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
-      {% if grassOverview or grassInteraction or grassLod %}
+      {% if grassOverview or grassColorCamera or grassInteraction or grassLod %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Grass</h2>
         <div class="featGrid">
@@ -867,6 +868,13 @@
             <span class="featMeta">
               <span class="featName">Overview</span>
               <small class="featDate">Updated {{ grassOverview.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if grassColorCamera %}<a class="featCard" href="/env/grass/grass-color-camera/">
+            <img src="/env/grass/Grass_Color_Camera.png" alt="Grass Color Camera" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Grass Color Camera</span>
+              <small class="featDate">Updated {{ grassColorCamera.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if grassInteraction %}<a class="featCard" href="/env/grass/grass-interaction/">
