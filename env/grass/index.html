@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass LOD | ZLZ Env Shader</title>
+  <title>Grass Overview | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -588,14 +588,14 @@
 <h3>Grass</h3>
 
 <a href="/env/grass/"
-   class="">
+   class="active">
    Overview
 </a>
 
 <div class="sideTree">
 
 <a href="/env/grass/grass-lod/"
-   class="active">
+   class="">
    Grass LOD
 </a>
 
@@ -621,43 +621,76 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-lod">Grass LOD</h1>
+        <h1 id="grass">Grass</h1>
 
-<p>The Grass LOD system keeps grass cheap to render by simplifying and culling it based on distance from the camera — full-detail meshes stay near the camera, while faraway grass drops to a lighter mesh or is removed entirely.</p>
+<h2 id="what-can-the-zlz-env-shader-grass-system-do">What Can the ZLZ Env Shader Grass System Do?</h2>
+<ul>
+  <li>Control all grass through <code class="language-plaintext highlighter-rouge">ZLZ_EnvDashboard</code> (choose the surface, pick the Grass Type, Paint, Grow) — create grass in a single click</li>
+  <li>Grass data is stored in <code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassData</code> instead of in the Scene, keeping Scenes small and letting the data travel with the Prefab — so it works in both Scene-based and Prefab-based workflows</li>
+  <li>Grass is generated automatically from a Mask Texture; you define where grass is allowed to grow instead of painting every clump by hand</li>
+  <li>If you want, you can still paint additional grass manually</li>
+  <li>Supports many types of grass and flowers at the same time</li>
+  <li>Shrinks grass along the border between grassy and non-grassy areas for a smooth transition</li>
+  <li>Define grass-free zones through the Blocking Layer system</li>
+  <li>Grass has an Interaction system that responds to characters</li>
+  <li>Grass works with the <code class="language-plaintext highlighter-rouge">ZLZ_Global_Wind</code> system and sways in sync with the wind</li>
+  <li>Grass samples its color from a camera so it always matches the ground color, and that camera is heavily optimized so it barely affects performance</li>
+  <li>Runs on both PC and Mobile</li>
+  <li>Includes an LOD system (LOD 0 = standard Mesh, LOD 1 = optimized Mesh, Culling = removes grass that is too far away)</li>
+  <li>Uses GPU Instancing and is heavily optimized to squeeze out the highest possible FPS</li>
+</ul>
 
-<h2 id="showcase">Showcase</h2>
+<h2 id="realtime-grass-color-via-an-orthographic-camera">Realtime Grass Color via an Orthographic Camera</h2>
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/grass/Grass_LOD_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  <video src="/env/grass/Grass_Color_Camera_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
   </video>
 </div>
 
-<p><img src="../Grass_LOD.png" alt="Grass LOD" /></p>
+<p>This system makes the base of the grass blend with the color of the ground it sits on. A top-down camera captures the ground color (after lighting and shadow) and feeds it to the grass to tint its gradient. Grass on soil takes on a soil tint, grass in shadow darkens with the ground, and there is no hard seam between grass and ground. The camera only runs when needed and then shuts itself off, so it barely costs any performance.</p>
 
-<h3 id="where-to-configure">Where to Configure</h3>
+<p><img src="Grass_Color_Camera.png" alt="Grass_Color_Camera" /></p>
+
 <ul>
-  <li>All LOD settings live on <code class="language-plaintext highlighter-rouge">ZLZ_Global_Grass</code>
-<!-- TODO: add the asset/prefab path for ZLZ_Global_Grass, e.g. Path : Assets/.../ZLZ_Global_Grass.prefab --></li>
+  <li><strong>Grass</strong> — assign the Root that has the Dashboard (added automatically during setup). The camera frames itself to cover every active grass field on its own</li>
+  <li><strong>Capture Mask</strong> — choose the Layer you want the grass to sample color from, normally the same Layer the Terrain uses</li>
+  <li><strong>Resolution</strong> — the resolution of the color image fed to the grass. Since it is only a broad color tone and needs no sharpness, 256 is enough and keeps this camera lightweight</li>
+  <li><strong>Renderer</strong> — select <code class="language-plaintext highlighter-rouge">URP_Grass</code> (installed automatically). This camera adds no extra Features so it stays as light as possible</li>
+  <li><strong>Update</strong> — controls the capture cadence at runtime, with two modes:
+    <ul>
+      <li><strong>Once</strong> — captures the color once at start, then turns the camera off. Best for scenes where the lighting and ground are static</li>
+      <li><strong>Every Seconds</strong> — re-captures on an interval you specify, for cases where the ground color keeps changing on its own</li>
+    </ul>
+  </li>
+  <li><strong>Re-capture</strong> — even with Update set to Once, the system automatically re-captures when something changes. It only captures when there is an actual change; if everything is static the camera stays off and costs nothing
+    <ul>
+      <li><strong>On Surface Move</strong> — re-captures when a captured area moves / rotates / scales, so grass color stays matched to the ground even if the Terrain moves</li>
+      <li><strong>On Light Change</strong> — re-captures when the Directional Light changes direction, color, or intensity, keeping grass color and shadow correct even in day-night scenes</li>
+    </ul>
+  </li>
+  <li><strong>Capture Now</strong> — press to capture and update the grass color immediately, for when you have changed something and want to see the result right away</li>
+  <li><strong>Bake Ground Color Map</strong> — if you would rather not use the Orthographic camera, you can Bake the ground color into a Texture and use that instead — though the camera is now so optimized that it is barely different from using a Texture</li>
 </ul>
 
-<h3 id="performance">Performance</h3>
+<h2 id="grass-interaction-with-characters">Grass Interaction with Characters</h2>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <video src="/env/grass/Grass_Interaction_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  </video>
+</div>
+
+<p>Grass responds when a character or object moves through it.</p>
+
 <ul>
-  <li>Reports information about the grass currently in the scene, so you can see the impact of your LOD settings at a glance</li>
+  <li>Attach <code class="language-plaintext highlighter-rouge">ZLZ_Env Grass Interactor</code> to any character you want to interact with the grass</li>
+  <li><strong>Radius</strong> — adjust the size of the area to fit the character, for interacting with the grass</li>
+  <li><strong>Push</strong> — sets how far the blades lean sideways, away from the object</li>
+  <li><strong>Flatter</strong> — sets how far the blades are pressed down toward the ground</li>
+  <li><strong>Debug Mode</strong> — visualizes the area that affects the grass</li>
 </ul>
 
-<h3 id="lod-levels">LOD Levels</h3>
-<ul>
-  <li><strong>LOD 0</strong> = full-detail grass mesh</li>
-  <li><strong>LOD 1</strong> = low-poly mesh with a reduced instance count</li>
-  <li><strong>Culled</strong> = grass is removed entirely</li>
-  <li>You choose which LOD is displayed at each distance range</li>
-</ul>
+<h2 id="lod-system">LOD System</h2>
+<p>Grass uses a distance-based LOD system to stay cheap to render — full-detail meshes near the camera, and lighter meshes or culling farther away.</p>
 
-<h3 id="settings">Settings</h3>
-<ul>
-  <li><strong>Debug LOD Distance</strong> — visualizes each distance range so you can see where the LOD transitions happen</li>
-  <li><strong>LOD 1 Density</strong> — controls how much the grass count is thinned out within the LOD 1 range</li>
-  <li><strong>Distance Fade</strong> — blends the transition between LOD ranges so switching looks smooth instead of popping</li>
-</ul>
+<p>See <strong><a href="grass-lod/">Grass LOD</a></strong> for the full breakdown.</p>
 
       </div>
     </main>
