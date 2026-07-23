@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paint Mode Overview | ZLZ Env Shader</title>
+  <title>Grass Interaction | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -572,7 +572,7 @@
 <h3>Paint Mode</h3>
 
 <a href="/env/paint-mode/"
-   class="active">
+   class="">
    Overview
 </a>
 
@@ -595,7 +595,7 @@
 
 
 <a href="/env/grass/grass-interaction/"
-   class="">
+   class="active">
    Grass Interaction
 </a>
 
@@ -629,100 +629,38 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="paintmode---tools">PaintMode - Tools</h1>
+        <h1 id="grass-interaction">Grass Interaction</h1>
 
-<h2 id="showcasepaintmode---control">ShowcasePaintMode - Control</h2>
+<p>Grass reacts to movement: nearby blades bend away from anything that passes through them and return once it leaves. It runs on the GPU with no per-blade colliders, so it stays cheap even on a large instanced field.</p>
+
+<h2 id="showcase">Showcase</h2>
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Controller_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  <video src="/env/grass/Grass_Interaction_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
   </video>
 </div>
 
-<h2 id="showcasepaintmode---texture">ShowcasePaintMode - Texture</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Texture_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<p>Grass responds when a character or object moves through it.</p>
 
-<h2 id="showcasepaintmode---brush">ShowcasePaintMode - Brush</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Brush_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
-
-<h2 id="showcasepaintmode---debug">ShowcasePaintMode - Debug</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Debug_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
-
-<h3 id="setup---paintmode">Setup - PaintMode</h3>
-<p><img src="Setup_PaintMode.png" alt="Setup_PaintMode" /></p>
+<h3 id="interactor-per-object">Interactor (per object)</h3>
+<p>Drop the <code class="language-plaintext highlighter-rouge">ZLZ_Env Grass Interactor</code> component on anything that should part the grass — the player, an NPC, a rolling prop.</p>
 
 <ul>
-  <li>The Mesh you want to paint must be under <code class="language-plaintext highlighter-rouge">Base_Terrain</code>, or under a Parent that has the <code class="language-plaintext highlighter-rouge">Env Dashboard</code> script attached
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab</li>
-    </ul>
-  </li>
-  <li>Assign a Material that uses ZLZ_Environment_Shader
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader</li>
-    </ul>
-  </li>
+  <li>Add Component ▸ <code class="language-plaintext highlighter-rouge">ZLZ / Environment Shader / ZLZ_Env Grass Interactor</code></li>
+  <li><strong>Radius</strong> — the area (in metres) around the object within which grass bends away. Size it to the object’s footprint; it shows as a wire sphere in the Scene view when the object is selected</li>
+  <li>Up to 8 interactors affect the grass at once. If a scene has more, the ones nearest the camera win</li>
 </ul>
 
-<h3 id="what-can-paintmode-do">What Can PaintMode Do?</h3>
+<h3 id="strength-grass-material">Strength (grass material)</h3>
+<p>How hard the grass reacts is set on the grass material, in the <strong>Interaction</strong> section (keep the Interaction toggle on):</p>
+
 <ul>
-  <li>Paint additional decorative textures onto meshes you authored, whether in Maya or Blender</li>
-  <li>Paint on both horizontal and vertical surfaces</li>
-  <li>Customize your own brushes</li>
-  <li>Freely control brush size and hardness</li>
-  <li>Once enabled, it works alongside every other feature in the Shader</li>
+  <li><strong>Push</strong> — how far the blade tip slides away from an interactor</li>
+  <li><strong>Flatten</strong> — how hard the blade is pressed down inside an interactor’s radius</li>
 </ul>
 
-<h3 id="mask-source">Mask Source</h3>
+<h3 id="debug">Debug</h3>
 <ul>
-  <li>Chooses where the “paint data” is stored. Switched via a shader keyword at build time — it is not a runtime value</li>
-  <li>Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel</li>
-  <li>Vertex Color = stored in the mesh’s vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density</li>
-  <li>If data exists in both Mask and Vertex Color, only the selected source is displayed</li>
-  <li>The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump</li>
-</ul>
-
-<h3 id="active-layers-1-4">Active Layers (1-4)</h3>
-<ul>
-  <li>Choose how many Layers to use; unused Layers are hidden</li>
-  <li>Assign a Texture to each Layer, selecting which Texture goes in which slot</li>
-  <li>Adjust the Size of each Texture</li>
-</ul>
-
-<h3 id="mask">Mask</h3>
-<ul>
-  <li>Name the Mask Texture file — it is exported automatically once painting is done</li>
-  <li>Set the Resolution (512, 1024, 2048)</li>
-  <li>Specify the destination where the Mask Texture file is saved after painting</li>
-  <li>New Mask : create a new Mask Texture</li>
-  <li>Clear : erase all existing data on the current Mask Texture</li>
-  <li>Revert to Saved : roll back to the last saved state</li>
-  <li>Undo : up to 8 steps back, or press Ctrl + Z</li>
-  <li>Debug Mode : available only while Start Painting is enabled</li>
-</ul>
-
-<h1 id="paintmode---material">PaintMode - Material</h1>
-
-<p><img src="PaintMode.png" alt="PaintMode" /></p>
-
-<h3 id="albedo-rgb--tiling--offset">Albedo (RGB) / Tiling / Offset</h3>
-<ul>
-  <li>The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it</li>
-  <li>Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers</li>
-  <li>If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness</li>
-</ul>
-
-<h3 id="parameters">Parameters</h3>
-<ul>
-  <li>Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint</li>
-  <li>Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut</li>
+  <li>Set the material’s <strong>Debug</strong> view to <strong>Interaction</strong> to see where interactors are affecting the grass</li>
 </ul>
 
       </div>
