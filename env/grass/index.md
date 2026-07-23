@@ -1,92 +1,59 @@
 ---
 layout: docs
 title: Grass Overview
-last_modified_at: 2026-07-15
-published: false
+last_modified_at: 2026-07-23
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Grass
 
-## ShowcasePaintMode - Control
-{% include video.html src="/env/paint-mode/PaintMode_Controller_Web.mp4" %}
+## What Can the ZLZ Env Shader Grass System Do?
+- Control all grass through `ZLZ_EnvDashboard` (choose the surface, pick the Grass Type, Paint, Grow) — create grass in a single click
+- Grass data is stored in `ZLZ_EnvGrassData` instead of in the Scene, keeping Scenes small and letting the data travel with the Prefab — so it works in both Scene-based and Prefab-based workflows
+- Grass is generated automatically from a Mask Texture; you define where grass is allowed to grow instead of painting every clump by hand
+- If you want, you can still paint additional grass manually
+- Supports many types of grass and flowers at the same time
+- Shrinks grass along the border between grassy and non-grassy areas for a smooth transition
+- Define grass-free zones through the Blocking Layer system
+- Grass has an Interaction system that responds to characters
+- Grass works with the `ZLZ_Global_Wind` system and sways in sync with the wind
+- Grass samples its color from a camera so it always matches the ground color, and that camera is heavily optimized so it barely affects performance
+- Runs on both PC and Mobile
+- Includes an LOD system (LOD 0 = standard Mesh, LOD 1 = optimized Mesh, Culling = removes grass that is too far away)
+- Uses GPU Instancing and is heavily optimized to squeeze out the highest possible FPS
 
-## ShowcasePaintMode - Texture
-{% include video.html src="/env/paint-mode/PaintMode_Texture_Web.mp4" %}
-
-## ShowcasePaintMode - Brush
-{% include video.html src="/env/paint-mode/PaintMode_Brush_Web.mp4" %}
-
-## ShowcasePaintMode - Debug
-{% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
-
-### Setup - PaintMode
-![Setup_PaintMode](Setup_PaintMode.png)
-
-- The Mesh you want to paint must be under `Base_Terrain`, or under a Parent that has the `Env Dashboard` script attached
-  - Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab
-- Assign a Material that uses ZLZ_Environment_Shader
-  - Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader
-
-### ระบบหญ้าของ ZLZ Env Shader ทำอะไรได้บ้าง?
-- ควบคุมหญ้าทั้งหมดผ่าน ZLZ_EnvDashboard (เลือกพื้นผิว, เลือก Grass Type, Paint, Grow) สร้างหญ้าได้ในคลิกเดียว
-- เก็บข้อมูลหญ้าไว้ใน ZLZ_EnvGrassData ไม่ฝากบน Scene ทำให้ Scene เล็กและข้อมูลติดไปกับ Prefab จึงรองรับการทำงานทั้งแบบ Scene และแบบ Prefab
-- สร้างหญ้าอัตโนมัติจาก Mask Texture กำหนดพื้นที่ที่จะให้เกิดหญ้าได้ ผู้ใช้ไม่ต้องมานั่งระบายเอง
-- หากต้องการ ผู้ใช้ยังสามารถ Paint หญ้าเพิ่มเองได้
-- รองรับหญ้าและดอกไม้หลายประเภทพร้อมกัน
-- ลดขนาดหญ้าในบริเวณเส้นขอบ  ระหว่างจุดที่มีหญ้าและไม่มีหญ้า  ทำให้หญ้าเรียบเนียน
-- กำหนดพื้นที่ปลอดหญ้าได้ผ่านระบบ Blocking Layer
-- หญ้ามีระบบ Interaction ตอบสนองกับตัวละคร
-- หญ้าทำงานร่วมกับระบบลม ZLZ_Global_Wind และไหวตามลมแบบ Sync กัน
-- หญ้ารับค่าสีจากกล้อง ทำให้สีหญ้าตรงกับสีพื้นตลอดเวลา และกล้องถูก Optimize มาอย่างดีจนแทบไม่ส่งผลต่อ Performance
-- รองรับการใช้งานบนทั้ง PC และ Mobile
-- มีระบบ (LOD 0 = Mesh ปกติ, LOD 1 = Optimize Mesh, Culling = นำหญ้าออกหากอยู่ไกลเกินไป)
-- ใช้ GPU Instancing และผ่านการ Optimize มาอย่างหนัก เพื่อรีด FPS ให้สูงที่สุด
-
-### หญ้ารับค่าสี Realtime ผ่านกล้อง Orthographic
+## Realtime Grass Color via an Orthographic Camera
 {% include video.html src="/env/grass/Grass_Color_Camera_Web.mp4" %}
 
-ระบบนี้ทำให้โคนหญ้ากลมกลืนกับสีของพื้นที่มันขึ้นอยู่ โดยมีกล้องมองจากด้านบนคอยถ่ายสีพื้น (ที่ผ่านแสงและเงาแล้ว) ส่งให้หญ้านำไปไล่โทน หญ้าบนดินจึงอมสีดิน
-หญ้าในเงาจึงเข้มตามพื้น ไม่เกิดรอยต่อแข็งๆ ระหว่างหญ้ากับพื้น ตัวกล้องจะทำงานเฉพาะตอนจำเป็นแล้วปิดตัวเอง จึงแทบไม่กินประสิทธิภาพ
+This system makes the base of the grass blend with the color of the ground it sits on. A top-down camera captures the ground color (after lighting and shadow) and feeds it to the grass to tint its gradient. Grass on soil takes on a soil tint, grass in shadow darkens with the ground, and there is no hard seam between grass and ground. The camera only runs when needed and then shuts itself off, so it barely costs any performance.
 
 ![Grass_Color_Camera](Grass_Color_Camera.png)
 
-- Grass : ใส่ Root ที่มี Dashboard ซึ่งระบบจะใส่ให้อัตโนมัติตั้งแต่ตอนติดตั้ง กล้องจะจัดกรอบภาพให้ครอบคลุมพื้นหญ้าทุกผืนที่เปิดใช้งานเอง
-- Capture Mask : เลือก Layer ที่ต้องการให้หญ้ารับสี  ซึ่งโดยปกติจะเลือก Layer เดียวกับที่ Terrain ใช้
-- Resolution : ความละเอียดของภาพสีที่ส่งให้หญ้า เนื่องจากเป็นเพียงโทนสีกว้างๆ ไม่ต้องการความคมชัด ตั้งแค่ 256 ก็เพียงพอ และช่วยให้กล้องตัวนี้ทำงานเบา
-- Renderer : เลือก URP_Grass ซึ่งจะติดตั้งให้อัตติโนมัติ  โดยกล้องนี้จะไม่ Add Features เพิ่ม  เพื่อให้กล้องนี้ทำงานได้เบาที่สุด
-- Update : กำหนดจังหวะการถ่ายตอนเล่นจริง มี 2 โหมด
-  - Once : ถ่ายเก็บค่าสีครั้งเดียวตอนเริ่ม แล้วปิดกล้อง เหมาะกับฉากที่แสงและพื้นอยู่นิ่ง
-  - Every Seconds : ถ่ายซ้ำเป็นรอบ ระบุได้ว่าทุกกี่วินาที เผื่อกรณีที่พื้นมีสีเปลี่ยนเองตลอดเวลา
-- Re-capture : แม้ตั้ง Update เป็น Once ระบบนี้ก็ยังสั่งถ่ายใหม่ให้อัตโนมัติเมื่อเกิดการเปลี่ยนแปลง โดยจะถ่ายจริงเฉพาะตอนมีอะไรเปลี่ยน ถ้าทุกอย่างนิ่งกล้องจะปิดอยู่ ไม่กินเครื่อง
-  - On Surface Move : ถ่ายใหม่เมื่อพื้นที่ถูก Capture มีการขยับ/หมุน/ย่อขยาย แม้ Terrain จะเคลื่อนที่ สีหญ้าก็ยังตรงกับพื้น
-  - On Light Change : ถ่ายใหม่เมื่อ Directional Light เปลี่ยนทิศทาง สี หรือความสว่าง ทำให้สีและเงาของหญ้ายังถูกต้องแม้ในฉากที่สลับกลางวัน-กลางคืน
-- Capture Now : กดเพื่อสั่งถ่ายและอัปเดตสีหญ้าใหม่ทันที ไว้ใช้เวลาที่แก้บางอย่างแล้วอยากเห็นผลเดี๋ยวนั้น
-- Bake Ground Color Map :  : กรณีที่ไม่อยากใช้กล้อง Orthographic สามารถ Bake สีพื้นเป็น Texture ไปใช้แทนได้ แต่ปัจจุบันกล้องถูก Optimize มามากจนแทบไม่ต่างจากการใช้ Texture
+- **Grass** — assign the Root that has the Dashboard (added automatically during setup). The camera frames itself to cover every active grass field on its own
+- **Capture Mask** — choose the Layer you want the grass to sample color from, normally the same Layer the Terrain uses
+- **Resolution** — the resolution of the color image fed to the grass. Since it is only a broad color tone and needs no sharpness, 256 is enough and keeps this camera lightweight
+- **Renderer** — select `URP_Grass` (installed automatically). This camera adds no extra Features so it stays as light as possible
+- **Update** — controls the capture cadence at runtime, with two modes:
+  - **Once** — captures the color once at start, then turns the camera off. Best for scenes where the lighting and ground are static
+  - **Every Seconds** — re-captures on an interval you specify, for cases where the ground color keeps changing on its own
+- **Re-capture** — even with Update set to Once, the system automatically re-captures when something changes. It only captures when there is an actual change; if everything is static the camera stays off and costs nothing
+  - **On Surface Move** — re-captures when a captured area moves / rotates / scales, so grass color stays matched to the ground even if the Terrain moves
+  - **On Light Change** — re-captures when the Directional Light changes direction, color, or intensity, keeping grass color and shadow correct even in day-night scenes
+- **Capture Now** — press to capture and update the grass color immediately, for when you have changed something and want to see the result right away
+- **Bake Ground Color Map** — if you would rather not use the Orthographic camera, you can Bake the ground color into a Texture and use that instead — though the camera is now so optimized that it is barely different from using a Texture
 
-### ระบบ หญ้า Interaction กับตัวละคร
-{% include video.html src="/env/grass/Grass_Interaction.mp4" %}
+## Grass Interaction with Characters
+{% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
 
-หญ้าจะตอบสนองเมื่อมีตัวละครหรือวัตถุเคลื่อนที่ผ่าน
+Grass responds when a character or object moves through it.
 
-- ติดตั้ง `ZLZ_Env Grass Interactor` ให้กับตัวละครที่ต้องการ Interaction กับหญ้า
-- Radius : ปรับขนาดของพื้นที่ให้เหมาะสมกับตัวละคร  เพื่อ Interaction กับหญ้า
-- Push : กำหนดว่าใบหญ้าจะเอนออกด้านข้าง หนีออกจากวัตถุ มากแค่ไหน
-- Flatter : กำหนดว่าใบหญ้าจะถูกกดลงล่าง เข้าหาพื้น มากแค่ไหน
-- Debug Mode : Interaction เพื่อเช็คพื้นที่ที่ส่งผลกับหญ้า
+- Attach `ZLZ_Env Grass Interactor` to any character you want to interact with the grass
+- **Radius** — adjust the size of the area to fit the character, for interacting with the grass
+- **Push** — sets how far the blades lean sideways, away from the object
+- **Flatter** — sets how far the blades are pressed down toward the ground
+- **Debug Mode** — visualizes the area that affects the grass
 
-### ระบบ LOD
-{% include video.html src="/env/grass/Grass_LOD_Web.mp4" %}
+## LOD System
+Grass uses a distance-based LOD system to stay cheap to render — full-detail meshes near the camera, and lighter meshes or culling farther away.
 
-![Grass_LOD](Grass_LOD.png)
-
-- สามารถ Optimize หญ้าได้ที่ `ZLZ_Global_Grass`
-- Performance บอกข้อมูลของหญ้าที่มีในฉากปัจจุบัน
-- ผู้ใช้สามารถปรับได้ว่าในแต่ละระยะจะแสดงผล LOD ไหน
-- LOD 0 = Mesh หญ้าปกติ
-- LOD 1 = Low Mesh + ลดจำนวน
-- Culled = ตัดหญ้าออก
-- Debug LOD Distance จะแสดงผลในแต่ละระยะ
-- LOD 1 Density = ปรับจำนวนของหญ้าที่อยู่ในระยะ LOD 1 ว่าจะลดลงมากแค่ไหน
-- มีระบบ Distance Fade เพื่อทำให้การสวิช LOD ในแต่ละระยะเกิดขึ้นอย่างเรียบเนียน
+See **[Grass LOD](grass-lod/)** for the full breakdown.
