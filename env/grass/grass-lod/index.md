@@ -2,7 +2,7 @@
 layout: docs
 title: Grass LOD
 last_modified_at: 2026-07-15
-published: false
+published: true
 ---
 
 ### Grass LOD System
