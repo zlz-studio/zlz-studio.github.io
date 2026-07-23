@@ -12,7 +12,7 @@ This system makes the base of the grass blend with the color of the ground it si
 ## Showcase
 {% include video.html src="/env/grass/Grass_Color_Camera_Web.mp4" %}
 
-![Grass_Color_Camera](Grass_Color_Camera.png)
+![Grass_Color_Camera](../Grass_Color_Camera.png)
 
 ### Setup
 - **Grass** — assign the Root that has the Dashboard (added automatically during setup). The camera frames itself to cover every active grass field on its own
