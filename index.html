@@ -856,8 +856,9 @@
 
       <!-- Env: Grass -->
       {% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
+      {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
       {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
-      {% if grassOverview or grassLod %}
+      {% if grassOverview or grassInteraction or grassLod %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Grass</h2>
         <div class="featGrid">
@@ -866,6 +867,13 @@
             <span class="featMeta">
               <span class="featName">Overview</span>
               <small class="featDate">Updated {{ grassOverview.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if grassInteraction %}<a class="featCard" href="/env/grass/grass-interaction/">
+            <img src="/images/thumbs/overview.webp" alt="Grass Interaction" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Grass Interaction</span>
+              <small class="featDate">Updated {{ grassInteraction.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if grassLod %}<a class="featCard" href="/env/grass/grass-lod/">

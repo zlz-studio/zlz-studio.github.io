@@ -26,8 +26,9 @@
 {% endif %}
 
 {% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
+{% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
 {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
-{% if grassOverview or grassLod %}
+{% if grassOverview or grassInteraction or grassLod %}
 <h3>Grass</h3>
 
 {% if grassOverview %}
@@ -38,6 +39,13 @@
 {% endif %}
 
 <div class="sideTree">
+
+{% if grassInteraction %}
+<a href="{{ '/env/grass/grass-interaction/' | relative_url }}"
+   class="{% if page.url contains '/env/grass/grass-interaction/' %}active{% endif %}">
+   Grass Interaction
+</a>
+{% endif %}
 
 {% if grassLod %}
 <a href="{{ '/env/grass/grass-lod/' | relative_url }}"
