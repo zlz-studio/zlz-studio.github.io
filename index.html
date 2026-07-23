@@ -855,19 +855,26 @@
       {% endif %}
 
       <!-- Env: Grass -->
-      {% assign p = site.pages | where: "url", "/env/grass/" | first %}
-      {% if p %}
+      {% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
+      {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
+      {% if grassOverview or grassLod %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Grass</h2>
         <div class="featGrid">
-          <a class="featCard" href="/env/grass/">
+          {% if grassOverview %}<a class="featCard" href="/env/grass/">
             <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Overview</span>
-              <small class="featDate">Updated {{ p.last_modified_at | date: "%d %b %Y" }}</small>
+              <small class="featDate">Updated {{ grassOverview.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
-          </a>
-          <!-- TODO: Grass sub-pages -->
+          </a>{% endif %}
+          {% if grassLod %}<a class="featCard" href="/env/grass/grass-lod/">
+            <img src="/env/grass/Grass_LOD.png" alt="Grass LOD" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Grass LOD</span>
+              <small class="featDate">Updated {{ grassLod.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
         </div>
       </section>
       {% endif %}
