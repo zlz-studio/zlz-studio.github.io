@@ -25,21 +25,26 @@
 </div>
 {% endif %}
 
-{% assign p = site.pages | where: "url", "/env/grass/" | first %}
-{% if p %}
+{% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
+{% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
+{% if grassOverview or grassLod %}
 <h3>Grass</h3>
 
+{% if grassOverview %}
 <a href="{{ '/env/grass/' | relative_url }}"
    class="{% if page.url == '/env/grass/' or page.url == '/env/grass/index.html' %}active{% endif %}">
    Overview
 </a>
+{% endif %}
 
 <div class="sideTree">
 
+{% if grassLod %}
 <a href="{{ '/env/grass/grass-lod/' | relative_url }}"
    class="{% if page.url contains '/env/grass/grass-lod/' %}active{% endif %}">
    Grass LOD
 </a>
+{% endif %}
 
 </div>
 {% endif %}

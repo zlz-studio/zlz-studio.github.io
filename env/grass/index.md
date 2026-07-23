@@ -2,7 +2,7 @@
 layout: docs
 title: Grass Overview
 last_modified_at: 2026-07-23
-published: true
+published: false
 ---
 
 # Grass
