@@ -17,7 +17,7 @@ Grass responds when a character or object moves through it.
 ### Interactor (per object)
 Drop the `ZLZ_Env Grass Interactor` component on anything that should part the grass — the player, an NPC, a rolling prop.
 
-- Add Component ▸ `ZLZ / Environment Shader / ZLZ_Env Grass Interactor`
+- Attach the `ZLZ_Env Grass Interactor` to any character you want to interact with the grass
 - **Radius** — the area (in metres) around the object within which grass bends away. Size it to the object's footprint; it shows as a wire sphere in the Scene view when the object is selected
 - Up to 8 interactors affect the grass at once. If a scene has more, the ones nearest the camera win
 
