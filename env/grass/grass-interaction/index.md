@@ -1,3 +1,10 @@
+---
+layout: docs
+title: Grass Interaction
+last_modified_at: 2026-07-23
+published: false
+---
+
 ## Grass Interaction with Characters
 {% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
 
