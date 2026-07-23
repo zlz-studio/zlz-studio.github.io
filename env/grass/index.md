@@ -52,8 +52,3 @@ Grass responds when a character or object moves through it.
 - **Push** — sets how far the blades lean sideways, away from the object
 - **Flatter** — sets how far the blades are pressed down toward the ground
 - **Debug Mode** — visualizes the area that affects the grass
-
-## LOD System
-Grass uses a distance-based LOD system to stay cheap to render — full-detail meshes near the camera, and lighter meshes or culling farther away.
-
-See **[Grass LOD](grass-lod/)** for the full breakdown.
