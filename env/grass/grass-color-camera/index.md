@@ -1,3 +1,10 @@
+---
+layout: docs
+title: Grass Color Camera
+last_modified_at: 2026-07-23
+published: false
+---
+
 ## Realtime Grass Color via an Orthographic Camera
 {% include video.html src="/env/grass/Grass_Color_Camera_Web.mp4" %}
 
