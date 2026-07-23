@@ -2,7 +2,7 @@
 layout: docs
 title: Grass Interaction
 last_modified_at: 2026-07-23
-published: false
+published: true
 ---
 
 # Grass Interaction
