@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paint Mode Overview | ZLZ Env Shader</title>
+  <title>Grass Color Camera | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -572,7 +572,7 @@
 <h3>Paint Mode</h3>
 
 <a href="/env/paint-mode/"
-   class="active">
+   class="">
    Overview
 </a>
 
@@ -596,7 +596,7 @@
 
 
 <a href="/env/grass/grass-color-camera/"
-   class="">
+   class="active">
    Grass Color Camera
 </a>
 
@@ -637,100 +637,46 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="paintmode---tools">PaintMode - Tools</h1>
+        <h1 id="grass-color-camera">Grass Color Camera</h1>
 
-<h2 id="showcasepaintmode---control">ShowcasePaintMode - Control</h2>
+<p>This system makes the base of the grass blend with the color of the ground it sits on. A top-down camera captures the ground color (after lighting and shadow) and feeds it to the grass to tint its gradient. Grass on soil takes on a soil tint, grass in shadow darkens with the ground, and there is no hard seam between grass and ground. The camera only runs when needed and then shuts itself off, so it barely costs any performance.</p>
+
+<h2 id="showcase">Showcase</h2>
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Controller_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
+  <video src="/env/grass/Grass_Color_Camera_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
   </video>
 </div>
 
-<h2 id="showcasepaintmode---texture">ShowcasePaintMode - Texture</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Texture_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<p><img src="Grass_Color_Camera.png" alt="Grass_Color_Camera" /></p>
 
-<h2 id="showcasepaintmode---brush">ShowcasePaintMode - Brush</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Brush_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
-
-<h2 id="showcasepaintmode---debug">ShowcasePaintMode - Debug</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Debug_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
-
-<h3 id="setup---paintmode">Setup - PaintMode</h3>
-<p><img src="Setup_PaintMode.png" alt="Setup_PaintMode" /></p>
-
+<h3 id="setup">Setup</h3>
 <ul>
-  <li>The Mesh you want to paint must be under <code class="language-plaintext highlighter-rouge">Base_Terrain</code>, or under a Parent that has the <code class="language-plaintext highlighter-rouge">Env Dashboard</code> script attached
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab</li>
-    </ul>
-  </li>
-  <li>Assign a Material that uses ZLZ_Environment_Shader
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader</li>
-    </ul>
-  </li>
+  <li><strong>Grass</strong> — assign the Root that has the Dashboard (added automatically during setup). The camera frames itself to cover every active grass field on its own</li>
+  <li><strong>Capture Mask</strong> — choose the Layer you want the grass to sample color from, normally the same Layer the Terrain uses</li>
+  <li><strong>Resolution</strong> — the resolution of the color image fed to the grass. Since it is only a broad color tone and needs no sharpness, 256 is enough and keeps this camera lightweight</li>
+  <li><strong>Renderer</strong> — select <code class="language-plaintext highlighter-rouge">URP_Grass</code> (installed automatically). This camera adds no extra Features so it stays as light as possible</li>
 </ul>
 
-<h3 id="what-can-paintmode-do">What Can PaintMode Do?</h3>
+<h3 id="update">Update</h3>
+<p>Controls the capture cadence at runtime, with two modes:</p>
+
 <ul>
-  <li>Paint additional decorative textures onto meshes you authored, whether in Maya or Blender</li>
-  <li>Paint on both horizontal and vertical surfaces</li>
-  <li>Customize your own brushes</li>
-  <li>Freely control brush size and hardness</li>
-  <li>Once enabled, it works alongside every other feature in the Shader</li>
+  <li><strong>Once</strong> — captures the color once at start, then turns the camera off. Best for scenes where the lighting and ground are static</li>
+  <li><strong>Every Seconds</strong> — re-captures on an interval you specify, for cases where the ground color keeps changing on its own</li>
 </ul>
 
-<h3 id="mask-source">Mask Source</h3>
+<h3 id="re-capture-triggers">Re-capture Triggers</h3>
+<p>Even with Update set to Once, the system automatically re-captures when something changes. It only captures when there is an actual change; if everything is static the camera stays off and costs nothing.</p>
+
 <ul>
-  <li>Chooses where the “paint data” is stored. Switched via a shader keyword at build time — it is not a runtime value</li>
-  <li>Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel</li>
-  <li>Vertex Color = stored in the mesh’s vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density</li>
-  <li>If data exists in both Mask and Vertex Color, only the selected source is displayed</li>
-  <li>The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump</li>
+  <li><strong>On Surface Move</strong> — re-captures when a captured area moves / rotates / scales, so grass color stays matched to the ground even if the Terrain moves</li>
+  <li><strong>On Light Change</strong> — re-captures when the Directional Light changes direction, color, or intensity, keeping grass color and shadow correct even in day-night scenes</li>
 </ul>
 
-<h3 id="active-layers-1-4">Active Layers (1-4)</h3>
+<h3 id="actions">Actions</h3>
 <ul>
-  <li>Choose how many Layers to use; unused Layers are hidden</li>
-  <li>Assign a Texture to each Layer, selecting which Texture goes in which slot</li>
-  <li>Adjust the Size of each Texture</li>
-</ul>
-
-<h3 id="mask">Mask</h3>
-<ul>
-  <li>Name the Mask Texture file — it is exported automatically once painting is done</li>
-  <li>Set the Resolution (512, 1024, 2048)</li>
-  <li>Specify the destination where the Mask Texture file is saved after painting</li>
-  <li>New Mask : create a new Mask Texture</li>
-  <li>Clear : erase all existing data on the current Mask Texture</li>
-  <li>Revert to Saved : roll back to the last saved state</li>
-  <li>Undo : up to 8 steps back, or press Ctrl + Z</li>
-  <li>Debug Mode : available only while Start Painting is enabled</li>
-</ul>
-
-<h1 id="paintmode---material">PaintMode - Material</h1>
-
-<p><img src="PaintMode.png" alt="PaintMode" /></p>
-
-<h3 id="albedo-rgb--tiling--offset">Albedo (RGB) / Tiling / Offset</h3>
-<ul>
-  <li>The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it</li>
-  <li>Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers</li>
-  <li>If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness</li>
-</ul>
-
-<h3 id="parameters">Parameters</h3>
-<ul>
-  <li>Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint</li>
-  <li>Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut</li>
+  <li><strong>Capture Now</strong> — press to capture and update the grass color immediately, for when you have changed something and want to see the result right away</li>
+  <li><strong>Bake Ground Color Map</strong> — if you would rather not use the Orthographic camera, you can Bake the ground color into a Texture and use that instead — though the camera is now so optimized that it is barely different from using a Texture</li>
 </ul>
 
       </div>
