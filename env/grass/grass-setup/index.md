@@ -10,7 +10,7 @@ published: true
 Plant grass on your Terrain in just a few steps. Everything is controlled from a single place, the `ZLZ_Env Dashboard`, and one scene can hold many grass types at once.
 
 ## Showcase
-[(Grass Setup: Plant Different Grass Types on Each Terrain)](https://www.youtube.com/watch?v=3qydgQaQi_s)
+{% include youtube-loop.html id="3qydgQaQi_s" %}
 
 ## Setup Steps
 
