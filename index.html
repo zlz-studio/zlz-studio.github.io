@@ -873,8 +873,7 @@
             </span>
           </a>{% endif %}
           {% if grassSetup %}<a class="featCard" href="/env/grass/grass-setup/">
-            <!-- TODO: swap GrassSetup.png for a proper Grass_Setup_Thumb.webp + _Hover.webp -->
-            <img src="/env/grass/GrassSetup.png" alt="Grass Setup" loading="lazy" decoding="async" />
+            <img src="/env/grass/Grass_Setup_Thumb.webp" data-anim="/env/grass/Grass_Setup_Hover.webp" alt="Grass Setup" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Grass Setup</span>
               <small class="featDate">Updated {{ grassSetup.last_modified_at | date: "%d %b %Y" }}</small>
