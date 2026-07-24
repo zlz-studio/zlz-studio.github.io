@@ -10,7 +10,7 @@ published: true
 The Grass LOD system keeps grass cheap to render by simplifying and culling it based on distance from the camera — full-detail meshes stay near the camera, while faraway grass drops to a lighter mesh or is removed entirely.
 
 ## Showcase
-{% include video.html src="/env/grass/Grass_LOD_Web.mp4" %}
+{% include youtube-loop.html id="J0blYvQDdok" %}
 
 ![Grass LOD](../Grass_LOD.png)
 

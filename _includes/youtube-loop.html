@@ -1,0 +1,19 @@
+{% comment %}
+  Autoplay + muted + looping YouTube embed, for the inline showcase clips that
+  used to be local <video autoplay loop muted>. Loop on a single video needs
+  playlist=<same id>. Autoplay only works while muted (browser policy).
+  Params: id (required), controls (default true — pass controls=false to hide).
+  Plain click-to-play embeds still use youtube.html.
+{% endcomment %}
+{% if include.controls == false %}{% assign yt_controls = "0" %}{% else %}{% assign yt_controls = "1" %}{% endif %}
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/{{ include.id }}?autoplay=1&mute=1&loop=1&playlist={{ include.id }}&controls={{ yt_controls }}&modestbranding=1&rel=0&playsinline=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowfullscreen
+      style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
