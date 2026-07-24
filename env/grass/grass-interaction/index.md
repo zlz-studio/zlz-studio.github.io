@@ -10,7 +10,7 @@ published: true
 Grass reacts to movement: nearby blades bend away from anything that passes through them and return once it leaves. It runs on the GPU with no per-blade colliders, so it stays cheap even on a large instanced field.
 
 ## Showcase
-{% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
+{% include youtube-loop.html id="wtBBxozpMTo" %}
 
 Grass responds when a character or object moves through it.
 
