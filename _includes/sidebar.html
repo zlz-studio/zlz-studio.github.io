@@ -27,11 +27,12 @@
 
 {% assign grassOverview = site.pages | where: "url", "/env/grass/" | first %}
 {% assign grassSetup = site.pages | where: "url", "/env/grass/grass-setup/" | first %}
+{% assign grassMaterial = site.pages | where: "url", "/env/grass/grass-material/" | first %}
 {% assign grassColorCamera = site.pages | where: "url", "/env/grass/grass-color-camera/" | first %}
 {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
 {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
 {% assign grassEdges = site.pages | where: "url", "/env/grass/grass-edges/" | first %}
-{% if grassOverview or grassSetup or grassColorCamera or grassInteraction or grassLod or grassEdges %}
+{% if grassOverview or grassSetup or grassMaterial or grassColorCamera or grassInteraction or grassLod or grassEdges %}
 <h3>Grass</h3>
 
 {% if grassOverview %}
@@ -47,6 +48,13 @@
 <a href="{{ '/env/grass/grass-setup/' | relative_url }}"
    class="{% if page.url contains '/env/grass/grass-setup/' %}active{% endif %}">
    Grass Setup
+</a>
+{% endif %}
+
+{% if grassMaterial %}
+<a href="{{ '/env/grass/grass-material/' | relative_url }}"
+   class="{% if page.url contains '/env/grass/grass-material/' %}active{% endif %}">
+   Grass Material
 </a>
 {% endif %}
 
