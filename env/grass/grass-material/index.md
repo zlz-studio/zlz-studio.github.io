@@ -28,11 +28,15 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Ground Color** — รับค่าสีจากกล้อง เพื่อให้เป็นสีเดียวกับ Terrain (สามารถเปิด/ปิดได้)
 - **Interaction** — หญ้าเกิดการเคลื่อนไหวตามตัวละคร (สามารถเปิด/ปิดได้)
 
+---
+
 ## Rendering
 ![Rendering_Properties](../grass-material/Rendering_Properties.png)
 
 - **Cast Shadow** — ให้ใบหญ้าทอดเงาลงพื้นหรือไม่ ปิดได้เพื่อประหยัดในฉากที่มีหญ้าหนาแน่นมาก
 - **Alpha Cutoff** — ค่าตัดขอบรูปทรงใบ (ค่าเริ่มต้น `0.6`) ตั้งไว้สูงกว่า 0.5 เล็กน้อยโดยตั้งใจ เพราะเมื่อมี mipmap ขอบ alpha ของใบจะเฉลี่ยเข้าใกล้ 0.5 ทำให้หญ้าไกลๆ กะพริบ การยกไปที่ 0.6 ช่วยตัดอาการกะพริบนั้นออก
+
+---
 
 ## Texture
 ![Texture_Properties](../grass-material/Texture_Properties.png)
@@ -40,6 +44,8 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 เลือกได้ 2 โหมดผ่านแท็บ:
 
 - **Blade Albedo** — `Blade Albedo (RGB) Alpha (A)` เป็นรูปทรงและสีของใบหญ้าตามปกติ (ส่วนใหญ่ใช้แค่ช่อง alpha เป็นทรงใบ แล้วปล่อยให้ Height Gradient เป็นตัวให้สี)
+
+---
 
 ## Base Colors
 ![BaseColors_Properties](../grass-material/BaseColors_Properties.png)
@@ -54,6 +60,8 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Gradient Top** — สีที่ปลายใบ (รองรับ HDR)
 - **Gradient Power** — ความโค้งของการไล่สี ค่าต่ำ = ไล่นุ่มทั่วใบ, ค่าสูง = สีปลายเด่นเฉพาะช่วงยอด
 
+---
+
 ## Lighting
 ![Lighting_Properties](../grass-material/Lighting_Properties.png)
 
@@ -62,6 +70,8 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Additional Light Intensity** — น้ำหนักที่หญ้ารับจากไฟดวงอื่นๆ (Point/Spot) นอกเหนือจากไฟหลัก
 
 > หมายเหตุ: หญ้า **ไม่รับ** Screen-Space AO โดยตั้งใจ เพราะทุ่งหญ้า alpha-tested หนาแน่นจะกลายเป็นรอยเปื้อนสกปรกใต้ SSAO ใบจึงคงการไล่แสงแบบ toon ที่สะอาดให้เข้าชุดกับ character shader
+
+---
 
 ## Wind
 ![Wind_Properties](../grass-material/Wind_Properties.png)
@@ -89,11 +99,17 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Height Base / Height Range** — ช่วงความสูงของใบที่ให้ลมมีผล ลมจะเริ่มจาก Base แล้วไล่แรงขึ้นจนเต็มที่ตลอดช่วง Range (โคนใบนิ่ง ปลายใบไหวมากสุด)
 - **Flutter Speed / Flutter Scale** — ความเร็วและความถี่ของการกระพือปลายใบ
 
+---
+
 ## Wind Gust Wave
+![Wind_Gust_Wave_Properties](../grass-material/Wind_Gust_Wave_Properties.png)
+
 แถบไฮไลต์สว่างที่กวาดผ่านทุ่งไปตามลม เพื่อให้เห็น "คลื่นลม" วิ่งบนพื้นหญ้า ใช้ noise ก้อนเดียวกับที่ทำให้ใบโยก (แถบสว่าง = จุดที่หญ้ากำลังถูกลมดัน) เปิด/ปิดได้ที่ feature toggle **Wind Gust Wave**
 
 - **Wave Strength** — ความสว่างของแถบ gust ที่กวาดผ่าน
 - **Wave Contrast** — ค่าสูง = แถบสว่างคมชัดเป็นหย่อมๆ, ค่าต่ำ = จางนุ่มทั่วทั้งผืน (ขนาด / ทิศ / ความเร็วของ noise ถูกคุมจาก Wind Controller ในฉาก)
+
+---
 
 ## Interaction
 ![Interaction_Properties](../grass-material/Interaction_Properties.png)
@@ -103,11 +119,11 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Push** — ระยะที่ปลายใบสไลด์หลบออกจาก interactor
 - **Flatten** — ความแรงที่ใบถูกกดราบลงภายในรัศมีของ interactor
 
+---
+
 ## Debug
 ![Debug_Properties](../grass-material/Debug_Properties.png)
 
 - **Debug Mode** — ข้ามการ shading เพื่อตรวจแต่ละขั้น มีโหมด: `Off`, `Wind Mask` (ช่วงที่ลมมีผลตามความสูงใบ), `Fade` (พื้นที่ที่โดน Distance Fade), `NdotL` (ค่าไฟหลักดิบๆ), `Ground Color`, `Shadow`, `Interaction` (จุดที่ interactor ดันหญ้าอยู่), `Perf Floor`, `Gust Wave` (noise ของ Wind Gust Wave ล้วนๆ), `Wind Response` (ปริมาณลมที่แต่ละใบรับหลังคิด Small Blades) — ตั้งเป็น `Off` เมื่อใช้งานจริง
 
 ---
-
-**ดูเพิ่มเติม:** [Grass Setup]({{ '/env/grass/grass-setup/' | relative_url }}) · [Grass Color Camera]({{ '/env/grass/grass-color-camera/' | relative_url }}) · [Grass Edges]({{ '/env/grass/grass-edges/' | relative_url }}) · [Grass Interaction]({{ '/env/grass/grass-interaction/' | relative_url }}) · [Grass LOD]({{ '/env/grass/grass-lod/' | relative_url }})
