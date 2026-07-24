@@ -29,7 +29,8 @@
 {% assign grassColorCamera = site.pages | where: "url", "/env/grass/grass-color-camera/" | first %}
 {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
 {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
-{% if grassOverview or grassColorCamera or grassInteraction or grassLod %}
+{% assign grassEdges = site.pages | where: "url", "/env/grass/grass-edges/" | first %}
+{% if grassOverview or grassColorCamera or grassInteraction or grassLod or grassEdges %}
 <h3>Grass</h3>
 
 {% if grassOverview %}
@@ -59,6 +60,13 @@
 <a href="{{ '/env/grass/grass-lod/' | relative_url }}"
    class="{% if page.url contains '/env/grass/grass-lod/' %}active{% endif %}">
    Grass LOD
+</a>
+{% endif %}
+
+{% if grassEdges %}
+<a href="{{ '/env/grass/grass-edges/' | relative_url }}"
+   class="{% if page.url contains '/env/grass/grass-edges/' %}active{% endif %}">
+   Grass Edges
 </a>
 {% endif %}
 
