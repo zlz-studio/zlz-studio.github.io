@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass LOD | ZLZ Env Shader</title>
+  <title>Grass Material | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -606,7 +606,7 @@
 
 
 <a href="/env/grass/grass-material/"
-   class="">
+   class="active">
    Grass Material
 </a>
 
@@ -627,7 +627,7 @@
 
 
 <a href="/env/grass/grass-lod/"
-   class="active">
+   class="">
    Grass LOD
 </a>
 
@@ -661,46 +661,171 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-lod">Grass LOD</h1>
+        <h1 id="grass-material">Grass Material</h1>
 
-<p>The Grass LOD system keeps grass cheap to render by simplifying and culling it based on distance from the camera — full-detail meshes stay near the camera, while faraway grass drops to a lighter mesh or is removed entirely.</p>
+<p>The grass material controls everything about how a blade looks — color, gradient, lighting, right down to the shadow it casts on the ground. Everything is organized into sections you can toggle on/off from the Feature table at the top; enable only what you use to keep it as light as possible.</p>
 
 <h2 id="showcase">Showcase</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/J0blYvQDdok?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=J0blYvQDdok&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/A264URW3CvA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=A264URW3CvA&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
-<p><img src="../Grass_LOD.png" alt="Grass LOD" /></p>
+<h2 id="features">Features</h2>
+<p><img src="../grass-material/Features_Properties.png" alt="Features_Properties" /></p>
 
-<h3 id="where-to-configure">Where to Configure</h3>
+<p>The top of the material is a grid of on/off switches for each capability. A feature that is off is compiled out of the actual calculation, so it costs nothing — enable only what you use.</p>
+
 <ul>
-  <li>All LOD settings live on <code class="language-plaintext highlighter-rouge">ZLZ_Global_Grass</code>
-<!-- TODO: add the asset/prefab path for ZLZ_Global_Grass, e.g. Path : Assets/.../ZLZ_Global_Grass.prefab --></li>
+  <li><strong>Rendering</strong> — Cast Shadow + Alpha Cutoff (Locked, can’t be turned off)</li>
+  <li><strong>Texture</strong> — assign the blade texture (Locked, can’t be turned off)</li>
+  <li><strong>Colors</strong> — the color values (Locked, can’t be turned off)</li>
+  <li><strong>Lighting</strong> — the grass’s light and shadow (Locked, can’t be turned off)</li>
+  <li><strong>Wind</strong> — grass movement driven by the wind (can be toggled)</li>
+  <li><strong>Wind Gust Wave</strong> — a light highlight that sweeps across the grass with the wind (can be toggled)</li>
+  <li><strong>Ground Color</strong> — samples color from a camera so the grass matches the Terrain (can be toggled)</li>
+  <li><strong>Interaction</strong> — grass reacts to characters moving through it (can be toggled)</li>
 </ul>
 
-<h3 id="performance">Performance</h3>
+<hr />
+
+<h2 id="rendering">Rendering</h2>
+<p><img src="../grass-material/Rendering_Properties.png" alt="Rendering_Properties" /></p>
+
 <ul>
-  <li>Reports information about the grass currently in the scene, so you can see the impact of your LOD settings at a glance</li>
+  <li><strong>Cast Shadow</strong> — whether blades cast a shadow onto the ground. Turn it off to save cost in scenes with very dense grass</li>
+  <li><strong>Alpha Cutoff</strong> — the cutoff for the blade’s shape (default <code class="language-plaintext highlighter-rouge">0.6</code>). It sits slightly above 0.5 on purpose: with mipmaps the blade’s alpha edge averages toward 0.5, which makes distant grass shimmer. Raising it to 0.6 removes that shimmer</li>
 </ul>
 
-<h3 id="lod-levels">LOD Levels</h3>
+<hr />
+
+<h2 id="texture">Texture</h2>
+<p><img src="../grass-material/Texture_Properties.png" alt="Texture_Properties" /></p>
+
 <ul>
-  <li><strong>LOD 0</strong> = full-detail grass mesh</li>
-  <li><strong>LOD 1</strong> = low-poly mesh with a reduced instance count</li>
-  <li><strong>Culled</strong> = grass is removed entirely</li>
-  <li>You choose which LOD is displayed at each distance range</li>
+  <li><strong>Blade Albedo</strong> — <code class="language-plaintext highlighter-rouge">Blade Albedo (RGB) Alpha (A)</code> provides the shape and color of the blade as usual (most setups use only the alpha channel for the blade shape and let the Height Gradient provide the color)</li>
 </ul>
 
-<h3 id="settings">Settings</h3>
+<hr />
+
+<h2 id="base-colors">Base Colors</h2>
+<p><img src="../grass-material/BaseColors_Properties.png" alt="BaseColors_Properties" /></p>
+
 <ul>
-  <li><strong>Debug LOD Distance</strong> — visualizes each distance range so you can see where the LOD transitions happen</li>
-  <li><strong>LOD 1 Density</strong> — controls how much the grass count is thinned out within the LOD 1 range</li>
-  <li><strong>Distance Fade</strong> — blends the transition between LOD ranges so switching looks smooth instead of popping</li>
+  <li><strong>Base Color</strong> — the main color of the blade where it is lit</li>
+  <li><strong>Shadow Color</strong> — the color of the blade where it is in shadow</li>
 </ul>
+
+<p>The gradient tints the blade from base to tip along its height (turn it off by setting both colors the same). A standard grass setup usually uses just the blade’s alpha + this gradient for color, so no albedo texture is needed.</p>
+
+<ul>
+  <li><strong>Gradient</strong> — enable/disable the height-based color gradient</li>
+  <li><strong>Gradient Bottom</strong> — the color at the base of the blade (HDR supported)</li>
+  <li><strong>Gradient Top</strong> — the color at the tip of the blade (HDR supported)</li>
+  <li><strong>Gradient Power</strong> — the curve of the gradient. Low = a soft blend across the whole blade, high = the tip color stands out only near the top</li>
+</ul>
+
+<hr />
+
+<h2 id="lighting">Lighting</h2>
+<p><img src="../grass-material/Lighting_Properties.png" alt="Lighting_Properties" /></p>
+
+<ul>
+  <li><strong>Receive Shadow</strong> — whether blades receive shadows from other objects</li>
+  <li><strong>Additional Light Intensity</strong> — how much the grass picks up from other lights (Point/Spot) besides the main light</li>
+</ul>
+
+<blockquote>
+  <p>Note: grass <strong>does not</strong> receive Screen-Space AO on purpose. A dense alpha-tested grass field turns into a dirty smear under SSAO, so blades keep the clean toon shading that matches the character shader.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="wind">Wind</h2>
+<p><img src="../grass-material/Wind_Properties.png" alt="Wind_Properties" /></p>
+
+<p>Grass sways with the wind, reading its direction/strength directly from the scene’s <code class="language-plaintext highlighter-rouge">ZLZ_Global_Wind</code> system. Toggle the whole set with the <strong>Wind</strong> feature.</p>
+
+<ul>
+  <li><strong>Wind Source</strong> — choose where the wind values come from
+    <ul>
+      <li><strong>Global</strong> — use the central wind from the scene’s Wind Controller (direction / strength / speed / gust are all driven from one place, so every grass field sways in sync). Only <strong>Wind Weight</strong> is left to tune = how much this field picks up the central wind (0 = still, 1 = full)</li>
+      <li><strong>Local</strong> — set the wind on this material alone; extra values appear:
+        <ul>
+          <li><strong>Wind Strength</strong> — the wind force (how far the blade tips lean)</li>
+          <li><strong>Wind Speed</strong> — how fast the sway moves</li>
+          <li><strong>Wind Direction (deg)</strong> — wind direction <code class="language-plaintext highlighter-rouge">0–360°</code></li>
+          <li><strong>Wind Gust Scale</strong> — the size of a gust (the strong/weak wind waves sweeping across the field). Larger = wider gusts</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="small-blades">Small Blades</h3>
+<p>Make small blades sway differently from large ones for a more natural look.</p>
+<ul>
+  <li><strong>Size</strong> — blades no taller than this fraction of a full-grown blade count as “small”</li>
+  <li><strong>Wind</strong> — how much wind the small blades receive (<code class="language-plaintext highlighter-rouge">0</code> = perfectly still, <code class="language-plaintext highlighter-rouge">1</code> = same as normal grass)</li>
+</ul>
+
+<h3 id="leaf-flutter">Leaf Flutter</h3>
+<ul>
+  <li><strong>Strength</strong> — the strength of the fast fluttering at the blade tip, layered on top of the main sway</li>
+</ul>
+
+<h3 id="advanced">Advanced</h3>
+<p>Already correct for standard grass (vertical blade UV <code class="language-plaintext highlighter-rouge">0..1</code>) — open this only when using a different mesh or blade shape.</p>
+<ul>
+  <li><strong>Height Base / Height Range</strong> — the height range of the blade the wind affects. The wind starts at Base and ramps up to full across Range (base stays still, tip sways the most)</li>
+  <li><strong>Flutter Speed / Flutter Scale</strong> — the speed and frequency of the tip flutter</li>
+</ul>
+
+<hr />
+
+<h2 id="wind-gust-wave">Wind Gust Wave</h2>
+<p><img src="../grass-material/Wind_Gust_Wave_Properties.png" alt="Wind_Gust_Wave_Properties" /></p>
+
+<p>A bright highlight band that sweeps across the field with the wind, so you can see the “wind wave” running over the grass. It uses the same noise that bends the blades (a bright band = where the grass is being pushed by the wind). Toggle it with the <strong>Wind Gust Wave</strong> feature.</p>
+
+<ul>
+  <li><strong>Wave Strength</strong> — the brightness of the sweeping gust band</li>
+  <li><strong>Wave Contrast</strong> — high = sharp, defined bright patches, low = a soft even wash across the whole field (the noise’s size / direction / speed is owned by the scene’s Wind Controller)</li>
+</ul>
+
+<hr />
+
+<h2 id="interaction">Interaction</h2>
+<p><img src="../grass-material/Interaction_Properties.png" alt="Interaction_Properties" /></p>
+
+<p>Blades bend away when a character or object moves through them, and spring back once it leaves. It runs on the GPU with no per-blade colliders. Toggle it with the <strong>Interaction</strong> feature — what actually pushes the grass is the <code class="language-plaintext highlighter-rouge">ZLZ_Env Grass Interactor</code> component (see the full setup on the <a href="/env/grass/grass-interaction/">Grass Interaction</a> page).</p>
+
+<ul>
+  <li><strong>Push</strong> — how far the blade tip slides away from an interactor</li>
+  <li><strong>Flatten</strong> — how hard the blade is pressed flat inside an interactor’s radius</li>
+</ul>
+
+<hr />
+
+<h2 id="debug">Debug</h2>
+<p><img src="../grass-material/Debug_Properties.png" alt="Debug_Properties" /></p>
+
+<p><strong>Debug Mode</strong> — a dropdown that picks an inspection view, skipping the real shading to show the raw value of each stage. Always set it to <code class="language-plaintext highlighter-rouge">Off</code> for actual use.</p>
+
+<ul>
+  <li><strong>Off</strong> — production mode, normal rendering</li>
+  <li><strong>Wind Mask</strong> — shows the height range of the blade the wind affects (white = the tip that sways fully, black = the base that stays still)</li>
+  <li><strong>Ground Color</strong> — shows the color sampled from the Ground Color Map directly, to check the texture is bound and the world UV is correct (all white = no texture bound, seeing the ground image = bound correctly). Works even with the Ground Color toggle off</li>
+  <li><strong>Shadow</strong> — the raw main-light shadow value (white = fully lit, black = in shadow). If it stays white even under a cast shadow, the shadowmap isn’t being sampled</li>
+  <li><strong>Interaction</strong> — the pixels inside an interactor’s radius (white = being pushed). It reads the central interactor list directly, so it works for troubleshooting even with the toggle off — all black = no interactor data is reaching the shader; white rings around the character = the data is fine and the issue is the Push/Flatten strength or the radius</li>
+  <li><strong>Gust Wave</strong> — the same gust noise the blades actually bend with (white = a strong gust patch). Works even with the feature off, so you can tune the Wind Controller’s Gust Scale by eye here</li>
+  <li><strong>Wind Response</strong> — how much wind each blade receives, based on its size relative to a full-grown blade (green ramp: dark = a small blade that barely moves, bright = a full-size blade catching 100%). The Edge Falloff around a mask or an avoided object should read dark</li>
+</ul>
+
+<hr />
 
       </div>
     </main>
