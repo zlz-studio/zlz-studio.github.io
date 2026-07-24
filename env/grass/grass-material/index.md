@@ -22,7 +22,6 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Texture** — ใส่ Texture (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
 - **Colors** — ปรับค่าสี (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
 - **Lighting** — ปรับแสงและเงาของหญ้า (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
-- **Distance Fade** — ปรับการ Fade ของหญ้าให้เนียบ (ปัจจุบันซ่อนฟีเจอร์นี้  เนื่องจากต้องใช้ตลอดเวลา)
 - **Wind** — ปรับการเคลื่อนที่ของหญ้าตามแรงลม (สามารถเปิด/ปิดได้)
 - **Wind Gust Wave** — เกืด Highlight แสงบนหญ้าตามแรงลม (สามารถเปิด/ปิดได้)
 - **Ground Color** — รับค่าสีจากกล้อง เพื่อให้เป็นสีเดียวกับ Terrain (สามารถเปิด/ปิดได้)
@@ -66,7 +65,6 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 ![Lighting_Properties](../grass-material/Lighting_Properties.png)
 
 - **Receive Shadow** — ให้ใบหญ้ารับเงาจากวัตถุอื่นหรือไม่
-- **Shadow Edge Softness** — ความนุ่มของขอบเงาบนใบ ค่าต่ำ = ขอบเงาคมแบบ toon, ค่าสูง = ไล่นุ่ม
 - **Additional Light Intensity** — น้ำหนักที่หญ้ารับจากไฟดวงอื่นๆ (Point/Spot) นอกเหนือจากไฟหลัก
 
 > หมายเหตุ: หญ้า **ไม่รับ** Screen-Space AO โดยตั้งใจ เพราะทุ่งหญ้า alpha-tested หนาแน่นจะกลายเป็นรอยเปื้อนสกปรกใต้ SSAO ใบจึงคงการไล่แสงแบบ toon ที่สะอาดให้เข้าชุดกับ character shader
@@ -124,6 +122,13 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 ## Debug
 ![Debug_Properties](../grass-material/Debug_Properties.png)
 
-- **Debug Mode** — ข้ามการ shading เพื่อตรวจแต่ละขั้น มีโหมด: `Off`, `Wind Mask` (ช่วงที่ลมมีผลตามความสูงใบ), `Fade` (พื้นที่ที่โดน Distance Fade), `NdotL` (ค่าไฟหลักดิบๆ), `Ground Color`, `Shadow`, `Interaction` (จุดที่ interactor ดันหญ้าอยู่), `Perf Floor`, `Gust Wave` (noise ของ Wind Gust Wave ล้วนๆ), `Wind Response` (ปริมาณลมที่แต่ละใบรับหลังคิด Small Blades) — ตั้งเป็น `Off` เมื่อใช้งานจริง
+- **Debug Mode** — ข้ามการ shading เพื่อตรวจแต่ละขั้น มีโหมด: `Off`
+- `Wind Mask` (ช่วงที่ลมมีผลตามความสูงใบ)
+- `Fade` (พื้นที่ที่โดน Distance Fade)
+- `NdotL` (ค่าไฟหลักดิบๆ)
+- `Ground Color`
+- `Shadow`
+- `Interaction` (จุดที่ interactor ดันหญ้าอยู่)
+- `Gust Wave` (noise ของ Wind Gust Wave ล้วนๆ), `Wind Response` (ปริมาณลมที่แต่ละใบรับหลังคิด Small Blades) — ตั้งเป็น `Off` เมื่อใช้งานจริง
 
 ---
