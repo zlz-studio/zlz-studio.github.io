@@ -10,8 +10,7 @@ published: false
 Material ของหญ้าคือที่ที่คุมหน้าตาทั้งหมดของใบหญ้า ตั้งแต่สี การไล่เฉด แสงเงา ไปจนถึงเงาที่ทอดลงพื้น ทุกอย่างจัดเป็น section เปิด/ปิดได้ผ่านตาราง Feature ด้านบนสุด เปิดเฉพาะสิ่งที่ใช้เพื่อให้เบาที่สุด
 
 ## Showcase
-<!-- TODO: ใส่วิดีโอ/รูปตัวอย่าง material ของหญ้า -->
-![Grass LOD](../Grass_LOD.png)
+youtube.com/watch?v=A264URW3CvA&feature=youtu.be
 
 ## Features
 ![Features_Properties](../grass-material/Features_Properties.png)
