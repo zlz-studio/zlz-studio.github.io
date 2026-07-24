@@ -122,13 +122,14 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 ## Debug
 ![Debug_Properties](../grass-material/Debug_Properties.png)
 
-- **Debug Mode** — ข้ามการ shading เพื่อตรวจแต่ละขั้น มีโหมด: `Off`
-- `Wind Mask` (ช่วงที่ลมมีผลตามความสูงใบ)
-- `Fade` (พื้นที่ที่โดน Distance Fade)
-- `NdotL` (ค่าไฟหลักดิบๆ)
-- `Ground Color`
-- `Shadow`
-- `Interaction` (จุดที่ interactor ดันหญ้าอยู่)
-- `Gust Wave` (noise ของ Wind Gust Wave ล้วนๆ), `Wind Response` (ปริมาณลมที่แต่ละใบรับหลังคิด Small Blades) — ตั้งเป็น `Off` เมื่อใช้งานจริง
+**Debug Mode** — dropdown เลือกมุมมองตรวจสอบ โดยข้าม shading จริงเพื่อดูค่าดิบของแต่ละขั้น ตั้งเป็น `Off` เสมอเมื่อใช้งานจริง
+
+- **Off** — โหมดใช้งานจริง แสดงผลปกติ
+- **Wind Mask** — โชว์ช่วงความสูงของใบที่ลมมีผล (ขาว = ปลายใบที่ไหวเต็มที่, ดำ = โคนใบที่นิ่ง)
+- **Ground Color** — โชว์สีที่ดึงจาก Ground Color Map ตรงๆ ใช้เช็คว่า texture ผูกถูกและ world UV ตรงไหม (ขาวล้วน = ไม่มี texture ผูกอยู่, เห็นภาพพื้น = ผูกถูก) ทำงานแม้ปิด toggle Ground Color
+- **Shadow** — ค่าเงาจากไฟหลักดิบๆ (ขาว = โดนแสงเต็ม, ดำ = อยู่ในเงา) ถ้าขาวตลอดทั้งที่มีเงาทับ แปลว่า shadowmap ไม่ถูก sample
+- **Interaction** — จุดที่อยู่ในรัศมี interactor (ขาว = โดนดัน) อ่าน list interactor กลางโดยตรง จึงใช้ไล่ปัญหาได้แม้ปิด toggle — ดำล้วน = ไม่มี interactor ส่งข้อมูลถึง shader, เห็นวงขาวรอบตัวละคร = ข้อมูลปกติ ปัญหาอยู่ที่แรง Push/Flatten หรือรัศมี
+- **Gust Wave** — noise ลม gust ก้อนเดียวกับที่ใบใช้โยกจริง (ขาว = หย่อมลมแรง) ทำงานแม้ปิด feature จึงใช้จูน Gust Scale ของ Wind Controller ด้วยตาได้
+- **Wind Response** — ปริมาณลมที่แต่ละใบรับ ตามขนาดใบเทียบกับตอนโตเต็มวัย (ไล่เฉดเขียว: มืด = ใบเล็กที่แทบไม่ขยับ, สว่าง = ใบเต็มขนาดรับลม 100%) ขอบ Edge Falloff รอบ mask หรือวัตถุที่หญ้าหลบควรอ่านค่ามืด
 
 ---
