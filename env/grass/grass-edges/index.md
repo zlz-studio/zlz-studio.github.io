@@ -7,6 +7,8 @@ published: false
 
 # Grass Edges
 
+{% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
+
 The core idea: grass can be kept from growing in three places — objects in the scene, the mesh edge, and areas painted over with another texture/color
 and instead of cutting the grass on a hard straight line, all three use the same technique: **gradually shrinking the grass shorter until it fades out as it nears the edge**
 so the transition looks smooth and natural with no sharp edges.
