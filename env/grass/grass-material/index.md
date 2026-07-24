@@ -18,9 +18,12 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 ## Features
 ![Features_Properties](../grass-material/Features_Properties.png)
 
-ด้านบนสุดของ material เป็นตารางสวิตช์เปิด/ปิดแต่ละความสามารถ (Distance Fade, Wind, Wind Gust Wave, Ground Color, Interaction ฯลฯ) — feature ที่ปิดจะถูกตัดออกจากการคำนวณจริง จึงไม่มีต้นทุน เปิดเฉพาะที่ใช้
+- **Rendering** — ปรับ Cast Shadow + Alpha Cutoff (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
+- **Texture** — ใส่ Texture (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
+- **Colors** — ปรับค่าสี (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
+- **Lighting** — ปรับแสงและเงาของหญ้า (สถานะ Lock ไม่สามารถเปิด/ปิดได้)
 
-> **Distance Fade** เป็นสวิตช์เปิด/ปิดล้วนๆ ไม่มีค่าให้ปรับในตัว material — เมื่อเปิด หญ้าจะค่อยๆ จางลงผ่าน dither เมื่อเข้าใกล้ขอบระยะวาด (จางเนียน ไม่ใช่ตัดเป็นวงแข็ง) ระยะจริงถูกกำหนดจาก Grass Global ให้ตรงกับระยะ Cull เสมอ จึงตั้งมาให้แล้วไม่ต้องปรับเอง — ดูรายละเอียดที่หน้า [Grass LOD]({{ '/env/grass/grass-lod/' | relative_url }})
+
 
 ## Rendering
 ![Rendering_Properties](../grass-material/Rendering_Properties.png)
