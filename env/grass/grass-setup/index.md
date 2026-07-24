@@ -33,15 +33,21 @@ published: false
 6. **Paint เพิ่ม (ถ้าต้องการ)** — ต้อง Grow All ก่อน แล้วลากเมาส์บนพื้นเพื่อระบายหญ้าเพิ่มเอง
 
 ## การสร้าง Grass Type ของตัวเอง
+![Create_GrassType](../Create_GrassType.png)
+
 - สามารถสร้างที่ Create New ที่ Grass Type ใน Dashboard
 - ระบบจะสร้าง Grass Type ไว้ที่นี่ > Assets/ZLZ_EnvironmentShader/Grass/Types/ZLZ_EnvFlower001.asset
-- 
-
-## หญ้าหลายชนิดในฉากเดียว
-แต่ละ Grass Type มีส่วน **Grows On** เลือกได้ว่าจะให้ขึ้นบนพื้นผิวไหน — จึงทำให้แต่ละ  Terrain มีหญ้าคนละแบบได้ (อย่างในคลิปที่ 4 Terrain ปลูกหญ้าคนละชนิด)
+- ใน Grass Type เราสามารถตั้งค่าได้ที่นี่เลย
+- Material : เลือก Material หญ้า หรือ ดอกไม้ที่ต้องการ  สามารถดูได้จากตัวอย่างที่มีให้
+- Meshes : ใส่ Mesh สำหรับ LOD 0
+- Far Meshs : ใส่ Mesh สำหรับ LOD 1 หากไม่มีใส่อันเดียวกับ Meshes LOD 0 ก็ได้
+- Density : จำนวนการปลูกหญ้า  ยิ่งเยอะหญ้ายิ่งหนาแน่น
+- Max Turfts : Limit ว่าหญ้าจะไม่มีทางเกินเท่าไหร่
+- Size Min : ขนาดหญ้าหรือดอกไม้ที่เล็กที่สุด
+- Size Max : ขนาดหญ้าหรือดอกไม้ที่ใหญ่ที่สุด
+- Height Offset : สามารถปรับตำแหน่งเริ่มต้นของหญ้าหรือดอกไม้ได้  ว่าจะให้ Offset ขึ้นลงมากแค่ไหน
+- Clustering : ค่ายิ่งสูง หญ้าและดอกไม้ จะจับกลุ่มกันมากยิ่งขึ้น
 
 ## ข้อมูลหญ้าเก็บที่ไหน
 หญ้าถูกเก็บใน `ZLZ_EnvGrassData` ไม่ฝากไว้บน Scene และติดไปกับ Prefab — รองรับทั้งงานแบบ Scene และ Prefab
 
-## หน้าต่อไป
-- [Grass Color Camera] · [Grass Interaction] · [Grass LOD] · [Grass Edges]
