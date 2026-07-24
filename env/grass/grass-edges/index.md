@@ -10,13 +10,13 @@ published: false
 ## Grass Edges — Blocking Layers
 {% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
 
-## Grass Edges — Blocking Layers
+## Grass Edges — Keep Off Mesh Edge
 {% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
 
-## Grass Edges — Blocking Layers
+## Grass Edges — Keep Off Paint
 {% include video.html src="/env/grass/Grass_Interaction_Web.mp4" %}
 
-![Grass LOD](../Grass_LOD.png)
+![GrassEdges](../GrassEdges.png)
 
 The core idea: grass can be kept from growing in three places — objects in the scene, the mesh edge, and areas painted over with another texture/color
 and instead of cutting the grass on a hard straight line, all three use the same technique: **gradually shrinking the grass shorter until it fades out as it nears the edge**
