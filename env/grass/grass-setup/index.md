@@ -10,7 +10,7 @@ published: false
 ปลูกหญ้าลงบน Terrain ของคุณได้ในไม่กี่ขั้นตอน ทุกอย่างคุมผ่าน `ZLZ_Env Dashboard` ที่เดียว และรองรับหญ้าหลายชนิดในฉากเดียว
 
 ## Showcase
-(วิดีโอ Grass Setup — 4 Terrain, 4 ชนิดหญ้า)
+[(Grass Setup — Plant Different Grass Types on Each Terrain)](https://www.youtube.com/watch?v=3qydgQaQi_s)
 
 ## ขั้นตอนการติดตั้ง
 
