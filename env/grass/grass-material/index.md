@@ -13,18 +13,24 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 
 ## Showcase
 <!-- TODO: ใส่วิดีโอ/รูปตัวอย่าง material ของหญ้า -->
-![Grass Material](../GrassMaterial.png)
+![Grass LOD](../Grass_LOD.png)
 
 ## Features
+![Features_Properties](../grass-material/Features_Properties.png)
+
 ด้านบนสุดของ material เป็นตารางสวิตช์เปิด/ปิดแต่ละความสามารถ (Distance Fade, Wind, Wind Gust Wave, Ground Color, Interaction ฯลฯ) — feature ที่ปิดจะถูกตัดออกจากการคำนวณจริง จึงไม่มีต้นทุน เปิดเฉพาะที่ใช้
 
 > **Distance Fade** เป็นสวิตช์เปิด/ปิดล้วนๆ ไม่มีค่าให้ปรับในตัว material — เมื่อเปิด หญ้าจะค่อยๆ จางลงผ่าน dither เมื่อเข้าใกล้ขอบระยะวาด (จางเนียน ไม่ใช่ตัดเป็นวงแข็ง) ระยะจริงถูกกำหนดจาก Grass Global ให้ตรงกับระยะ Cull เสมอ จึงตั้งมาให้แล้วไม่ต้องปรับเอง — ดูรายละเอียดที่หน้า [Grass LOD]({{ '/env/grass/grass-lod/' | relative_url }})
 
 ## Rendering
+![Rendering_Properties](../grass-material/Rendering_Properties.png)
+
 - **Cast Shadow** — ให้ใบหญ้าทอดเงาลงพื้นหรือไม่ ปิดได้เพื่อประหยัดในฉากที่มีหญ้าหนาแน่นมาก
 - **Alpha Cutoff** — ค่าตัดขอบรูปทรงใบ (ค่าเริ่มต้น `0.6`) ตั้งไว้สูงกว่า 0.5 เล็กน้อยโดยตั้งใจ เพราะเมื่อมี mipmap ขอบ alpha ของใบจะเฉลี่ยเข้าใกล้ 0.5 ทำให้หญ้าไกลๆ กะพริบ การยกไปที่ 0.6 ช่วยตัดอาการกะพริบนั้นออก (ถ้า texture ของคุณต่างออกไปสามารถปรับลดเองได้)
 
 ## Texture
+![Texture_Properties](../grass-material/Texture_Properties.png)
+
 เลือกได้ 2 โหมดผ่านแท็บ:
 
 - **Grass Mode** — ใช้ `Blade Albedo (RGB) Alpha (A)` เป็นรูปทรงและสีของใบหญ้าตามปกติ (ส่วนใหญ่ใช้แค่ช่อง alpha เป็นทรงใบ แล้วปล่อยให้ Height Gradient เป็นตัวให้สี)
@@ -33,10 +39,11 @@ Material ของหญ้าคือที่ที่คุมหน้า�
   - **Flower Slice Index** — แต่ละ material เลือก index สไลซ์ของตัวเอง
 
 ## Base Colors
+![BaseColors_Properties](../grass-material/BaseColors_Properties.png)
+
 - **Base Color** — สีหลักของใบหญ้าในส่วนที่โดนแสง
 - **Shadow Color** — สีของใบหญ้าในส่วนที่อยู่ในเงา
 
-### Height Gradient
 ไล่สีใบจากโคนถึงปลายตามความสูงของใบ (ปิดได้ด้วยการตั้งสองสีให้เหมือนกัน) การตั้งค่าหญ้าแบบมาตรฐานมักใช้แค่ alpha ของใบ + gradient นี้ในการให้สี จึงไม่ต้องใช้ albedo texture
 
 - **Gradient** — เปิด/ปิดการไล่เฉดตามความสูง
@@ -45,6 +52,8 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Gradient Power** — ความโค้งของการไล่สี ค่าต่ำ = ไล่นุ่มทั่วใบ, ค่าสูง = สีปลายเด่นเฉพาะช่วงยอด
 
 ## Lighting
+![Lighting_Properties](../grass-material/Lighting_Properties.png)
+
 - **Receive Shadow** — ให้ใบหญ้ารับเงาจากวัตถุอื่นหรือไม่
 - **Shadow Edge Softness** — ความนุ่มของขอบเงาบนใบ ค่าต่ำ = ขอบเงาคมแบบ toon, ค่าสูง = ไล่นุ่ม
 - **Additional Light Intensity** — น้ำหนักที่หญ้ารับจากไฟดวงอื่นๆ (Point/Spot) นอกเหนือจากไฟหลัก
@@ -52,6 +61,8 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 > หมายเหตุ: หญ้า **ไม่รับ** Screen-Space AO โดยตั้งใจ เพราะทุ่งหญ้า alpha-tested หนาแน่นจะกลายเป็นรอยเปื้อนสกปรกใต้ SSAO ใบจึงคงการไล่แสงแบบ toon ที่สะอาดให้เข้าชุดกับ character shader
 
 ## Wind
+![Wind_Properties](../grass-material/Wind_Properties.png)
+
 หญ้าไหวตามลมได้โดยอ่านทิศ/แรงลมจากระบบ `ZLZ_Global_Wind` ของฉากโดยตรง เปิด/ปิดทั้งชุดได้ที่ feature toggle **Wind**
 
 - **Wind Source** — เลือกแหล่งของค่าลม
@@ -82,12 +93,16 @@ Material ของหญ้าคือที่ที่คุมหน้า�
 - **Wave Contrast** — ค่าสูง = แถบสว่างคมชัดเป็นหย่อมๆ, ค่าต่ำ = จางนุ่มทั่วทั้งผืน (ขนาด / ทิศ / ความเร็วของ noise ถูกคุมจาก Wind Controller ในฉาก)
 
 ## Interaction
+![Interaction_Properties](../grass-material/Interaction_Properties.png)
+
 ใบหญ้าเอนหลบเมื่อมีตัวละครหรือวัตถุเดินผ่าน แล้วดีดกลับเมื่อพ้นไป ทำงานบน GPU ไม่ต้องมี collider รายใบ เปิด/ปิดได้ที่ feature toggle **Interaction** — ตัวที่กำหนดว่าอะไรดันหญ้าคือ component `ZLZ_Env Grass Interactor` (ดูวิธีตั้งค่าเต็มๆ ที่หน้า [Grass Interaction]({{ '/env/grass/grass-interaction/' | relative_url }}))
 
 - **Push** — ระยะที่ปลายใบสไลด์หลบออกจาก interactor
 - **Flatten** — ความแรงที่ใบถูกกดราบลงภายในรัศมีของ interactor
 
 ## Debug
+![Debug_Properties](../grass-material/Debug_Properties.png)
+
 - **Debug Mode** — ข้ามการ shading เพื่อตรวจแต่ละขั้น มีโหมด: `Off`, `Wind Mask` (ช่วงที่ลมมีผลตามความสูงใบ), `Fade` (พื้นที่ที่โดน Distance Fade), `NdotL` (ค่าไฟหลักดิบๆ), `Ground Color`, `Shadow`, `Interaction` (จุดที่ interactor ดันหญ้าอยู่), `Perf Floor`, `Gust Wave` (noise ของ Wind Gust Wave ล้วนๆ), `Wind Response` (ปริมาณลมที่แต่ละใบรับหลังคิด Small Blades) — ตั้งเป็น `Off` เมื่อใช้งานจริง
 
 ---
