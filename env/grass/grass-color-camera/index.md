@@ -10,7 +10,7 @@ published: true
 This system makes the base of the grass blend with the color of the ground it sits on. A top-down camera captures the ground color (after lighting and shadow) and feeds it to the grass to tint its gradient. Grass on soil takes on a soil tint, grass in shadow darkens with the ground, and there is no hard seam between grass and ground. The camera only runs when needed and then shuts itself off, so it barely costs any performance.
 
 ## Showcase
-{% include video.html src="/env/grass/Grass_Color_Camera_Web.mp4" %}
+{% include youtube-loop.html id="W44fs1q63RE" %}
 
 ![Grass_Color_Camera](../Grass_Color_Camera.png)
 
