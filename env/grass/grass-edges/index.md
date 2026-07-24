@@ -9,6 +9,8 @@ published: true
 
 The core idea: grass can be kept from growing in three places — objects in the scene, the mesh edge, and areas painted over with another texture/color — and instead of cutting the grass on a hard straight line, all three use the same technique: **gradually shrinking the grass shorter until it fades out as it nears the edge**, so the transition looks smooth and natural with no sharp edges.
 
+![Grass Edges settings](../GrassEdges.png)
+
 ## Blocking Layers
 Keeps grass off objects in the scene — a house, a rock, a crate. Set on the `ZLZ Env Dashboard`, in the Plant Area section.
 
