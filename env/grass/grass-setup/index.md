@@ -48,7 +48,7 @@ Plant grass on your Terrain in just a few steps. Everything is controlled from a
 
 ## Where Is Grass Data Stored
 
-![GrassData](../GrassData.png)
+![GrassSetup](../GrassSetup.png)
 
 Grass is stored in `ZLZ_EnvGrassData`, located at `Assets/ZLZ_EnvironmentShader/Baked/GrassData/`.
 - One Grass Data file works with one Dashboard only. Growing again with the same Grass Data overwrites the previous data immediately.
