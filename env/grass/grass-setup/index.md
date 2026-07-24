@@ -49,6 +49,8 @@ published: false
 - Clustering : ค่ายิ่งสูง หญ้าและดอกไม้ จะจับกลุ่มกันมากยิ่งขึ้น
 
 ## ข้อมูลหญ้าเก็บที่ไหน
+![GrassSetup](../GrassSetup.png)
+
 หญ้าถูกเก็บใน `ZLZ_EnvGrassData` ซึ่งจะถูกเก็บไว้ที่นี่ > Path : Assets/ZLZ_EnvironmentShader/Baked/GrassData/.asset
 - Grass Data 1 อัน จะทำงานต่อ 1 Dashboard เท่านั้น  หากใช้ Grass Data เดิมปลูกหญ้าจะทับข้อมูลเก่าทันที
 - ผู้ใช้สามารถกด New เพื่อสร้าง Grass Data ได้เอง
