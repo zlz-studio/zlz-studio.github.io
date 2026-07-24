@@ -1,3 +1,10 @@
+---
+layout: docs
+title: Grass Edges
+last_modified_at: 2026-07-23
+published: false
+---
+
 # Grass Edges
 
 The core idea: grass can be kept from growing in three places — objects in the scene, the mesh edge, and areas painted over with another texture/color
