@@ -23,11 +23,11 @@ Mesh + Texture ที่มี Alpha  พื้นที่ส่วนใหญ
 ดังนั้นจึงทำให้เกิด Overdraw แต่ ZLZ Grass Mesh Baker จะมาแก้ไขสิ่งนี้
 
 **ได้อะไร**
-- ❌ ไม่มี Texture fetch
-- ❌ ไม่มี Alpha Clip
-- ❌ ไม่มี Overdraw จากพิกเซลโปร่งใส
-- ✅ Height Gradient + Wind ยังทำงานเหมือนเดิม (คง UV ไว้)
-- ✅ ผู้ใช้ไม่ต้องปั้น Mesh เอง — แค่มีรูปทรงหญ้าที่ต้องการ กด Bake ก็ได้ Mesh พร้อมใช้ทันที
+- ไม่มี Texture fetch
+- ไม่มี Alpha Clip
+- ไม่มี Overdraw จากพิกเซลโปร่งใส
+- Height Gradient + Wind ยังทำงานเหมือนเดิม (คง UV ไว้)
+- ผู้ใช้ไม่ต้องปั้น Mesh เอง — แค่มีรูปทรงหญ้าที่ต้องการ กด Bake ก็ได้ Mesh พร้อมใช้ทันที
 
 ### การเปิดใช้งาน
 Window > ZLZ > Grass Mesh Baker
