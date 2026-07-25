@@ -1,47 +1,48 @@
 ---
 layout: docs
 title: Grass Global Wind
-last_modified_at: 2026-07-23
-published: false
+last_modified_at: 2026-07-25
+published: true
 ---
 
 # Grass Global Wind (ZLZ_Env Wind Controller)
 
-ZLZ_Global_Wind คือ object ที่ถือ component ZLZ_Env Wind Controller ทำหน้าที่เป็น แหล่งลมกลางของทั้งฉาก
-material ของหญ้า (หรือต้นไม้/พุ่มไม้) ตัวไหนที่ตั้ง Wind Source = Global จะดึงค่าลมทั้งหมดมาจากที่นี่: ทิศ, ความแรง, ความเร็ว และจังหวะ gust ปรับลมทั้งฉากได้จากจุดเดียว
+`ZLZ_Global_Wind` is the object that holds the **ZLZ_Env Wind Controller** component — it acts as the single, scene-wide wind source. Any grass material (or tree/bush material) whose **Wind Source** is set to **Global** pulls all of its wind from here: direction, strength, speed, and gust timing. Tune the whole scene's wind from one place.
 
 ## Showcase
-{% include youtube-loop.html id="3qydgQaQi_s" %}
+{% include youtube-loop.html id="PpauAH0dNk4" %}
 
 ---
 
 ## Setup ZLZ Global Wind
 
-จบในขั้นตอนเดียวเพียงแค่คลิ๊กขวาใน Hierachy > ZLZ > Setup ZLZ Global
+Done in a single step — right-click in the Hierarchy > ZLZ > Setup ZLZ Global.
 
 ---
 
-## การทำงาน
+## How It Works
 
-- ค่าทุกตัวถูกส่งเข้า shader ทุกเฟรม และทำงานใน Edit Mode ด้วย (ExecuteAlways) — ลมขยับให้เห็นตั้งแต่ตอนจัดฉาก ไม่ต้องกด Play
-- ควรมีตัวเดียวต่อฉาก ถ้ามีหลายตัว ตัวที่ถูกเปิดใช้งานล่าสุดจะเป็นตัวที่คุมฉาก
-- ถ้าไม่มี controller ในฉาก material ที่ตั้ง Global จะถอยกลับไปใช้ค่า Local ของตัวเอง (ลมไม่ค้าง/ไม่ตาย) — และช่อง inspector ของ material จะเตือนเมื่อตั้ง Global แต่หา controller ไม่เจอ
-- ตำแหน่ง / การหมุน / สเกล ของ object ไม่มีผลต่อลม — ใช้แค่เป็นจุดยึดของลูกศร gizmo (สีฟ้า) ที่โชว์ทิศลมให้ปรับด้วยตา
-- ลมทำงานใน vertex ของ ทุก pass (ForwardLit / ShadowCaster / DepthOnly / DepthNormals) เงา, depth และ SSAO จึงขยับตามใบไปด้วย ไม่หลุดเฟรม
+- Every value is **pushed to the shader each frame**, and it runs in **Edit Mode** too (ExecuteAlways) — the wind animates while you build the scene, no need to press Play.
+- **Keep one per scene.** If there are several, the one enabled most recently drives the scene.
+- If **no controller** is present, any material set to Global **falls back to its own Local values** (the wind never freezes or dies) — and the material inspector warns when it is set to Global but no controller is found.
+- The object's **position / rotation / scale have no effect on the wind** — they only anchor the gizmo arrow (blue) that shows the wind direction so you can adjust it by eye.
+- The wind runs in the vertex stage of **every pass** (ForwardLit / ShadowCaster / DepthOnly / DepthNormals), so shadows, depth, and SSAO move with the blades instead of lagging a frame behind.
 
 ---
 
-## Parameter
+## Parameters
 
 ![GrassSetup](../GrassSetup.png)
 
 ### Wind
-- Wind Angle (0–360°, ค่าเริ่มต้น 190) — ทิศลมบนระนาบพื้น เป็นองศาเดียว ลมทั้งฉากพัดไปทางนี้ (ดูทิศได้จากลูกศร gizmo)
-- Speed (0–10, ค่าเริ่มต้น 2) — ความเร็วที่ลมไหลผ่านฉาก (การโยกหลักที่ค่อยๆ พัดผ่าน) ส่วนการกระพือใบเร็วๆ (shimmer) เป็นคนละค่า ตั้งแยกที่ material (Leaf Flutter Speed)
+- **Wind Angle** (`0–360°`, default `190`) — the wind heading on the ground plane, a single angle. The whole scene's wind points this way (check the direction with the gizmo arrow).
+- **Speed** (`0–10`, default `2`) — how fast the wind drifts across the scene (the rolling main sway). The fast leaf **shimmer** is a separate value, set per material (Leaf Flutter Speed).
 
 ### Gusts
-- Min Strength (0–3, ค่าเริ่มต้น 0.15) — ความแรงลมตอนสงบ (ปลายล่างของการหายใจ) แต่ละ material รับค่านี้คูณด้วย Wind Weight ของตัวเอง
-- Max Strength (0–3, ค่าเริ่มต้น 2) — ความแรงลมตอน gust พีค (ปลายบน) — ถ้าตั้ง Min = Max จะได้ลมนิ่งคงที่ (ไม่หายใจ)
-- Strength Bias (0–1, ค่าเริ่มต้น 1) — ลมใช้เวลาอยู่ปลายไหนมากกว่า: ต่ำ = ส่วนใหญ่สงบ (Min) มี gust แรงแวบๆ, สูง = ส่วนใหญ่แรง (Max) มีช่วงสงบสั้นๆ, 0.5 = สวิงสม่ำเสมอ
-- Gust Interval (1–12 วินาที, ค่าเริ่มต้น 6) — เวลาต่อรอบการหายใจ (ช่วงห่างของ gust): ต่ำ = สลับสงบ↔แรงบ่อย, สูง = สงบยาวๆ แล้วค่อยพองขึ้นที (จังหวะเป็นแบบไม่สม่ำเสมอเหมือนลมจริง ไม่ใช่เมโทรนอม)
-- Gust Scale (0–10, ค่าเริ่มต้น 1) — ขนาดของ "หย่อม" gust บนพื้น = ตัว noise ที่ทั้งฉากใช้ร่วมกัน ค่าสูง = หย่อมเล็ก-ถี่ขึ้น ทุก material แบบ Global อ่านค่านี้ค่าเดียว noise จึงเหมือนกันหมดทั้งฉาก — และเป็น noise ก้อนเดียวกับที่ทำให้ใบเอน และทำให้เกิดแถบสว่าง Wind Gust Wave จุดที่หญ้าเอน = จุดที่พื้นสว่าง เสมอ
+The strength here is a **range, not a single level** — the whole scene "breathes" up and down between **Min ↔ Max together** over time (every blade at the same strength at a given moment), so the wind visibly rises to a gust and falls back to calm across the whole field as one, rather than some blades being strong while others are gentle.
+
+- **Min Strength** (`0–3`, default `0.15`) — the wind strength when calm (the low end of the breathe). Each material catches this scaled by its own **Wind Weight**.
+- **Max Strength** (`0–3`, default `2`) — the wind strength at the gust peak (the high end). Set **Min = Max** for a steady, constant wind (no breathe).
+- **Strength Bias** (`0–1`, default `1`) — which end the wind spends more time at: **low** = mostly calm (Min) with the odd strong burst, **high** = mostly strong (Max) with brief calm spells, **0.5** = an even swing.
+- **Gust Interval** (`1–12` seconds, default `6`) — the time per breathe cycle (the gust interval): **low** = frequent swings between calm and strong, **high** = long calm stretches then a swell. The swing is irregular like real wind, not a metronome.
+- **Gust Scale** (`0–10`, default `1`) — the size of the gust patches on the ground = the **noise the whole scene shares**. Higher = smaller, tighter patches. Every Global material reads this one value, so the noise is identical across the whole scene — and it is the **same noise** that bends the blades **and** creates the Wind Gust Wave highlight band, so where the grass leans always matches where the ground brightens.
