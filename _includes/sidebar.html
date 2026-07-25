@@ -29,11 +29,12 @@
 {% assign grassSetup = site.pages | where: "url", "/env/grass/grass-setup/" | first %}
 {% assign grassMaterial = site.pages | where: "url", "/env/grass/grass-material/" | first %}
 {% assign grassGlobalWind = site.pages | where: "url", "/env/grass/grass-global-wind/" | first %}
+{% assign grassOptimized = site.pages | where: "url", "/env/grass/grass-optimized/" | first %}
 {% assign grassColorCamera = site.pages | where: "url", "/env/grass/grass-color-camera/" | first %}
 {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
 {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
 {% assign grassEdges = site.pages | where: "url", "/env/grass/grass-edges/" | first %}
-{% if grassOverview or grassSetup or grassMaterial or grassGlobalWind or grassColorCamera or grassInteraction or grassLod or grassEdges %}
+{% if grassOverview or grassSetup or grassMaterial or grassGlobalWind or grassOptimized or grassColorCamera or grassInteraction or grassLod or grassEdges %}
 <h3>Grass</h3>
 
 {% if grassOverview %}
@@ -63,6 +64,13 @@
 <a href="{{ '/env/grass/grass-global-wind/' | relative_url }}"
    class="{% if page.url contains '/env/grass/grass-global-wind/' %}active{% endif %}">
    Grass Global Wind
+</a>
+{% endif %}
+
+{% if grassOptimized %}
+<a href="{{ '/env/grass/grass-optimized/' | relative_url }}"
+   class="{% if page.url contains '/env/grass/grass-optimized/' %}active{% endif %}">
+   Grass Optimized
 </a>
 {% endif %}
 

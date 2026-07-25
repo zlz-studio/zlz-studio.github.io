@@ -859,11 +859,12 @@
       {% assign grassSetup = site.pages | where: "url", "/env/grass/grass-setup/" | first %}
       {% assign grassMaterial = site.pages | where: "url", "/env/grass/grass-material/" | first %}
       {% assign grassGlobalWind = site.pages | where: "url", "/env/grass/grass-global-wind/" | first %}
+      {% assign grassOptimized = site.pages | where: "url", "/env/grass/grass-optimized/" | first %}
       {% assign grassColorCamera = site.pages | where: "url", "/env/grass/grass-color-camera/" | first %}
       {% assign grassInteraction = site.pages | where: "url", "/env/grass/grass-interaction/" | first %}
       {% assign grassLod = site.pages | where: "url", "/env/grass/grass-lod/" | first %}
       {% assign grassEdges = site.pages | where: "url", "/env/grass/grass-edges/" | first %}
-      {% if grassOverview or grassSetup or grassMaterial or grassGlobalWind or grassColorCamera or grassInteraction or grassLod or grassEdges %}
+      {% if grassOverview or grassSetup or grassMaterial or grassGlobalWind or grassOptimized or grassColorCamera or grassInteraction or grassLod or grassEdges %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Grass</h2>
         <div class="featGrid">
@@ -893,6 +894,13 @@
             <span class="featMeta">
               <span class="featName">Grass Global Wind</span>
               <small class="featDate">Updated {{ grassGlobalWind.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if grassOptimized %}<a class="featCard" href="/env/grass/grass-optimized/">
+            <img src="/env/grass/Grass_Optimized_Thumb.webp" data-anim="/env/grass/Grass_Optimized_Hover.webp" alt="Grass Optimized" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Grass Optimized</span>
+              <small class="featDate">Updated {{ grassOptimized.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if grassColorCamera %}<a class="featCard" href="/env/grass/grass-color-camera/">
