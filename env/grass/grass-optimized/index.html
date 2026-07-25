@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass LOD | ZLZ Env Shader</title>
+  <title>Grass Optimized | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -622,7 +622,7 @@
 
 
 <a href="/env/grass/grass-optimized/"
-   class="">
+   class="active">
    Grass Optimized
 </a>
 
@@ -643,7 +643,7 @@
 
 
 <a href="/env/grass/grass-lod/"
-   class="active">
+   class="">
    Grass LOD
 </a>
 
@@ -677,45 +677,93 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-lod">Grass LOD</h1>
+        <h1 id="grass-optimized">Grass Optimized</h1>
 
-<p>The Grass LOD system keeps grass cheap to render by simplifying and culling it based on distance from the camera — full-detail meshes stay near the camera, while faraway grass drops to a lighter mesh or is removed entirely.</p>
-
-<h2 id="showcase">Showcase</h2>
+<h2 id="showcase--texture-vs-mesh-render-scale-1">Showcase — Texture vs Mesh (Render Scale 1)</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/J0blYvQDdok?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=J0blYvQDdok&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/1Nu8tF2xBtI?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=1Nu8tF2xBtI&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
-<p><img src="../Grass_LOD.png" alt="Grass LOD" /></p>
+<h2 id="showcase--texture-vs-mesh-render-scale-2">Showcase — Texture vs Mesh (Render Scale 2)</h2>
 
-<h3 id="where-to-configure">Where to Configure</h3>
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/TuCkT8qo7Ww?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=TuCkT8qo7Ww&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<hr />
+
+<h2 id="zlz-grass-mesh-baker">ZLZ Grass Mesh Baker</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/FSAfKJ4hOb0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=FSAfKJ4hOb0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>A grass card + a texture with alpha: most of the card’s area is transparent pixels, yet the GPU still has to process every one of them (fetch texture → test alpha clip → discard the pixel). That is what causes Overdraw — and ZLZ Grass Mesh Baker fixes it.</p>
+
+<p><strong>What you get</strong></p>
 <ul>
-  <li>All LOD settings live on <code class="language-plaintext highlighter-rouge">ZLZ_Global_Grass</code>
-<!-- TODO: add the asset/prefab path for ZLZ_Global_Grass, e.g. Path : Assets/.../ZLZ_Global_Grass.prefab --></li>
+  <li>No Texture fetch</li>
+  <li>No Alpha Clip</li>
+  <li>No Overdraw from transparent pixels</li>
+  <li>Height Gradient + Wind still work exactly the same (the UVs are preserved)</li>
+  <li>No mesh modelling needed — just have the grass shape you want, press Bake, and the mesh is ready to use</li>
 </ul>
 
-<h3 id="performance">Performance</h3>
-<ul>
-  <li>Reports information about the grass currently in the scene, so you can see the impact of your LOD settings at a glance</li>
-</ul>
+<h3 id="how-to-open">How to open</h3>
+<p>Window &gt; ZLZ &gt; Grass Mesh Baker</p>
 
-<h3 id="lod-levels">LOD Levels</h3>
+<h3 id="how-it-works--3-steps">How it works — 3 steps</h3>
+
 <ul>
-  <li><strong>LOD 0</strong> = full-detail grass mesh</li>
-  <li><strong>LOD 1</strong> = low-poly mesh with a reduced instance count</li>
-  <li><strong>Culled</strong> = grass is removed entirely</li>
-  <li>You choose which LOD is displayed at each distance range</li>
+  <li><strong>Trace</strong> — reads the texture’s alpha channel and traces the outline of each blade, reducing the point count to the vertex budget you set</li>
+  <li><strong>Layout</strong> — reads a reference mesh (the card-group mesh the grass uses now) card by card, and replaces every card with the traced shape at the exact same position / rotation / scale (it copies the existing layout, it never invents a new one)</li>
+  <li><strong>UV</strong> — keeps texture-space UVs (x across, y base 0 → tip 1), so Height Gradient and Wind keep working exactly as before</li>
 </ul>
 
 <h3 id="settings">Settings</h3>
 <ul>
-  <li><strong>Debug LOD Distance</strong> — visualizes each distance range so you can see where the LOD transitions happen</li>
-  <li><strong>LOD 1 Density</strong> — controls how much the grass count is thinned out within the LOD 1 range</li>
-  <li><strong>Distance Fade</strong> — blends the transition between LOD ranges so switching looks smooth instead of popping</li>
+  <li><strong>Grass Texture</strong> — the source texture to take the shape from (only the alpha channel is read)</li>
+  <li><strong>Layout Mesh</strong> — the existing card-group mesh the grass uses (e.g. <code class="language-plaintext highlighter-rouge">SM_Grass_Group1</code>); every card in it is replaced by the traced shape</li>
+  <li><strong>Alpha Cutoff</strong> (<code class="language-plaintext highlighter-rouge">0.05–0.95</code>) — the alpha level counted as solid grass. Match it to the <strong>material’s Alpha Cutoff</strong> so the mesh edge lands where the clipped edge used to be</li>
+  <li><strong>Simplify</strong> (<code class="language-plaintext highlighter-rouge">0.5–8</code> pixels) — the outline tolerance. Higher = fewer points / coarser edge / lighter, lower = a tighter edge / more points</li>
+  <li><strong>Bend Segments</strong> (<code class="language-plaintext highlighter-rouge">1–12</code>) — the horizontal vertex rows from base to tip. The wind bends the mesh per vertex, so more rows = a smoother lean, fewer rows = lighter but stiffer</li>
+  <li>The Preview shows the traced outline (gold) and the Bend Segments guide lines, plus the Cards / Verts / Tris stats before you press <strong>Bake Mesh</strong></li>
+</ul>
+
+<blockquote>
+  <p>After baking: the mesh can be used directly with a material that has its Texture feature turned off. See the Demo for an example.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="zlz-env-grass-resolution">ZLZ Env Grass Resolution</h2>
+
+<p><img src="../grass-optimized/Grass_Resolution.png" alt="Grass_Resolution" /></p>
+
+<p>Renders the grass color into a downsampled buffer and composites it back — paying the remaining overdraw at only a fraction of the pixels.</p>
+
+<h3 id="setup-zlz-env-grass-resolution">Setup ZLZ Env Grass Resolution</h3>
+<ul>
+  <li>Add Renderer Feature &gt; <strong>ZLZ Env Grass Resolution</strong> to the main URP renderer used to render the image</li>
+  <li><strong>Depth Texture</strong> must be enabled on the URP Asset</li>
+</ul>
+
+<h3 id="resolution">Resolution</h3>
+
+<ul>
+  <li><strong>Full</strong> — renders at native resolution (the feature idles, grass draws its own color) → highest quality / sharpest edges, but no saving</li>
+  <li><strong>Half</strong> — half per axis (= 1/4 of the pixels) → much faster, edges soften slightly; the best value for most cases</li>
+  <li><strong>Quarter</strong> — a quarter per axis (= 1/16 of the pixels) → fastest, softest edges; good for mobile or very dense grass fields</li>
 </ul>
 
       </div>
