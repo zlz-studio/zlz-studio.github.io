@@ -7,7 +7,7 @@ published: false
 
 # Grass Optimized
 
-Plant grass on your Terrain in just a few steps. Everything is controlled from a single place, the `ZLZ_Env Dashboard`, and one scene can hold many grass types at once.
+หญ้าได้รับการ Optimized จากหลากหลายส่วนด้วยกัน
 
 ## Showcase เปรียบเทียบ Texture VS Mesh ( Render Scale 1 )
 {% include youtube-loop.html id="3qydgQaQi_s" %}
@@ -15,44 +15,44 @@ Plant grass on your Terrain in just a few steps. Everything is controlled from a
 ## Showcase เปรียบเทียบ Texture VS Mesh ( Render Scale 2 )
 {% include youtube-loop.html id="3qydgQaQi_s" %}
 
-## Setup Steps
+## ZLZ Env Grass Resolution
 
-![GrassSetup](../GrassSetup.png)
+![Grass_Resolution](../grass-optimized/Grass_Resolution.png)
 
-1. **Place the Dashboard:** add `ZLZ_Env Dashboard` to the root of your environment (above all ground meshes). Every mesh under it appears in the panel with an On/Off switch.
-2. **Choose where to plant:** tick on the meshes you want grass to grow on.
-3. **Source:** choose where grass grows across the mesh.
-   - **Uniform:** grass covers the whole mesh.
-   - **Painted (Mask):** grass grows only where you have painted the ground, following the ground material's Texture Paint. For example, if the ground is painted with a grass zone and a sand zone, grass grows only in the grass zone and stays off the sand.
-4. **Grass Type:** pick or create a Grass Type. Ready-made presets are included:
-   - 5 grass types
-   - 4 lying flower types
-   - 1 standing flower type in 4 colors
-   - or create your own Grass Type
-5. **Grow All:** press `Grow All` and the grass is generated from your settings.
-6. **Paint more (optional):** press `Grow All` first, then drag the mouse across the ground to paint extra grass by hand.
+### Setup ZLZ Env Grass Resolution
+- Add Feature > ZLZ Env Grass Resolution ลงใน URP หลักที่ใช้ Render ภาพ
+- ต้องเปิด Depth Texture ใน URP Asset
 
-## Creating Your Own Grass Type
+### Resolution
 
-![Create_GrassType](../Create_GrassType.png)
+- Full :  เรนเดอร์เต็มความละเอียด (feature จะพักการทำงาน หญ้าวาดสีของตัวเอง) → คุณภาพสูงสุด/ขอบคมสุด แต่ไม่ประหยัด
+- Half — เรนเดอร์สีหญ้าที่ครึ่งหนึ่งต่อแกน (= 1/4 ของจำนวนพิกเซล) → เร็วขึ้นมาก ขอบใบนุ่มลงเล็กน้อย เป็นตัวเลือกที่คุ้มที่สุดสำหรับส่วนใหญ่
+- Quarter — 1/4 ต่อแกน (= 1/16 ของพิกเซล) → เร็วที่สุด ขอบนุ่มที่สุด เหมาะกับ mobile หรือฉากที่หญ้าหนาแน่นจัดๆ
 
-- Press `Create New` on the Grass Type field in the Dashboard.
-- The new file is created at `Assets/ZLZ_EnvironmentShader/Grass/Types/ZLZ_GrassType.asset`.
-- Every setting can be edited directly on the Grass Type:
-- **Material:** the material for this grass or flower (each asset has a live preview so you can tell them apart).
-- **Meshes:** the mesh(es) for LOD 0. You can add several, and one is picked at random per tuft.
-- **Far Mesh:** the mesh for LOD 1 (the far field). Leave it empty to use the full LOD 0 mesh at every distance.
-- **Density (per m2):** how densely this type is planted per square metre. Higher means thicker grass.
-- **Max Tufts:** a safety cap on this type's count, so grass can never explode on a very large surface.
-- **Size Min:** the smallest size for this grass or flower.
-- **Size Max:** the largest size. Each tuft gets a random size between Min and Max.
-- **Height Offset:** sinks or raises the base of the grass or flower. Use a small negative value to push the base into the ground so blades do not float.
-- **Clustering:** higher values make grass and flowers gather into patches (0 = an even scatter, like normal grass). When Clustering is on, a `Patch Size` slider appears to set how wide each patch is.
+---
 
-## Where Is Grass Data Stored
+## ZLZ Grass Mesh Baker
 
-![GrassSetup](../GrassSetup.png)
+![Mesh Baker](../grass-optimized/Mesh_Baker.png)
 
-Grass is stored in `ZLZ_EnvGrassData`, located at `Assets/ZLZ_EnvironmentShader/Baked/GrassData/`.
-- One Grass Data file works with one Dashboard only. Growing again with the same Grass Data overwrites the previous data immediately.
-- Press `New` to create a fresh Grass Data file yourself.
+### การเปิดใช้งาน
+Window > ZLZ > Grass Mesh Baker
+
+แทนที่จะวาดใบเป็นการ์ดสี่เหลี่ยม + texture เครื่องมือนี้ bake รูปทรงจาก alpha ของ texture ให้กลายเป็น mesh จริงตามรูปใบ ผลลัพธ์คือหญ้าที่เรนเดอร์โดย ไม่มี texture, ไม่มี alpha clip, และไม่มี overdraw จากพิกเซลโปร่งใส เลย เพราะ mesh คลุมเฉพาะเนื้อใบจริงๆ ไม่ใช่กรอบสี่เหลี่ยมที่เต็มไปด้วยพื้นที่ว่าง
+
+### หลักการทำงาน 3 ขั้น:
+
+Trace — อ่านช่อง alpha ของ texture แล้ววาดเส้นขอบ (outline) ของใบแต่ละใบออกมา ลดจำนวนจุดตามงบ vertex ที่คุณตั้ง
+Layout — อ่าน mesh อ้างอิง (การ์ดกลุ่มเดิมที่หญ้าใช้อยู่) ทีละการ์ด แล้วแทนที่ทุกการ์ดด้วยรูปใบที่ trace มา ที่ตำแหน่ง/การหมุน/สเกลเดิมเป๊ะ — ก็อปปี้เลย์เอาต์เดิม ไม่ได้สร้างใหม่
+UV — รูปใหม่คง UV แบบ texture-space ไว้ (x ตามแนวขวาง, y จากโคน 0 → ปลาย 1) ดังนั้น Height Gradient และ Wind (height mask) ยังทำงานเหมือนเดิมทุกอย่าง
+
+### ค่าที่ปรับได้:
+Grass Texture — texture ต้นทางที่จะเอารูปทรงมา (อ่านแค่ช่อง alpha)
+Layout Mesh — mesh การ์ดกลุ่มเดิมที่หญ้าใช้อยู่ (เช่น SM_Grass_Group1) ทุกการ์ดในนี้จะถูกแทนด้วยรูปที่ trace มา
+Alpha Cutoff (0.05–0.95) — ระดับ alpha ที่นับว่าเป็นเนื้อใบ ให้ตั้งตรงกับ Alpha Cutoff ของ material ขอบ mesh จะได้ตกตรงที่ขอบ clip เดิมเคยอยู่
+Simplify (0.5–8 พิกเซล) — ความละเอียดของเส้นขอบ ค่าสูง = จุดน้อย/ขอบหยาบ/เบา, ค่าต่ำ = ขอบเนียน/จุดเยอะ (ตัวเลข vertex อัปเดตสดให้ดู)
+Bend Segments (1–12) — จำนวนแถวจุดแนวนอนจากโคนถึงปลาย ลมดัด mesh ทีละจุด ยิ่งแถวเยอะ = โค้งลู่ลมเนียน, แถวน้อย = เบาแต่แข็ง
+Preview จะโชว์ texture พร้อมเส้นขอบที่ trace (สีทอง) และเส้นแบ่ง Bend Segments ให้เห็น พร้อมสถิติ Cards / Verts / Tris ก่อนกด Bake Mesh
+
+หลัง bake: เอา mesh ไปใส่ใน Grass Type แล้ว ปิดฟีเจอร์ Texture บน material (ตาราง Features) — เพราะรูปทรงอยู่ใน mesh แล้ว การ fetch texture และ alpha clip จะถูก compile ออกไปเลย · การ bake ทับไฟล์เดิมคง GUID ไว้ Grass Type ทุกตัวที่ชี้อยู่จะอัปเดตตามทันที
+
