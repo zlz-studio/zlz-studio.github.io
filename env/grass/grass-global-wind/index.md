@@ -32,7 +32,7 @@ Done in a single step — right-click in the Hierarchy > ZLZ > Setup ZLZ Global.
 
 ## Parameters
 
-![GrassSetup](../GrassSetup.png)
+![ZLZ_Grass_Global_Wind](../ZLZ_Grass_Global_Wind.png)
 
 ### Wind
 - **Wind Angle** (`0–360°`, default `190`) — the wind heading on the ground plane, a single angle. The whole scene's wind points this way (check the direction with the gizmo arrow).
