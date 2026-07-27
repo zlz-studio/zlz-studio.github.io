@@ -2,18 +2,16 @@
 layout: docs
 title: Water Ring Wave
 last_modified_at: 2026-07-28
-published: false
+published: true
 ---
-
-<!-- DRAFT (ภาษาไทย) — ยังไม่ขึ้นเว็บ. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็น EN แล้วลบ published: false -->
 
 # Water Ring Wave
 
-แถบฟองบางๆ แผ่ออกเป็นวงรอบก้อนหิน เกาะเล็ก หรือเสาที่ปักอยู่กลางน้ำ เหมือนคลื่นที่กระทบสิ่งกีดขวางแล้วสะท้อนวนออกมา ทำให้วัตถุที่ตั้งนิ่งอยู่ในน้ำดูมีปฏิสัมพันธ์กับผืนน้ำจริงๆ แทนที่จะดูเหมือนแค่เอาโมเดลไปวางทับ
+Thin bands of foam spreading outward around a rock, a small island or a post standing in the water — like waves meeting an obstacle and rippling back out. It makes an object planted in the water look like it belongs there, instead of a model dropped on top of a surface.
 
-วงคลื่นพวกนี้ไม่ใช่วงกลมที่วาดจากวงเวียน แต่เป็น**เส้นระดับที่ไล่ตามรูปทรงของวัตถุ** — ใกล้ตัววัตถุจะเกาะรูปเงาของมัน แล้วค่อยๆ กลมขึ้นเมื่อออกห่าง หินยาวรีจึงได้วงรี ไม่ใช่วงกลมที่ดูขัดตา
+These are not compass-drawn circles: the bands are **contour lines that follow the object's shape**. Close in they hug its silhouette, easing round as they travel outward, so a long rock gets long ovals rather than circles that fight its form.
 
-ทั้งหมดมาจากแผนที่ที่ bake ไว้ล่วงหน้า จึงไม่มีการคำนวณระยะทางตอนเล่นเลย
+All of it comes from a map baked ahead of time, so nothing measures distance at runtime.
 
 ## Showcase
 {% include youtube-loop.html id="LxQK6EfxmyY" %}
@@ -22,101 +20,101 @@ published: false
 
 ## Setup
 
-Ring Wave ต่อยอดมาจากระบบ Foam Flow ต้องครบ 4 อย่างจึงจะเห็นวงคลื่น
+Ring Wave builds on the Foam Flow system. Four things have to be in place before any rings appear.
 
-1. **ที่ material** — เปิด feature **Foam**
-2. **ที่ material** — ในหมวด Foam เปิด **Foam Flow**
-3. **ที่ object ของน้ำ** — เลือกชิ้นส่วนที่จะให้เกิดวงคลื่น แล้วกด **Bake** (ดูหัวข้อถัดไป)
-4. **ที่ material** — ในกลุ่ม **Ring Wave** ดัน **Intensity** ขึ้นจาก `0`
+1. **On the material** — turn on the **Foam** feature
+2. **On the material** — in the Foam section, turn on **Foam Flow**
+3. **On the water object** — pick the pieces that should throw rings, then **Bake** (see the next section)
+4. **On the material** — in the **Ring Wave** group, raise **Intensity** above `0`
 
-> **สไลเดอร์จะถูกล็อกไว้จนกว่าจะมี Flow Map ที่ bake แล้ว** ไม่ใช่ความผิดพลาด — ค่าเริ่มต้นของช่อง Flow Map เป็นสีเทาล้วน ซึ่งถ้าถอดรหัสออกมาจะกลายเป็นวงคลื่นหลอกๆ กระจายเต็มผืนน้ำทั้งหมด ระบบจึงล็อกไว้จนกว่าจะมีข้อมูลจริง
+> **The sliders stay locked until a baked Flow Map is bound.** That is not a fault — the Flow Map slot defaults to flat grey, which decodes into phantom rings covering the entire surface. They stay locked until there is real data to read.
 
 ---
 
-## Shore Flow — เลือกชิ้นส่วนแล้ว Bake
+## Shore Flow — Pick the Pieces, Then Bake
 
-อยู่ที่ **Dashboard > Water** (หรือที่ Inspector ของ object น้ำโดยตรง ถ้าไม่ได้อยู่ใต้ Dashboard)
+Found under **Dashboard > Water** (or straight on the water object's Inspector, if it does not sit under a Dashboard).
 
 ![Water_Dashbaord](../water-ring-wave/Water_Dashbaord.png)
 
-### 1. Scan หาชิ้นส่วน
+### 1. Scan for pieces
 
-- **Scan Layers** — เลือก Layer ที่จะให้ค้นหา
-- **Area Scale** (`0.05–1`) — สัดส่วนของผืนน้ำที่ครอบคลุม `1` = ทั้งผืน ค่าน้อยลง = เจาะเฉพาะโซนกลาง ซึ่งช่วยอัดความละเอียดของแผนที่ให้หนาแน่นขึ้นในโซนนั้นด้วย จะเห็นเป็น**กรอบสีทอง**ใน Scene view แบบเรียลไทม์ ไม่ต้องเดา
-- กด **Scan Area** — ระบบจะไล่หาทุกชิ้นที่**โผล่พ้นระดับน้ำ**และอยู่ในกรอบ แล้วสร้างรายการขึ้นมาใหม่ทั้งหมด
+- **Scan Layers** — which layers to search
+- **Area Scale** (`0.05–1`) — the fraction of the water body covered. `1` = the whole surface; lower values focus on the middle zone, which also packs the map's resolution into that zone. It draws live as a **gold rectangle** in the Scene view, so the reach is never a guess
+- Press **Scan Area** — every piece that **rises above the waterline** inside the rectangle goes into a freshly rebuilt list
 
-Scan จะตั้งค่าเริ่มต้นให้ตามชนิดของชิ้นส่วน
+Scan sets a starting value per piece type.
 
-| ชนิด | Ring Wave เริ่มต้น | เหตุผล |
+| Type | Ring Wave default | Why |
 |---|---|---|
-| Terrain | ปิด | เป็นชายฝั่ง ควรได้แค่ฟองไหลเข้าหาฝั่ง ไม่ใช่วงคลื่น |
-| Mesh | เปิด | เป็นก้อนหิน เสา หรือ prop ที่ควรมีวงคลื่นรอบตัว |
+| Terrain | Off | It is a coastline: it should get foam running down its shore, not rings |
+| Mesh | On | It is a rock, a post or a prop, the kind of thing rings belong around |
 
-ถ้าชิ้นไหนที่คาดว่าจะเจอแต่ไม่โผล่ในรายการ ให้ดู Console — ระบบจะบอกชื่อและเหตุผลไว้ทุกชิ้น (Layer ไม่อยู่ใน Scan Layers / จมอยู่ใต้ผิวน้ำทั้งก้อน / อยู่นอกกรอบ Area Scale) และคลิกที่ชื่อเพื่อกระโดดไปหา object ได้เลย
+If a piece you expected never shows up, check the Console — every skipped candidate is listed by name with its reason (layer not in Scan Layers / entirely below the waterline / outside the Area Scale rectangle), and clicking the name jumps straight to the object.
 
-### 2. ติ๊ก Ring Wave ทีละชิ้น
+### 2. Tick Ring Wave per piece
 
-ในตารางรายการ แต่ละแถวคือหนึ่งชิ้นส่วน มีช่อง **Ring Wave** ให้ติ๊ก
+Each row in the list is one piece, with a **Ring Wave** checkbox.
 
-- **ทุกชิ้นที่อยู่ในรายการ** จะกำหนดทิศทางการไหลของฟอง (ฟองวิ่งลงจากชายฝั่งของชิ้นนั้น) ไม่ว่าจะติ๊กหรือไม่
-- **ติ๊ก Ring Wave** = เพิ่มวงคลื่นแผ่ออกจากชิ้นนั้นซ้อนขึ้นไปอีกชั้น
+- **Every listed piece** shapes the foam flow field (foam runs down its shore) whether or not it is ticked
+- **Ticking Ring Wave** adds rings radiating from that piece on top
 
-กด **+ Add** เพื่อเพิ่มเอง หรือ **✕** เพื่อลบทีละแถว, **Clear** เพื่อล้างทั้งรายการ
+Use **+ Add** to add one by hand, **✕** to remove a row, **Clear** to empty the list.
 
 ### 3. Bake
 
-- ติ๊กเลือกว่าผืนน้ำไหนจะ bake, ตั้งชื่อไฟล์ได้ต่อแถว (ค่าเริ่มต้น `<Scene>_<Object>_FlowMap`)
-- **Folder** — ค่าเริ่มต้น `Assets/ZLZ_EnvironmentShader/Baked/FlowMaps` เปลี่ยนได้
-- **Resolution** — `128` / `256` / `512` / `1024` ทิศทางการไหลเป็นข้อมูลความถี่ต่ำ ความละเอียดจึงไม่ต้องสูงตามขนาดฉาก `256` เพียงพอสำหรับงานส่วนใหญ่
-- กด **Bake Foam Flow** — คำนวณ เซฟ และผูกเข้ากับ material ให้อัตโนมัติ ไม่มีหน้าต่างเด้ง และย้อน Undo ได้
+- Tick which water bodies to bake and name the texture per row (default `<Scene>_<Object>_FlowMap`)
+- **Folder** — defaults to `Assets/ZLZ_EnvironmentShader/Baked/FlowMaps`, changeable
+- **Resolution** — `128` / `256` / `512` / `1024`. Flow is low-frequency data, so the resolution does not have to scale with the size of the scene; `256` covers most work
+- Press **Bake Foam Flow** — it rasterizes, saves and binds to the material on its own: no dialogs, and Undo works
 
-> **แก้รายการแล้วต้อง Bake ใหม่** ระบบจะขึ้นแถบเตือน "List changed. Press Bake Foam Flow to apply" ให้เอง ไม่ bake ให้เองเงียบๆ
+> **Edit the list and you have to bake again.** A banner appears saying "List changed. Press Bake Foam Flow to apply" — it never bakes silently behind you.
 
 ---
 
 ## Parameters
 
-ทั้งหมดอยู่ที่ material ใน **Foam > Foam Flow > Ring Wave**
+All of these live on the material under **Foam > Foam Flow > Ring Wave**.
 
 ![Ring_Wave_Mat](../water-ring-wave/Ring_Wave_Mat.png)
 
-- **Intensity** (`0–1`, ค่าเริ่มต้น `0`) — สวิตช์หลักและความเข้มของวงคลื่น ตั้ง `0` = ปิด (สไลเดอร์ที่เหลือจะซ่อนไว้จนกว่าจะดันขึ้น)
-- **Spacing** (`0.25–10`, ค่าเริ่มต้น `1.5`) — ระยะห่างระหว่างวง (เมตร) ยิ่งน้อย = วงถี่เหมือนน้ำกระเพื่อมเร็ว
-- **Speed** (`-2–2`, ค่าเริ่มต้น `0.5`) — ความเร็วการเดินทางของวง **ค่าบวก = แผ่ออก, ค่าลบ = หดเข้า** (คลื่นวิ่งเข้าหาวัตถุ)
-- **Thickness** (`0.05–0.9`, ค่าเริ่มต้น `0.25`) — ความหนาของแถบฟอง ค่าน้อย = เส้นคมบาง, ค่ามาก = แถบหนานุ่ม
-- **Range** (`0.5–30`, ค่าเริ่มต้น `8`) — วงคลื่นแผ่ออกไปได้ไกลกี่เมตรก่อนจางหายสนิท
-- **Break-up** (`0–1`, ค่าเริ่มต้น `0.5`) — บิดรัศมีและฉีกแถบให้ขาดเป็นช่วงๆ ทำให้วงดูเหมือนวาดด้วยมือแทนที่จะเป๊ะแบบวงเวียน ตั้ง `0` = วงเรียบสมบูรณ์แบบ
+- **Intensity** (`0–1`, default `0`) — the master switch and the strength of the rings. `0` = off, and the remaining sliders stay hidden until you raise it
+- **Spacing** (`0.25–10`, default `1.5`) — the distance between bands, in metres. Lower = tight rings, like fast chop
+- **Speed** (`-2–2`, default `0.5`) — how fast the bands travel. **Positive expands outward, negative contracts** (waves running back toward the object)
+- **Thickness** (`0.05–0.9`, default `0.25`) — the width of each foam band. Low = a sharp thin line, high = a soft wide one
+- **Range** (`0.5–30`, default `8`) — how many metres the rings reach before fading out completely
+- **Break-up** (`0–1`, default `0.5`) — warps the radius and tears the bands into arcs, so they read as hand drawn instead of compass drawn. `0` = perfectly smooth rings
 
 ---
 
-## สิ่งที่ควรรู้เกี่ยวกับพฤติกรรม
+## Behaviour Worth Knowing
 
-- **วงคลื่นปรับขนาดตามชิ้นส่วนให้เอง** ตอน bake ระบบวัดขนาดฐานของแต่ละชิ้นเก็บไว้ในแผนที่ แล้ว Spacing กับ Range จะถูกคูณตามขนาดนั้นโดยเทียบกับ**ชิ้นอ้างอิงขนาด 5 เมตร** ผลคือก้อนกรวดได้วงเล็กถี่ ส่วนโขดหินใหญ่ได้วงกว้าง **จากสไลเดอร์ชุดเดียวกัน** ไม่ต้องแยก material
-- **วงจะค่อยๆ โผล่ออกมาจากขอบวัตถุ** ไม่ใช่ปรากฏเต็มวงพรวดเดียว ระบบไล่ความเข้มให้ในช่วงแรกของระยะทาง เพราะบริเวณบนตัววัตถุเองเป็นพื้นที่ระยะทางเท่ากับศูนย์ทั้งแผง ถ้าไม่ทำแบบนี้จะเห็นเป็นแผ่นวงกลมทึบกะพริบขึ้นมาหนึ่งเฟรมก่อนกลายเป็นวง
-- **ระยะทางในแผนที่เก็บได้สูงสุด 30 เมตร** ซึ่งตรงกับเพดานของ Range พอดี เกินจากนั้นไม่มีข้อมูล
-- ชิ้นส่วนที่**จมอยู่ใต้น้ำทั้งก้อน**จะไม่ถูกนับ ต้องมีส่วนที่โผล่พ้นผิวน้ำ
-- วงคลื่นเป็นแค่ฟองบนผิวน้ำ **ไม่ได้บิด normal** จึงไม่มีผลกับแสงเงาหรือเงาสะท้อน ต่างจาก [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }}) ที่บิด normal จริง
+- **Rings scale themselves to the piece.** The bake measures each piece's footprint into the map, then Spacing and Range are scaled by it against a **5 metre reference piece**. A pebble gets small tight rings and a boulder gets wide ones **from the same sliders** — no separate material needed
+- **Rings emerge from the object's edge** rather than popping in fully formed. The area on the piece itself is a flat zero-distance plateau, so without a fade-in over the first stretch of distance a new ring would light that whole area up at once — a solid disc flashing for a frame before it reads as a ring
+- **The map stores distance up to 30 metres**, which is exactly where the Range slider tops out. There is no data past that
+- A piece that is **entirely below the waterline** is never picked up; part of it has to break the surface
+- Rings are foam on the surface only — they **do not bend the normal**, so they leave lighting and reflections alone. That is the difference from [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }}), which really does bend it
 
 ---
 
-## ทำงานร่วมกับ Feature อื่น
+## Works With Other Features
 
 ### Foam
-Ring Wave เป็นชั้นที่ซ้อนอยู่บนระบบ Foam ทั้งหมด จึงใช้ **Foam Color** และค่าความทึบร่วมกับฟองตัวอื่น ถ้าอยากให้วงคลื่นเด่นขึ้นโดยไม่แตะฟองชายฝั่ง ให้ลด **Foam Noise > Opacity** ลงแทนที่จะไปลด Foam Color
+Ring Wave is a layer on top of the whole Foam system, so it shares **Foam Color** and its opacity with the other foam. To make the rings stand out without touching the shoreline foam, turn down **Foam Noise > Opacity** rather than the Foam Color.
 
 ### Underwater
-ถ้าเปิด feature **Underwater** ไว้ วงคลื่นจะมองเห็นจากใต้น้ำได้ด้วย ผ่านค่า **Foam & Rings** ในหมวด Underwater ซึ่งใช้ผลลัพธ์จากการ bake ชุดเดียวกัน ไม่ต้อง bake ซ้ำ
+With the **Underwater** feature on, the rings are visible from below too, through **Foam & Rings** in the Underwater section. It reads the same bake — nothing extra to run.
 
 ### Water Interaction
-คนละระบบกันแต่เสริมกันได้ดี — Ring Wave คือวงคลื่นรอบ**วัตถุที่อยู่นิ่ง** ส่วน Interaction คือวงคลื่นที่เกิดจาก**วัตถุที่เคลื่อนที่** ใช้พร้อมกันได้ ไม่ตีกัน
+Different systems that complement each other: Ring Wave is rings around **things standing still**, Interaction is rings made by **things moving**. Run both together; they never fight.
 
 ---
 
-## ข้อควรรู้
+## Good to Know
 
-- **Bake ต้องทำในหน้า Scene เท่านั้น** เพราะแผนที่เก็บข้อมูลตามพิกัดโลก ถ้าอยู่ใน Prefab Mode ปุ่มจะถูกปิดพร้อมบอกเหตุผล (แต่ **Scan ใช้ได้ใน Prefab Mode** โดยจะค้นเฉพาะภายใน prefab นั้น)
-- **ผืนน้ำสองผืนที่ใช้ material เดียวกันจะ bake ทับกัน** ระบบเตือนให้ก่อนกดปุ่ม — ให้แยก material ต่อผืนน้ำ
-- **Bake ซ้ำใช้ไฟล์เดิม** ไม่ได้สร้างไฟล์ใหม่ การอ้างอิงจาก material จึงไม่ขาด และถ้าเปลี่ยนชื่อหรือย้ายโฟลเดอร์เอง GUID ก็ยังอยู่ ไม่พัง
-- **คำนวณด้วย CPU ล้วน** ไม่ใช้กล้องหรือการอ่านค่ากลับจาก GPU ผลลัพธ์จึงเหมือนกันทุกเครื่องและทุกสถานะของเอดิเตอร์
-- ไฟล์แผนที่มีขนาดเล็กมาก และเดินทางไปกับ Prefab และ Scene เหมือน asset ที่ bake ตัวอื่น
-- ตอนเล่นเกมแทบไม่มีค่าใช้จ่าย — เป็นการอ่าน texture ที่ใช้ร่วมกับ Foam Flow อยู่แล้ว ไม่ได้เพิ่มการอ่านใหม่
+- **Baking only works in a Scene**, because the map holds world-position data. In Prefab Mode the button is disabled and says so — though **Scan does work in Prefab Mode**, scoped to the prefab's own contents
+- **Two water bodies sharing one material will overwrite each other's bake.** A warning appears before you press the button — give each water body its own material
+- **Re-baking reuses the existing asset** rather than creating a new one, so material references never break. Renaming the file or moving the folder keeps its GUID, so nothing breaks there either
+- **It is computed entirely on the CPU** — no camera, no GPU readback — so the result is identical on every machine and in every editor state
+- The map file is tiny, and it travels with Prefabs and Scenes like every other baked asset
+- It costs practically nothing at runtime: it reads the texture Foam Flow is already reading, not a new one
