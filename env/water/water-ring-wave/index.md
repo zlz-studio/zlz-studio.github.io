@@ -37,7 +37,7 @@ Ring Wave ต่อยอดมาจากระบบ Foam Flow ต้อง�
 
 อยู่ที่ **Dashboard > Water** (หรือที่ Inspector ของ object น้ำโดยตรง ถ้าไม่ได้อยู่ใต้ Dashboard)
 
-<!-- TODO: ใส่รูป Dashboard > Water > Shore Flow -->
+![Water_Dashbaord](../water-ring-wave/Water_Dashbaord.png)
 
 ### 1. Scan หาชิ้นส่วน
 
@@ -78,7 +78,7 @@ Scan จะตั้งค่าเริ่มต้นให้ตามชน
 
 ทั้งหมดอยู่ที่ material ใน **Foam > Foam Flow > Ring Wave**
 
-<!-- TODO: ใส่รูปกลุ่ม Ring Wave ใน material -->
+![Ring_Wave_Mat](../water-ring-wave/Ring_Wave_Mat.png)
 
 - **Intensity** (`0–1`, ค่าเริ่มต้น `0`) — สวิตช์หลักและความเข้มของวงคลื่น ตั้ง `0` = ปิด (สไลเดอร์ที่เหลือจะซ่อนไว้จนกว่าจะดันขึ้น)
 - **Spacing** (`0.25–10`, ค่าเริ่มต้น `1.5`) — ระยะห่างระหว่างวง (เมตร) ยิ่งน้อย = วงถี่เหมือนน้ำกระเพื่อมเร็ว
