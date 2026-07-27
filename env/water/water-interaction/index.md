@@ -33,6 +33,8 @@ published: false
 
 ## Interactor (ตั้งค่าต่อ object)
 
+![Water_Interaction_Script](../water-interaction/Water_Interaction_Script.png)
+
 `ZLZ_Env Water Interactor` มีตัวปล่อยคลื่น **2 ตัวที่ทำงานแยกจากกันโดยสิ้นเชิง** เปิดพร้อมกัน เปิดตัวเดียว หรือปิดทั้งคู่ก็ได้ และแต่ละตัวมี "ขนาดวง" กับ "อายุวง" เป็นของตัวเอง เพราะคลื่นตอนเดินกับคลื่นตอนยืนนิ่งมักไม่ควรมีขนาดเท่ากัน
 
 ### ค่าหลัก
@@ -66,6 +68,8 @@ published: false
 ---
 
 ## ค่าบน Material (หมวด Interaction)
+
+![Water_Interaction_Mat](../water-interaction/Water_Interaction_Mat.png)
 
 สามค่านี้กำหนดหน้าตาของคลื่นทุกวงบนผืนน้ำนั้น (เปิด feature **Interaction** ไว้)
 
