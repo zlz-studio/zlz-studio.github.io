@@ -959,8 +959,7 @@
             </span>
           </a>{% endif %}
           {% if waterWaves %}<a class="featCard" href="/env/water/water-waves/">
-            <!-- TODO: swap in Water_Waves_Thumb.webp + data-anim="/env/water/Water_Waves_Hover.webp" once the clip is recorded -->
-            <img src="/images/thumbs/overview.webp" alt="Water Waves" loading="lazy" decoding="async" />
+            <img src="/env/water/Water_Waves_Thumb.webp" data-anim="/env/water/Water_Waves_Hover.webp" alt="Water Waves" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Water Waves</span>
               <small class="featDate">Updated {{ waterWaves.last_modified_at | date: "%d %b %Y" }}</small>

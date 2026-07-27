@@ -1,17 +1,15 @@
 ---
 layout: docs
 title: Water Waves
-last_modified_at: 2026-07-27
-published: false
+last_modified_at: 2026-07-28
+published: true
 ---
-
-<!-- DRAFT (ภาษาไทย) — ยังไม่ขึ้นเว็บ. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็น EN แล้วลบ published: false -->
 
 # Water Waves (Shore Breath)
 
-ผิวน้ำทั้งผืน**ยกตัวขึ้นและลดลงพร้อมกันทั้งแผ่น** ตามจังหวะที่คุณวาดเป็นเส้นโค้งเอง เหมือนน้ำทะเลที่ค่อยๆ หายใจเข้าออก น้ำขึ้นก็ท่วมหาดลึกขึ้น น้ำลงก็เผยผืนทรายออกมา แนวฟองริมตลิ่งกับสีน้ำตื้นจะขยับตามไปเองทั้งหมด
+The whole surface **rises and falls as one** to a rhythm you draw yourself, like the sea slowly breathing in and out. As the level climbs the water swallows more of the beach; as it drops the sand comes back. The foam along the shore and the shallow water colours follow the level on their own.
 
-เป็นการยกตัวแบบ**ไม่มีความชัน** (ทุกจุดขึ้นลงเท่ากันหมด ไม่มีลูกคลื่นวิ่ง) — เป็นการออกแบบที่ตั้งใจ เพราะทำให้เงาสะท้อน, Fresnel และทิศของผิวน้ำนิ่งสนิทขณะที่ระดับน้ำเปลี่ยน ส่วนความมีชีวิตชีวาระดับเล็กปล่อยให้เป็นหน้าที่ของ Normal Map ที่ไหลอยู่แล้ว
+The lift has **no slope** — every point moves by the same amount, so there is no travelling swell. That is deliberate: the reflection, the Fresnel and the surface direction all hold perfectly steady while the level breathes. The small-scale life of the water stays with the scrolling ripple normal map.
 
 ## Showcase Water Waves
 {% include youtube-loop.html id="Hac9OmXSVg8" %}
@@ -20,14 +18,14 @@ published: false
 
 ## Setup
 
-ต้องทำ 2 อย่างคู่กัน
+Two things go together.
 
-1. **ที่ material ของน้ำ** — เปิด feature **Waves** (ปุ่มในตาราง Features ด้านบนสุดของ Inspector)
-2. **ที่ object ของน้ำ** — ปรับจังหวะคลื่นที่ **Dashboard > Water** (หรือที่ Inspector ของ object น้ำโดยตรง ถ้าไม่ได้อยู่ใต้ Dashboard)
+1. **On the water material** — turn on the **Waves** feature (the button grid at the top of the Inspector)
+2. **On the water object** — tune the rhythm under **Dashboard > Water** (or straight on the water object's Inspector, if it does not sit under a Dashboard)
 
-> **ทำไมค่าถึงไม่ได้อยู่ใน material?** เพราะจังหวะคลื่นเป็น**เส้นโค้ง (AnimationCurve)** ซึ่ง material เก็บไม่ได้ ค่าพวกนี้จึงอยู่บน component `ZLZ_EnvWater` แทน — และเป็นเรื่องดีด้วย เพราะบ่อน้ำแต่ละบ่อจะมีจังหวะของตัวเองได้ ทั้งที่ใช้ material ร่วมกัน
+> **Why isn't this on the material?** The rhythm is an **AnimationCurve**, and a material cannot hold a curve. The values live on the `ZLZ_EnvWater` component instead — which works out nicely, because every pond gets its own rhythm even when they all share one material.
 
-ในหมวด Waves ของ material จะไม่มีค่าอะไรให้ปรับเลย มีแค่ข้อความชี้ทางไปที่ Dashboard เท่านั้น
+The material's Waves section has nothing to tune: it only points you to the Dashboard.
 
 ---
 
@@ -35,56 +33,56 @@ published: false
 
 ![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
 
-ทั้งสามค่านี้อยู่ที่ **Dashboard > Water** และจะโผล่ขึ้นมาก็ต่อเมื่อ material เปิด feature **Waves** ไว้แล้วเท่านั้น
+All three live under **Dashboard > Water**, and only appear once the material has the **Waves** feature on.
 
-- **Wave Shape** (เส้นโค้ง) — จังหวะการขึ้นลงตลอด 1 รอบ แกน X = 0 ถึง 1 คือความคืบหน้าของรอบ, แกน Y = `0` คือระดับต่ำสุด และ `1` คือระดับสูงสุด
-- **Wave Height** (เมตร, ค่าเริ่มต้น `0.2`) — ระยะที่ผิวน้ำขึ้นและลงจากระดับปกติ ค่านี้คือระยะ**ด้านเดียว** ระยะจากต่ำสุดถึงสูงสุดจริงๆ จะเป็นสองเท่าของค่านี้
-- **Seconds per Loop** (วินาที, ค่าเริ่มต้น `5`) — เวลา 1 รอบเต็มของเส้นโค้ง ต่ำสุด `0.25` วินาที ยิ่งค่ามาก จังหวะยิ่งช้าและอืดอาดเหมือนทะเลกว้าง
+- **Wave Shape** (curve) — the rise and fall across one loop. X = 0 to 1 is the progress through the loop; Y = `0` is the lowest level and `1` the highest
+- **Wave Height** (metres, default `0.2`) — how far the surface travels above and below its rest level. This is the distance **one way**: the full trough-to-crest range is twice this value
+- **Seconds per Loop** (seconds, default `5`) — the time for one full pass of the curve, minimum `0.25`. Higher values give the slow, heavy rhythm of open sea
 
-### ปรับแต่งการเคลื่อนไหวของ Waves ผ่าน Curve ได้อิสระ
+### Shape the Motion Freely with the Curve
 
 ![Water_Wave_Curve](../water-waves/Water_Wave_Curve.png)
 
-- เส้นโค้งนี้**วนซ้ำต่อเนื่อง** ปลายเส้นเชื่อมกลับหัวเส้นให้เองโดยอัตโนมัติ ไม่ต้องกังวลว่ารอยต่อจะกระตุก
-- ลาก keyframe ได้อิสระ อยากได้คลื่นซัดแรงแล้วถอยยาวๆ หรือน้ำนิ่งแล้วกระเพื่อมทีเดียว ก็วาดได้เลย
-- คลิกขวาที่ช่องเส้นโค้งเพื่อ **Copy / Paste** ไปยังบ่อน้ำอื่นได้ และรองรับ Undo เต็มรูปแบบ
+- The curve **loops seamlessly** — the end joins back to the start on its own, so the seam never jumps
+- Drag the keyframes however you like: a hard surge with a long retreat, or a still pond that swells once and settles
+- Right-click the curve field to **Copy / Paste** it onto another pond. Undo is fully supported
 
 ---
 
-## ขยับใน Edit Mode ด้วย
+## Animates in Edit Mode Too
 
-**ตัวผิวน้ำจะขึ้นลงให้เห็นตั้งแต่ใน Edit Mode** ไม่ต้องกด Play เพราะการยกตัวคำนวณอยู่ใน vertex stage ของ shader ซึ่งใช้นาฬิกาของ shader ที่เดินตลอดเวลาในเอดิเตอร์ จัดองค์ประกอบฉากได้เลยว่าน้ำขึ้นสูงสุดแล้วท่วมถึงตรงไหน
+**The surface rises and falls right in Edit Mode** — no need to press Play. The lift is computed in the shader's vertex stage, which runs on the shader clock, and that keeps ticking in the editor. Compose the scene knowing exactly how far the water reaches at high tide.
 
-แต่ [Water Floater]({{ '/env/water/water-floater/' | relative_url }}) จะทำงานเฉพาะตอน Play เท่านั้น เพราะฝั่ง C# ไม่มีนาฬิกาที่ตรงกับ shader ในเอดิเตอร์ ตอนอยู่ใน Edit Mode มันจึงอ้างอิงระดับน้ำปกติแทน ซึ่งก็เป็นระดับที่เหมาะกับการวางของอยู่แล้ว
+[Water Floater]({{ '/env/water/water-floater/' | relative_url }}), however, only runs in Play mode: the C# side has no clock that matches the shader's inside the editor. In Edit Mode it falls back to the rest level, which is the level you want to place props against anyway.
 
 ---
 
-## ผลต่อ Feature อื่น
+## Effects on Other Features
 
 ### Foam — Wave Fade
-เมื่อเปิด Waves ไว้ ในหมวด **Foam** จะมีค่าเพิ่มขึ้นมาหนึ่งตัวคือ **Wave Fade** (`0–1`, ค่าเริ่มต้น `1`) ซึ่งจะไม่โผล่ขึ้นมาเลยถ้า Waves ปิดอยู่
+With Waves on, the **Foam** section gains one extra value: **Wave Fade** (`0–1`, default `1`). It does not appear at all while Waves is off.
 
-- `1` = ฟองแบบกลุ่มก้อน (Foam Noise) จะ**หายไปตอนน้ำลง และขึ้นเต็มที่ตอนน้ำขึ้น** เหมือนฟองที่ถูกคลื่นซัดเข้ามาแล้วถอยกลับ
-- `0` = ไม่สนใจจังหวะคลื่น ฟองแสดงเท่าเดิมตลอดเวลา
+- `1` = the clustered foam (Foam Noise) **washes out in the trough and comes in full on the crest**, like foam carried up the beach and dragged back
+- `0` = the swell is ignored and the foam shows the same at all times
 
-ค่านี้มีผลกับ**ฟองแบบกลุ่มก้อนเท่านั้น** ส่วน **Foam Line** (เส้นขอบน้ำคมๆ) จะอยู่ครบตลอด เพื่อไม่ให้ชายฝั่งเสียเส้นขอบไปตอนน้ำลง
+It only touches the **clustered foam**. The **Foam Line** (the crisp inked waterline) stays put throughout, so the shore never loses its edge at low tide.
 
 ### Reflection
-เงาสะท้อนถูกตรึงไว้กับ**ระดับน้ำปกติ** ไม่ใช่ระดับที่ขยับ เพราะกล้องกระจกเรนเดอร์เทียบกับระนาบนิ่ง ถ้าปล่อยให้เงาเลื่อนตามผิวน้ำ ภาพสะท้อนจะไถลขึ้นลงจนดูผิด ระบบจึงจัดการจุดนี้ให้แล้ว ไม่ต้องตั้งค่าอะไรเพิ่ม
+The reflection is anchored to the **rest level**, not the moving one. The mirror camera renders against a fixed plane, so letting the reflection ride the surface would make the mirrored image slide up and down. This is handled for you — nothing to configure.
 
 ### Water Interaction
-ระยะ **Surface Range** ของ `ZLZ_Env Water Interactor` จะบวก Wave Height เผื่อให้อัตโนมัติ ตัวละครจึงไม่หลุดเงื่อนไขตอนน้ำขึ้นสูงสุด
+The **Surface Range** on `ZLZ_Env Water Interactor` automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.
 
 ### Water Floater
-ของที่ลอยน้ำจะขึ้นลงตามจังหวะ Shore Breath ให้เอง เพราะฝั่ง C# อ่านเส้นโค้ง ความสูง และนาฬิกาชุดเดียวกับ shader เรือหรือถังไม้จึงลอยตรงกับผิวน้ำที่ผู้เล่นเห็นแบบไม่มีคลาดเคลื่อน ดูรายละเอียดที่หน้า [Water Floater]({{ '/env/water/water-floater/' | relative_url }})
+Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees. See the [Water Floater]({{ '/env/water/water-floater/' | relative_url }}) page.
 
 ---
 
-## ข้อควรรู้
+## Good to Know
 
-- ทุกจุดบนผิวน้ำ**ขึ้นลงพร้อมกันหมด** ไม่มีลูกคลื่นวิ่งเป็นระลอก ถ้าต้องการวงคลื่นที่แผ่ออกจากตัวละคร ใช้ feature **Interaction** ควบคู่กัน
-- ระบบนี้แทบไม่มีค่าใช้จ่าย — คำนวณใน vertex stage และอ่านเส้นโค้งจาก texture ขนาด 128×1 พิกเซลที่ถูก bake ไว้แล้ว
-- ผืนน้ำแต่ละผืนมีเส้นโค้ง ความสูง และรอบเวลาเป็นของตัวเอง แม้จะใช้ material เดียวกัน
-- ค่าเหล่านี้ติดไปกับ Prefab และ Scene เหมือนค่า component ทั่วไป
-- ถ้าใช้ material ที่เปิด Waves แต่ object ไม่มี component `ZLZ_EnvWater` ผิวน้ำจะนิ่งสนิท (ไม่พัง ไม่กระตุก) เพราะไม่มีใครส่งเส้นโค้งให้
-- คลื่นเคารพ `Time.timeScale` — สโลว์โมชันหรือหยุดเกม จังหวะน้ำก็ช้าและหยุดตาม
+- Every point on the surface **moves together**. There is no travelling swell — for rings spreading out from a character, pair this with the **Interaction** feature
+- It costs almost nothing: the work happens in the vertex stage and reads a baked 128×1 pixel curve texture
+- Each water body keeps its own curve, height and loop time, even when they share a material
+- The values ride Prefabs and Scenes like any other component field
+- A material with Waves on but no `ZLZ_EnvWater` component on the object simply stays still (nothing breaks, nothing stutters) — there is no one to hand it the curve
+- The waves honour `Time.timeScale`, so slow motion and pausing slow and stop the rhythm with the game
