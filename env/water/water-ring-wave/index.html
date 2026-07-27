@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paint Mode Overview | ZLZ Env Shader</title>
+  <title>Water Ring Wave | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -572,7 +572,7 @@
 <h3>Paint Mode</h3>
 
 <a href="/env/paint-mode/"
-   class="active">
+   class="">
    Overview
 </a>
 
@@ -693,7 +693,7 @@
 
 
 <a href="/env/water/water-ring-wave/"
-   class="">
+   class="active">
    Water Ring Wave
 </a>
 
@@ -720,100 +720,159 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="paintmode---tools">PaintMode - Tools</h1>
+        <h1 id="water-ring-wave">Water Ring Wave</h1>
 
-<h2 id="showcasepaintmode---control">ShowcasePaintMode - Control</h2>
+<p>Thin bands of foam spreading outward around a rock, a small island or a post standing in the water — like waves meeting an obstacle and rippling back out. It makes an object planted in the water look like it belongs there, instead of a model dropped on top of a surface.</p>
+
+<p>These are not compass-drawn circles: the bands are <strong>contour lines that follow the object’s shape</strong>. Close in they hug its silhouette, easing round as they travel outward, so a long rock gets long ovals rather than circles that fight its form.</p>
+
+<p>All of it comes from a map baked ahead of time, so nothing measures distance at runtime.</p>
+
+<h2 id="showcase">Showcase</h2>
+
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Controller_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/LxQK6EfxmyY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=LxQK6EfxmyY&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
 </div>
 
-<h2 id="showcasepaintmode---texture">ShowcasePaintMode - Texture</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Texture_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<hr />
 
-<h2 id="showcasepaintmode---brush">ShowcasePaintMode - Brush</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Brush_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<h2 id="setup">Setup</h2>
 
-<h2 id="showcasepaintmode---debug">ShowcasePaintMode - Debug</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Debug_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<p>Ring Wave builds on the Foam Flow system. Four things have to be in place before any rings appear.</p>
 
-<h3 id="setup---paintmode">Setup - PaintMode</h3>
-<p><img src="Setup_PaintMode.png" alt="Setup_PaintMode" /></p>
+<ol>
+  <li><strong>On the material</strong> — turn on the <strong>Foam</strong> feature</li>
+  <li><strong>On the material</strong> — in the Foam section, turn on <strong>Foam Flow</strong></li>
+  <li><strong>On the water object</strong> — pick the pieces that should throw rings, then <strong>Bake</strong> (see the next section)</li>
+  <li><strong>On the material</strong> — in the <strong>Ring Wave</strong> group, raise <strong>Intensity</strong> above <code class="language-plaintext highlighter-rouge">0</code></li>
+</ol>
+
+<blockquote>
+  <p><strong>The sliders stay locked until a baked Flow Map is bound.</strong> That is not a fault — the Flow Map slot defaults to flat grey, which decodes into phantom rings covering the entire surface. They stay locked until there is real data to read.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="shore-flow--pick-the-pieces-then-bake">Shore Flow — Pick the Pieces, Then Bake</h2>
+
+<p>Found under <strong>Dashboard &gt; Water</strong> (or straight on the water object’s Inspector, if it does not sit under a Dashboard).</p>
+
+<p><img src="../water-ring-wave/Water_Dashbaord.png" alt="Water_Dashbaord" /></p>
+
+<h3 id="1-scan-for-pieces">1. Scan for pieces</h3>
 
 <ul>
-  <li>The Mesh you want to paint must be under <code class="language-plaintext highlighter-rouge">Base_Terrain</code>, or under a Parent that has the <code class="language-plaintext highlighter-rouge">Env Dashboard</code> script attached
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab</li>
-    </ul>
-  </li>
-  <li>Assign a Material that uses ZLZ_Environment_Shader
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader</li>
-    </ul>
-  </li>
+  <li><strong>Scan Layers</strong> — which layers to search</li>
+  <li><strong>Area Scale</strong> (<code class="language-plaintext highlighter-rouge">0.05–1</code>) — the fraction of the water body covered. <code class="language-plaintext highlighter-rouge">1</code> = the whole surface; lower values focus on the middle zone, which also packs the map’s resolution into that zone. It draws live as a <strong>gold rectangle</strong> in the Scene view, so the reach is never a guess</li>
+  <li>Press <strong>Scan Area</strong> — every piece that <strong>rises above the waterline</strong> inside the rectangle goes into a freshly rebuilt list</li>
 </ul>
 
-<h3 id="what-can-paintmode-do">What Can PaintMode Do?</h3>
+<p>Scan sets a starting value per piece type.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Ring Wave default</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Terrain</td>
+      <td>Off</td>
+      <td>It is a coastline: it should get foam running down its shore, not rings</td>
+    </tr>
+    <tr>
+      <td>Mesh</td>
+      <td>On</td>
+      <td>It is a rock, a post or a prop, the kind of thing rings belong around</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If a piece you expected never shows up, check the Console — every skipped candidate is listed by name with its reason (layer not in Scan Layers / entirely below the waterline / outside the Area Scale rectangle), and clicking the name jumps straight to the object.</p>
+
+<h3 id="2-tick-ring-wave-per-piece">2. Tick Ring Wave per piece</h3>
+
+<p>Each row in the list is one piece, with a <strong>Ring Wave</strong> checkbox.</p>
+
 <ul>
-  <li>Paint additional decorative textures onto meshes you authored, whether in Maya or Blender</li>
-  <li>Paint on both horizontal and vertical surfaces</li>
-  <li>Customize your own brushes</li>
-  <li>Freely control brush size and hardness</li>
-  <li>Once enabled, it works alongside every other feature in the Shader</li>
+  <li><strong>Every listed piece</strong> shapes the foam flow field (foam runs down its shore) whether or not it is ticked</li>
+  <li><strong>Ticking Ring Wave</strong> adds rings radiating from that piece on top</li>
 </ul>
 
-<h3 id="mask-source">Mask Source</h3>
+<p>Use <strong>+ Add</strong> to add one by hand, <strong>✕</strong> to remove a row, <strong>Clear</strong> to empty the list.</p>
+
+<h3 id="3-bake">3. Bake</h3>
+
 <ul>
-  <li>Chooses where the “paint data” is stored. Switched via a shader keyword at build time — it is not a runtime value</li>
-  <li>Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel</li>
-  <li>Vertex Color = stored in the mesh’s vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density</li>
-  <li>If data exists in both Mask and Vertex Color, only the selected source is displayed</li>
-  <li>The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump</li>
+  <li>Tick which water bodies to bake and name the texture per row (default <code class="language-plaintext highlighter-rouge">&lt;Scene&gt;_&lt;Object&gt;_FlowMap</code>)</li>
+  <li><strong>Folder</strong> — defaults to <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Baked/FlowMaps</code>, changeable</li>
+  <li><strong>Resolution</strong> — <code class="language-plaintext highlighter-rouge">128</code> / <code class="language-plaintext highlighter-rouge">256</code> / <code class="language-plaintext highlighter-rouge">512</code> / <code class="language-plaintext highlighter-rouge">1024</code>. Flow is low-frequency data, so the resolution does not have to scale with the size of the scene; <code class="language-plaintext highlighter-rouge">256</code> covers most work</li>
+  <li>Press <strong>Bake Foam Flow</strong> — it rasterizes, saves and binds to the material on its own: no dialogs, and Undo works</li>
 </ul>
 
-<h3 id="active-layers-1-4">Active Layers (1-4)</h3>
+<blockquote>
+  <p><strong>Edit the list and you have to bake again.</strong> A banner appears saying “List changed. Press Bake Foam Flow to apply” — it never bakes silently behind you.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="parameters">Parameters</h2>
+
+<p>All of these live on the material under <strong>Foam &gt; Foam Flow &gt; Ring Wave</strong>.</p>
+
+<p><img src="../water-ring-wave/Ring_Wave_Mat.png" alt="Ring_Wave_Mat" /></p>
+
 <ul>
-  <li>Choose how many Layers to use; unused Layers are hidden</li>
-  <li>Assign a Texture to each Layer, selecting which Texture goes in which slot</li>
-  <li>Adjust the Size of each Texture</li>
+  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — the master switch and the strength of the rings. <code class="language-plaintext highlighter-rouge">0</code> = off, and the remaining sliders stay hidden until you raise it</li>
+  <li><strong>Spacing</strong> (<code class="language-plaintext highlighter-rouge">0.25–10</code>, default <code class="language-plaintext highlighter-rouge">1.5</code>) — the distance between bands, in metres. Lower = tight rings, like fast chop</li>
+  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">-2–2</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — how fast the bands travel. <strong>Positive expands outward, negative contracts</strong> (waves running back toward the object)</li>
+  <li><strong>Thickness</strong> (<code class="language-plaintext highlighter-rouge">0.05–0.9</code>, default <code class="language-plaintext highlighter-rouge">0.25</code>) — the width of each foam band. Low = a sharp thin line, high = a soft wide one</li>
+  <li><strong>Range</strong> (<code class="language-plaintext highlighter-rouge">0.5–30</code>, default <code class="language-plaintext highlighter-rouge">8</code>) — how many metres the rings reach before fading out completely</li>
+  <li><strong>Break-up</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — warps the radius and tears the bands into arcs, so they read as hand drawn instead of compass drawn. <code class="language-plaintext highlighter-rouge">0</code> = perfectly smooth rings</li>
 </ul>
 
-<h3 id="mask">Mask</h3>
+<hr />
+
+<h2 id="behaviour-worth-knowing">Behaviour Worth Knowing</h2>
+
 <ul>
-  <li>Name the Mask Texture file — it is exported automatically once painting is done</li>
-  <li>Set the Resolution (512, 1024, 2048)</li>
-  <li>Specify the destination where the Mask Texture file is saved after painting</li>
-  <li>New Mask : create a new Mask Texture</li>
-  <li>Clear : erase all existing data on the current Mask Texture</li>
-  <li>Revert to Saved : roll back to the last saved state</li>
-  <li>Undo : up to 8 steps back, or press Ctrl + Z</li>
-  <li>Debug Mode : available only while Start Painting is enabled</li>
+  <li><strong>Rings scale themselves to the piece.</strong> The bake measures each piece’s footprint into the map, then Spacing and Range are scaled by it against a <strong>5 metre reference piece</strong>. A pebble gets small tight rings and a boulder gets wide ones <strong>from the same sliders</strong> — no separate material needed</li>
+  <li><strong>Rings emerge from the object’s edge</strong> rather than popping in fully formed. The area on the piece itself is a flat zero-distance plateau, so without a fade-in over the first stretch of distance a new ring would light that whole area up at once — a solid disc flashing for a frame before it reads as a ring</li>
+  <li><strong>The map stores distance up to 30 metres</strong>, which is exactly where the Range slider tops out. There is no data past that</li>
+  <li>A piece that is <strong>entirely below the waterline</strong> is never picked up; part of it has to break the surface</li>
+  <li>Rings are foam on the surface only — they <strong>do not bend the normal</strong>, so they leave lighting and reflections alone. That is the difference from <a href="/env/water/water-interaction/">Water Interaction</a>, which really does bend it</li>
 </ul>
 
-<h1 id="paintmode---material">PaintMode - Material</h1>
+<hr />
 
-<p><img src="PaintMode.png" alt="PaintMode" /></p>
+<h2 id="works-with-other-features">Works With Other Features</h2>
 
-<h3 id="albedo-rgb--tiling--offset">Albedo (RGB) / Tiling / Offset</h3>
+<h3 id="foam">Foam</h3>
+<p>Ring Wave is a layer on top of the whole Foam system, so it shares <strong>Foam Color</strong> and its opacity with the other foam. To make the rings stand out without touching the shoreline foam, turn down <strong>Foam Noise &gt; Opacity</strong> rather than the Foam Color.</p>
+
+<h3 id="underwater">Underwater</h3>
+<p>With the <strong>Underwater</strong> feature on, the rings are visible from below too, through <strong>Foam &amp; Rings</strong> in the Underwater section. It reads the same bake — nothing extra to run.</p>
+
+<h3 id="water-interaction">Water Interaction</h3>
+<p>Different systems that complement each other: Ring Wave is rings around <strong>things standing still</strong>, Interaction is rings made by <strong>things moving</strong>. Run both together; they never fight.</p>
+
+<hr />
+
+<h2 id="good-to-know">Good to Know</h2>
+
 <ul>
-  <li>The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it</li>
-  <li>Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers</li>
-  <li>If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness</li>
-</ul>
-
-<h3 id="parameters">Parameters</h3>
-<ul>
-  <li>Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint</li>
-  <li>Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut</li>
+  <li><strong>Baking only works in a Scene</strong>, because the map holds world-position data. In Prefab Mode the button is disabled and says so — though <strong>Scan does work in Prefab Mode</strong>, scoped to the prefab’s own contents</li>
+  <li><strong>Two water bodies sharing one material will overwrite each other’s bake.</strong> A warning appears before you press the button — give each water body its own material</li>
+  <li><strong>Re-baking reuses the existing asset</strong> rather than creating a new one, so material references never break. Renaming the file or moving the folder keeps its GUID, so nothing breaks there either</li>
+  <li><strong>It is computed entirely on the CPU</strong> — no camera, no GPU readback — so the result is identical on every machine and in every editor state</li>
+  <li>The map file is tiny, and it travels with Prefabs and Scenes like every other baked asset</li>
+  <li>It costs practically nothing at runtime: it reads the texture Foam Flow is already reading, not a new one</li>
 </ul>
 
       </div>
