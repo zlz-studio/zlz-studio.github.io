@@ -15,9 +15,8 @@ published: false
 
 ไม่มีฟิสิกส์ ไม่มี collider — ขยับ transform ตรงๆ จึงเบามาก
 
-## Showcase
-<!-- TODO: อัดคลิปแล้วใส่ id -->
-{% include youtube-loop.html id="" %}
+## Showcase Water Floater
+{% include youtube-loop.html id="E9oNk-ROYXA" %}
 
 ---
 
