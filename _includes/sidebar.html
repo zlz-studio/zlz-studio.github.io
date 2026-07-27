@@ -109,7 +109,8 @@
 {% assign waterInteraction = site.pages | where: "url", "/env/water/water-interaction/" | first %}
 {% assign waterWaves = site.pages | where: "url", "/env/water/water-waves/" | first %}
 {% assign waterFloater = site.pages | where: "url", "/env/water/water-floater/" | first %}
-{% if waterOverview or waterInteraction or waterWaves or waterFloater %}
+{% assign waterRingWave = site.pages | where: "url", "/env/water/water-ring-wave/" | first %}
+{% if waterOverview or waterInteraction or waterWaves or waterFloater or waterRingWave %}
 <h3>Water</h3>
 
 {% if waterOverview %}
@@ -139,6 +140,13 @@
 <a href="{{ '/env/water/water-floater/' | relative_url }}"
    class="{% if page.url contains '/env/water/water-floater/' %}active{% endif %}">
    Water Floater
+</a>
+{% endif %}
+
+{% if waterRingWave %}
+<a href="{{ '/env/water/water-ring-wave/' | relative_url }}"
+   class="{% if page.url contains '/env/water/water-ring-wave/' %}active{% endif %}">
+   Water Ring Wave
 </a>
 {% endif %}
 

@@ -1,87 +1,123 @@
+---
 layout: docs
 title: Water Ring Wave
 last_modified_at: 2026-07-28
 published: false
 ---
 
+<!-- DRAFT (ภาษาไทย) — ยังไม่ขึ้นเว็บ. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็น EN แล้วลบ published: false -->
+
 # Water Ring Wave
 
-The whole surface **rises and falls as one** to a rhythm you draw yourself, like the sea slowly breathing in and out. As the level climbs the water swallows more of the beach; as it drops the sand comes back. The foam along the shore and the shallow water colours follow the level on their own.
+แถบฟองบางๆ แผ่ออกเป็นวงรอบก้อนหิน เกาะเล็ก หรือเสาที่ปักอยู่กลางน้ำ เหมือนคลื่นที่กระทบสิ่งกีดขวางแล้วสะท้อนวนออกมา ทำให้วัตถุที่ตั้งนิ่งอยู่ในน้ำดูมีปฏิสัมพันธ์กับผืนน้ำจริงๆ แทนที่จะดูเหมือนแค่เอาโมเดลไปวางทับ
 
-The lift has **no slope** — every point moves by the same amount, so there is no travelling swell. That is deliberate: the reflection, the Fresnel and the surface direction all hold perfectly steady while the level breathes. The small-scale life of the water stays with the scrolling ripple normal map.
+วงคลื่นพวกนี้ไม่ใช่วงกลมที่วาดจากวงเวียน แต่เป็น**เส้นระดับที่ไล่ตามรูปทรงของวัตถุ** — ใกล้ตัววัตถุจะเกาะรูปเงาของมัน แล้วค่อยๆ กลมขึ้นเมื่อออกห่าง หินยาวรีจึงได้วงรี ไม่ใช่วงกลมที่ดูขัดตา
 
-## Showcase Water Ring Wave
-{% include youtube-loop.html id="Hac9OmXSVg8" %}
+ทั้งหมดมาจากแผนที่ที่ bake ไว้ล่วงหน้า จึงไม่มีการคำนวณระยะทางตอนเล่นเลย
+
+## Showcase
+<!-- TODO: อัดคลิปแล้วใส่ id -->
+{% include youtube-loop.html id="" %}
 
 ---
 
 ## Setup
 
-Two things go together.
+Ring Wave ต่อยอดมาจากระบบ Foam Flow ต้องครบ 4 อย่างจึงจะเห็นวงคลื่น
 
-1. **On the water material** — turn on the **Waves** feature (the button grid at the top of the Inspector)
-2. **On the water object** — tune the rhythm under **Dashboard > Water** (or straight on the water object's Inspector, if it does not sit under a Dashboard)
+1. **ที่ material** — เปิด feature **Foam**
+2. **ที่ material** — ในหมวด Foam เปิด **Foam Flow**
+3. **ที่ object ของน้ำ** — เลือกชิ้นส่วนที่จะให้เกิดวงคลื่น แล้วกด **Bake** (ดูหัวข้อถัดไป)
+4. **ที่ material** — ในกลุ่ม **Ring Wave** ดัน **Intensity** ขึ้นจาก `0`
 
-> **Why isn't this on the material?** The rhythm is an **AnimationCurve**, and a material cannot hold a curve. The values live on the `ZLZ_EnvWater` component instead — which works out nicely, because every pond gets its own rhythm even when they all share one material.
+> **สไลเดอร์จะถูกล็อกไว้จนกว่าจะมี Flow Map ที่ bake แล้ว** ไม่ใช่ความผิดพลาด — ค่าเริ่มต้นของช่อง Flow Map เป็นสีเทาล้วน ซึ่งถ้าถอดรหัสออกมาจะกลายเป็นวงคลื่นหลอกๆ กระจายเต็มผืนน้ำทั้งหมด ระบบจึงล็อกไว้จนกว่าจะมีข้อมูลจริง
 
-The material's Waves section has nothing to tune: it only points you to the Dashboard.
+---
+
+## Shore Flow — เลือกชิ้นส่วนแล้ว Bake
+
+อยู่ที่ **Dashboard > Water** (หรือที่ Inspector ของ object น้ำโดยตรง ถ้าไม่ได้อยู่ใต้ Dashboard)
+
+<!-- TODO: ใส่รูป Dashboard > Water > Shore Flow -->
+
+### 1. Scan หาชิ้นส่วน
+
+- **Scan Layers** — เลือก Layer ที่จะให้ค้นหา
+- **Area Scale** (`0.05–1`) — สัดส่วนของผืนน้ำที่ครอบคลุม `1` = ทั้งผืน ค่าน้อยลง = เจาะเฉพาะโซนกลาง ซึ่งช่วยอัดความละเอียดของแผนที่ให้หนาแน่นขึ้นในโซนนั้นด้วย จะเห็นเป็น**กรอบสีทอง**ใน Scene view แบบเรียลไทม์ ไม่ต้องเดา
+- กด **Scan Area** — ระบบจะไล่หาทุกชิ้นที่**โผล่พ้นระดับน้ำ**และอยู่ในกรอบ แล้วสร้างรายการขึ้นมาใหม่ทั้งหมด
+
+Scan จะตั้งค่าเริ่มต้นให้ตามชนิดของชิ้นส่วน
+
+| ชนิด | Ring Wave เริ่มต้น | เหตุผล |
+|---|---|---|
+| Terrain | ปิด | เป็นชายฝั่ง ควรได้แค่ฟองไหลเข้าหาฝั่ง ไม่ใช่วงคลื่น |
+| Mesh | เปิด | เป็นก้อนหิน เสา หรือ prop ที่ควรมีวงคลื่นรอบตัว |
+
+ถ้าชิ้นไหนที่คาดว่าจะเจอแต่ไม่โผล่ในรายการ ให้ดู Console — ระบบจะบอกชื่อและเหตุผลไว้ทุกชิ้น (Layer ไม่อยู่ใน Scan Layers / จมอยู่ใต้ผิวน้ำทั้งก้อน / อยู่นอกกรอบ Area Scale) และคลิกที่ชื่อเพื่อกระโดดไปหา object ได้เลย
+
+### 2. ติ๊ก Ring Wave ทีละชิ้น
+
+ในตารางรายการ แต่ละแถวคือหนึ่งชิ้นส่วน มีช่อง **Ring Wave** ให้ติ๊ก
+
+- **ทุกชิ้นที่อยู่ในรายการ** จะกำหนดทิศทางการไหลของฟอง (ฟองวิ่งลงจากชายฝั่งของชิ้นนั้น) ไม่ว่าจะติ๊กหรือไม่
+- **ติ๊ก Ring Wave** = เพิ่มวงคลื่นแผ่ออกจากชิ้นนั้นซ้อนขึ้นไปอีกชั้น
+
+กด **+ Add** เพื่อเพิ่มเอง หรือ **✕** เพื่อลบทีละแถว, **Clear** เพื่อล้างทั้งรายการ
+
+### 3. Bake
+
+- ติ๊กเลือกว่าผืนน้ำไหนจะ bake, ตั้งชื่อไฟล์ได้ต่อแถว (ค่าเริ่มต้น `<Scene>_<Object>_FlowMap`)
+- **Folder** — ค่าเริ่มต้น `Assets/ZLZ_EnvironmentShader/Baked/FlowMaps` เปลี่ยนได้
+- **Resolution** — `128` / `256` / `512` / `1024` ทิศทางการไหลเป็นข้อมูลความถี่ต่ำ ความละเอียดจึงไม่ต้องสูงตามขนาดฉาก `256` เพียงพอสำหรับงานส่วนใหญ่
+- กด **Bake Foam Flow** — คำนวณ เซฟ และผูกเข้ากับ material ให้อัตโนมัติ ไม่มีหน้าต่างเด้ง และย้อน Undo ได้
+
+> **แก้รายการแล้วต้อง Bake ใหม่** ระบบจะขึ้นแถบเตือน "List changed. Press Bake Foam Flow to apply" ให้เอง ไม่ bake ให้เองเงียบๆ
 
 ---
 
 ## Parameters
 
-![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
+ทั้งหมดอยู่ที่ material ใน **Foam > Foam Flow > Ring Wave**
 
-All three live under **Dashboard > Water**, and only appear once the material has the **Waves** feature on.
+<!-- TODO: ใส่รูปกลุ่ม Ring Wave ใน material -->
 
-- **Wave Shape** (curve) — the rise and fall across one loop. X = 0 to 1 is the progress through the loop; Y = `0` is the lowest level and `1` the highest
-- **Wave Height** (metres, default `0.2`) — how far the surface travels above and below its rest level. This is the distance **one way**: the full trough-to-crest range is twice this value
-- **Seconds per Loop** (seconds, default `5`) — the time for one full pass of the curve, minimum `0.25`. Higher values give the slow, heavy rhythm of open sea
-
-### Shape the Motion Freely with the Curve
-
-![Water_Wave_Curve](../water-waves/Water_Wave_Curve.png)
-
-- The curve **loops seamlessly** — the end joins back to the start on its own, so the seam never jumps
-- Drag the keyframes however you like: a hard surge with a long retreat, or a still pond that swells once and settles
-- Right-click the curve field to **Copy / Paste** it onto another pond. Undo is fully supported
+- **Intensity** (`0–1`, ค่าเริ่มต้น `0`) — สวิตช์หลักและความเข้มของวงคลื่น ตั้ง `0` = ปิด (สไลเดอร์ที่เหลือจะซ่อนไว้จนกว่าจะดันขึ้น)
+- **Spacing** (`0.25–10`, ค่าเริ่มต้น `1.5`) — ระยะห่างระหว่างวง (เมตร) ยิ่งน้อย = วงถี่เหมือนน้ำกระเพื่อมเร็ว
+- **Speed** (`-2–2`, ค่าเริ่มต้น `0.5`) — ความเร็วการเดินทางของวง **ค่าบวก = แผ่ออก, ค่าลบ = หดเข้า** (คลื่นวิ่งเข้าหาวัตถุ)
+- **Thickness** (`0.05–0.9`, ค่าเริ่มต้น `0.25`) — ความหนาของแถบฟอง ค่าน้อย = เส้นคมบาง, ค่ามาก = แถบหนานุ่ม
+- **Range** (`0.5–30`, ค่าเริ่มต้น `8`) — วงคลื่นแผ่ออกไปได้ไกลกี่เมตรก่อนจางหายสนิท
+- **Break-up** (`0–1`, ค่าเริ่มต้น `0.5`) — บิดรัศมีและฉีกแถบให้ขาดเป็นช่วงๆ ทำให้วงดูเหมือนวาดด้วยมือแทนที่จะเป๊ะแบบวงเวียน ตั้ง `0` = วงเรียบสมบูรณ์แบบ
 
 ---
 
-## Animates in Edit Mode Too
+## สิ่งที่ควรรู้เกี่ยวกับพฤติกรรม
 
-**The surface rises and falls right in Edit Mode** — no need to press Play. The lift is computed in the shader's vertex stage, which runs on the shader clock, and that keeps ticking in the editor. Compose the scene knowing exactly how far the water reaches at high tide.
-
-[Water Floater]({{ '/env/water/water-floater/' | relative_url }}), however, only runs in Play mode: the C# side has no clock that matches the shader's inside the editor. In Edit Mode it falls back to the rest level, which is the level you want to place props against anyway.
+- **วงคลื่นปรับขนาดตามชิ้นส่วนให้เอง** ตอน bake ระบบวัดขนาดฐานของแต่ละชิ้นเก็บไว้ในแผนที่ แล้ว Spacing กับ Range จะถูกคูณตามขนาดนั้นโดยเทียบกับ**ชิ้นอ้างอิงขนาด 5 เมตร** ผลคือก้อนกรวดได้วงเล็กถี่ ส่วนโขดหินใหญ่ได้วงกว้าง **จากสไลเดอร์ชุดเดียวกัน** ไม่ต้องแยก material
+- **วงจะค่อยๆ โผล่ออกมาจากขอบวัตถุ** ไม่ใช่ปรากฏเต็มวงพรวดเดียว ระบบไล่ความเข้มให้ในช่วงแรกของระยะทาง เพราะบริเวณบนตัววัตถุเองเป็นพื้นที่ระยะทางเท่ากับศูนย์ทั้งแผง ถ้าไม่ทำแบบนี้จะเห็นเป็นแผ่นวงกลมทึบกะพริบขึ้นมาหนึ่งเฟรมก่อนกลายเป็นวง
+- **ระยะทางในแผนที่เก็บได้สูงสุด 30 เมตร** ซึ่งตรงกับเพดานของ Range พอดี เกินจากนั้นไม่มีข้อมูล
+- ชิ้นส่วนที่**จมอยู่ใต้น้ำทั้งก้อน**จะไม่ถูกนับ ต้องมีส่วนที่โผล่พ้นผิวน้ำ
+- วงคลื่นเป็นแค่ฟองบนผิวน้ำ **ไม่ได้บิด normal** จึงไม่มีผลกับแสงเงาหรือเงาสะท้อน ต่างจาก [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }}) ที่บิด normal จริง
 
 ---
 
-## Effects on Other Features
+## ทำงานร่วมกับ Feature อื่น
 
-### Foam — Wave Fade
-With Waves on, the **Foam** section gains one extra value: **Wave Fade** (`0–1`, default `1`). It does not appear at all while Waves is off.
+### Foam
+Ring Wave เป็นชั้นที่ซ้อนอยู่บนระบบ Foam ทั้งหมด จึงใช้ **Foam Color** และค่าความทึบร่วมกับฟองตัวอื่น ถ้าอยากให้วงคลื่นเด่นขึ้นโดยไม่แตะฟองชายฝั่ง ให้ลด **Foam Noise > Opacity** ลงแทนที่จะไปลด Foam Color
 
-- `1` = the clustered foam (Foam Noise) **washes out in the trough and comes in full on the crest**, like foam carried up the beach and dragged back
-- `0` = the swell is ignored and the foam shows the same at all times
-
-It only touches the **clustered foam**. The **Foam Line** (the crisp inked waterline) stays put throughout, so the shore never loses its edge at low tide.
-
-### Reflection
-The reflection is anchored to the **rest level**, not the moving one. The mirror camera renders against a fixed plane, so letting the reflection ride the surface would make the mirrored image slide up and down. This is handled for you — nothing to configure.
+### Underwater
+ถ้าเปิด feature **Underwater** ไว้ วงคลื่นจะมองเห็นจากใต้น้ำได้ด้วย ผ่านค่า **Foam & Rings** ในหมวด Underwater ซึ่งใช้ผลลัพธ์จากการ bake ชุดเดียวกัน ไม่ต้อง bake ซ้ำ
 
 ### Water Interaction
-The **Surface Range** on `ZLZ_Env Water Interactor` automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.
-
-### Water Floater
-Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees.
+คนละระบบกันแต่เสริมกันได้ดี — Ring Wave คือวงคลื่นรอบ**วัตถุที่อยู่นิ่ง** ส่วน Interaction คือวงคลื่นที่เกิดจาก**วัตถุที่เคลื่อนที่** ใช้พร้อมกันได้ ไม่ตีกัน
 
 ---
 
-## Good to Know
+## ข้อควรรู้
 
-- Every point on the surface **moves together**. There is no travelling swell — for rings spreading out from a character, pair this with the **Interaction** feature
-- It costs almost nothing: the work happens in the vertex stage and reads a baked 128×1 pixel curve texture
-- Each water body keeps its own curve, height and loop time, even when they share a material
-- The values ride Prefabs and Scenes like any other component field
-- A material with Waves on but no `ZLZ_EnvWater` component on the object simply stays still (nothing breaks, nothing stutters) — there is no one to hand it the curve
-- The waves honour `Time.timeScale`, so slow motion and pausing slow and stop the rhythm with the game
+- **Bake ต้องทำในหน้า Scene เท่านั้น** เพราะแผนที่เก็บข้อมูลตามพิกัดโลก ถ้าอยู่ใน Prefab Mode ปุ่มจะถูกปิดพร้อมบอกเหตุผล (แต่ **Scan ใช้ได้ใน Prefab Mode** โดยจะค้นเฉพาะภายใน prefab นั้น)
+- **ผืนน้ำสองผืนที่ใช้ material เดียวกันจะ bake ทับกัน** ระบบเตือนให้ก่อนกดปุ่ม — ให้แยก material ต่อผืนน้ำ
+- **Bake ซ้ำใช้ไฟล์เดิม** ไม่ได้สร้างไฟล์ใหม่ การอ้างอิงจาก material จึงไม่ขาด และถ้าเปลี่ยนชื่อหรือย้ายโฟลเดอร์เอง GUID ก็ยังอยู่ ไม่พัง
+- **คำนวณด้วย CPU ล้วน** ไม่ใช้กล้องหรือการอ่านค่ากลับจาก GPU ผลลัพธ์จึงเหมือนกันทุกเครื่องและทุกสถานะของเอดิเตอร์
+- ไฟล์แผนที่มีขนาดเล็กมาก และเดินทางไปกับ Prefab และ Scene เหมือน asset ที่ bake ตัวอื่น
+- ตอนเล่นเกมแทบไม่มีค่าใช้จ่าย — เป็นการอ่าน texture ที่ใช้ร่วมกับ Foam Flow อยู่แล้ว ไม่ได้เพิ่มการอ่านใหม่
