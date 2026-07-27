@@ -939,7 +939,8 @@
       {% assign waterOverview = site.pages | where: "url", "/env/water/" | first %}
       {% assign waterInteraction = site.pages | where: "url", "/env/water/water-interaction/" | first %}
       {% assign waterWaves = site.pages | where: "url", "/env/water/water-waves/" | first %}
-      {% if waterOverview or waterInteraction or waterWaves %}
+      {% assign waterFloater = site.pages | where: "url", "/env/water/water-floater/" | first %}
+      {% if waterOverview or waterInteraction or waterWaves or waterFloater %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Water</h2>
         <div class="featGrid">
@@ -963,6 +964,14 @@
             <span class="featMeta">
               <span class="featName">Water Waves</span>
               <small class="featDate">Updated {{ waterWaves.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if waterFloater %}<a class="featCard" href="/env/water/water-floater/">
+            <!-- TODO: swap in Water_Floater_Thumb.webp + data-anim="/env/water/Water_Floater_Hover.webp" once the clip is recorded -->
+            <img src="/images/thumbs/overview.webp" alt="Water Floater" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Water Floater</span>
+              <small class="featDate">Updated {{ waterFloater.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
         </div>
