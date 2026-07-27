@@ -16,8 +16,7 @@ published: false
 ทั้งหมดมาจากแผนที่ที่ bake ไว้ล่วงหน้า จึงไม่มีการคำนวณระยะทางตอนเล่นเลย
 
 ## Showcase
-<!-- TODO: อัดคลิปแล้วใส่ id -->
-{% include youtube-loop.html id="" %}
+{% include youtube-loop.html id="LxQK6EfxmyY" %}
 
 ---
 
