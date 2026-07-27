@@ -33,7 +33,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ใส่รูป Dashboard > Water > Wave Shape -->
+![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
 
 ทั้งสามค่านี้อยู่ที่ **Dashboard > Water** และจะโผล่ขึ้นมาก็ต่อเมื่อ material เปิด feature **Waves** ไว้แล้วเท่านั้น
 
