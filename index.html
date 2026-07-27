@@ -966,8 +966,7 @@
             </span>
           </a>{% endif %}
           {% if waterFloater %}<a class="featCard" href="/env/water/water-floater/">
-            <!-- TODO: swap in Water_Floater_Thumb.webp + data-anim="/env/water/Water_Floater_Hover.webp" once the clip is recorded -->
-            <img src="/images/thumbs/overview.webp" alt="Water Floater" loading="lazy" decoding="async" />
+            <img src="/env/water/Water_Floater_Thumb.webp" data-anim="/env/water/Water_Floater_Hover.webp" alt="Water Floater" loading="lazy" decoding="async" />
             <span class="featMeta">
               <span class="featName">Water Floater</span>
               <small class="featDate">Updated {{ waterFloater.last_modified_at | date: "%d %b %Y" }}</small>

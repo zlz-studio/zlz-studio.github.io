@@ -2,18 +2,16 @@
 layout: docs
 title: Water Floater
 last_modified_at: 2026-07-28
-published: false
+published: true
 ---
-
-<!-- DRAFT (ภาษาไทย) — ยังไม่ขึ้นเว็บ. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็น EN แล้วลบ published: false -->
 
 # Water Floater
 
-ทำให้ของลอยน้ำได้ในคลิกเดียว — เรือ ถังไม้ ทุ่น หรือใบไม้ ทุกเฟรม component จะหาผืนน้ำที่อยู่ใต้ object แล้วขยับความสูงให้ตรงกับผิวน้ำที่ผู้เล่นเห็น**เป๊ะ**
+Make anything float in one click — a boat, a barrel, a buoy, a leaf. Every frame the component finds the water body under the object and moves its height to sit **exactly** on the surface the player sees.
 
-ถ้าผืนน้ำเปิด [Waves (Shore Breath)]({{ '/env/water/water-waves/' | relative_url }}) ไว้ ของก็จะขึ้นลงตามจังหวะน้ำไปด้วย เพราะฝั่ง C# อ่านเส้นโค้ง ความสูง และนาฬิกาชุดเดียวกับ shader ไม่ใช่การเดาตามให้ใกล้เคียง ถ้าไม่ได้เปิด Waves ของก็จะนิ่งอยู่ที่ระดับผิวน้ำตามปกติ
+If the water has [Waves (Shore Breath)]({{ '/env/water/water-waves/' | relative_url }}) on, the object rides the rhythm too: the C# side reads the same curve, the same height and the same clock as the shader, rather than approximating them. Without Waves the object simply rests at the surface level.
 
-ไม่มีฟิสิกส์ ไม่มี collider — ขยับ transform ตรงๆ จึงเบามาก
+No physics, no colliders — it writes the transform directly, so it stays very cheap.
 
 ## Showcase Water Floater
 {% include youtube-loop.html id="E9oNk-ROYXA" %}
@@ -22,10 +20,10 @@ published: false
 
 ## Setup
 
-1. ผืนน้ำต้องมี component `ZLZ_EnvWater` (ถ้าสร้างน้ำจาก Dashboard หรือ Base Prefab จะมีให้อยู่แล้ว)
-2. ใส่ component `ZLZ_Env Water Floater` บน object ที่ต้องการให้ลอย
+1. The water body needs the `ZLZ_EnvWater` component (water created from the Dashboard or the Base Prefab already has it)
+2. Add the `ZLZ_Env Water Floater` component to whatever should float
 
-> **ต้องมี `ZLZ_EnvWater` เท่านั้น** — floater ค้นหาผืนน้ำจากทะเบียนที่ component นี้ลงทะเบียนไว้ ถ้าเป็น mesh น้ำเปล่าๆ ที่ไม่มี component มันจะไม่รู้ว่าผิวน้ำอยู่สูงเท่าไร แล้วจะไม่ทำอะไรเลย
+> **`ZLZ_EnvWater` is required.** The floater looks up water bodies through the registry that component maintains. On a bare water mesh without it there is no known surface level, so the floater does nothing at all.
 
 ---
 
@@ -33,69 +31,69 @@ published: false
 
 ![Water_Floater_Script](../water-floater/Water_Floater_Script.png)
 
-- **Height Offset** (เมตร, ค่าเริ่มต้น `0`) — ระยะที่ object ลอยเหนือ (+) หรือจมใต้ (−) ระดับน้ำ ค่าติดลบ = เรือที่บรรทุกของจนกินน้ำลึก, ค่าบวก = จุกไม้ก๊อกที่ลอยพ้นน้ำ
-- **Smooth Time** (`0–2` วินาที, ค่าเริ่มต้น `0.35`) — เวลาที่ใช้ปรับตัวเข้าหาระดับน้ำใหม่ ให้ความรู้สึกหนักและหน่วง ตั้ง `0` = ติดหนึบไปกับผิวน้ำเลย (เหมาะกับใบไม้)
-- **Edge Padding** (เมตร, ค่าเริ่มต้น `0.5`) — ระยะเผื่อรอบขอบผืนน้ำที่ยังนับว่า "อยู่เหนือน้ำนี้" เรือที่เบียดเข้าริมตลิ่งจึงยังลอยอยู่
-- **Capture Range** (เมตร, ค่าเริ่มต้น `3`) — ระยะที่ floater จะเริ่มออกฤทธิ์ ถ้า object อยู่ไกลกว่านี้จะถูกปล่อยไว้เฉยๆ ถังไม้ที่ผู้เล่นแบกข้ามสะพานจึงไม่โดนดูดลงน้ำ ตั้ง `0` = ดูดเสมอไม่จำกัดระยะ
+- **Height Offset** (metres, default `0`) — how far the object settles above (+) or below (−) the water level. Negative sinks the hull in (a loaded boat); positive rides proud (a cork)
+- **Smooth Time** (`0–2` seconds, default `0.35`) — how long the object takes to settle onto a changed water level. Gives it a heavy, damped feel; `0` welds it to the surface (a leaf)
+- **Edge Padding** (metres, default `0.5`) — extra metres around a water body's footprint that still count as "over this water", so a boat nosing the bank keeps floating
+- **Capture Range** (metres, default `3`) — the distance within which the floater takes hold. Beyond it the object is left alone, so a barrel carried across a bridge is never yanked down onto the surface. `0` = unlimited, always snap
 
-### Smooth Time กับ Height Offset ใช้ยังไงให้ได้อารมณ์ที่ต้องการ
+### Getting the Feel You Want from Smooth Time and Height Offset
 
-สองค่านี้คือค่าที่ตัดสินบุคลิกของวัตถุเกือบทั้งหมด ลองเทียบจากตัวอย่างนี้
+These two decide almost the whole character of the object. Use these as starting points.
 
-| อยากได้ | Height Offset | Smooth Time |
+| For | Height Offset | Smooth Time |
 |---|---|---|
-| ใบไม้ / กลีบดอกไม้ ที่แนบผิวน้ำ | `0` | `0` – `0.1` |
-| ทุ่น / ลูกบอลยาง เด้งตามน้ำทันใจ | `0` | `0.15` – `0.3` |
-| เรือลำเล็ก | `-0.1` ถึง `-0.3` | `0.3` – `0.5` |
-| เรือใหญ่ / แพบรรทุกของ อืดและหนัก | `-0.4` ขึ้นไป | `0.6` – `1.2` |
-| ขอนไม้ที่โผล่พ้นน้ำครึ่งท่อน | `+0.1` ถึง `+0.3` | `0.4` |
+| A leaf or petal lying on the surface | `0` | `0` – `0.1` |
+| A buoy or rubber ball, snappy on the water | `0` | `0.15` – `0.3` |
+| A small boat | `-0.1` to `-0.3` | `0.3` – `0.5` |
+| A large boat or loaded raft, slow and heavy | `-0.4` and beyond | `0.6` – `1.2` |
+| A log riding half out of the water | `+0.1` to `+0.3` | `0.4` |
 
-> **Smooth Time ยาวเกินไปกับคลื่นที่เร็ว** จะทำให้วัตถุตามน้ำไม่ทันจนดูเหมือนลอยนิ่งอยู่กลางอากาศตอนน้ำลง ถ้า **Seconds per Loop** ของผืนน้ำสั้น (คลื่นถี่) ให้ลด Smooth Time ลงตาม
-
----
-
-## สิ่งที่ควรรู้เกี่ยวกับพฤติกรรม
-
-- **ขยับแกน Y เท่านั้น** X กับ Z ไม่ถูกแตะ โค้ดเกมยังบังคับทิศเรือได้ตามปกติ
-- **ไม่มีการเอียงตัวหรือโคลงเคลง** โดยตั้งใจ เพราะการยกตัวแบบ Shore Breath ไม่มีความชัน ถ้าใส่การโคลงเข้าไปจะเป็นการโฆษณาความชันที่ผิวน้ำไม่มีจริง อยากได้เรือโคลง ให้ทำเป็นอนิเมชันหรือสคริปต์แยกซ้อนทับเอา
-- **อยู่นอกผืนน้ำ = ไม่ทำอะไรเลย** ไม่มีการสร้างแรงโน้มถ่วงปลอม แบกถังขึ้นฝั่งได้ตามปกติ
-- **รองรับผืนน้ำหลายผืนคนละความสูง** ถ้า object อยู่เหนือหลายผืนพร้อมกัน (เช่น บ่อน้ำยกระดับที่ซ้อนอยู่เหนือทะเลสาบ) มันจะเลือกผืนที่**ระดับผิวน้ำใกล้ตัวที่สุดในแนวตั้ง**
-- **Gizmo** — เลือก object แล้วดูใน Scene view: **ฟ้า** = floater จะออกฤทธิ์, **ส้ม** = มีน้ำอยู่แต่ยังไกลเกิน Capture Range, **เทา** = ไม่มีผืนน้ำที่ลงทะเบียนไว้ใต้ object นี้ เส้นที่ลากจากตัว object ไปยังสี่เหลี่ยมเล็กๆ คือตำแหน่งที่มันจะไปหยุด
-- **ระดับผิวน้ำอ่านจากขอบบนของ bounds** ของ mesh น้ำ ไม่ใช่ตำแหน่ง transform ถ้าใช้กล่องหนาๆ แทนระนาบบางเป็นผืนน้ำ ของจะลอยที่หน้าบนของกล่อง ซึ่งก็คือผิวน้ำที่มองเห็นพอดี
+> **A long Smooth Time against a fast swell** leaves the object trailing the water — it can look stranded in mid-air as the level drops. When the water's **Seconds per Loop** is short (a quick rhythm), bring Smooth Time down with it.
 
 ---
 
-## ทำงานร่วมกับ Feature อื่น
+## Behaviour Worth Knowing
+
+- **Y axis only.** X and Z are untouched, so gameplay code keeps steering the boat as usual
+- **No rocking or heeling**, deliberately. The Shore Breath lift has no slope, and a bobbing rotation would advertise a slope the water does not have. For a rolling boat, layer an animation or your own script on top
+- **Over no water it does nothing.** It never invents gravity, so carrying a barrel ashore just works
+- **Several water bodies at different heights are supported.** When the object sits over more than one at once (say a raised pond above a lake), it picks the body whose **surface level is vertically closest**
+- **Gizmos** — select the object and look in the Scene view: **cyan** = the floater will take hold, **orange** = water is there but the object is outside Capture Range, **grey** = no registered water under the object. The line running out to the small square shows where it will settle
+- **The surface level is read from the top of the water mesh's bounds**, not its transform. If the water is a thick box rather than a thin plane, the object floats on the top face of that box — which is the surface you see anyway
+
+---
+
+## Works With Other Features
 
 ### Waves (Shore Breath)
-คู่หูหลักของ floater ฝั่ง C# ไม่ได้ประมาณค่าเอาเอง แต่อ่าน**เส้นโค้งที่ bake ไว้ตัวเดียวกัน** ด้วยวิธีเดียวกับที่ shader อ่าน (รวมถึงการไล่ค่าระหว่างจุดและการวนรอบ) และใช้นาฬิกาเดียวกัน ของจึงลอยตรงกับผิวน้ำที่เห็นทุกเฟรม ไม่มีอาการจมมิดหรือลอยเหนือน้ำตอนคลื่นขึ้นสูงสุด
+The floater's main partner. The C# side does not approximate anything: it reads the **same baked curve** the same way the shader does (including the interpolation between points and the loop wrap), on the same clock. The object tracks the visible surface every frame, never sinking under or hanging above it at the top of the swell.
 
-ดูวิธีวาดจังหวะคลื่นที่หน้า [Water Waves]({{ '/env/water/water-waves/' | relative_url }})
+See the [Water Waves]({{ '/env/water/water-waves/' | relative_url }}) page for drawing the rhythm.
 
 ### Water Interaction
-floater ไม่ได้ทำให้น้ำกระเพื่อมด้วยตัวเอง ถ้าอยากให้เรือทิ้งแนวคลื่นไว้ข้างหลัง ให้ใส่ component `ZLZ_Env Water Interactor` เพิ่มบน object เดียวกัน ทั้งสองตัวทำงานแยกกันและไม่ตีกัน — ตัวหนึ่งคุมความสูง อีกตัวคุมคลื่น
+The floater does not disturb the water by itself. To have a boat leave a wake behind it, add the `ZLZ_Env Water Interactor` component to the same object. The two run independently and never fight — one owns the height, the other owns the ripples.
 
-ดูรายละเอียดที่หน้า [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }})
+See the [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }}) page.
 
 ---
 
-## ใช้กับ Rigidbody และโค้ดเกม
+## Rigidbodies and Gameplay Code
 
-floater เขียน `transform.position` ตรงๆ ทุกเฟรม ถ้า object มี **Rigidbody ที่ไม่ใช่ kinematic** ฟิสิกส์กับ floater จะแย่งกันเขียนตำแหน่งจนวัตถุสั่นหรือหลับไม่ลง — component จะขึ้น warning ใน Console ให้ทันทีที่ตรวจเจอ
+The floater writes `transform.position` every frame. If the object carries a **non-kinematic Rigidbody**, physics and the floater end up fighting over the position, which shows up as jitter or a body that never sleeps — the component logs a warning in the Console as soon as it spots one.
 
-มี 2 ทางเลือก
+There are two ways to go.
 
-1. **ตั้ง Rigidbody เป็น kinematic ระหว่างลอยน้ำ** แล้วปล่อยให้ floater คุมความสูง เหมาะกับเรือที่ผู้เล่นขับเอง
-2. **ไม่ใช้ floater แล้วขับ Rigidbody ด้วยแรงเอง** โดยถามความสูงผิวน้ำจากระบบโดยตรง เหมาะกับวัตถุที่ต้องชนกับของอื่นจริงๆ
+1. **Keep the Rigidbody kinematic while afloat** and let the floater own the height. Suits a boat the player drives
+2. **Skip the floater and drive the Rigidbody with forces**, asking the system for the surface height directly. Suits objects that need real collisions
 
 ```csharp
 using ZLZ.AnimeShader;
 
-// หาผืนน้ำใต้วัตถุ (คืนค่า null ถ้าไม่มีน้ำอยู่ใต้ตำแหน่งนั้น)
+// The water body under this object (null when there is none)
 ZLZ_EnvWater water = ZLZ_EnvWater.FindWaterAt(transform.position, 0.5f);
 if (water != null)
 {
-    // ความสูงผิวน้ำ ณ วินาทีนี้ รวมการขึ้นลงของ Shore Breath แล้ว
+    // Surface height right now, Shore Breath lift included
     float surfaceY = water.GetSurfaceHeight();
     float submerged = surfaceY - transform.position.y;
     if (submerged > 0f)
@@ -103,15 +101,15 @@ if (water != null)
 }
 ```
 
-`GetSurfaceHeight()` คือฟังก์ชันเดียวกับที่ floater ใช้ เรียกได้ทุกเฟรมโดยไม่สร้างขยะหน่วยความจำ
+`GetSurfaceHeight()` is the same call the floater itself uses, and it is safe to call every frame — it allocates nothing.
 
 ---
 
-## ข้อควรรู้
+## Good to Know
 
-- **ทำงานเฉพาะตอน Play** — ใน Edit Mode ของจะไม่ขยับตามคลื่น แต่ Gizmo จะบอกตำแหน่งที่มันจะไปหยุดให้เห็นล่วงหน้า จึงจัดวางของได้สะดวก
-- **ไม่ต้องเปิด Waves ก็ใช้ได้** ถ้าผืนน้ำนิ่ง ของก็จะเกาะอยู่ที่ระดับผิวน้ำตามปกติ (บวก Height Offset)
-- ขยับใน `LateUpdate` คือหลังจากโค้ดเกมขยับตัวละคร/เรือเสร็จแล้ว ค่า Y ที่ floater เขียนจึงเป็นค่าสุดท้ายเสมอ ไม่โดนทับ
-- เคารพ `Time.timeScale` เหมือนตัวคลื่น — สโลว์โมชันแล้วของก็ลอยขึ้นลงช้าตาม
-- **ไม่มีเพดานจำนวน** ต่างจาก Water Interactor ที่จำกัด 16 วงคลื่นพร้อมกัน — จะใส่ floater กี่ตัวในฉากก็ได้ เพราะแต่ละตัวคำนวณของตัวเองแยกกันและไม่ต้องส่งข้อมูลให้ shader
-- ใส่ได้ object ละหนึ่งตัวเท่านั้น
+- **Play mode only.** In Edit Mode the object does not ride the waves, but the gizmo shows where it will settle, which is what you want while placing props
+- **Waves is not required.** On still water the object simply sits at the surface level (plus Height Offset)
+- It runs in `LateUpdate`, after gameplay code has moved the character or boat, so the Y it writes is always the final word
+- It honours `Time.timeScale` like the waves do — slow motion slows the bobbing with everything else
+- **No cap on how many.** Unlike Water Interactor with its 16 simultaneous ripples, you can have as many floaters in a scene as you like: each one works on its own and sends nothing to the shader
+- One per object
