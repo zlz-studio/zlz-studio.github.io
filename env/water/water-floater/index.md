@@ -36,20 +36,6 @@ No physics, no colliders — it writes the transform directly, so it stays very 
 - **Edge Padding** (metres, default `0.5`) — extra metres around a water body's footprint that still count as "over this water", so a boat nosing the bank keeps floating
 - **Capture Range** (metres, default `3`) — the distance within which the floater takes hold. Beyond it the object is left alone, so a barrel carried across a bridge is never yanked down onto the surface. `0` = unlimited, always snap
 
-### Getting the Feel You Want from Smooth Time and Height Offset
-
-These two decide almost the whole character of the object. Use these as starting points.
-
-| For | Height Offset | Smooth Time |
-|---|---|---|
-| A leaf or petal lying on the surface | `0` | `0` – `0.1` |
-| A buoy or rubber ball, snappy on the water | `0` | `0.15` – `0.3` |
-| A small boat | `-0.1` to `-0.3` | `0.3` – `0.5` |
-| A large boat or loaded raft, slow and heavy | `-0.4` and beyond | `0.6` – `1.2` |
-| A log riding half out of the water | `+0.1` to `+0.3` | `0.4` |
-
-> **A long Smooth Time against a fast swell** leaves the object trailing the water — it can look stranded in mid-air as the level drops. When the water's **Seconds per Loop** is short (a quick rhythm), bring Smooth Time down with it.
-
 ---
 
 ## Behaviour Worth Knowing
