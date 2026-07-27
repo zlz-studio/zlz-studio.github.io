@@ -13,7 +13,7 @@ These are not compass-drawn circles: the bands are **contour lines that follow t
 
 All of it comes from a map baked ahead of time, so nothing measures distance at runtime.
 
-## Showcase
+## Showcase Water Ring Wave
 {% include youtube-loop.html id="LxQK6EfxmyY" %}
 
 ---
