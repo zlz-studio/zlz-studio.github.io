@@ -2,110 +2,110 @@
 layout: docs
 title: Water Interaction
 last_modified_at: 2026-07-27
-published: false
+published: true
 ---
 
 # Water Interaction
 
-ผิวน้ำกระเพื่อมเป็นวงเมื่อมีตัวละครหรือวัตถุเคลื่อนผ่าน ระบบนี้ไม่ได้ใช้วงคลื่นวงเดียวที่วิ่งตามตัวละคร แต่จะ **"หย่อน" วงคลื่นทิ้งไว้เป็นจุดๆ** แล้วแต่ละวงขยายออกและจางหายจากตำแหน่งที่มันเกิด ตัวละครที่เดินลุยน้ำจึงทิ้งแนวคลื่นเป็นรอยเท้าไว้ข้างหลัง เหมือนน้ำจริง
+Water ripples when a character or object moves through it. Rather than one ring that follows the object, the system **drops discrete ripples** that each expand outward and fade from where they were born — so a character wading across leaves a line of expanding rings behind them, like real footstep ripples.
 
-ทำงานบน GPU ทั้งหมด ไม่มี collider ไม่มี Render Texture ไม่มีการคำนวณฟิสิกส์ จึงเบาพอสำหรับทั้ง PC และ Mobile
+It runs entirely on the GPU: no colliders, no render textures, no physics — cheap enough for both PC and Mobile.
 
-## Showcase Water Interaction Trail
+## Showcase — Trail
 {% include youtube-loop.html id="TjWFoKSwwZE" %}
 
-## Showcase Water Interaction Pulse
+## Showcase — Pulse
 {% include youtube-loop.html id="mmgXC3SUO7w" %}
 
 ---
 
 ## Setup
 
-ต้องทำ 2 อย่างคู่กัน ขาดอย่างใดอย่างหนึ่งจะไม่เห็นคลื่น
+Two things have to be in place — miss either one and no ripples appear.
 
-1. **ที่ material ของน้ำ** — เปิด feature **Interaction** (ปุ่มในตาราง Features ด้านบนสุดของ Inspector)
-2. **ที่ตัวละคร / วัตถุ** — ใส่ component `ZLZ_Env Water Interactor` ลงบน object ที่ต้องการให้กวนน้ำ (ผู้เล่น, NPC, เรือ, ลูกบอลที่กลิ้ง)
+1. **On the water material** — turn on the **Interaction** feature (the button grid at the top of the Inspector)
+2. **On the character / object** — add the `ZLZ_Env Water Interactor` component to anything that should disturb the water (the player, an NPC, a boat, a rolling prop)
 
-> ค่าบน component คือ **ขนาดและจังหวะ** ของคลื่นแต่ละวง (ต่างกันได้ในแต่ละ object)
-> ค่าบน material คือ **หน้าตา** ของคลื่นทั้งผืนน้ำ (ใช้ร่วมกันทุก object)
+> Values on the **component** set the **size and rhythm** of each ripple (different per object).
+> Values on the **material** set how the ripples **look** across that whole water surface (shared by every object).
 
 ---
 
-## Interactor (ตั้งค่าต่อ object)
+## Interactor (per object)
 
 ![Water_Interaction_Script](../water-interaction/Water_Interaction_Script.png)
 
-`ZLZ_Env Water Interactor` มีตัวปล่อยคลื่น **2 ตัวที่ทำงานแยกจากกันโดยสิ้นเชิง** เปิดพร้อมกัน เปิดตัวเดียว หรือปิดทั้งคู่ก็ได้ และแต่ละตัวมี "ขนาดวง" กับ "อายุวง" เป็นของตัวเอง เพราะคลื่นตอนเดินกับคลื่นตอนยืนนิ่งมักไม่ควรมีขนาดเท่ากัน
+`ZLZ_Env Water Interactor` carries **two completely independent emitters**. Run both, one, or neither — and each has its own ripple size and lifetime, because a ripple made while walking and a ripple made while standing still are rarely the same size.
 
-### ค่าหลัก
-- **Strength** (`0–2`, ค่าเริ่มต้น `1`) — object นี้กวนน้ำแรงแค่ไหน (คูณกับความสูงของคลื่น) ตั้ง `0` = ไม่เกิดคลื่นเลย
-- **Surface Range** (เมตร, ค่าเริ่มต้น `2`) — ระยะสูง-ต่ำที่ยังนับว่า "แตะน้ำอยู่" คลื่นจะเกิดก็ต่อเมื่อ object อยู่เหนือพื้นที่ของผืนน้ำ **และ** อยู่ห่างจากระดับผิวน้ำไม่เกินค่านี้ มีไว้กันตัวละครที่เดินบนสะพานสูง 20 เมตรไม่ให้ทำน้ำข้างล่างกระเพื่อม
+### Main
+- **Strength** (`0–2`, default `1`) — how hard this object disturbs the water (scales the ripple height). `0` = no ripples at all
+- **Surface Range** (metres, default `2`) — the vertical reach that still counts as "touching the water". Ripples only spawn while the object is over the water's area **and** within this distance of its level. It keeps a character crossing a bridge 20 m up from rippling the lake below
 
-### Trail — คลื่นตามการเคลื่อนที่
-หย่อนคลื่นทิ้งไว้ **ขณะที่ object เคลื่อนที่** เกิดเป็นแนวคลื่นตามทางเดิน เหมาะกับ **อายุสั้น** เพื่อให้คลื่นสะบัดออกแล้วหายไปไว ๆ ข้างหลังตัวละคร
+### Trail — a wake along movement
+Drops a ripple **as the object moves**, leaving a wake along its path. Wants a **short lifetime** so the ripples snap out and clear quickly behind a moving character.
 
-- **Trail** — เปิด/ปิดตัวปล่อยนี้
-- **Trail Radius** (เมตร, ค่าเริ่มต้น `1.5`) — วงคลื่นขยายออกไปได้กว้างสุดเท่าไร
-- **Trail Spacing** (เมตร, ค่าเริ่มต้น `0.5`) — object ต้องเดินไปไกลเท่าไรจึงจะหย่อนคลื่นวงถัดไป ยิ่งน้อย = แนวคลื่นยิ่งถี่
-- **Trail Lifetime** (`0.1–4` วินาที, ค่าเริ่มต้น `1.2`) — คลื่นแต่ละวงอยู่นานแค่ไหน
+- **Trail** — enable / disable this emitter
+- **Trail Radius** (metres, default `1.5`) — how big each ripple grows
+- **Trail Spacing** (metres, default `0.5`) — how far the object must travel before it drops the next ripple. Smaller = a denser wake
+- **Trail Lifetime** (`0.1–4` seconds, default `1.2`) — how long each ripple lives
 
-### Pulse — คลื่นตอนอยู่กับที่
-ปล่อยคลื่นตามรอบเวลา **ขณะที่ object แทบไม่ขยับ** เหมาะกับตัวละครที่ยืนแช่น้ำ, น้ำพุ, น้ำหยด และเหมาะกับ **อายุยาว** เพื่อให้วงคลื่นค่อย ๆ แผ่ออกอย่างนุ่มนวล
+### Pulse — ripples in place
+Emits a ripple on a fixed interval **while the object is roughly still**. Suits a character treading water, a fountain, a dripping source — and wants a **long lifetime** so the rings spread out slow and soft.
 
-- **Pulse** — เปิด/ปิดตัวปล่อยนี้
-- **Pulse Radius** (เมตร, ค่าเริ่มต้น `1.2`) — วงคลื่นขยายออกไปได้กว้างสุดเท่าไร
-- **Pulse Interval** (วินาที, ค่าเริ่มต้น `0.6`) — ระยะห่างระหว่างคลื่นแต่ละวง
-- **Pulse Lifetime** (`0.3–8` วินาที, ค่าเริ่มต้น `3`) — คลื่นแต่ละวงอยู่นานแค่ไหน
-- **Pulse Still Speed** (เมตร/วินาที, ค่าเริ่มต้น `0.2`) — ถือว่า "ยืนนิ่ง" เมื่อความเร็วไม่เกินค่านี้ ถ้าเคลื่อนเร็วกว่านี้ Pulse จะหยุดพักและปล่อยให้ Trail ทำงานแทน ตั้งค่าสูง ๆ = ปล่อย Pulse ตลอดเวลาไม่ว่าจะขยับหรือไม่
+- **Pulse** — enable / disable this emitter
+- **Pulse Radius** (metres, default `1.2`) — how big each ripple grows
+- **Pulse Interval** (seconds, default `0.6`) — the time between ripples
+- **Pulse Lifetime** (`0.3–8` seconds, default `3`) — how long each ripple lives
+- **Pulse Still Speed** (metres/second, default `0.2`) — counts as "standing still" at or below this speed. Move faster and Pulse pauses so the Trail wake takes over. Set it high to always pulse, moving or not
 
-### สิ่งที่ควรรู้เกี่ยวกับพฤติกรรม
-- **Trail กับ Pulse ไม่ซ้อนกัน** — พอตัวละครเดิน Pulse จะหยุดเอง เหลือแต่แนวคลื่นตามทาง ไม่ใช่คลื่นวงกลมซ้อนกันมั่ว
-- **ตัวนับเวลาของ Pulse ไม่ถูกรีเซ็ตตอนเคลื่อนที่** — พอตัวละครหยุดเดิน วงแรกจึงมาทันที เหมือนจังหวะที่ยืนลงหลักพอดี ไม่ต้องรอครบรอบใหม่
-- **Radius กับ Lifetime สัมพันธ์กัน** — วงคลื่นจะขยายจนถึง Radius ภายในเวลาเท่ากับ Lifetime พอดี ดังนั้น **Lifetime สั้น = คลื่นขยายเร็ว** ส่วน Radius คุมแค่ขนาดสุดท้าย
-- **Gizmo** — เลือก object แล้วดูใน Scene view: วงกลม**สีฟ้า** = Trail Radius, วง**สีเขียว** = Pulse Radius ใช้เทียบขนาดกับตัวละครได้เลย
-- **ทำงานเฉพาะตอน Play** — คลื่นใช้นาฬิกาของเกม (เคารพ `Time.timeScale` ด้วย สโลว์โมชันคลื่นจะช้าตาม) ต่างจาก Global Wind ตรงที่ใน Edit Mode จะไม่ขยับ
+### Behaviour worth knowing
+- **Trail and Pulse never stack** — once the character walks, Pulse pauses on its own, leaving just the wake instead of a mess of overlapping rings
+- **The Pulse timer keeps counting while moving** — so the first ring lands the moment the character stops, like planting your feet, rather than waiting out a full interval
+- **Radius and Lifetime work together** — a ring expands out to its Radius over exactly its Lifetime, so a **shorter Lifetime makes the ripple expand faster**. Radius only sets the final size
+- **Gizmos** — select the object and look in the Scene view: the **blue** sphere is Trail Radius, the **green** one is Pulse Radius. Handy for sizing them against the character
+- **Play mode only** — ripples run on the game clock (they honour `Time.timeScale`, so slow motion slows the rings too). Unlike Global Wind, they do not animate in Edit Mode
 
 ---
 
-## ค่าบน Material (หมวด Interaction)
+## Material Settings (Interaction section)
 
 ![Water_Interaction_Mat](../water-interaction/Water_Interaction_Mat.png)
 
-สามค่านี้กำหนดหน้าตาของคลื่นทุกวงบนผืนน้ำนั้น (เปิด feature **Interaction** ไว้)
+These three values shape every ripple on that water surface (keep the **Interaction** feature on).
 
-- **Strength** (`0–3`, ค่าเริ่มต้น `1`) — ความแรงรวมของคลื่นบนผืนน้ำนี้ คูณทับกับ Strength ของแต่ละ object อีกที
-- **Ring Thickness** (`0.02–1`, ค่าเริ่มต้น `0.12`) — ความหนาของแถบวงคลื่น เป็น**เมตรจริง** และ**ไม่ผูกกับขนาดวง** โดยตั้งใจ ดังนั้นย่อ/ขยาย Radius ได้โดยที่ความคมของเส้นคลื่นไม่เปลี่ยน — ค่าน้อย = วงบางคม, ค่ามาก = วงหนานุ่ม
-- **Interaction Foam** (`0–2`, ค่าเริ่มต้น `0.5`) — ฟองสีขาวที่เกาะบนสันคลื่น ตั้ง `0` = ได้แค่การกระเพื่อมของผิวน้ำเฉย ๆ ไม่มีฟอง
-
----
-
-## คลื่นส่งผลถึง Feature อื่นเองโดยอัตโนมัติ
-
-วงคลื่นทำงานด้วยการ**บิด normal ของผิวน้ำ** ตรงตำแหน่งนั้น ไม่ได้วาดทับเป็นภาพ ผลคือแสงเงาทุกอย่างวิ่งตามคลื่นให้ฟรี ๆ โดยไม่ต้องตั้งค่าเพิ่ม
-
-- **Specular / Sun Glint** — ประกายแดดแตกกระจายตามสันคลื่น
-- **Reflection** — เงาสะท้อนบิดเบี้ยวตรงที่น้ำกระเพื่อม
-- **Refraction** — ภาพใต้น้ำสั่นตามวงคลื่น
-- **Lighting** — สันคลื่นรับแสง ท้องคลื่นเป็นเงา
+- **Strength** (`0–3`, default `1`) — the overall ripple strength for this surface, multiplied on top of each object's own Strength
+- **Ring Thickness** (`0.02–1`, default `0.12`) — the width of the ring band, in **real metres** and deliberately **decoupled from ripple size**, so scaling Radius up or down never changes how crisp the ring reads. Lower = a sharp thin ring, higher = a soft wide one
+- **Interaction Foam** (`0–2`, default `0.5`) — white foam riding the ring crest. `0` = just the surface disturbance, no foam
 
 ---
 
-## ข้อจำกัด (Limits)
+## Ripples Reach Every Other Feature for Free
 
-- **16 วงคลื่นพร้อมกันทั้ง Scene** — นับเป็น "วงคลื่นที่ยังมีชีวิต" ไม่ใช่จำนวน interactor ตัวละครหนึ่งตัวที่เดินอยู่อาจกินไปหลายวงพร้อมกัน
-- **8 วงต่อ interactor หนึ่งตัว** — เกินจากนี้ วงที่เก่าที่สุดจะถูกตัดทิ้งก่อน
-- **เมื่อเกิน 16 วง** ระบบจะเลือกวงที่**ใกล้กล้องที่สุด**ไว้ก่อน คลื่นที่หายไปจึงเป็นคลื่นไกล ๆ ที่มองแทบไม่เห็นอยู่แล้ว
-- จำนวนนี้ไม่มีค่าใช้จ่ายจนกว่าจะมีคลื่นเกิดจริง — shader วนลูปตามจำนวนคลื่นที่มีชีวิตอยู่ ไม่ใช่วนถึง 16 เสมอ
+Ripples work by **bending the water's surface normal** at that spot rather than painting an overlay, so all the shading follows them automatically — nothing extra to set up.
+
+- **Specular / Sun Glint** — sunlight breaks up along the ring crests
+- **Reflection** — the mirror image warps where the water is disturbed
+- **Refraction** — the view through the water wobbles with each ring
+- **Lighting** — crests catch the light, troughs fall into shadow
 
 ---
 
-## Surface Gate (ระบบกันคลื่นเกิดผิดที่)
+## Limits
 
-Interactor จะยิงคลื่นเฉพาะตอนที่อยู่ใกล้ผิวน้ำจริง ๆ ระบบนี้ต้องการ component `ZLZ_EnvWater` บน object ของน้ำเพื่อจะรู้ว่า "ผิวน้ำอยู่สูงเท่าไร"
+- **16 live ripples across the whole scene** — that counts *ripples*, not interactors. A single walking character can hold several at once
+- **8 ripples per interactor** — past that, its oldest ripple is dropped first
+- **Over 16**, the ripples **nearest the camera** win, so what disappears is distant rings you could barely see anyway
+- The cap costs nothing until the ripples actually exist — the shader loops over the live count, not always up to 16
 
-- ถ้าใน Scene **ไม่มี** `ZLZ_EnvWater` เลย ระบบจะปล่อยผ่านทั้งหมด (mesh น้ำเปล่า ๆ ที่ทำไว้แต่เดิมยังใช้งานได้เหมือนเดิม)
-- รองรับผืนน้ำหลายผืนที่อยู่คนละความสูง — ตัวละครจะกวนเฉพาะผืนที่ตัวเองแตะอยู่
-- ถ้าเปิด feature **Waves (Shore Breath)** ไว้ด้วย ระยะ Surface Range จะเผื่อความสูงของคลื่นให้อัตโนมัติ ตัวละครจึงไม่หลุด gate ตอนน้ำขึ้นสูงสุด
-- ตอนที่ตัวละครกระโดดลงน้ำ ระบบจะรีเซ็ตจุดอ้างอิงให้ ทำให้เกิดวงคลื่นแรกทันทีที่แตะน้ำ แทนที่จะลากคลื่นยาวมาจากตำแหน่งเดิมบนฝั่ง
+---
+
+## Surface Gate
+
+An interactor only spawns ripples while it is genuinely near a water surface. The gate needs the `ZLZ_EnvWater` component on the water object to know where the surface level is.
+
+- If the scene has **no** `ZLZ_EnvWater` at all, the gate stays open (bare water meshes from an older setup keep working exactly as before)
+- Several water bodies at different heights are supported — a character only disturbs the one they are actually touching
+- With the **Waves (Shore Breath)** feature on, Surface Range automatically allows for the wave height, so a character never falls out of the gate at the top of the swell
+- Jumping into the water resets the trail anchor, so the first ring spawns right at the point of contact instead of stretching back to where the character stood on the bank
 
 ---

@@ -935,6 +935,32 @@
       </section>
       {% endif %}
 
+      <!-- Env: Water -->
+      {% assign waterOverview = site.pages | where: "url", "/env/water/" | first %}
+      {% assign waterInteraction = site.pages | where: "url", "/env/water/water-interaction/" | first %}
+      {% if waterOverview or waterInteraction %}
+      <section class="card docsBlock" data-product="env" style="display:none;">
+        <h2>Water</h2>
+        <div class="featGrid">
+          {% if waterOverview %}<a class="featCard" href="/env/water/">
+            <img src="/images/thumbs/overview.webp" alt="Overview" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Overview</span>
+              <small class="featDate">Updated {{ waterOverview.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if waterInteraction %}<a class="featCard" href="/env/water/water-interaction/">
+            <!-- TODO hover: export Water_Trails_Interaction.mp4 to /env/water/Water_Interaction_Hover.webp (animated), then add: data-anim="/env/water/Water_Interaction_Hover.webp" -->
+            <img src="/env/water/Water_Interaction_Thumb.jpg" alt="Water Interaction" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Water Interaction</span>
+              <small class="featDate">Updated {{ waterInteraction.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+        </div>
+      </section>
+      {% endif %}
+
       <!-- Env: Reflection -->
       {% assign p = site.pages | where: "url", "/env/reflection/" | first %}
       {% if p %}

@@ -105,6 +105,30 @@
 </div>
 {% endif %}
 
+{% assign waterOverview = site.pages | where: "url", "/env/water/" | first %}
+{% assign waterInteraction = site.pages | where: "url", "/env/water/water-interaction/" | first %}
+{% if waterOverview or waterInteraction %}
+<h3>Water</h3>
+
+{% if waterOverview %}
+<a href="{{ '/env/water/' | relative_url }}"
+   class="{% if page.url == '/env/water/' or page.url == '/env/water/index.html' %}active{% endif %}">
+   Overview
+</a>
+{% endif %}
+
+<div class="sideTree">
+
+{% if waterInteraction %}
+<a href="{{ '/env/water/water-interaction/' | relative_url }}"
+   class="{% if page.url contains '/env/water/water-interaction/' %}active{% endif %}">
+   Water Interaction
+</a>
+{% endif %}
+
+</div>
+{% endif %}
+
 {% assign p = site.pages | where: "url", "/env/reflection/" | first %}
 {% if p %}
 <h3>Reflection</h3>
