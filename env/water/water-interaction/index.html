@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass Edges | ZLZ Env Shader</title>
+  <title>Water Interaction | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -650,7 +650,7 @@
 
 
 <a href="/env/grass/grass-edges/"
-   class="active">
+   class="">
    Grass Edges
 </a>
 
@@ -669,7 +669,7 @@
 
 
 <a href="/env/water/water-interaction/"
-   class="">
+   class="active">
    Water Interaction
 </a>
 
@@ -696,66 +696,142 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-edges">Grass Edges</h1>
+        <h1 id="water-interaction">Water Interaction</h1>
 
-<p>The core idea: grass can be kept from growing in three places — objects in the scene, the mesh edge, and areas painted over with another texture/color — and instead of cutting the grass on a hard straight line, all three use the same technique: <strong>gradually shrinking the grass shorter until it fades out as it nears the edge</strong>, so the transition looks smooth and natural with no sharp edges.</p>
+<p>Water ripples when a character or object moves through it. Rather than one ring that follows the object, the system <strong>drops discrete ripples</strong> that each expand outward and fade from where they were born — so a character wading across leaves a line of expanding rings behind them, like real footstep ripples.</p>
 
-<p><img src="../GrassEdges.png" alt="Grass Edges settings" /></p>
+<p>It runs entirely on the GPU: no colliders, no render textures, no physics — cheap enough for both PC and Mobile.</p>
 
-<h2 id="blocking-layers">Blocking Layers</h2>
-<p>Keeps grass off objects in the scene — a house, a rock, a crate. Set on the <code class="language-plaintext highlighter-rouge">ZLZ Env Dashboard</code>, in the Plant Area section.</p>
+<h2 id="showcase--trail">Showcase — Trail</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/kRVyUesYnRw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=kRVyUesYnRw&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/TjWFoKSwwZE?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=TjWFoKSwwZE&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
-<ul>
-  <li><strong>Blocking Layers</strong> — choose the Layers of the objects that keep grass out (only those with a Collider). Nothing = grass ignores objects entirely. Sampled at Grow, so Re-grow to apply</li>
-  <li><strong>Keep Off Objects (m)</strong> — how far grass stays away from those objects, tuned live in real time (0–2 m). Higher widens the bald ring around each object</li>
-</ul>
-
-<h2 id="mesh-edge">Mesh Edge</h2>
-<p>Keeps grass in from the surface edge so blades don’t poke past it. Set per Grass Type (on the Grass Type card’s Edge section).</p>
+<h2 id="showcase--pulse">Showcase — Pulse</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/Gin0mDi_MO0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=Gin0mDi_MO0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/mmgXC3SUO7w?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=mmgXC3SUO7w&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
+<hr />
+
+<h2 id="setup">Setup</h2>
+
+<p>Two things have to be in place — miss either one and no ripples appear.</p>
+
+<ol>
+  <li><strong>On the water material</strong> — turn on the <strong>Interaction</strong> feature (the button grid at the top of the Inspector)</li>
+  <li><strong>On the character / object</strong> — add the <code class="language-plaintext highlighter-rouge">ZLZ_Env Water Interactor</code> component to anything that should disturb the water (the player, an NPC, a boat, a rolling prop)</li>
+</ol>
+
+<blockquote>
+  <p>Values on the <strong>component</strong> set the <strong>size and rhythm</strong> of each ripple (different per object).
+Values on the <strong>material</strong> set how the ripples <strong>look</strong> across that whole water surface (shared by every object).</p>
+</blockquote>
+
+<hr />
+
+<h2 id="interactor-per-object">Interactor (per object)</h2>
+
+<p><img src="../water-interaction/Water_Interaction_Script.png" alt="Water_Interaction_Script" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">ZLZ_Env Water Interactor</code> carries <strong>two completely independent emitters</strong>. Run both, one, or neither — and each has its own ripple size and lifetime, because a ripple made while walking and a ripple made while standing still are rarely the same size.</p>
+
+<h3 id="main">Main</h3>
 <ul>
-  <li><strong>Keep Off Mesh Edge (m)</strong> — how far grass stays in from the surface edge, so blades don’t poke past it. 0 = off</li>
+  <li><strong>Strength</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how hard this object disturbs the water (scales the ripple height). <code class="language-plaintext highlighter-rouge">0</code> = no ripples at all</li>
+  <li><strong>Surface Range</strong> (metres, default <code class="language-plaintext highlighter-rouge">2</code>) — the vertical reach that still counts as “touching the water”. Ripples only spawn while the object is over the water’s area <strong>and</strong> within this distance of its level. It keeps a character crossing a bridge 20 m up from rippling the lake below</li>
 </ul>
 
-<h2 id="keep-off-paint">Keep Off Paint</h2>
-<p>Keeps grass out of areas painted over with another texture/color. Set per Grass Type (on the Grass Type card’s Edge section).</p>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/FTAAF7sds7g?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=FTAAF7sds7g&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<h3 id="trail--a-wake-along-movement">Trail — a wake along movement</h3>
+<p>Drops a ripple <strong>as the object moves</strong>, leaving a wake along its path. Wants a <strong>short lifetime</strong> so the ripples snap out and clear quickly behind a moving character.</p>
 
 <ul>
-  <li><strong>Keep Off Paint (m)</strong> — how far grass stays away from the painted ground. 0 = stops exactly where the paint takes over</li>
+  <li><strong>Trail</strong> — enable / disable this emitter</li>
+  <li><strong>Trail Radius</strong> (metres, default <code class="language-plaintext highlighter-rouge">1.5</code>) — how big each ripple grows</li>
+  <li><strong>Trail Spacing</strong> (metres, default <code class="language-plaintext highlighter-rouge">0.5</code>) — how far the object must travel before it drops the next ripple. Smaller = a denser wake</li>
+  <li><strong>Trail Lifetime</strong> (<code class="language-plaintext highlighter-rouge">0.1–4</code> seconds, default <code class="language-plaintext highlighter-rouge">1.2</code>) — how long each ripple lives</li>
 </ul>
 
-<h2 id="shrink-near-edges--the-shared-technique">Shrink Near Edges — the shared technique</h2>
-<p>Instead of ending on a hard line, blades taper down to nothing over the last stretch near any edge. This is the heart of the system — it makes all three cases above blend the same, smooth way.</p>
+<h3 id="pulse--ripples-in-place">Pulse — ripples in place</h3>
+<p>Emits a ripple on a fixed interval <strong>while the object is roughly still</strong>. Suits a character treading water, a fountain, a dripping source — and wants a <strong>long lifetime</strong> so the rings spread out slow and soft.</p>
 
 <ul>
-  <li><strong>Shrink Near Edges (m)</strong> — the last stretch (in metres) over which blades taper down instead of ending on a hard line. It applies to every edge at once (paint, mesh edge, objects, and erased holes). 0 = hard cut</li>
+  <li><strong>Pulse</strong> — enable / disable this emitter</li>
+  <li><strong>Pulse Radius</strong> (metres, default <code class="language-plaintext highlighter-rouge">1.2</code>) — how big each ripple grows</li>
+  <li><strong>Pulse Interval</strong> (seconds, default <code class="language-plaintext highlighter-rouge">0.6</code>) — the time between ripples</li>
+  <li><strong>Pulse Lifetime</strong> (<code class="language-plaintext highlighter-rouge">0.3–8</code> seconds, default <code class="language-plaintext highlighter-rouge">3</code>) — how long each ripple lives</li>
+  <li><strong>Pulse Still Speed</strong> (metres/second, default <code class="language-plaintext highlighter-rouge">0.2</code>) — counts as “standing still” at or below this speed. Move faster and Pulse pauses so the Trail wake takes over. Set it high to always pulse, moving or not</li>
 </ul>
 
-<h2 id="debug">Debug</h2>
+<h3 id="behaviour-worth-knowing">Behaviour worth knowing</h3>
 <ul>
-  <li><strong>Debug Grass Area</strong> — toggles an overlay to check the result: green = full grass, amber = inside the Shrink zone (grass, but shorter), red = no grass</li>
+  <li><strong>Trail and Pulse never stack</strong> — once the character walks, Pulse pauses on its own, leaving just the wake instead of a mess of overlapping rings</li>
+  <li><strong>The Pulse timer keeps counting while moving</strong> — so the first ring lands the moment the character stops, like planting your feet, rather than waiting out a full interval</li>
+  <li><strong>Radius and Lifetime work together</strong> — a ring expands out to its Radius over exactly its Lifetime, so a <strong>shorter Lifetime makes the ripple expand faster</strong>. Radius only sets the final size</li>
+  <li><strong>Gizmos</strong> — select the object and look in the Scene view: the <strong>blue</strong> sphere is Trail Radius, the <strong>green</strong> one is Pulse Radius. Handy for sizing them against the character</li>
+  <li><strong>Play mode only</strong> — ripples run on the game clock (they honour <code class="language-plaintext highlighter-rouge">Time.timeScale</code>, so slow motion slows the rings too). Unlike Global Wind, they do not animate in Edit Mode</li>
 </ul>
+
+<hr />
+
+<h2 id="material-settings-interaction-section">Material Settings (Interaction section)</h2>
+
+<p><img src="../water-interaction/Water_Interaction_Mat.png" alt="Water_Interaction_Mat" /></p>
+
+<p>These three values shape every ripple on that water surface (keep the <strong>Interaction</strong> feature on).</p>
+
+<ul>
+  <li><strong>Strength</strong> (<code class="language-plaintext highlighter-rouge">0–3</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — the overall ripple strength for this surface, multiplied on top of each object’s own Strength</li>
+  <li><strong>Ring Thickness</strong> (<code class="language-plaintext highlighter-rouge">0.02–1</code>, default <code class="language-plaintext highlighter-rouge">0.12</code>) — the width of the ring band, in <strong>real metres</strong> and deliberately <strong>decoupled from ripple size</strong>, so scaling Radius up or down never changes how crisp the ring reads. Lower = a sharp thin ring, higher = a soft wide one</li>
+  <li><strong>Interaction Foam</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — white foam riding the ring crest. <code class="language-plaintext highlighter-rouge">0</code> = just the surface disturbance, no foam</li>
+</ul>
+
+<hr />
+
+<h2 id="ripples-reach-every-other-feature-for-free">Ripples Reach Every Other Feature for Free</h2>
+
+<p>Ripples work by <strong>bending the water’s surface normal</strong> at that spot rather than painting an overlay, so all the shading follows them automatically — nothing extra to set up.</p>
+
+<ul>
+  <li><strong>Specular / Sun Glint</strong> — sunlight breaks up along the ring crests</li>
+  <li><strong>Reflection</strong> — the mirror image warps where the water is disturbed</li>
+  <li><strong>Refraction</strong> — the view through the water wobbles with each ring</li>
+  <li><strong>Lighting</strong> — crests catch the light, troughs fall into shadow</li>
+</ul>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>16 live ripples across the whole scene</strong> — that counts <em>ripples</em>, not interactors. A single walking character can hold several at once</li>
+  <li><strong>8 ripples per interactor</strong> — past that, its oldest ripple is dropped first</li>
+  <li><strong>Over 16</strong>, the ripples <strong>nearest the camera</strong> win, so what disappears is distant rings you could barely see anyway</li>
+  <li>The cap costs nothing until the ripples actually exist — the shader loops over the live count, not always up to 16</li>
+</ul>
+
+<hr />
+
+<h2 id="surface-gate">Surface Gate</h2>
+
+<p>An interactor only spawns ripples while it is genuinely near a water surface. The gate needs the <code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> component on the water object to know where the surface level is.</p>
+
+<ul>
+  <li>If the scene has <strong>no</strong> <code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> at all, the gate stays open (bare water meshes from an older setup keep working exactly as before)</li>
+  <li>Several water bodies at different heights are supported — a character only disturbs the one they are actually touching</li>
+  <li>With the <strong>Waves (Shore Breath)</strong> feature on, Surface Range automatically allows for the wave height, so a character never falls out of the gate at the top of the swell</li>
+  <li>Jumping into the water resets the trail anchor, so the first ring spawns right at the point of contact instead of stretching back to where the character stood on the bank</li>
+</ul>
+
+<hr />
 
       </div>
     </main>
