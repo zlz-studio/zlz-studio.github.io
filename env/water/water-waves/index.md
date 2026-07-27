@@ -74,7 +74,7 @@ The reflection is anchored to the **rest level**, not the moving one. The mirror
 The **Surface Range** on `ZLZ_Env Water Interactor` automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.
 
 ### Water Floater
-Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees. See the [Water Floater]({{ '/env/water/water-floater/' | relative_url }}) page.
+Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees.
 
 ---
 
