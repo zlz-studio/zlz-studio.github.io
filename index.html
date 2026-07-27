@@ -938,7 +938,8 @@
       <!-- Env: Water -->
       {% assign waterOverview = site.pages | where: "url", "/env/water/" | first %}
       {% assign waterInteraction = site.pages | where: "url", "/env/water/water-interaction/" | first %}
-      {% if waterOverview or waterInteraction %}
+      {% assign waterWaves = site.pages | where: "url", "/env/water/water-waves/" | first %}
+      {% if waterOverview or waterInteraction or waterWaves %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Water</h2>
         <div class="featGrid">
@@ -954,6 +955,14 @@
             <span class="featMeta">
               <span class="featName">Water Interaction</span>
               <small class="featDate">Updated {{ waterInteraction.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if waterWaves %}<a class="featCard" href="/env/water/water-waves/">
+            <!-- TODO: swap in Water_Waves_Thumb.webp + data-anim="/env/water/Water_Waves_Hover.webp" once the clip is recorded -->
+            <img src="/images/thumbs/overview.webp" alt="Water Waves" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Water Waves</span>
+              <small class="featDate">Updated {{ waterWaves.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
         </div>
