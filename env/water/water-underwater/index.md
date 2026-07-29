@@ -1,88 +1,212 @@
 ---
 layout: docs
 title: Underwater
-last_modified_at: 2026-07-28
+last_modified_at: 2026-07-29
 published: false
 ---
 
+<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
+
 # Underwater
 
-The whole surface **rises and falls as one** to a rhythm you draw yourself, like the sea slowly breathing in and out. As the level climbs the water swallows more of the beach; as it drops the sand comes back. The foam along the shore and the shallow water colours follow the level on their own.
+ดำลงไปใต้ผิวน้ำแล้วโลกเปลี่ยนทั้งใบ ทั้งจอจมอยู่ในหมอกน้ำที่มีสีของบ่อนั้นเอง มองขึ้นไปข้างบนจะเห็นผิวน้ำเป็นเพดานที่กลิ้งไหวไปตามระลอก มีวงสว่างตรงกลางที่มองทะลุขึ้นไปเห็นโลกข้างบน ล้อมด้วยขอบมืดที่สะท้อนน้ำลึกกลับลงมา พื้นข้างล่างมีลายแสงเต้นระยิบ และมีเศษฝุ่นเล็กๆ ลอยผ่านหน้ากล้องขึ้นไป
 
-The lift has **no slope** — every point moves by the same amount, so there is no travelling swell. That is deliberate: the reflection, the Fresnel and the surface direction all hold perfectly steady while the level breathes. The small-scale life of the water stays with the scrolling ripple normal map.
+ตอนที่กล้อง **ตัดผ่านผิวน้ำ** ทั้งภาพจะละลายเป็นริ้วอยู่ครึ่งวินาที — น้ำรูดลงจากหน้าเลนส์ตอนโผล่ขึ้น และปั่นป่วนตอนพุ่งลง
 
-## Showcase Water Waves
-{% include youtube-loop.html id="Hac9OmXSVg8" %}
+Underwater ประกอบด้วย **สองฝั่งที่เปิดพร้อมกันด้วยสวิตช์เดียว**
+
+- **ผิวน้ำมองจากข้างล่าง** — ทำในตัว Shader ของผิวน้ำเอง (หลังบ้านคือ Snell's Window)
+- **หมอกน้ำเต็มจอ + Caustics ที่พื้น + ฝุ่นลอย + Cross Melt** — ทำด้วย URP Renderer Feature ชื่อ `ZLZ Env Underwater`
+
+## Showcase Underwater
+<!-- TODO: ใส่ id คลิป -->
+<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
 
 ---
 
 ## Setup
 
-Two things go together.
+ต้องครบ 3 อย่าง ขาดอย่างใดอย่างหนึ่งแล้วจะไม่เห็นอะไรเลย
 
-1. **On the water material** — turn on the **Waves** feature (the button grid at the top of the Inspector)
-2. **On the water object** — tune the rhythm under **Dashboard > Water** (or straight on the water object's Inspector, if it does not sit under a Dashboard)
+1. **ที่ Material ของน้ำ** — เปิดฟีเจอร์ **Underwater** (แถวปุ่มด้านบนของ Inspector)
+2. **ที่ตัว Object น้ำ** — ต้องมี component `ZLZ_EnvWater` (น้ำที่สร้างจาก Dashboard หรือ Base Prefab มีให้อยู่แล้ว)
+3. **ที่ URP Renderer** — ต้องมี Renderer Feature **`ZLZ Env Underwater`** ในลิสต์
 
-> **Why isn't this on the material?** The rhythm is an **AnimationCurve**, and a material cannot hold a curve. The values live on the `ZLZ_EnvWater` component instead — which works out nicely, because every pond gets its own rhythm even when they all share one material.
+> **ข้อ 3 ปกติไม่ต้องทำเอง** — Dashboard ติดตั้ง Renderer Feature ให้ตั้งแต่ตอน Setup แล้ว ถ้ามันหายไป (โดนลบทิ้ง) หัวข้อ **Underwater** บน Dashboard จะขึ้นสถานะ `⚠ Removed` พร้อมปุ่ม **Install Underwater Feature** ให้กดใส่กลับคืน
 
-The material's Waves section has nothing to tune: it only points you to the Dashboard.
+### สิ่งที่ URP Asset ต้องเปิด
 
----
+- **Opaque Texture — จำเป็น** ถ้าปิดไว้ ผิวน้ำมองจากข้างล่างจะกลายเป็นเพดานเปล่าๆ (ทั้ง Inspector ของ Material และของตัวน้ำจะเตือนให้เห็นตรงจุดที่ตั้งค่าเลย)
+- **Depth Texture — จำเป็น** หมอกน้ำและ Caustics ที่พื้นอ่านระยะจาก Depth
 
-## Parameters
-
-![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
-
-All three live under **Dashboard > Water**, and only appear once the material has the **Waves** feature on.
-
-- **Wave Shape** (curve) — the rise and fall across one loop. X = 0 to 1 is the progress through the loop; Y = `0` is the lowest level and `1` the highest
-- **Wave Height** (metres, default `0.2`) — how far the surface travels above and below its rest level. This is the distance **one way**: the full trough-to-crest range is twice this value
-- **Seconds per Loop** (seconds, default `5`) — the time for one full pass of the curve, minimum `0.25`. Higher values give the slow, heavy rhythm of open sea
-
-### Shape the Motion Freely with the Curve
-
-![Water_Wave_Curve](../water-waves/Water_Wave_Curve.png)
-
-- The curve **loops seamlessly** — the end joins back to the start on its own, so the seam never jumps
-- Drag the keyframes however you like: a hard surge with a long retreat, or a still pond that swells once and settles
-- Right-click the curve field to **Copy / Paste** it onto another pond. Undo is fully supported
+> **สวิตช์ Underwater ตัวเดียวคุมทั้งสองฝั่ง** ทั้งด้านใต้ของผิวน้ำและหมอกเต็มจอของบ่อนั้น ติ๊กครั้งเดียวจบ และตอนเปิดมันจะสลับผิวน้ำเป็น **Cull Off** (วาดทั้งสองหน้า) ให้อัตโนมัติ เพราะไม่งั้นดำลงไปแล้วจะมองไม่เห็นผิวน้ำเลย
 
 ---
 
-## Animates in Edit Mode Too
+## ค่าจะอยู่ 2 ที่ — และแบ่งหน้าที่กันชัดเจน
 
-**The surface rises and falls right in Edit Mode** — no need to press Play. The lift is computed in the shader's vertex stage, which runs on the shader clock, and that keeps ticking in the editor. Compose the scene knowing exactly how far the water reaches at high tide.
+| ที่ | ควบคุมอะไร | ใช้ร่วมกันไหม |
+|---|---|---|
+| **Material > Underwater** | หน้าตาของ **ผิวน้ำเมื่อมองจากข้างล่าง** | ทุกบ่อที่ใช้ Material เดียวกัน |
+| **Object น้ำ > Underwater Fog** | **หมอกน้ำ** ของบ่อนี้ + Caustics พื้น + ฝุ่น + Cross Melt | เฉพาะบ่อนั้นบ่อเดียว |
 
-[Water Floater]({{ '/env/water/water-floater/' | relative_url }}), however, only runs in Play mode: the C# side has no clock that matches the shader's inside the editor. In Edit Mode it falls back to the rest level, which is the level you want to place props against anyway.
+เจตนาคือ บ่อน้ำใสกับหนองน้ำขุ่นใช้ Material ตัวเดียวกันได้ แต่ยังมี "ความขุ่น" เป็นของตัวเอง
 
 ---
 
-## Effects on Other Features
+## Material > Underwater
 
-### Foam — Wave Fade
-With Waves on, the **Foam** section gains one extra value: **Wave Fade** (`0–1`, default `1`). It does not appear at all while Waves is off.
+<!-- TODO: ภาพ Inspector ของ Material section Underwater — Underwater_Mat.png -->
 
-- `1` = the clustered foam (Foam Noise) **washes out in the trough and comes in full on the crest**, like foam carried up the beach and dragged back
-- `0` = the swell is ignored and the foam shows the same at all times
+หัวข้อนี้จะโผล่มาก็ต่อเมื่อเปิดฟีเจอร์ Underwater แล้ว แบ่งเป็น 3 กลุ่ม
 
-It only touches the **clustered foam**. The **Foam Line** (the crisp inked waterline) stays put throughout, so the shore never loses its edge at low tide.
+### Looking Up — เงยมองขึ้นข้างบน
+
+มองขึ้นจากใต้น้ำ โลกทั้งใบข้างบนจะถูกบีบรวมอยู่ในวงกลมเหนือหัว รอบนอกวงนั้นผิวน้ำสะท้อนน้ำลึกกลับลงมาเหมือนกระจก ขอบของวงจะบิดตามระลอกคลื่นตลอดเวลา ไม่ได้เป็นวงกลมนิ่งๆ
+
+- **Sky View Tint** (HDR Color, default ขาว) — สีที่คูณทับภาพโลกข้างบนที่มองทะลุขึ้นไป ใช้ย้อมให้เข้ากับโทนน้ำ
+- **Rim Brightness** (`0–1`, default `0.35`) — ความสว่างของขอบมืดรอบวง `0` = เกือบดำสนิทเหมือนกระจกเงา `1` = แทบไม่หรี่ลงเลย
+
+### Surface Motion — ผิวน้ำต้องดูเคลื่อนไหว
+
+- **Ripple Strength** (`0–3`, default `1`) — ระลอกบนผิวน้ำแรงแค่ไหนเมื่อมองจากข้างล่าง ตัวนี้คุมทั้งขอบวงที่ไหว และเงาแสงมืดสว่างบนเพดานน้ำ
+- **Refraction** (`0–0.15`, default `0.03`) — ภาพโลกข้างบนแกว่งไปมามากแค่ไหน แยกสไลเดอร์ออกจาก Ripple Strength เพราะ "ขอบวงคมแค่ไหน" กับ "ภาพว่ายแค่ไหน" เป็นคนละเรื่องกัน
+- **Sheen** (`0–1`, default `0.5`) — แถบมืดสว่างที่วิ่งไปทั่วเพดานน้ำตามความชันของคลื่น ถ้าไม่มีตัวนี้ ผิวน้ำจากข้างล่างจะนิ่งเหมือนแผ่นกระจก เพราะขอบวงตอบสนองต่อคลื่นแค่วงแคบๆ เหนือหัวเท่านั้น
+
+### Overlays — ของที่ยืมมาจากฟีเจอร์อื่น
+
+สองตัวนี้จะ **เทาไว้กดไม่ได้** จนกว่าฟีเจอร์แม่ของมันจะเปิด
+
+- **Surface Caustics (uses Caustics)** (`0–2`, default `0.5`) — ลายแสงเต้นบนตัวผิวน้ำเมื่อมองจากข้างล่าง สว่างขึ้นเมื่อเข้าใกล้วงกลางที่แสงลอดลงมา — ต้องเปิดฟีเจอร์ **Caustics** (ลายทั้งหมดใช้ค่าจากหัวข้อ Caustics)
+- **Foam & Rings (uses Foam Flow bake)** (`0–2`, default `0.8`) — เห็นฟองริมตลิ่งและ Ring Wave จากใต้น้ำ — ต้องเปิด **Foam** + **Foam Flow** และต้อง Bake ไว้แล้ว
+- **Foam Width (m)** (`0.2–5`, default `1.5`) — ความกว้างของแถบฟองเมื่อมองจากข้างล่าง (เส้นฟองคมจะเป็น 1 ใน 4 ของค่านี้)
+
+> **ทำไม Foam จากใต้น้ำต้องมี Bake?** เพราะมองจากข้างล่าง รังสีสายตาไปโดนวัตถุที่ **ขอบเงาของมัน** ไม่ใช่ที่แนวสัมผัสน้ำจริง (ท้องของวัตถุบังไว้อยู่) ถ้าใช้ Depth วาดฟอง ฟองจะไปอยู่ผิดที่และเลื่อนตามมุมกล้อง ระบบจึงอ่านจากแผนที่ระยะที่ Bake ไว้แทน — ฟองใต้น้ำจะอยู่ **ตรงตำแหน่งเดียวกับที่เห็นก่อนดำลงไป** เป๊ะๆ
+>
+> ราคาของความแม่นยำนี้คือ วัตถุต้องอยู่ในลิสต์ Shore Flow ที่ Bake ไว้ ([Water Ring Wave]({{ '/env/water/water-ring-wave/' | relative_url }}))
+>
+> **Foam Width ทำไมต้องกว้างกว่าฝั่งบน?** เพราะท้องของวัตถุที่จมอยู่บังผิวน้ำรอบๆ แนวสัมผัสไว้ แถบฟองที่บางเท่าฝั่งบนจะซ่อนหายอยู่ในวงที่ถูกบังพอดี แถบยัง **เริ่มที่แนวสัมผัสจริงเสมอ** ค่านี้แค่ยืดออกไปข้างนอกให้พ้นตัวบัง
+
+---
+
+## Object น้ำ > Underwater Fog
+
+<!-- TODO: ภาพ Inspector ของ ZLZ_EnvWater section Underwater Fog — Underwater_Water_Script.png -->
+
+หัวข้อนี้อยู่บน **Inspector ของตัว Object น้ำ** และจะโผล่มาเมื่อ Material เปิด Underwater แล้ว
+
+> **หัวข้อนี้ไม่ย้ายไป Dashboard** ต่างจาก Shore Flow ที่ถูก Dashboard ยึดไปคุมที่เดียว — ค่าหมอกเป็นของ "บ่อนี้" จริงๆ เลยอยู่ติดกับบ่อ แม้บ่อจะอยู่ใต้ Dashboard ก็ยังตั้งจากตรงนี้ ส่วนหัวข้อ Underwater บน Dashboard มีไว้ดูสถานะ Renderer Feature อย่างเดียว
+
+### ความขุ่นของบ่อ
+
+- **Fog Color** (default ฟ้าอมเขียวเข้ม) — สีที่ทั้งฉากจมหายเข้าไป
+- **Visibility (m)** (default `12`) — มองทะลุน้ำได้กี่เมตรก่อนหมอกกลืน (ที่ระยะนี้คือขุ่นไปแล้วราว 63%) ค่าต่ำ = หนองน้ำขุ่น ค่าสูง = น้ำพุใส
+- **Depth Darken (m)** (default `8`) — ดำลงไปกี่เมตรแล้วสีหมอกจะมืดที่สุด ยิ่งลึกยิ่งมืด ทำให้ "ความลึก" อ่านออกเป็นความลึกจริงๆ (มืดสุดอยู่ที่ราว 1 ใน 4 ของสีที่ตั้งไว้ ไม่มีทางมืดสนิท)
+- **Waterline Softness (m)** (default `0.2`) — ความฟุ้งของเส้นระดับน้ำบนจอตอนกล้องอยู่ครึ่งบกครึ่งน้ำ ค่าน้อย = เส้นคม ค่ามาก = ไล่เบลอ
+- **Max Depth (m)** (`2–100`, default `50`) — บ่อนี้ลึกจริงๆ กี่เมตร ลึกเกินค่านี้ถือว่ากล้อง **อยู่ใต้ตัวบ่อ** ไม่ใช่อยู่ในน้ำ แล้วหมอกจะจางออกภายใน 2 เมตร ให้ตั้งลึกกว่าพื้นจริงไว้หน่อย
+
+> **Max Depth มีไว้ทำไม?** การเช็คว่ากล้องอยู่ในน้ำไหมใช้กรอบ XZ ของบ่อ ถ้ามีถ้ำหรือห้องอยู่ใต้บ่อที่ยกสูง กล้องในห้องนั้นก็อยู่ในกรอบ XZ เหมือนกัน และจะถูกนับว่า "จมน้ำลึก 30 เมตร" ค่านี้คือเส้นตายที่บอกว่าปริมาตรน้ำจริงๆ สิ้นสุดตรงไหน
+
+### Wow Layers
+
+- **Floor Caustics (x material)** (`0–4`, default `0.8`) — ลายแสงเต้นบนพื้นใต้น้ำ ค่านี้เป็น **ตัวคูณ** ของ Caustics Intensity บน Material ไม่ใช่ความสว่างอิสระ — `1` = สว่างเท่าที่มองจากบนผิวน้ำเป๊ะ `0` = ปิด
+- **Floating Particles** (`0–2`, default `0.35`) — ฝุ่นเล็กๆ ลอยผ่านหน้ากล้องขึ้นไป ตัวที่ทำให้รู้สึกว่า "อยู่ใน" น้ำจริงๆ `0` = ปิด
+- **Cross Melt (s)** (`0–2`, default `0.6`) — ภาพละลายกี่วินาทีตอนกล้องตัดผ่านผิวน้ำ (ทั้งขึ้นและลง) `0` = ปิด
+- **Cross Melt Strength** (`0–2`, default `1`) — ลากภาพแรงแค่ไหน
+- **Cross Melt Streaks** (`4–48`, default `24`) — ฉีกจอเป็นริ้วกี่แถบ น้อย = แผ่นน้ำหนักๆ กว้างๆ มาก = ละอองฝอย
+- **Cross Melt Flash** (`0–0.5`, default `0.12`) — แสงวาบของฟองขาวตอนตัดผ่านพอดี `0` = ไม่มีวาบ
+
+> **ทั้งหมดเป็นค่าของบ่อ ไม่ใช่ค่าของ Material** ลากทะเลกับสระว่ายน้ำมาวางในฉากเดียวกัน แต่ละที่จะมีความขุ่นและจังหวะละลายของตัวเอง แม้จะใช้ Material ตัวเดียวกัน และค่าพวกนี้ติดไปกับ Prefab / Scene เหมือน field อื่นๆ
+
+---
+
+## ครึ่งบกครึ่งน้ำ — เส้นระดับน้ำถูกตัดทีละพิกเซล
+
+กล้องที่ลอยอยู่ตรงผิวน้ำพอดีจะมีเส้นระดับน้ำพาดกลางจอ ระบบไม่ได้ตัดสินว่า "จมทั้งจอ" หรือ "ไม่จมทั้งจอ" แต่ตัดสิน **ทีละพิกเซล** เทียบกับระดับน้ำจริง
+
+- **ใต้เส้น** — หมอกเต็มที่ Caustics พื้นและฝุ่นลอยทำงานปกติ
+- **เหนือเส้น** — อากาศสะอาด ไม่มีหมอก ไม่มีฝุ่น
+- **บนเส้นพอดี** — มีฟิล์มน้ำบางๆ สว่างขึ้นเล็กน้อย เหมือนหยดน้ำเกาะเลนส์
+
+**Waterline Softness** คือความหนาของแถบรอยต่อนี้ ระบบยังทำงานต่อแม้กล้องจะอยู่ **เหนือ** ผิวน้ำเล็กน้อย (ราว 0.6 เมตร) เพื่อให้ช่วงครึ่งบกครึ่งน้ำต่อเนื่องไม่วูบ
+
+> จุดนี้เคยเป็นบั๊กที่เห็นชัดมาก: ใช้ตำแหน่งกล้องตัดสินอย่างเดียว ท้องฟ้าจะมีฝุ่นใต้น้ำลอยอยู่ หรือครึ่งที่จมน้ำกลับใสเป็นอากาศ
+
+---
+
+## Cross Melt — จังหวะตัดผ่านผิวน้ำ
+
+เอฟเฟกต์นี้ยิงตอนกล้อง **ข้ามผิวน้ำ** เท่านั้น ไม่ใช่ตอนอยู่ในน้ำเฉยๆ
+
+- **ทำงานทั้งสองทาง** — ขึ้นเป็นน้ำรูดลงจากเลนส์ (ลากแรงกว่า) ลงเป็นการปั่นป่วนตอนพุ่งจม
+- **วัดจากจุดกลางระนาบใกล้ของกล้อง** ไม่ใช่จากตัวกล้อง จังหวะละลายจึงตรงกับเส้นน้ำที่ตาเห็นบนจอ
+- **วัดกับผิวน้ำจริงที่กำลังขยับ** ([Waves]({{ '/env/water/water-waves/' | relative_url }}) รวมอยู่ด้วย) คลื่นซัดผ่านกล้องที่ลอยนิ่งก็สาดได้อีกรอบ — ซึ่งเป็นสิ่งที่คลื่นควรทำ
+- **มีคูลดาวน์กันกระตุก** ยิงซ้ำได้ก็ต่อเมื่อรอบก่อนหน้าจางไปเกือบหมดแล้ว และมีแถบกันสั่น 4 ซม. กันกล้องที่แช่อยู่ตรงระนาบพอดียิงรัวทุกเฟรม
+- **ยิงเฉพาะตอนข้ามใกล้ผิวน้ำจริงๆ** (ในระยะ 1 เมตร) การเดินเข้ากรอบ XZ ของบ่อที่ระดับลึกๆ ไม่นับเป็นการกระโดดลงน้ำ
+- **เล่นต่อได้แม้เกมหยุด** ใช้นาฬิกาเวลาจริง ไม่ใช่เวลาเกม — `Time.timeScale = 0` หรือ Pause อยู่ ภาพก็ยังละลายจนจบ (มันคือเอฟเฟกต์ของ "เลนส์" ไม่ใช่ของโลกในเกม)
+
+---
+
+## ทำงานร่วมกับฟีเจอร์อื่น
+
+### Caustics
+เป็นเจ้าของลายทั้งหมด ทั้งลายบนพื้นที่มองตอนดำน้ำ และลายบนตัวผิวน้ำที่เงยขึ้นไปมอง — ค่า Scale / Speed / Sharpness / Color / Depth Fade มาจากหัวข้อ Caustics บน Material ทั้งชุด ทั้งสองฝั่งจึงเป็นลายเดียวกันเป๊ะ **ปิดฟีเจอร์ Caustics แล้วพื้นใต้น้ำก็มืดตามทันที**
+
+Caustics ที่พื้นจะฉายจากด้านบนลงมาแบบตรงๆ จึงพาดคลุมทุกอย่างที่จมอยู่ ไม่ใช่แค่พื้น (ก้อนหิน เสา props ก็โดนลายด้วย ซึ่งตรงกับของจริง) และจะจางลงตามความลึกของน้ำเหนือจุดนั้น ตาม Caustics Depth Fade
+
+### Foam / Foam Flow / Ring Wave
+ฟองริมตลิ่ง เส้นน้ำ และ Ring Wave มองเห็นได้จากใต้น้ำผ่าน **Foam & Rings** โดยอ่านจาก Bake ตัวเดียวกัน ไม่ต้อง Bake เพิ่ม — แต่ต้องมี Bake อยู่แล้ว ดู [Water Ring Wave]({{ '/env/water/water-ring-wave/' | relative_url }})
+
+### Waves (Shore Breath)
+ระดับผิวน้ำที่ใช้ตัดสินว่า "จมหรือยัง" คือระดับ **จริงที่ขยับอยู่** ไม่ใช่ระดับพัก คลื่นซัดผ่านหัวกล้องที่ลอยปริ่มน้ำจึงเปลี่ยนภาพจริงๆ และการจางเข้าของหมอกที่เส้นน้ำก็มีไว้เพื่อกันการกระพริบจากคลื่นนี่เอง ดู [Water Waves]({{ '/env/water/water-waves/' | relative_url }})
 
 ### Reflection
-The reflection is anchored to the **rest level**, not the moving one. The mirror camera renders against a fixed plane, so letting the reflection ride the surface would make the mirrored image slide up and down. This is handled for you — nothing to configure.
+ด้านใต้ของผิวน้ำ **ไม่ใช้ Planar Reflection** เพราะภาพสะท้อนเป็นเรื่องของการมองจากข้างบน ขอบมืดรอบวงที่เห็นจากใต้น้ำมาจากการสะท้อนกลับหมดภายในผิวน้ำ ซึ่งคำนวณในตัวมันเอง — เปิด Reflection ไว้ก็ไม่กระทบภาพใต้น้ำ และไม่เสียแรงเครื่องเพิ่ม
+
+### Refraction
+คนละตัวกัน Refraction คือการมองทะลุน้ำ **จากข้างบน** ส่วน Underwater มีสไลเดอร์ Refraction ของตัวเองสำหรับการมองทะลุ **จากข้างล่าง** ตั้งค่าแยกกัน ไม่ยุ่งกัน
 
 ### Water Interaction
-The **Surface Range** on `ZLZ_Env Water Interactor` automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.
+ระลอกจาก [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }}) บิด normal ของผิวน้ำจริง ผิวน้ำที่มองจากใต้น้ำจึงกระเพื่อมตามไปด้วยทั้งขอบวง เงาบนเพดาน และภาพที่มองทะลุขึ้นไป โดยไม่ต้องตั้งอะไรเพิ่ม
 
-### Water Floater
-Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees.
+### แสงอาทิตย์
+สีของ Caustics และฝุ่นลอยคูณด้วยสีและความแรงของ Sun ในฉาก (`RenderSettings.sun`) ตกกลางคืนแล้วทุกอย่างมืดลงพร้อมกันเอง
+
+---
+
+## เปิด/ปิดจากโค้ดตอนเล่นเกม
+
+สวิตช์ Underwater ต้องขยับพร้อมกัน 3 อย่าง (ค่า, shader keyword และ cull mode) เรียกผ่านเมธอดนี้แทนการเซ็ต Material ตรงๆ
+
+```csharp
+using ZLZ.AnimeShader;
+
+// ปิด Underwater ทั้งชุด (ผิวน้ำด้านล่าง + หมอกของบ่อนี้)
+ZLZ_EnvWater water = ZLZ_EnvWater.FindWaterAt(transform.position);
+if (water != null) water.SetUnderwaterEnabled(false);
+```
+
+หมายเหตุ: มันเขียนลง **shared material** ดังนั้นบ่อที่ใช้ Material ตัวเดียวกันจะเปลี่ยนตามทั้งหมด
+
+---
+
+## ข้อจำกัด
+
+- **ยังไม่รองรับ VR** — จอเต็มแบบ stereo ต้องมีทางเดินของตัวเอง เมื่อ XR เปิดอยู่ ระบบจะปิดตัวเองทั้งหมด (ผิวน้ำยังวาดปกติ แต่ไม่มีหมอก ฝุ่น และ Cross Melt)
+- **กล้องที่ render ลง Render Texture ไม่โดน** กล้องพรีวิว, Reflection Probe และกล้องกระจกของ Planar Reflection ก็เช่นกัน — เพื่อไม่ให้มันไปทับค่าที่กล้องจริงเพิ่งส่งเข้า shader
+- **Scene View ใช้ได้** ดำกล้อง Scene ลงไปก็เห็นหมอกและ Caustics ระหว่างจูนค่าได้เลย
+- **ต้องมี `ZLZ_EnvWater`** ผิวน้ำเปล่าๆ ที่ใส่แต่ Material ไม่มีใครรู้ว่าระดับน้ำอยู่ไหน หมอกจึงไม่ทำงาน (Dashboard จะใส่ component ให้เองเมื่อเจอ mesh ที่ใส่ Material น้ำไว้)
+- **หลายบ่อพร้อมกันได้** กล้องจะจมอยู่ในบ่อที่ผิวน้ำอยู่ใกล้ในแนวตั้งที่สุด — ทะเลกับสระบนดาดฟ้าอยู่ในฉากเดียวกันได้ไม่สับสน
 
 ---
 
 ## Good to Know
 
-- Every point on the surface **moves together**. There is no travelling swell — for rings spreading out from a character, pair this with the **Interaction** feature
-- It costs almost nothing: the work happens in the vertex stage and reads a baked 128×1 pixel curve texture
-- Each water body keeps its own curve, height and loop time, even when they share a material
-- The values ride Prefabs and Scenes like any other component field
-- A material with Waves on but no `ZLZ_EnvWater` component on the object simply stays still (nothing breaks, nothing stutters) — there is no one to hand it the curve
-- The waves honour `Time.timeScale`, so slow motion and pausing slow and stop the rhythm with the game
+- **ไม่จมน้ำ = ไม่เสียอะไรเลย** ทุกเฟรมที่กล้องอยู่บนบก ระบบทำแค่เช็คตำแหน่งกล้อง แล้วไม่ enqueue pass ใดๆ
+- **หมอกไม่ต้องก๊อปภาพหน้าจอ** อ่านแค่ Depth แล้วเบลนด์สีทับลงไป — ไม่มีการ copy camera color ที่แพงบนมือถือ
+- **มีแค่ Cross Melt ที่ต้องก๊อปเฟรม** และก๊อปเฉพาะตอนกำลังเล่นเอฟเฟกต์เท่านั้น พอเงียบไปราว 2 วินาที บัฟเฟอร์นั้นจะถูกคืนหน่วยความจำทิ้ง ไม่ค้างไว้ทั้งเกม
+- **ลำดับการวาดมีเหตุผลของมัน** Caustics พื้นและหมอกวาด **ก่อน** transparent ผิวน้ำจึงคมอยู่บนหมอก ส่วนฝุ่นลอยวาด **หลัง** transparent เพราะฝุ่นลอยอยู่ระหว่างกล้องกับทุกอย่าง — ถ้าวาดก่อน ผิวน้ำจะลบฝุ่นทิ้งทุกพิกเซลที่มันคลุม (เงยหน้ามอง = ฝุ่นหายทั้งจอ)
+- **ผิวน้ำจากใต้น้ำข้ามงานฝั่งบนทั้งหมด** ทั้งเงาชายฝั่ง สีตามความลึก Reflection และ Specular ไม่ถูกคำนวณเลย ทำให้ทางเดินนี้ถูกกว่าที่คิด
+- **Caustics ที่พื้นทำงานเฉพาะในกรอบของบ่อ** และมีขอบนุ่ม 1 เมตร ลายจึงไม่จบด้วยเส้นตรงแข็งๆ
+- **ฝุ่นลอยเป็นเอฟเฟกต์ระดับหน้าจอ 2 ชั้น** ชั้นใกล้ใหญ่และสว่าง ชั้นไกลเล็กและจาง ให้ความรู้สึก parallax โดยไม่ต้องมี particle system จริงสักตัว
+- **หมอกและฝุ่นขยับใน Edit Mode ด้วย** เพราะเดินด้วยนาฬิกาของ shader ที่เดินตลอดในเอดิเตอร์
