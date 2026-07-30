@@ -19,8 +19,7 @@ Underwater ประกอบด้วย **สองฝั่งที่เป
 - **หมอกน้ำเต็มจอ + Caustics ที่พื้น + ฝุ่นลอย + Cross Melt** — ทำด้วย URP Renderer Feature ชื่อ `ZLZ Env Underwater`
 
 ## Showcase Underwater
-<!-- TODO: ใส่ id คลิป -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="Si35C7-wr2A" %}
 
 ---
 
@@ -56,7 +55,7 @@ Underwater ประกอบด้วย **สองฝั่งที่เป
 
 ## Material > Underwater
 
-<!-- TODO: ภาพ Inspector ของ Material section Underwater — Underwater_Mat.png -->
+{% include youtube-loop.html id="HzJjoIa-WvM" %}
 
 หัวข้อนี้จะโผล่มาก็ต่อเมื่อเปิดฟีเจอร์ Underwater แล้ว แบ่งเป็น 3 กลุ่ม
 
@@ -91,7 +90,7 @@ Underwater ประกอบด้วย **สองฝั่งที่เป
 
 ## Object น้ำ > Underwater Fog
 
-<!-- TODO: ภาพ Inspector ของ ZLZ_EnvWater section Underwater Fog — Underwater_Water_Script.png -->
+{% include youtube-loop.html id="lbJoay5tfpg" %}
 
 หัวข้อนี้อยู่บน **Inspector ของตัว Object น้ำ** และจะโผล่มาเมื่อ Material เปิด Underwater แล้ว
 
