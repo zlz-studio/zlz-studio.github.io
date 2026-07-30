@@ -35,6 +35,8 @@ Underwater ประกอบด้วย **สองฝั่งที่เป
 
 ### สิ่งที่ URP Asset ต้องเปิด
 
+![URP_Asset](../water-underwater/URP_Asset.png)
+
 - **Opaque Texture — จำเป็น** ถ้าปิดไว้ ผิวน้ำมองจากข้างล่างจะกลายเป็นเพดานเปล่าๆ (ทั้ง Inspector ของ Material และของตัวน้ำจะเตือนให้เห็นตรงจุดที่ตั้งค่าเลย)
 - **Depth Texture — จำเป็น** หมอกน้ำและ Caustics ที่พื้นอ่านระยะจาก Depth
 
