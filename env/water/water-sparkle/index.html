@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paint Mode Overview | ZLZ Env Shader</title>
+  <title>Water Sparkle | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -572,7 +572,7 @@
 <h3>Paint Mode</h3>
 
 <a href="/env/paint-mode/"
-   class="active">
+   class="">
    Overview
 </a>
 
@@ -703,7 +703,7 @@
 
 
 <a href="/env/water/water-sparkle/"
-   class="">
+   class="active">
    Water Sparkle
 </a>
 
@@ -744,101 +744,55 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="paintmode---tools">PaintMode - Tools</h1>
+        <h1 id="water-sparkle">Water Sparkle</h1>
 
-<h2 id="showcasepaintmode---control">ShowcasePaintMode - Control</h2>
+<p>Glitter flashing across shallow water — small points of light blinking on and off out of step with each other, gathering thickest along the path where the sun reflects toward the eye. It is the detail that makes shallow water feel <em>alive</em> instead of a smooth surface carrying one lone reflection of the sun.</p>
+
+<p>The points here are <strong>real points you can count</strong>, not a by-product of the ripple pattern: the system lays a grid over the world and lets each cell hold at most one point. That makes “how many” and “how big” sliders you turn directly, rather than side effects of some other value.</p>
+
+<p>And a point in the distance stays <strong>a point</strong> — it never swells into a blob, never smears into a bright haze, and never crawls about as sub-pixel noise.</p>
+
+<h2 id="showcase-water-sparkle">Showcase Water Sparkle</h2>
+
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Controller_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/_xY8MbSuL1E?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=_xY8MbSuL1E&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
 </div>
 
-<h2 id="showcasepaintmode---texture">ShowcasePaintMode - Texture</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Texture_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<hr />
 
-<h2 id="showcasepaintmode---brush">ShowcasePaintMode - Brush</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Brush_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<h2 id="setup">Setup</h2>
 
-<h2 id="showcasepaintmode---debug">ShowcasePaintMode - Debug</h2>
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <video src="/env/paint-mode/PaintMode_Debug_Web.mp4" autoplay="" loop="" muted="" playsinline="" preload="metadata" controls="" style="display: block; width: 100%; height: auto;">
-  </video>
-</div>
+<ol>
+  <li><strong>On the water material</strong> — turn on the <strong>Sparkle</strong> feature (the button grid at the top of the Inspector)</li>
+  <li><strong>On the URP Asset</strong> — keep <strong>Depth Texture</strong> on, because the sparkle knows whether it sits on shallow or deep water from the depth of the water column</li>
+</ol>
 
-<h3 id="setup---paintmode">Setup - PaintMode</h3>
-<p><img src="Setup_PaintMode.png" alt="Setup_PaintMode" /></p>
+<p>Nothing to bake, no component to add, no texture to assign — the sparkle takes the sun’s direction and colour from the scene’s Directional Light.</p>
+
+<hr />
+
+<h2 id="parameters">Parameters</h2>
+
+<p><img src="../water-sparkle/Material_Sparkle.png" alt="Material_Sparkle" /></p>
+
+<p>All of these live on the material under <strong>Sparkle</strong>, and only appear once the feature is on.</p>
 
 <ul>
-  <li>The Mesh you want to paint must be under <code class="language-plaintext highlighter-rouge">Base_Terrain</code>, or under a Parent that has the <code class="language-plaintext highlighter-rouge">Env Dashboard</code> script attached
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Demo/Prefab/Base_Terrain.prefab</li>
-    </ul>
-  </li>
-  <li>Assign a Material that uses ZLZ_Environment_Shader
-    <ul>
-      <li>Path : Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader</li>
-    </ul>
-  </li>
+  <li><strong>Amount</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.35</code>) — the fraction of grid cells that carry a sparkle, which is simply <strong>how many points</strong> there are. <code class="language-plaintext highlighter-rouge">0</code> = none at all, <code class="language-plaintext highlighter-rouge">1</code> = every cell has one</li>
+  <li><strong>Size (m)</strong> (<code class="language-plaintext highlighter-rouge">0.001–0.3</code>, default <code class="language-plaintext highlighter-rouge">0.01</code>) — the diameter of a point, in <strong>real world metres</strong>, and independent of Scale</li>
+  <li><strong>Scale (Density)</strong> (<code class="language-plaintext highlighter-rouge">0.1–60</code>, default <code class="language-plaintext highlighter-rouge">12</code>) — the grid frequency, which is the <strong>density</strong> of the glitter (points per metre). High = a tight shimmer, low = fewer points further apart</li>
+  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–12</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how fast the points twinkle. Each cell keeps its own phase, so they never blink in unison. <code class="language-plaintext highlighter-rouge">0</code> = the points hold still</li>
+  <li><strong>Depth Fade</strong> (<code class="language-plaintext highlighter-rouge">0.1–30</code>, default <code class="language-plaintext highlighter-rouge">2</code>) — how many metres of water column it takes for the sparkle to disappear. Low = a band along the shore only, high = glitter across the whole surface, the open-sea look</li>
+  <li><strong>Sun Focus</strong> (<code class="language-plaintext highlighter-rouge">0–32</code>, default <code class="language-plaintext highlighter-rouge">6</code>) — how tightly the glitter hugs the sun’s reflection path. High = pinned into one narrow lane of light, <code class="language-plaintext highlighter-rouge">0</code> = <strong>spread evenly over the whole surface, with no regard for where the sun is</strong></li>
+  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–4</code>, default <code class="language-plaintext highlighter-rouge">1.5</code>) — how bright the points are</li>
 </ul>
 
-<h3 id="what-can-paintmode-do">What Can PaintMode Do?</h3>
-<ul>
-  <li>Paint additional decorative textures onto meshes you authored, whether in Maya or Blender</li>
-  <li>Paint on both horizontal and vertical surfaces</li>
-  <li>Customize your own brushes</li>
-  <li>Freely control brush size and hardness</li>
-  <li>Once enabled, it works alongside every other feature in the Shader</li>
-</ul>
-
-<h3 id="mask-source">Mask Source</h3>
-<ul>
-  <li>Chooses where the “paint data” is stored. Switched via a shader keyword at build time — it is not a runtime value</li>
-  <li>Mask = stored in a texture (_PaintMask). Detail capped by texture resolution. Needs clean UVs in the selected channel</li>
-  <li>Vertex Color = stored in the mesh’s vertex colors. No texture or UVs, lighter, DCC-painted colors show up immediately. Detail capped by vertex density</li>
-  <li>If data exists in both Mask and Vertex Color, only the selected source is displayed</li>
-  <li>The Grass system reads this value, so switching the Mask Source automatically re-samples every grass clump</li>
-</ul>
-
-<h3 id="active-layers-1-4">Active Layers (1-4)</h3>
-<ul>
-  <li>Choose how many Layers to use; unused Layers are hidden</li>
-  <li>Assign a Texture to each Layer, selecting which Texture goes in which slot</li>
-  <li>Adjust the Size of each Texture</li>
-</ul>
-
-<h3 id="mask">Mask</h3>
-<ul>
-  <li>Name the Mask Texture file — it is exported automatically once painting is done</li>
-  <li>Set the Resolution (512, 1024, 2048)</li>
-  <li>Specify the destination where the Mask Texture file is saved after painting</li>
-  <li>New Mask : create a new Mask Texture</li>
-  <li>Clear : erase all existing data on the current Mask Texture</li>
-  <li>Revert to Saved : roll back to the last saved state</li>
-  <li>Undo : up to 8 steps back, or press Ctrl + Z</li>
-  <li>Debug Mode : available only while Start Painting is enabled</li>
-</ul>
-
-<h1 id="paintmode---material">PaintMode - Material</h1>
-
-<p><img src="PaintMode.png" alt="PaintMode" /></p>
-
-<h3 id="albedo-rgb--tiling--offset">Albedo (RGB) / Tiling / Offset</h3>
-<ul>
-  <li>The base Texture of this material — what you see in areas that have not been painted. Every Paint Layer is composited on top of it</li>
-  <li>Tiling/Offset is Unity standard (_MainTex_ST) and affects only the base Albedo, not the Layers</li>
-  <li>If Triplanar is enabled, this section is replaced by World Tiling + Blend Sharpness</li>
-</ul>
-
-<h3 id="parameters">Parameters</h3>
-<ul>
-  <li>Mask Cutoff = pulls the edge inward. Higher values drop faint strokes, keeping only heavy paint</li>
-  <li>Mask Smoothness = edge softness. High = soft gradients, low = crisp. Near 0 = hard two-tone cut</li>
-</ul>
+<blockquote>
+  <p><strong>The sparkle’s colour comes from the Specular section</strong> — it shares <strong>Specular Color</strong> and is multiplied by the Directional Light’s colour on top of that. There is no separate colour field for Sparkle at the moment, so to recolour the glitter, adjust Specular Color.</p>
+</blockquote>
 
       </div>
     </main>
