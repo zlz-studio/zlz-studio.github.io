@@ -1,88 +1,112 @@
 ---
 layout: docs
 title: Water Caustics
-last_modified_at: 2026-07-28
+last_modified_at: 2026-07-30
 published: false
 ---
 
+<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
+
 # Water Caustics
 
-The whole surface **rises and falls as one** to a rhythm you draw yourself, like the sea slowly breathing in and out. As the level climbs the water swallows more of the beach; as it drops the sand comes back. The foam along the shore and the shallow water colours follow the level on their own.
+ลายแสงเต้นระยิบบนพื้นใต้น้ำ — แสงแดดที่ถูกผิวน้ำที่กระเพื่อมรวมลำลงไปเป็นเส้นสว่างสานกันเป็นตาข่าย แล้วคลานไปเรื่อยๆ ไม่หยุด เป็นสัญญาณเดียวที่ทำให้คนดูรู้ทันทีว่า "น้ำนี้ใสและมีพื้นอยู่ข้างล่าง" ไม่ใช่แผ่นสีฟ้าวางทับพื้นทราย
 
-The lift has **no slope** — every point moves by the same amount, so there is no travelling swell. That is deliberate: the reflection, the Fresnel and the surface direction all hold perfectly steady while the level breathes. The small-scale life of the water stays with the scrolling ripple normal map.
+ลายนี้ถูก **ฉายลงไปติดที่พื้น** ไม่ได้แปะอยู่บนผิวน้ำ — คำนวณจากตำแหน่งจริงของพื้นที่มองทะลุลงไปเห็น เพราะฉะนั้นกล้องขยับไปทางไหน ลายก็ยังอยู่กับพื้นที่เดิม และระลอกคลื่นก็เลื่อนผ่านมันไป ไม่ใช่ลากมันไปด้วย
 
-## Showcase Water Waves
-{% include youtube-loop.html id="Hac9OmXSVg8" %}
+ทั้งหมดเป็น procedural ไม่ใช้เท็กซ์เจอร์ ไม่มี pass เพิ่ม และปิดไว้แล้วไม่กินอะไรเลย
+
+## Showcase Water Caustics
+<!-- TODO: ใส่ id คลิป (ต้นฉบับ: ZLZ Env Shader\Water\Caustics\Water_Caustics.mp4) -->
+<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
 
 ---
 
 ## Setup
 
-Two things go together.
+1. **ที่ Material ของน้ำ** — เปิดฟีเจอร์ **Caustics** (แถวปุ่มด้านบนของ Inspector)
+2. **ที่ URP Asset** — เปิด **Depth Texture** ให้แน่ใจ เพราะระบบต้องรู้ว่าพื้นอยู่ลึกแค่ไหนจึงจะฉายลายลงไปติดพื้นได้
 
-1. **On the water material** — turn on the **Waves** feature (the button grid at the top of the Inspector)
-2. **On the water object** — tune the rhythm under **Dashboard > Water** (or straight on the water object's Inspector, if it does not sit under a Dashboard)
+> **ควรเปิด Refraction คู่กัน** ถ้าเปิด Refraction อยู่แล้ว น้ำจะโชว์ภาพพื้นจริงผ่านผิวน้ำ ลาย Caustics ก็จะไปวางบนพื้นที่มองเห็นนั้นพอดี — เป็นการใช้งานที่ระบบถูกออกแบบมาให้ ถ้าไม่เปิด Refraction ลายยังทำงานอยู่ (ระบบจะดันความทึบของผิวน้ำขึ้นตามความสว่างของลายให้เอง เพื่อให้ลายทะลุขึ้นมาให้เห็นในน้ำตื้นที่โปร่งอยู่)
 
-> **Why isn't this on the material?** The rhythm is an **AnimationCurve**, and a material cannot hold a curve. The values live on the `ZLZ_EnvWater` component instead — which works out nicely, because every pond gets its own rhythm even when they all share one material.
-
-The material's Waves section has nothing to tune: it only points you to the Dashboard.
+ไม่ต้อง Bake อะไร ไม่ต้องมี component ไม่ต้องวางแสงเพิ่ม — ลายอ่านสีและทิศจาก Directional Light ของฉากเอง
 
 ---
 
 ## Parameters
 
-![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
+<!-- TODO: ภาพ Inspector หัวข้อ Caustics — Caustics_Mat.png -->
 
-All three live under **Dashboard > Water**, and only appear once the material has the **Waves** feature on.
+ทั้งหมดอยู่บน Material ใต้หัวข้อ **Caustics** และจะโผล่มาเมื่อเปิดฟีเจอร์แล้ว
 
-- **Wave Shape** (curve) — the rise and fall across one loop. X = 0 to 1 is the progress through the loop; Y = `0` is the lowest level and `1` the highest
-- **Wave Height** (metres, default `0.2`) — how far the surface travels above and below its rest level. This is the distance **one way**: the full trough-to-crest range is twice this value
-- **Seconds per Loop** (seconds, default `5`) — the time for one full pass of the curve, minimum `0.25`. Higher values give the slow, heavy rhythm of open sea
+- **Color** (HDR, default ขาว) — สีของลายแสง คูณกับสีของ Directional Light อยู่แล้ว ปกติปล่อยขาวไว้ ใช้ตอนอยากให้แสงใต้น้ำอมเขียวหรืออมฟ้ากว่าแสงบนบก
+- **Intensity** (`0–4`, default `1.2`) — ความสว่างของลาย `0` = ไม่เห็นเลย
+- **Scale** (`0.1–8`, default `1`) — ความถี่ของตาข่าย คิดเป็น **world space** ไม่ผูกกับ UV หรือขนาด mesh ค่าสูง = ตาข่ายถี่เล็ก (สระว่ายน้ำ), ค่าต่ำ = ตาข่ายใหญ่ (ทะเลเปิด) ลากน้ำไปขยายเท่าไรลายก็ยังขนาดเดิม
+- **Speed** (`0–3`, default `0.6`) — ลายคลานเร็วแค่ไหน `0` = หยุดนิ่ง (ยังเห็นลายอยู่ แต่ไม่ขยับ)
+- **Sharpness** (`1–16`, default `6`) — ความคมของเส้น ค่าสูง = เส้นเรียวคมแบบสระว่ายน้ำน้ำใสจัด และภาพรวมจะมืดลงเพราะเส้นบางลง ค่าต่ำ = เส้นหนานุ่มฟุ้งกระจายทั่วพื้น
+- **Depth Fade** (`0.1–20`, default `4`) — น้ำลึกกี่เมตรแล้วลายจะหายไปหมด ลายจะสว่างที่สุดตรงชายฝั่งแล้วจางลงแบบเร่ง (กำลังสอง) ตามความลึก
 
-### Shape the Motion Freely with the Curve
-
-![Water_Wave_Curve](../water-waves/Water_Wave_Curve.png)
-
-- The curve **loops seamlessly** — the end joins back to the start on its own, so the seam never jumps
-- Drag the keyframes however you like: a hard surge with a long retreat, or a still pond that swells once and settles
-- Right-click the curve field to **Copy / Paste** it onto another pond. Undo is fully supported
+> **ทำไมลึกแล้วต้องหาย?** สองเหตุผลที่ตรงกับของจริง: แสงที่รวมลำถูกน้ำดูดซับไปก่อนถึงพื้น และน้ำลึกในระบบนี้ทึบอยู่แล้ว (ตาม Depth Color) ให้ตั้ง Depth Fade ใกล้เคียงกับ **See-Through Depth** ในหัวข้อ Depth Color ลายจะหายไปพอดีกับตอนที่พื้นเริ่มมองไม่เห็น
 
 ---
 
-## Animates in Edit Mode Too
+## ลายมาจากไหน
 
-**The surface rises and falls right in Edit Mode** — no need to press Play. The lift is computed in the shader's vertex stage, which runs on the shader clock, and that keeps ticking in the editor. Compose the scene knowing exactly how far the water reaches at high tide.
+ตาข่ายสร้างจาก **Worley noise สองชั้น** คนละสเกลคนละจังหวะ ซ้อนกัน — จุดศูนย์ของแต่ละเซลล์วนอยู่ในเซลล์ตัวเองตามคลื่นไซน์ ทำให้ทั้งผืนคลานและระยิบไปเรื่อยๆ ส่วนที่สว่างคือ **สันขอบระหว่างเซลล์** (จุดที่ไกลจากศูนย์ที่สุด) นั่นคือเส้นตาข่ายที่เห็น
 
-[Water Floater]({{ '/env/water/water-floater/' | relative_url }}), however, only runs in Play mode: the C# side has no clock that matches the shader's inside the editor. In Edit Mode it falls back to the rest level, which is the level you want to place props against anyway.
+ที่ใช้สองชั้นเพราะชั้นเดียวจะอ่านออกเป็นตะแกรงกลมๆ ซ้ำๆ ทันที
+
+### ระยะไกลไม่หายเป็นพื้นเปล่า
+
+เมื่อมองไปไกลๆ เส้นตาข่ายจะเล็กกว่า 1 พิกเซล ถึงจุดนั้นระบบจะเลิกวาดเส้นแล้วใช้ **ค่าเฉลี่ยความสว่างของลายเอง** แทน (ไม่ใช่ศูนย์) — พื้นไกลๆ จึงยังได้แสงจาก Caustics อยู่ เสียแต่รายละเอียด ไม่ใช่ดับไปทั้งแถบเหมือนมีเส้นตัด
+
+จุดนี้สำคัญกับมุมกล้องที่แนบพื้น (เช่นตอนดำน้ำ) เพราะสายตาเฉียดพื้น ระยะที่เส้นเล็กกว่าพิกเซลมาถึงในไม่กี่เมตร ไม่ใช่หลายสิบเมตร
 
 ---
 
-## Effects on Other Features
+## ทำงานร่วมกับฟีเจอร์อื่น
 
-### Foam — Wave Fade
-With Waves on, the **Foam** section gains one extra value: **Wave Fade** (`0–1`, default `1`). It does not appear at all while Waves is off.
+### Underwater
+ทั้งสองฝั่งใช้ **ลายชุดเดียวกันตัวจริง** (โค้ดลายอยู่ในไฟล์กลางที่ทั้งสองทางเรียกใช้) ดำลงไปแล้วลายบนพื้นจะต่อเนื่องกับที่เห็นจากบนผิวน้ำเป๊ะๆ ไม่ใช่ลายคนละชุดที่พยายามจูนให้เหมือนกัน
 
-- `1` = the clustered foam (Foam Noise) **washes out in the trough and comes in full on the crest**, like foam carried up the beach and dragged back
-- `0` = the swell is ignored and the foam shows the same at all times
+หัวข้อ Caustics นี้เป็นเจ้าของ **หน้าตาทั้งหมด** (Scale / Speed / Sharpness / Color / Depth Fade / Intensity) ส่วนฝั่ง Underwater มีแค่ตัวคูณความสว่าง 2 ตัว:
 
-It only touches the **clustered foam**. The **Foam Line** (the crisp inked waterline) stays put throughout, so the shore never loses its edge at low tide.
+- **Underwater Fog > Floor Caustics** — ตัวคูณของ Intensity สำหรับพื้นที่มองตอนดำน้ำ (`1` = สว่างเท่าที่เห็นจากบนผิวน้ำ)
+- **Material > Underwater > Surface Caustics** — ลายที่เล่นอยู่บนตัวผิวน้ำเมื่อเงยขึ้นไปมองจากใต้น้ำ
+
+**ปิดฟีเจอร์ Caustics แล้วทั้งสองตัวนั้นดับตามทันที** และสไลเดอร์ Surface Caustics จะถูกเทาไว้กดไม่ได้ ดู [Underwater]({{ '/env/water/water-underwater/' | relative_url }})
+
+### Refraction
+คู่หูที่ควรเปิดด้วยกัน และมีรายละเอียดหนึ่งที่ทำไว้ให้แล้ว: การจางตามความลึกอ่านจากความลึกที่ **หักเหแล้ว** ไม่ใช่ความลึกจริง ผลคือหย่อมสว่างของลายบนวัตถุที่จมอยู่จะบิดไปตามภาพหักเหของวัตถุนั้น ไม่ใช่พิมพ์เงาร่างจริงของมันทับลงไปเป็นอีกชั้นที่แข็งทื่อ
+
+### Depth Color
+ตัวกำหนดว่าน้ำโปร่งลึกแค่ไหน ควรตั้ง **Depth Fade** ของ Caustics ให้สอดคล้องกับ **See-Through Depth** ไม่งั้นจะได้ลายสว่างเต้นอยู่บนพื้นที่มองไม่เห็นแล้ว (หรือพื้นที่มองเห็นชัดแต่ไม่มีลาย)
+
+### Lighting — Receive Shadow
+ลายถูกคูณด้วยเงาที่ผิวน้ำได้รับ **เงาของก้อนหินหรือต้นไม้ที่ทอดลงน้ำจะดับลายในบริเวณนั้น** เหมือนเมฆบังแดด และเพราะคูณด้วยสีของ Directional Light ตกกลางคืนลายก็ดับไปพร้อมกับแสงเอง
+
+### Sparkle
+คนละชั้นแต่เสริมกัน: Sparkle คือประกายบน **ผิวน้ำ**, Caustics คือแสงบน **พื้น** ทั้งคู่จำกัดตัวเองอยู่ในน้ำตื้นด้วยหลักเดียวกันและกันภาพระยิบยิบด้วยวิธีเดียวกัน เปิดคู่กันน้ำตื้นจะมีชีวิตทั้งบนผิวและใต้ผิว
 
 ### Reflection
-The reflection is anchored to the **rest level**, not the moving one. The mirror camera renders against a fixed plane, so letting the reflection ride the surface would make the mirrored image slide up and down. This is handled for you — nothing to configure.
+Caustics ถูกบวกเข้าไป **ก่อน** Specular และ Reflection โดยตั้งใจ — มันเป็นแสงที่พื้น ฉะนั้นตรงที่ผิวน้ำสะท้อนจัดจนเป็นกระจก มันควรถูกภาพสะท้อนกลบ ซึ่งเกิดขึ้นเองถูกต้องตามลำดับนี้
 
-### Water Interaction
-The **Surface Range** on `ZLZ_Env Water Interactor` automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.
+### Waves / Interaction
+ลายเกาะอยู่กับพื้น ไม่ได้ขี่ normal ของผิวน้ำ ฉะนั้นระลอกคลื่นหรือวงกระเพื่อมจากตัวละคร **ไม่ได้ลากลายไปด้วย** — แต่ถ้าเปิด Refraction ภาพพื้นที่มองทะลุลงไป (พร้อมลายบนนั้น) จะกระเพื่อมตามการหักเหอยู่แล้ว ซึ่งเป็นพฤติกรรมที่ถูก
 
-### Water Floater
-Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees.
+---
+
+## Debug
+
+ในหัวข้อ **Debug** ท้าย Inspector มีโหมด **Caustics** ที่แสดงค่าความสว่างดิบของลาย (หลังหักการจางตามความลึกและระยะแล้ว แต่ก่อนคูณสีและ Intensity) ใช้ตอนหาว่าทำไมลายไม่ขึ้น — ถ้าโหมดนี้ดำทั้งจอ แปลว่าปัญหาอยู่ที่ความลึก / Depth Texture ไม่ใช่ที่สีหรือความสว่าง
 
 ---
 
 ## Good to Know
 
-- Every point on the surface **moves together**. There is no travelling swell — for rings spreading out from a character, pair this with the **Interaction** feature
-- It costs almost nothing: the work happens in the vertex stage and reads a baked 128×1 pixel curve texture
-- Each water body keeps its own curve, height and loop time, even when they share a material
-- The values ride Prefabs and Scenes like any other component field
-- A material with Waves on but no `ZLZ_EnvWater` component on the object simply stays still (nothing breaks, nothing stutters) — there is no one to hand it the curve
-- The waves honour `Time.timeScale`, so slow motion and pausing slow and stop the rhythm with the game
+- **ฉายจากด้านบนลงมาตรงๆ** ลายจึงพาดคลุมทุกอย่างที่จมอยู่ ไม่ใช่แค่พื้นเรียบ — ก้อนหิน เสา props ก็ได้ลายไปด้วย ซึ่งตรงกับของจริงที่แสงดาบเลาะไปทั่วทุกอย่างใต้น้ำ
+- **ไม่ใช้เท็กซ์เจอร์เลย** ทุกอย่างคำนวณสดในพิกเซล ไม่มีไฟล์ให้จัดการ ไม่มี VRAM เพิ่ม
+- **ถูกกว่าที่คิด** พิกเซลที่ลึกเกิน Depth Fade หรือไกลเกินกว่าจะเห็นเส้น จะออกจากการคำนวณก่อนถึงส่วนที่หนัก (ลูป Worley) ต้นทุนจริงจึงตกอยู่แค่แถบน้ำตื้นที่เห็นลาย
+- **นิ่งสนิทกับ TAA** การสร้างตำแหน่งพื้นใช้วิธีที่ไม่สะเทือนตาม jitter ของกล้อง ลายจึงไม่สั่น
+- **ขยับใน Edit Mode ด้วย** เดินด้วยนาฬิกาของ shader ที่เดินตลอดในเอดิเตอร์ — จูนค่าแล้วเห็นลายคลานทันทีไม่ต้องกด Play
+- **ต้องมี Depth Texture** ถ้าปิดไว้จะไม่มีข้อมูลพื้นให้ฉายลาย
+- ลายเป็นของ Material ฉะนั้นบ่อที่ใช้ Material เดียวกันจะได้ลายเหมือนกันหมด — อยากให้สระว่ายน้ำลายถี่กว่าทะเล ต้องแยก Material
