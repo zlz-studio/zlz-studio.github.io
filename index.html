@@ -944,7 +944,8 @@
       {% assign waterUnderwater = site.pages | where: "url", "/env/water/water-underwater/" | first %}
       {% assign waterCaustics = site.pages | where: "url", "/env/water/water-caustics/" | first %}
       {% assign waterSparkle = site.pages | where: "url", "/env/water/water-sparkle/" | first %}
-      {% if waterOverview or waterInteraction or waterWaves or waterFloater or waterRingWave or waterUnderwater or waterCaustics or waterSparkle %}
+      {% assign waterFoam = site.pages | where: "url", "/env/water/water-foam/" | first %}
+      {% if waterOverview or waterInteraction or waterWaves or waterFloater or waterRingWave or waterUnderwater or waterCaustics or waterSparkle or waterFoam %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Water</h2>
         <div class="featGrid">
@@ -974,6 +975,13 @@
             <span class="featMeta">
               <span class="featName">Water Floater</span>
               <small class="featDate">Updated {{ waterFloater.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if waterFoam %}<a class="featCard" href="/env/water/water-foam/">
+            <img src="/env/water/Water_Foam_Thumb.webp" data-anim="/env/water/Water_Foam_Hover.webp" alt="Water Foam" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Water Foam</span>
+              <small class="featDate">Updated {{ waterFoam.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if waterRingWave %}<a class="featCard" href="/env/water/water-ring-wave/">
