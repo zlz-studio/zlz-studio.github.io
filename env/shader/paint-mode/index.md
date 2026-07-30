@@ -1,22 +1,22 @@
 ---
 layout: docs
-title: Paint Mode Overview
+title: Paint Mode
 last_modified_at: 2026-07-16
 ---
 
 # PaintMode - Tools
 
 ## ShowcasePaintMode - Control
-{% include video.html src="/env/paint-mode/PaintMode_Controller_Web.mp4" %}
+{% include video.html src="/env/shader/paint-mode/PaintMode_Controller_Web.mp4" %}
 
 ## ShowcasePaintMode - Texture
-{% include video.html src="/env/paint-mode/PaintMode_Texture_Web.mp4" %}
+{% include video.html src="/env/shader/paint-mode/PaintMode_Texture_Web.mp4" %}
 
 ## ShowcasePaintMode - Brush
-{% include video.html src="/env/paint-mode/PaintMode_Brush_Web.mp4" %}
+{% include video.html src="/env/shader/paint-mode/PaintMode_Brush_Web.mp4" %}
 
 ## ShowcasePaintMode - Debug
-{% include video.html src="/env/paint-mode/PaintMode_Debug_Web.mp4" %}
+{% include video.html src="/env/shader/paint-mode/PaintMode_Debug_Web.mp4" %}
 
 ### Setup - PaintMode
 ![Setup_PaintMode](Setup_PaintMode.png)

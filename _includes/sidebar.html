@@ -9,18 +9,28 @@
   when previewing locally with: jekyll serve --unpublished
 {% endcomment %}
 
-{% assign p = site.pages | where: "url", "/env/paint-mode/" | first %}
-{% if p %}
-<h3>Paint Mode</h3>
+{% assign shaderOverview = site.pages | where: "url", "/env/shader/" | first %}
+{% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
+{% if shaderOverview or shaderPaintMode %}
+<h3>Environment Shader</h3>
 
-<a href="{{ '/env/paint-mode/' | relative_url }}"
-   class="{% if page.url == '/env/paint-mode/' or page.url == '/env/paint-mode/index.html' %}active{% endif %}">
+{% if shaderOverview %}
+<a href="{{ '/env/shader/' | relative_url }}"
+   class="{% if page.url == '/env/shader/' or page.url == '/env/shader/index.html' %}active{% endif %}">
    Overview
 </a>
+{% endif %}
 
 <div class="sideTree">
 
-<!-- TODO: Paint Mode sub-pages -->
+{% if shaderPaintMode %}
+<a href="{{ '/env/shader/paint-mode/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/paint-mode/' %}active{% endif %}">
+   Paint Mode
+</a>
+{% endif %}
+
+<!-- TODO: remaining Environment Shader sub-pages -->
 
 </div>
 {% endif %}
@@ -455,11 +465,20 @@
 
 </div>
 
-{% assign envHome = site.pages | where: "url", "/env/paint-mode/" | first %}
+{% comment %}
+  Entry point into the Env docs. Prefers the Environment Shader Overview and
+  falls back to Paint Mode, so the link survives while the Overview is a draft.
+{% endcomment %}
+{% assign envHome = site.pages | where: "url", "/env/shader/" | first %}
+{% assign envHomeUrl = '/env/shader/' %}
+{% unless envHome %}
+  {% assign envHome = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
+  {% assign envHomeUrl = '/env/shader/paint-mode/' %}
+{% endunless %}
 {% if envHome %}
 <h3>Other Products</h3>
 
-<a href="{{ '/env/paint-mode/' | relative_url }}">ZLZ Env Shader Docs</a>
+<a href="{{ envHomeUrl | relative_url }}">ZLZ Env Shader Docs</a>
 {% endif %}
 
 </div>
