@@ -13,7 +13,7 @@ last_modified_at: 2026-07-16
 {% include youtube-loop.html id="vVYUeHTjClk" %}
 
 ## ShowcasePaintMode - Brush
-{% include youtube-loop.html id="_xY8MbSuL1E" %}
+{% include youtube-loop.html id="kqyO8XkFVuY" %}
 
 ## ShowcasePaintMode - Debug
 {% include youtube-loop.html id="duSt1O5U2Es" %}
