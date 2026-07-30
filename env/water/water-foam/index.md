@@ -34,7 +34,7 @@ published: false
 
 ## General
 
-![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
+![Material_Foam1](../water-foam/Material_Foam1.png)
 
 ค่าที่คุมฟองทั้งระบบ ทั้งเส้นน้ำและกลุ่มฟอง
 
@@ -45,7 +45,7 @@ published: false
 
 ## Foam Noise — กลุ่มฟอง
 
-<!-- TODO: ภาพ Inspector กลุ่ม Foam Noise — Material_Foam_Noise.png -->
+![Material_Foam1](../water-foam/Material_Foam2.png)
 
 ชั้นนี้คือเนื้อฟองที่แตกเป็นก้อนๆ เกิดจากการเอาลายนอยส์มาตัดด้วยเกณฑ์ความสว่าง แล้วถ่วงน้ำหนักด้วยความใกล้ชายฝั่ง
 
@@ -64,7 +64,7 @@ published: false
 
 ## Foam Line — เส้นน้ำ
 
-<!-- TODO: ภาพ Inspector กลุ่ม Foam Line — Material_Foam_Line.png -->
+![Material_Foam1](../water-foam/Material_Foam3.png)
 
 แถบทึบบางๆ ที่วางตรงรอยต่อระหว่างน้ำกับพื้น เป็นตัวที่ทำให้ชายฝั่งอ่านออกว่าเป็นงานลายเส้น
 
@@ -80,7 +80,7 @@ published: false
 
 ## Flow — ให้ฟองไหลเข้าหาฝั่ง
 
-<!-- TODO: ภาพ Inspector แถบ Flow — Material_Foam_Flow.png -->
+![Material_Foam1](../water-foam/Material_Foam4.png)
 
 ปกติลายฟองเลื่อนไปทางเดียวทั้งผืนตาม **Speed** ซึ่งพอมีเกาะหรือก้อนหินอยู่กลางน้ำจะดูผิดทันที เพราะฟองควรวิ่งเข้าหาฝั่ง **ทุกด้าน** ของมัน Flow แก้จุดนี้ด้วยการให้ลายฟองไหลไปตามสนามทิศทางที่ Bake เอาไว้
 
