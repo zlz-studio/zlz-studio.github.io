@@ -2,111 +2,108 @@
 layout: docs
 title: Water Caustics
 last_modified_at: 2026-07-30
-published: false
+published: true
 ---
-
-<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
 
 # Water Caustics
 
-ลายแสงเต้นระยิบบนพื้นใต้น้ำ — แสงแดดที่ถูกผิวน้ำที่กระเพื่อมรวมลำลงไปเป็นเส้นสว่างสานกันเป็นตาข่าย แล้วคลานไปเรื่อยๆ ไม่หยุด เป็นสัญญาณเดียวที่ทำให้คนดูรู้ทันทีว่า "น้ำนี้ใสและมีพื้นอยู่ข้างล่าง" ไม่ใช่แผ่นสีฟ้าวางทับพื้นทราย
+The rippling web of light on the floor beneath clear water — sunlight focused by the moving surface into bright threads that weave together and crawl, endlessly. It is the single cue that tells a player at a glance "this water is clear and there is a bottom down there", instead of a blue sheet laid over the sand.
 
-ลายนี้ถูก **ฉายลงไปติดที่พื้น** ไม่ได้แปะอยู่บนผิวน้ำ — คำนวณจากตำแหน่งจริงของพื้นที่มองทะลุลงไปเห็น เพราะฉะนั้นกล้องขยับไปทางไหน ลายก็ยังอยู่กับพื้นที่เดิม และระลอกคลื่นก็เลื่อนผ่านมันไป ไม่ใช่ลากมันไปด้วย
+The pattern is **projected onto the floor**, not stuck to the surface: it is computed from the real world position of the bottom seen through the water, so wherever the camera moves the web stays with the ground it belongs to, and the ripples slide across it rather than dragging it along.
 
-ทั้งหมดเป็น procedural ไม่ใช้เท็กซ์เจอร์ ไม่มี pass เพิ่ม และปิดไว้แล้วไม่กินอะไรเลย
+All of it is procedural — no textures, no extra pass, and nothing at all while the feature is off.
 
 ## Showcase Water Caustics
-<!-- TODO: ใส่ id คลิป (ต้นฉบับ: ZLZ Env Shader\Water\Caustics\Water_Caustics.mp4) -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="LgNnoRAp2yA" %}
 
 ---
 
 ## Setup
 
-1. **ที่ Material ของน้ำ** — เปิดฟีเจอร์ **Caustics** (แถวปุ่มด้านบนของ Inspector)
-2. **ที่ URP Asset** — เปิด **Depth Texture** ให้แน่ใจ เพราะระบบต้องรู้ว่าพื้นอยู่ลึกแค่ไหนจึงจะฉายลายลงไปติดพื้นได้
+1. **On the water material** — turn on the **Caustics** feature (the button grid at the top of the Inspector)
+2. **On the URP Asset** — make sure **Depth Texture** is on, because the system has to know how deep the floor is before it can project the web onto it
 
-> **ควรเปิด Refraction คู่กัน** ถ้าเปิด Refraction อยู่แล้ว น้ำจะโชว์ภาพพื้นจริงผ่านผิวน้ำ ลาย Caustics ก็จะไปวางบนพื้นที่มองเห็นนั้นพอดี — เป็นการใช้งานที่ระบบถูกออกแบบมาให้ ถ้าไม่เปิด Refraction ลายยังทำงานอยู่ (ระบบจะดันความทึบของผิวน้ำขึ้นตามความสว่างของลายให้เอง เพื่อให้ลายทะลุขึ้นมาให้เห็นในน้ำตื้นที่โปร่งอยู่)
+> **Pair it with Refraction.** With Refraction on, the water shows the real bottom through the surface and the caustics land exactly on that visible bottom — the setup this was built for. Without Refraction the web still works: the surface's own opacity is raised by the web's brightness for you, so it punches through the clear shallows.
 
-ไม่ต้อง Bake อะไร ไม่ต้องมี component ไม่ต้องวางแสงเพิ่ม — ลายอ่านสีและทิศจาก Directional Light ของฉากเอง
+Nothing to bake, no component to add, no extra light to place — the web takes its colour and its light from the scene's Directional Light.
 
 ---
 
 ## Parameters
 
-<!-- TODO: ภาพ Inspector หัวข้อ Caustics — Caustics_Mat.png -->
+![Material_WaterCaustics](../water-caustics/Material_WaterCaustics.png)
 
-ทั้งหมดอยู่บน Material ใต้หัวข้อ **Caustics** และจะโผล่มาเมื่อเปิดฟีเจอร์แล้ว
+All of these live on the material under **Caustics**, and only appear once the feature is on.
 
-- **Color** (HDR, default ขาว) — สีของลายแสง คูณกับสีของ Directional Light อยู่แล้ว ปกติปล่อยขาวไว้ ใช้ตอนอยากให้แสงใต้น้ำอมเขียวหรืออมฟ้ากว่าแสงบนบก
-- **Intensity** (`0–4`, default `1.2`) — ความสว่างของลาย `0` = ไม่เห็นเลย
-- **Scale** (`0.1–8`, default `1`) — ความถี่ของตาข่าย คิดเป็น **world space** ไม่ผูกกับ UV หรือขนาด mesh ค่าสูง = ตาข่ายถี่เล็ก (สระว่ายน้ำ), ค่าต่ำ = ตาข่ายใหญ่ (ทะเลเปิด) ลากน้ำไปขยายเท่าไรลายก็ยังขนาดเดิม
-- **Speed** (`0–3`, default `0.6`) — ลายคลานเร็วแค่ไหน `0` = หยุดนิ่ง (ยังเห็นลายอยู่ แต่ไม่ขยับ)
-- **Sharpness** (`1–16`, default `6`) — ความคมของเส้น ค่าสูง = เส้นเรียวคมแบบสระว่ายน้ำน้ำใสจัด และภาพรวมจะมืดลงเพราะเส้นบางลง ค่าต่ำ = เส้นหนานุ่มฟุ้งกระจายทั่วพื้น
-- **Depth Fade** (`0.1–20`, default `4`) — น้ำลึกกี่เมตรแล้วลายจะหายไปหมด ลายจะสว่างที่สุดตรงชายฝั่งแล้วจางลงแบบเร่ง (กำลังสอง) ตามความลึก
+- **Color** (HDR, default white) — the colour of the light web. It is already multiplied by the Directional Light's colour, so white is the normal answer; reach for this when the light under water should read greener or bluer than the light above it
+- **Intensity** (`0–4`, default `1.2`) — how bright the web is. `0` = invisible
+- **Scale** (`0.1–8`, default `1`) — how fine the web is, measured in **world space** rather than UV or mesh size. High = a tight small mesh (a swimming pool), low = a broad one (open sea). Stretch the water body as far as you like and the web keeps its size
+- **Speed** (`0–3`, default `0.6`) — how fast the web crawls. `0` = frozen (still a web, just not moving)
+- **Sharpness** (`1–16`, default `6`) — how thin the threads are. High = fine crisp lines, like very clear pool water, and a darker floor overall because the threads are thinner. Low = wide soft light spread over the whole bottom
+- **Depth Fade** (`0.1–20`, default `4`) — how many metres of water column it takes for the web to disappear. It is brightest at the shore and falls off on an accelerating (squared) curve with depth
 
-> **ทำไมลึกแล้วต้องหาย?** สองเหตุผลที่ตรงกับของจริง: แสงที่รวมลำถูกน้ำดูดซับไปก่อนถึงพื้น และน้ำลึกในระบบนี้ทึบอยู่แล้ว (ตาม Depth Color) ให้ตั้ง Depth Fade ใกล้เคียงกับ **See-Through Depth** ในหัวข้อ Depth Color ลายจะหายไปพอดีกับตอนที่พื้นเริ่มมองไม่เห็น
-
----
-
-## ลายมาจากไหน
-
-ตาข่ายสร้างจาก **Worley noise สองชั้น** คนละสเกลคนละจังหวะ ซ้อนกัน — จุดศูนย์ของแต่ละเซลล์วนอยู่ในเซลล์ตัวเองตามคลื่นไซน์ ทำให้ทั้งผืนคลานและระยิบไปเรื่อยๆ ส่วนที่สว่างคือ **สันขอบระหว่างเซลล์** (จุดที่ไกลจากศูนย์ที่สุด) นั่นคือเส้นตาข่ายที่เห็น
-
-ที่ใช้สองชั้นเพราะชั้นเดียวจะอ่านออกเป็นตะแกรงกลมๆ ซ้ำๆ ทันที
-
-### ระยะไกลไม่หายเป็นพื้นเปล่า
-
-เมื่อมองไปไกลๆ เส้นตาข่ายจะเล็กกว่า 1 พิกเซล ถึงจุดนั้นระบบจะเลิกวาดเส้นแล้วใช้ **ค่าเฉลี่ยความสว่างของลายเอง** แทน (ไม่ใช่ศูนย์) — พื้นไกลๆ จึงยังได้แสงจาก Caustics อยู่ เสียแต่รายละเอียด ไม่ใช่ดับไปทั้งแถบเหมือนมีเส้นตัด
-
-จุดนี้สำคัญกับมุมกล้องที่แนบพื้น (เช่นตอนดำน้ำ) เพราะสายตาเฉียดพื้น ระยะที่เส้นเล็กกว่าพิกเซลมาถึงในไม่กี่เมตร ไม่ใช่หลายสิบเมตร
+> **Why does it have to fade with depth?** Two reasons that match the real thing: the focused light is absorbed before it reaches a deep bottom, and deep water in this system is already opaque (see Depth Color). Set Depth Fade near the **See-Through Depth** in the Depth Color section and the web will vanish right about where the bottom stops being visible.
 
 ---
 
-## ทำงานร่วมกับฟีเจอร์อื่น
+## Where the Pattern Comes From
+
+The web is built from **two layers of Worley noise** at different scales and phases, combined. Each cell owns a feature point that orbits inside it on a sine, which is what makes the whole field crawl and shimmer. The bright part is the **ridge between cells** — the ground that is furthest from any feature point — and that ridge network is the web you see.
+
+Two layers, because a single one reads immediately as one repeating round grid.
+
+### The Far Field Does Not Go Blank
+
+Look far enough away and the threads become finer than a pixel. At that point the system stops drawing threads and uses **the pattern's own average brightness** instead — not zero. So the distant floor keeps its caustic light and loses only the detail, rather than ending on a visible line where the effect stops.
+
+This matters most for a camera close to the bottom (while diving, for instance): the view grazes the floor, so "finer than a pixel" arrives within a few metres instead of tens of them.
+
+---
+
+## Works With Other Features
 
 ### Underwater
-ทั้งสองฝั่งใช้ **ลายชุดเดียวกันตัวจริง** (โค้ดลายอยู่ในไฟล์กลางที่ทั้งสองทางเรียกใช้) ดำลงไปแล้วลายบนพื้นจะต่อเนื่องกับที่เห็นจากบนผิวน้ำเป๊ะๆ ไม่ใช่ลายคนละชุดที่พยายามจูนให้เหมือนกัน
+Both sides run the **same pattern, literally** — the pattern code lives in one shared file that both paths call. Dive under and the web on the floor continues exactly as it read from above the surface, rather than being a second pattern tuned to look similar.
 
-หัวข้อ Caustics นี้เป็นเจ้าของ **หน้าตาทั้งหมด** (Scale / Speed / Sharpness / Color / Depth Fade / Intensity) ส่วนฝั่ง Underwater มีแค่ตัวคูณความสว่าง 2 ตัว:
+This Caustics section owns **the entire look** (Scale / Speed / Sharpness / Colour / Depth Fade / Intensity). The Underwater side only adds two brightness multipliers:
 
-- **Underwater Fog > Floor Caustics** — ตัวคูณของ Intensity สำหรับพื้นที่มองตอนดำน้ำ (`1` = สว่างเท่าที่เห็นจากบนผิวน้ำ)
-- **Material > Underwater > Surface Caustics** — ลายที่เล่นอยู่บนตัวผิวน้ำเมื่อเงยขึ้นไปมองจากใต้น้ำ
+- **Underwater Fog > Floor Caustics** — a multiplier on Intensity for the floor seen while diving (`1` = as bright as the view from above shows it)
+- **Material > Underwater > Surface Caustics** — the web playing on the surface itself when you look up from below
 
-**ปิดฟีเจอร์ Caustics แล้วทั้งสองตัวนั้นดับตามทันที** และสไลเดอร์ Surface Caustics จะถูกเทาไว้กดไม่ได้ ดู [Underwater]({{ '/env/water/water-underwater/' | relative_url }})
+**Switch the Caustics feature off and both of those go dark with it**, and the Surface Caustics slider greys out. See [Underwater]({{ '/env/water/water-underwater/' | relative_url }}).
 
 ### Refraction
-คู่หูที่ควรเปิดด้วยกัน และมีรายละเอียดหนึ่งที่ทำไว้ให้แล้ว: การจางตามความลึกอ่านจากความลึกที่ **หักเหแล้ว** ไม่ใช่ความลึกจริง ผลคือหย่อมสว่างของลายบนวัตถุที่จมอยู่จะบิดไปตามภาพหักเหของวัตถุนั้น ไม่ใช่พิมพ์เงาร่างจริงของมันทับลงไปเป็นอีกชั้นที่แข็งทื่อ
+The partner feature, and there is one detail already handled for you: the depth fade reads the **refracted** depth rather than the true one. So the bright patch of web over a submerged prop bends along with that prop's refracted image, instead of printing the prop's real silhouette on top as a second, rigid layer.
 
 ### Depth Color
-ตัวกำหนดว่าน้ำโปร่งลึกแค่ไหน ควรตั้ง **Depth Fade** ของ Caustics ให้สอดคล้องกับ **See-Through Depth** ไม่งั้นจะได้ลายสว่างเต้นอยู่บนพื้นที่มองไม่เห็นแล้ว (หรือพื้นที่มองเห็นชัดแต่ไม่มีลาย)
+This is what decides how far down the water stays clear, so keep the Caustics **Depth Fade** in step with **See-Through Depth** — otherwise you get a bright web dancing on a bottom nobody can see any more (or a clearly visible bottom with no web on it).
 
 ### Lighting — Receive Shadow
-ลายถูกคูณด้วยเงาที่ผิวน้ำได้รับ **เงาของก้อนหินหรือต้นไม้ที่ทอดลงน้ำจะดับลายในบริเวณนั้น** เหมือนเมฆบังแดด และเพราะคูณด้วยสีของ Directional Light ตกกลางคืนลายก็ดับไปพร้อมกับแสงเอง
+The web is multiplied by the shadow the surface receives, so **the shadow of a rock or a tree falling across the water puts out the web underneath it**, like a cloud crossing the sun. And because it is multiplied by the Directional Light's colour, it dies on its own at night.
 
 ### Sparkle
-คนละชั้นแต่เสริมกัน: Sparkle คือประกายบน **ผิวน้ำ**, Caustics คือแสงบน **พื้น** ทั้งคู่จำกัดตัวเองอยู่ในน้ำตื้นด้วยหลักเดียวกันและกันภาพระยิบยิบด้วยวิธีเดียวกัน เปิดคู่กันน้ำตื้นจะมีชีวิตทั้งบนผิวและใต้ผิว
+Different layers that complement each other: Sparkle is glitter on **the surface**, Caustics is light on **the floor**. Both keep themselves to shallow water on the same principle, and both calm their far field the same way. Run them together and shallow water is alive above and below the surface at once.
 
 ### Reflection
-Caustics ถูกบวกเข้าไป **ก่อน** Specular และ Reflection โดยตั้งใจ — มันเป็นแสงที่พื้น ฉะนั้นตรงที่ผิวน้ำสะท้อนจัดจนเป็นกระจก มันควรถูกภาพสะท้อนกลบ ซึ่งเกิดขึ้นเองถูกต้องตามลำดับนี้
+Caustics is added **before** the specular and the reflection, on purpose — it is light on the bottom, so where the surface turns into a hard mirror it should be hidden by the mirror image. That falls out of this ordering by itself.
 
 ### Waves / Interaction
-ลายเกาะอยู่กับพื้น ไม่ได้ขี่ normal ของผิวน้ำ ฉะนั้นระลอกคลื่นหรือวงกระเพื่อมจากตัวละคร **ไม่ได้ลากลายไปด้วย** — แต่ถ้าเปิด Refraction ภาพพื้นที่มองทะลุลงไป (พร้อมลายบนนั้น) จะกระเพื่อมตามการหักเหอยู่แล้ว ซึ่งเป็นพฤติกรรมที่ถูก
+The web is glued to the floor and does not ride the surface normal, so ripples and the rings a character leaves **do not drag it around**. With Refraction on, though, the view of the bottom (web included) already wobbles with the refraction — which is the correct behaviour.
 
 ---
 
 ## Debug
 
-ในหัวข้อ **Debug** ท้าย Inspector มีโหมด **Caustics** ที่แสดงค่าความสว่างดิบของลาย (หลังหักการจางตามความลึกและระยะแล้ว แต่ก่อนคูณสีและ Intensity) ใช้ตอนหาว่าทำไมลายไม่ขึ้น — ถ้าโหมดนี้ดำทั้งจอ แปลว่าปัญหาอยู่ที่ความลึก / Depth Texture ไม่ใช่ที่สีหรือความสว่าง
+The **Debug** section at the bottom of the Inspector has a **Caustics** mode that shows the web's raw coverage (after the depth and distance fades, before colour and Intensity). Use it when the web will not appear: if this mode is black across the screen, the problem is depth or the Depth Texture, not the colour or the brightness.
 
 ---
 
 ## Good to Know
 
-- **ฉายจากด้านบนลงมาตรงๆ** ลายจึงพาดคลุมทุกอย่างที่จมอยู่ ไม่ใช่แค่พื้นเรียบ — ก้อนหิน เสา props ก็ได้ลายไปด้วย ซึ่งตรงกับของจริงที่แสงดาบเลาะไปทั่วทุกอย่างใต้น้ำ
-- **ไม่ใช้เท็กซ์เจอร์เลย** ทุกอย่างคำนวณสดในพิกเซล ไม่มีไฟล์ให้จัดการ ไม่มี VRAM เพิ่ม
-- **ถูกกว่าที่คิด** พิกเซลที่ลึกเกิน Depth Fade หรือไกลเกินกว่าจะเห็นเส้น จะออกจากการคำนวณก่อนถึงส่วนที่หนัก (ลูป Worley) ต้นทุนจริงจึงตกอยู่แค่แถบน้ำตื้นที่เห็นลาย
-- **นิ่งสนิทกับ TAA** การสร้างตำแหน่งพื้นใช้วิธีที่ไม่สะเทือนตาม jitter ของกล้อง ลายจึงไม่สั่น
-- **ขยับใน Edit Mode ด้วย** เดินด้วยนาฬิกาของ shader ที่เดินตลอดในเอดิเตอร์ — จูนค่าแล้วเห็นลายคลานทันทีไม่ต้องกด Play
-- **ต้องมี Depth Texture** ถ้าปิดไว้จะไม่มีข้อมูลพื้นให้ฉายลาย
-- ลายเป็นของ Material ฉะนั้นบ่อที่ใช้ Material เดียวกันจะได้ลายเหมือนกันหมด — อยากให้สระว่ายน้ำลายถี่กว่าทะเล ต้องแยก Material
+- **It projects straight down**, so the web drapes over everything submerged rather than a flat bottom only — rocks, posts and props get dappled too, which is exactly what light does under real water
+- **No textures at all.** Everything is computed live in the pixel: no files to manage, no extra VRAM
+- **Cheaper than it looks.** Pixels deeper than Depth Fade, or too far away for the threads to resolve, leave the calculation before the expensive part (the Worley loops), so the real cost sits only on the band of shallow water that actually shows the web
+- **Rock steady under TAA.** The floor position is rebuilt in a way that is immune to the camera's jitter, so the web never shakes
+- **It animates in Edit Mode too**, on the shader's own clock — tune a value and the web crawls straight away, no need to press Play
+- **Depth Texture is required.** With it off there is no floor data to project onto
+- The look belongs to the **material**, so every pond sharing one material gets the same web. For a pool with a finer web than the sea, give it its own material
