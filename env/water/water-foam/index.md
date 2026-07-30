@@ -19,8 +19,7 @@ published: false
 - **Foam Noise** — กลุ่มฟองที่แตกเป็นก้อนๆ ตามลายนอยส์ที่ไหลอยู่ เป็นตัวให้ "เนื้อฟอง"
 
 ## Showcase Water Foam
-<!-- TODO: ใส่ id คลิป -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="em_9K3y1hx8" %}
 
 ---
 
