@@ -7,16 +7,16 @@ last_modified_at: 2026-07-16
 # PaintMode - Tools
 
 ## ShowcasePaintMode - Control
-{% include video.html src="/env/shader/paint-mode/PaintMode_Controller_Web.mp4" %}
+{% include youtube-loop.html id="Eff3c-0LZhQ" %}
 
 ## ShowcasePaintMode - Texture
-{% include video.html src="/env/shader/paint-mode/PaintMode_Texture_Web.mp4" %}
+{% include youtube-loop.html id="vVYUeHTjClk" %}
 
 ## ShowcasePaintMode - Brush
-{% include video.html src="/env/shader/paint-mode/PaintMode_Brush_Web.mp4" %}
+{% include youtube-loop.html id="_xY8MbSuL1E" %}
 
 ## ShowcasePaintMode - Debug
-{% include video.html src="/env/shader/paint-mode/PaintMode_Debug_Web.mp4" %}
+{% include youtube-loop.html id="duSt1O5U2Es" %}
 
 ### Setup - PaintMode
 ![Setup_PaintMode](Setup_PaintMode.png)
