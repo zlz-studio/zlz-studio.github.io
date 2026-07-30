@@ -5,40 +5,148 @@ last_modified_at: 2026-07-30
 published: false
 ---
 
+<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
+
 # Water Foam
 
-Glitter flashing across shallow water — small points of light blinking on and off out of step with each other, gathering thickest along the path where the sun reflects toward the eye. It is the detail that makes shallow water feel *alive* instead of a smooth surface carrying one lone reflection of the sun.
+ฟองขาวตรงที่น้ำจบกับพื้น — เส้นน้ำคมๆ แบบลายเส้นการ์ตูนที่ลากไปตามชายฝั่ง กับกลุ่มฟองฟูๆ ที่ตามหลังออกไปทางน้ำลึก ทั้งสองอย่างเกิดขึ้นเองจาก **ความลึกของน้ำ** ไม่ต้องวาดขอบ ไม่ต้องระบายเท็กซ์เจอร์ และไม่ต้องแก้อะไรเลยเวลาขยับก้อนหินหรือย้ายชายหาด
 
-The points here are **real points you can count**, not a by-product of the ripple pattern: the system lays a grid over the world and lets each cell hold at most one point. That makes "how many" and "how big" sliders you turn directly, rather than side effects of some other value.
+ทุกค่าในหัวข้อนี้วัดเป็น **เมตรของความลึกน้ำ** ไม่ใช่ UV เพราะฉะนั้นย่อขยายผืนน้ำแค่ไหน ฟองก็ยังกว้างเท่าเดิม
 
-And a point in the distance stays **a point** — it never swells into a blob, never smears into a bright haze, and never crawls about as sub-pixel noise.
+ฟองแบ่งเป็นสองชั้นที่คุมแยกกันคนละกลุ่ม
 
-## Showcase Water Sparkle
-{% include youtube-loop.html id="_xY8MbSuL1E" %}
+- **Foam Line** — เส้นน้ำคมๆ ที่แนบสันชายฝั่ง เป็นตัวให้ "ลายเส้น"
+- **Foam Noise** — กลุ่มฟองที่แตกเป็นก้อนๆ ตามลายนอยส์ที่ไหลอยู่ เป็นตัวให้ "เนื้อฟอง"
+
+## Showcase Water Foam
+<!-- TODO: ใส่ id คลิป -->
+<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
 
 ---
 
 ## Setup
 
-1. **On the water material** — turn on the **Sparkle** feature (the button grid at the top of the Inspector)
-2. **On the URP Asset** — keep **Depth Texture** on, because the sparkle knows whether it sits on shallow or deep water from the depth of the water column
+1. **ที่ Material ของน้ำ** — ฟีเจอร์ **Foam** เปิดมาให้ตั้งแต่ต้นอยู่แล้ว (เป็นตัวเดียวในแถวปุ่มที่ default เปิด)
+2. **ที่ URP Asset** — เปิด **Depth Texture** ไว้ เพราะฟองทั้งหมดอ่านตำแหน่งตัวเองจากความลึกของน้ำ
 
-Nothing to bake, no component to add, no texture to assign — the sparkle takes the sun's direction and colour from the scene's Directional Light.
+ส่วน **Foam Flow** กับ **Ring Wave** เป็นของเสริมที่ต้อง Bake ก่อน — วิธี Scan และ Bake อยู่ที่หน้า [Water Ring Wave]({{ '/env/water/water-ring-wave/' | relative_url }})
 
 ---
 
-## Parameters
+## General
 
-![Material_Sparkle](../water-sparkle/Material_Sparkle.png)
+<!-- TODO: ภาพ Inspector กลุ่ม General — Material_Foam_General.png -->
 
-All of these live on the material under **Sparkle**, and only appear once the feature is on.
+ค่าที่คุมฟองทั้งระบบ ทั้งเส้นน้ำและกลุ่มฟอง
 
-- **Amount** (`0–1`, default `0.35`) — the fraction of grid cells that carry a sparkle, which is simply **how many points** there are. `0` = none at all, `1` = every cell has one
-- **Size (m)** (`0.001–0.3`, default `0.01`) — the diameter of a point, in **real world metres**, and independent of Scale
-- **Scale (Density)** (`0.1–60`, default `12`) — the grid frequency, which is the **density** of the glitter (points per metre). High = a tight shimmer, low = fewer points further apart
-- **Speed** (`0–12`, default `4`) — how fast the points twinkle. Each cell keeps its own phase, so they never blink in unison. `0` = the points hold still
-- **Depth Fade** (`0.1–30`, default `2`) — how many metres of water column it takes for the sparkle to disappear. Low = a band along the shore only, high = glitter across the whole surface, the open-sea look
-- **Sun Focus** (`0–32`, default `6`) — how tightly the glitter hugs the sun's reflection path. High = pinned into one narrow lane of light, `0` = **spread evenly over the whole surface, with no regard for where the sun is**
-- **Intensity** (`0–4`, default `1.5`) — how bright the points are
+- **Color** (HDR, default ขาว) — สีของฟองทุกชนิด รวมถึงฟองจาก Interaction และฟองที่มองจากใต้น้ำ
+- **Opacity** (`0–1`, default `1`) — ความทึบของฟอง (เป็นค่า alpha ของ Color ที่ถูกดึงออกมาเป็นสไลเดอร์แยก เพราะ alpha ในตัวเลือกสีมองข้ามง่าย และถ้าเผลอเป็น 0 ฟองจะหายทั้งระบบแบบไม่มีอะไรอธิบาย)
+- **Offset** (`0–5` เมตร, default `0`) — เลื่อน **ฟองทั้งชุด** ออกไปทางน้ำลึก คิดเป็นเมตรของความลึกน้ำ ใช้ตอนอยากให้ฟองไปเกาะขอบสีที่ตาเห็น ไม่ใช่เกาะจุดที่น้ำแตะพื้นจริงๆ
 
-> **The sparkle's colour comes from the Specular section** — it shares **Specular Color** and is multiplied by the Directional Light's colour on top of that. There is no separate colour field for Sparkle at the moment, so to recolour the glitter, adjust Specular Color.
+---
+
+## Foam Noise — กลุ่มฟอง
+
+<!-- TODO: ภาพ Inspector กลุ่ม Foam Noise — Material_Foam_Noise.png -->
+
+ชั้นนี้คือเนื้อฟองที่แตกเป็นก้อนๆ เกิดจากการเอาลายนอยส์มาตัดด้วยเกณฑ์ความสว่าง แล้วถ่วงน้ำหนักด้วยความใกล้ชายฝั่ง
+
+- **Opacity** (`0–1`, default `1`) — ความทึบของ **กลุ่มฟองเท่านั้น** คูณทับ Opacity ในกลุ่ม General อีกชั้น ลดตัวนี้เพื่อให้ Ring Wave เด่นขึ้นโดยไม่ต้องแตะเส้นน้ำ
+- **Width** (เมตร, default `0.5`) — แถบฟองยื่นออกไปจากชายฝั่งได้ลึกกี่เมตร พ้นระยะนี้คือน้ำเปิด ไม่มีฟอง
+- **Offset** (`0–5` เมตร, default `0`) — เลื่อน **เฉพาะกลุ่มฟอง** ออกไปทางน้ำลึกเพิ่ม โดยเส้นน้ำอยู่ที่เดิม ใช้ตอนอยากให้เส้นน้ำครองที่สูงสุดบนหาดแล้วให้ฟองตามหลังอยู่ข้างล่าง
+- **Noise** (Texture) — ลายของกลุ่มฟอง ปูตามพิกัดโลก (ปรับความถี่ที่ช่อง Scale ของเท็กซ์เจอร์)
+- **Speed** (Vector XY, default `(0.05, 0.03)`) — ทิศและความเร็วที่ลายเลื่อนไป **ใช้เมื่อ Foam Flow ปิด** ถ้าเปิด Foam Flow การเลื่อนจะถูกแทนด้วย Flow Speed / Distance
+- **Cutoff** (`0–1`, default `0.4`) — เกณฑ์ว่านอยส์ต้องสว่างเท่าไรถึงนับเป็นฟอง ค่าต่ำ = ฟองเยอะเป็นผืน, ค่าสูง = ฟองเป็นหยอมๆ
+- **Softness** (`0.001–0.5`, default `0.1`) — ความฟุ้งของขอบก้อนฟอง ค่าต่ำ = ขอบคมเป็นก้อนแบบการ์ตูน, ค่าสูง = ขอบละมุน
+- **Distort** (`0–2`, default `0.5`) — บิดตำแหน่งที่อ่านลายด้วย normal ของระลอกคลื่น ฟองจึงยืดหยุ่นไปกับน้ำ ไม่ใช่แปะนิ่งอยู่บนกริดโลก (ใช้ค่าที่ผิวน้ำอ่านไว้แล้ว ไม่มีต้นทุนเท็กซ์เจอร์เพิ่ม)
+- **Wave Fade** (`0–1`, default `1`) — **โผล่มาเมื่อเปิดฟีเจอร์ Waves เท่านั้น** `1` = กลุ่มฟองจางหายตอนน้ำลงและกลับมาเต็มตอนน้ำขึ้น เหมือนฟองที่ถูกซัดขึ้นหาดแล้วลากกลับ, `0` = ไม่สนใจจังหวะคลื่น
+
+> **Wave Fade แตะแค่กลุ่มฟอง** เส้นน้ำอยู่กับที่ตลอด ชายฝั่งจึงไม่เสียลายเส้นตอนน้ำลง
+
+---
+
+## Foam Line — เส้นน้ำ
+
+<!-- TODO: ภาพ Inspector กลุ่ม Foam Line — Material_Foam_Line.png -->
+
+แถบทึบบางๆ ที่วางตรงรอยต่อระหว่างน้ำกับพื้น เป็นตัวที่ทำให้ชายฝั่งอ่านออกว่าเป็นงานลายเส้น
+
+- **Width** (`0–1` เมตร, default `0.15`) — ความหนาของเส้น คิดเป็นเมตรของความลึกน้ำ `0` = ปิดเส้นน้ำ
+- **Softness Out** (`0.01–1`, default `0.3`) — การจางของขอบด้าน **น้ำลึก** ค่าต่ำ = ขอบคมเหมือนเส้นหมึก, `1` = ไล่เฉดทั้งเส้น
+- **Softness In** (`0–1`, default `0`) — การจางของขอบด้าน **ชายฝั่ง** `0` = ทึบชนหาดไปเลย ซึ่งคือลุคลายเส้นแบบคลาสสิก
+- **Wobble** (`0–1` เมตร, default `0.2`) — ขอบเส้นวอกแวกออกจากแนวจริงได้กี่เมตร ตามสนามนอยส์นุ่มๆ ที่ไหลอยู่ ทำให้เส้นพองเป็นก้อนฟองและแทงนิ้วฟองขึ้นไปแตะหาดเป็นจุดๆ `0` = เส้นเรียบเสมอกันแบบเครื่องลาก
+- **Noise Scale** (default `15`) — ขนาดของก้อนฟองที่เกิดจาก Wobble ค่าต่ำ = ก้อนใหญ่ยาว, ค่าสูง = หยักถี่
+- **Noise Speed (XY)** (default `(0, -0.2)`) — ทิศและความเร็วที่สนามนอยส์นั้นไหล
+
+### Wobble คุมชายฝั่งทั้งแถบ ไม่ใช่แค่เส้นน้ำ
+
+สนามนอยส์ของ Wobble ถูก **แชร์ให้ทุกแถบที่เกาะชายฝั่ง** ใช้ร่วมกัน คือเส้นน้ำ, กลุ่มฟอง และการจางขอบของตัวน้ำเอง (Shore Softness ในหัวข้อ Depth Color) ทั้งสามจึงคดเคี้ยวไปตามแนวเดียวกันเป๊ะ ไม่ใช่สามเส้นที่วอกแวกคนละทาง — นี่คือเหตุผลที่ปรับ Wobble แล้วชายฝั่งทั้งแถบเปลี่ยนบุคลิกไปพร้อมกัน
+
+การวอกแวกนี้ **ไปทางน้ำลึกได้ทางเดียว** โดยตั้งใจ เพราะผืนน้ำจบลงตรงหาดอยู่แล้ว ถ้าดันเข้าหาฝั่งฟองก็จะถูกขอบ mesh ตัดหัวทิ้งเปล่าๆ
+
+เส้นน้ำยังมีพื้นความนุ่มขั้นต่ำตามขนาดพิกเซลติดมาในตัว เส้นจึงไม่กระพริบยิบๆ ตอนกล้องเคลื่อน โดยคิดจากความลึกดิบก่อนบิด เพื่อไม่ให้ความละเอียดของนอยส์ไปทำให้ขอบก้อนฟองเบลอไปด้วย
+
+---
+
+## Foam Flow — ให้ฟองไหลเข้าหาฝั่ง
+
+<!-- TODO: ภาพ Inspector กลุ่ม Foam Flow — Material_Foam_Flow.png -->
+
+ปกติลายฟองเลื่อนไปทางเดียวทั้งผืนตาม **Speed** ซึ่งพอมีเกาะหรือก้อนหินอยู่กลางน้ำจะดูผิดทันที เพราะฟองควรวิ่งเข้าหาฝั่ง **ทุกด้าน** ของมัน Foam Flow แก้จุดนี้ด้วยการให้ลายฟองไหลไปตามสนามทิศทางที่ Bake เอาไว้
+
+- **Enable** — เปิด/ปิดโหมดนี้
+- **Flow Map** — แผนที่ทิศทาง (RG = ทิศในระนาบ XZ ของโลก, ค่ากลาง `0.5` = ไม่ไหล) ปกติได้มาจาก **Dashboard > Water > Bake Foam Flow** ไม่ต้องทำมือ
+- **Speed** (`0–3`, default `0.6`) — ลายไหลเร็วแค่ไหน
+- **Distance** (`0–10` เมตร, default `1.5`) — ลายเดินทางไกลกี่เมตรต่อหนึ่งรอบ
+- **Area (Center XZ, Size XZ)** (default `(0, 0, 100, 100)`) — สี่เหลี่ยมในโลกที่แผนที่ครอบคลุม ตัว Bake ตั้งให้เอง
+
+การไหลใช้การอ่านลายสองครั้งเหลื่อมกันครึ่งรอบแล้วครอสเฟดกันตรงจุดวน จึงไม่มีอาการลายกระตุกย้อนกลับ และการอ่านเพิ่มเกิดขึ้นเฉพาะในแถบที่มีฟองเท่านั้น
+
+### ของแถมที่สำคัญ — Contact Gate
+
+เมื่อเปิด Foam Flow และอยู่ในกรอบที่ Bake ไว้ กลุ่มฟองจะขึ้นได้ **เฉพาะในระยะราว 6–12 เมตรจากของที่โผล่พ้นผิวน้ำจริงๆ**
+
+เหตุผล: ความลึกน้ำอย่างเดียวแยกไม่ออกระหว่าง "ชายฝั่งจริง" กับ "ของที่จมอยู่ใต้น้ำตื้น" — props ที่จมมิดจะมีน้ำตื้นอยู่เหนือมัน แล้วฟองจะขึ้นเป็นแผ่นกลมๆ ตามเงาร่างของมันกลางผืนน้ำ แผนที่ที่ Bake ไว้รู้ดีกว่า เพราะมันเก็บระยะห่างจากสิ่งที่ **แตะผิวน้ำ** และของที่จมมิดไม่ถูกนับตั้งแต่ต้น
+
+นอกกรอบที่ Bake ไว้ Gate ปิดตัวเอง (ไม่งั้นชายฝั่งไกลๆ จะถูกฆ่าทิ้งเพราะอ่านค่าขอบแผนที่) พฤติกรรมกลับไปใช้ความลึกอย่างเดียวเหมือนเดิม
+
+### Ring Wave
+
+กลุ่มย่อยที่ต่อจาก Foam Flow คือวงฟองที่แผ่ออกรอบก้อนหินหรือเสาที่ตั้งอยู่ในน้ำ ใช้แผนที่ตัวเดียวกัน มีหน้าของตัวเองที่ [Water Ring Wave]({{ '/env/water/water-ring-wave/' | relative_url }}) — สไลเดอร์ทั้งกลุ่มจะล็อกไว้จนกว่าจะมี Flow Map ที่ Bake จริงผูกอยู่
+
+---
+
+## ทำงานร่วมกับฟีเจอร์อื่น
+
+### Depth Color
+**Shore Softness** (การจางขอบของตัวน้ำ) เกาะสนามนอยส์เดียวกับ Wobble ตัวน้ำ เส้นน้ำ และกลุ่มฟองจึงคดเคี้ยวไปด้วยกัน ถ้าอยากให้รอยต่อน้ำกับหาดนุ่มขึ้นทั้งแถบ ให้ปรับที่ Shore Softness ไม่ใช่ Softness In ของเส้นน้ำ
+
+### Waves (Shore Breath)
+เพิ่มค่า **Wave Fade** เข้ามาในกลุ่ม Foam Noise ให้ฟองถูกซัดขึ้นลงตามจังหวะน้ำ ดู [Water Waves]({{ '/env/water/water-waves/' | relative_url }})
+
+### Water Interaction
+ฟองที่ขี่สันวงกระเพื่อมใช้ **Foam Color** ร่วมกัน แต่ทำงาน **แม้ปิดฟีเจอร์ Foam ไว้** เพื่อให้น้ำเปล่าๆ ก็ยังมีฟองตอนตัวละครลงน้ำ ดู [Water Interaction]({{ '/env/water/water-interaction/' | relative_url }})
+
+### Underwater
+มองจากใต้น้ำ ฟองทั้งชุด (เส้นน้ำ กลุ่มฟอง และวงฟอง) อ่านจาก **Bake อย่างเดียว** ไม่ได้อ่านจากความลึก จึงต้องเปิด **Foam + Foam Flow** และมี Bake อยู่ก่อน ดู [Underwater]({{ '/env/water/water-underwater/' | relative_url }})
+
+### Refraction
+แถบฟองเกาะกับความลึกที่ **มองเห็นหลังการหักเห** ฟองรอบ props ที่จมอยู่จึงกระเพื่อมไปพร้อมภาพของมัน ไม่ใช่พิมพ์เงาร่างจริงแข็งๆ ทับข้างภาพที่บิดอยู่ ตรงชายฝั่งความลึกสองแบบต่างกันน้อยมาก จึงไม่กระทบลุคของหาด
+
+---
+
+## Debug
+
+ในหัวข้อ **Debug** ท้าย Inspector มีโหมด **Foam** ที่โชว์ความหนาแน่นของฟองล้วนๆ (ก่อนคูณสีและ Opacity) ใช้ดูว่าแถบฟองไปตกอยู่ตรงไหนจริงๆ โดยไม่มีสีน้ำมากวนสายตา
+
+---
+
+## Good to Know
+
+- **ทุกค่าเป็นเมตรของความลึกน้ำ** ไม่ใช่ UV — ย่อขยายผืนน้ำแล้วฟองยังกว้างเท่าเดิม
+- **ไม่ต้องวาดอะไรเลย** ฟองหาชายฝั่งเองจากความลึก ย้ายก้อนหิน ขยับหาด หรือเปลี่ยนระดับน้ำ ฟองก็ตามไปเอง
+- **ถูกกว่าที่คิด** นอยส์ของ Wobble คำนวณเฉพาะในแถบใกล้ชายฝั่ง พ้นระยะที่มันเอื้อมถึงจะข้ามไปทั้งก้อน และเส้นน้ำตัดออกก่อนถึงส่วนคำนวณสำหรับพิกเซลที่อยู่นอกช่วงที่เส้นจะไปถึงได้
+- **โหมด Foam Flow อ่านเท็กซ์เจอร์เพิ่มแค่ในแถบที่มีฟอง** ไม่ใช่ทั้งผืนน้ำ
+- **ขยับใน Edit Mode ด้วย** ทั้งลายฟองที่ไหลและเส้นน้ำที่วอกแวก เดินด้วยนาฬิกาของ shader จูนแล้วเห็นผลทันที
+- **ต้องมี Depth Texture** ไม่งั้นระบบไม่รู้ว่าน้ำตรงนั้นตื้นแค่ไหน
+- ค่าทั้งหมดเป็นของ Material ผืนน้ำที่ใช้ Material เดียวกันจะได้ชายฝั่งแบบเดียวกันหมด
