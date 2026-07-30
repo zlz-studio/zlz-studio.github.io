@@ -5,51 +5,106 @@ last_modified_at: 2026-07-30
 published: false
 ---
 
+<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
+
 # Water Sparkle
 
-The rippling web of light on the floor beneath clear water — sunlight focused by the moving surface into bright threads that weave together and crawl, endlessly. It is the single cue that tells a player at a glance "this water is clear and there is a bottom down there", instead of a blue sheet laid over the sand.
+ประกายแวบวับบนผิวน้ำตื้น — จุดแสงเล็กๆ กระพริบขึ้นดับลงไม่พร้อมกัน เกาะกลุ่มหนาแน่นตรงแนวที่แดดสะท้อนเข้าตา เป็นรายละเอียดที่ทำให้น้ำตื้นดู "มีชีวิต" แทนที่จะเป็นผิวเรียบที่มีแค่ดวงแดดสะท้อนดวงเดียว
 
-The pattern is **projected onto the floor**, not stuck to the surface: it is computed from the real world position of the bottom seen through the water, so wherever the camera moves the web stays with the ground it belongs to, and the ripples slide across it rather than dragging it along.
+จุดประกายที่นี่เป็น **จุดจริงๆ ที่นับได้** ไม่ใช่ผลพลอยได้จากลายคลื่น — ระบบวางกริดลงบนโลกจริงแล้วให้แต่ละช่องถือจุดได้หนึ่งจุด เพราะฉะนั้น "จำนวน" กับ "ขนาด" จึงเป็นสไลเดอร์ที่หมุนได้ตรงๆ ไม่ใช่ผลข้างเคียงของค่าอื่น
 
-All of it is procedural — no textures, no extra pass, and nothing at all while the feature is off.
+และจุดที่อยู่ไกลก็ยัง **เป็นจุด** ไม่บวมเป็นก้อนแสง ไม่ถูกเกลี่ยเป็นฝ้าสว่างๆ และไม่คลานยิบๆ กวนตา
 
-## Showcase Water Caustics
-{% include youtube-loop.html id="LgNnoRAp2yA" %}
+## Showcase Water Sparkle
+<!-- TODO: ใส่ id คลิป -->
+<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
 
 ---
 
 ## Setup
 
-1. **On the water material** — turn on the **Caustics** feature (the button grid at the top of the Inspector)
-2. **On the URP Asset** — make sure **Depth Texture** is on, because the system has to know how deep the floor is before it can project the web onto it
+1. **ที่ Material ของน้ำ** — เปิดฟีเจอร์ **Sparkle** (แถวปุ่มด้านบนของ Inspector)
+2. **ที่ URP Asset** — เปิด **Depth Texture** ไว้ เพราะประกายรู้ว่าตัวเองอยู่บนน้ำตื้นหรือน้ำลึกจากค่าความลึกของน้ำ
 
-> **Pair it with Refraction.** With Refraction on, the water shows the real bottom through the surface and the caustics land exactly on that visible bottom — the setup this was built for. Without Refraction the web still works: the surface's own opacity is raised by the web's brightness for you, so it punches through the clear shallows.
-
-Nothing to bake, no component to add, no extra light to place — the web takes its colour and its light from the scene's Directional Light.
+ไม่ต้อง Bake ไม่ต้องมี component ไม่ต้องใส่เท็กซ์เจอร์ — ประกายอ่านทิศและสีของแดดจาก Directional Light ของฉากเอง
 
 ---
 
 ## Parameters
 
-![Material_WaterCaustics](../water-caustics/Material_WaterCaustics.png)
+<!-- TODO: ภาพ Inspector หัวข้อ Sparkle — Material_WaterSparkle.png -->
 
-All of these live on the material under **Caustics**, and only appear once the feature is on.
+ทั้งหมดอยู่บน Material ใต้หัวข้อ **Sparkle** และจะโผล่มาเมื่อเปิดฟีเจอร์แล้ว
 
-- **Color** (HDR, default white) — the colour of the light web. It is already multiplied by the Directional Light's colour, so white is the normal answer; reach for this when the light under water should read greener or bluer than the light above it
-- **Intensity** (`0–4`, default `1.2`) — how bright the web is. `0` = invisible
-- **Scale** (`0.1–8`, default `1`) — how fine the web is, measured in **world space** rather than UV or mesh size. High = a tight small mesh (a swimming pool), low = a broad one (open sea). Stretch the water body as far as you like and the web keeps its size
-- **Speed** (`0–3`, default `0.6`) — how fast the web crawls. `0` = frozen (still a web, just not moving)
-- **Sharpness** (`1–16`, default `6`) — how thin the threads are. High = fine crisp lines, like very clear pool water, and a darker floor overall because the threads are thinner. Low = wide soft light spread over the whole bottom
-- **Depth Fade** (`0.1–20`, default `4`) — how many metres of water column it takes for the web to disappear. It is brightest at the shore and falls off on an accelerating (squared) curve with depth
+- **Amount** (`0–1`, default `0.35`) — สัดส่วนของช่องกริดที่มีประกาย พูดง่ายๆ คือ **จำนวนจุด** `0` = ไม่มีเลย, `1` = ทุกช่องมีจุด
+- **Size (m)** (`0.001–0.3`, default `0.01`) — เส้นผ่านศูนย์กลางของจุด คิดเป็น **เมตรในโลกจริง** และไม่ผูกกับ Scale
+- **Scale (Density)** (`0.1–60`, default `12`) — ความถี่ของกริด = **ความหนาแน่น** ของประกาย (จุดต่อเมตร) ค่าสูง = ประกายถี่ยิบ, ค่าต่ำ = จุดห่างๆ
+- **Speed** (`0–12`, default `4`) — ความเร็วในการกระพริบ แต่ละช่องมีจังหวะของตัวเอง ไม่กระพริบพร้อมกัน `0` = จุดค้างนิ่ง
+- **Depth Fade** (`0.1–30`, default `2`) — น้ำลึกกี่เมตรแล้วประกายจะหมดไป ตั้งต่ำ = ประกายเฉพาะแถบริมชายฝั่ง, ตั้งสูง = ประกายทั่วผืนน้ำแบบทะเลเปิด
+- **Sun Focus** (`0–32`, default `6`) — ประกายเกาะกลุ่มอยู่ในแนวแดดสะท้อนแน่นแค่ไหน ค่าสูง = รวมเป็นทางแสงเดียวแคบๆ, `0` = **กระจายเท่ากันทั้งผิวน้ำ ไม่สนใจทิศแดด**
+- **Intensity** (`0–4`, default `1.5`) — ความสว่างของจุด
 
-> **Why does it have to fade with depth?** Two reasons that match the real thing: the focused light is absorbed before it reaches a deep bottom, and deep water in this system is already opaque (see Depth Color). Set Depth Fade near the **See-Through Depth** in the Depth Color section and the web will vanish right about where the bottom stops being visible.
+> **สีของประกายมาจากหัวข้อ Specular** — ใช้ค่า **Specular Color** ร่วมกัน แล้วคูณด้วยสีของ Directional Light อีกชั้น ตอนนี้ยังไม่มีช่องสีแยกของ Sparkle เอง ถ้าอยากเปลี่ยนสีประกายให้ปรับที่ Specular Color
+
+### Scale กับ Size แยกกันสนิท
+
+สองตัวนี้เป็นคนละเรื่องกันโดยตั้งใจ และเป็นจุดที่สับสนกันบ่อย
+
+- **Scale** = กริดถี่แค่ไหน → มี **กี่จุด** ต่อพื้นที่
+- **Size** = จุดหนึ่งจุด **ใหญ่แค่ไหน** เป็นเมตร
+
+หมุน Scale ขึ้น จุดจะถี่ขึ้นแต่ **ขนาดจุดเท่าเดิม** หมุน Size ขึ้น จุดจะโป่งขึ้นแต่ **จำนวนเท่าเดิม** ไม่ต้องจูนวนไปวนมาระหว่างสองค่าเหมือนระบบที่ขนาดจุดผูกกับความถี่
+
+ระบบคุมขอบเขตให้ทั้งสองด้าน: จุดจะไม่เล็กกว่าราวหนึ่งในสามของพิกเซล (จุดไกลๆ จึงไม่หลุดหายไปในช่องว่างระหว่างพิกเซล) และไม่ใหญ่เกินช่องกริดของตัวเอง (จุดจึงไม่ล้นไปทับช่องข้างๆ จนขอบแหว่ง)
 
 ---
 
-## Where the Pattern Comes From
+## ระยะไกลไม่ได้จางลง — มันลดชั้นกริดแทน
 
-The web is built from **two layers of Worley noise** at different scales and phases, combined. Each cell owns a feature point that orbits inside it on a sine, which is what makes the whole field crawl and shimmer. The bright part is the **ridge between cells** — the ground that is furthest from any feature point — and that ridge network is the web you see.
+ปัญหาคลาสสิกของประกายบนผิวน้ำอยู่ที่ระยะไกล เมื่อจุดเล็กกว่าพิกเซลภาพจะเดือดยิบๆ ทางแก้ที่ง่ายที่สุดคือจางมันทิ้งไป แต่ผลคือผิวน้ำไกลๆ ตายสนิท
 
-Two layers, because a single one reads immediately as one repeating round grid.
+ที่นี่ใช้วิธีอื่น: เมื่อพิกเซลหนึ่งเริ่มกินพื้นที่เกินหนึ่งช่องกริด ระบบจะ **ลดความถี่ของกริดลงครึ่งหนึ่ง** (ลดซ้ำได้เรื่อยๆ และไล่ข้ามระดับแบบครอสเฟด จึงไม่มีรอยต่อให้เห็น) เพื่อให้หนึ่งช่องกริดครอบพิกเซลหลายพิกเซลอยู่เสมอ
+
+ผลที่ได้:
+
+- จุดไกลๆ ยัง **เป็นจุดคมขนาดราวพิกเซล** ไม่บวมเป็นก้อนแสง และไม่ถูกเกลี่ยเป็นฝ้าสว่าง
+- ยังกระพริบให้เห็นจริง เพราะจุดใหญ่พอที่จะอ่านการกระพริบออก ไม่ใช่การคลานใต้พิกเซล
+- **ระยะทางไม่เคยทำให้ประกายจางลง** ตัวเดียวที่คุมการมองเห็นคือ **Depth Fade**
+
+ที่ Scale มีผลกับความหนาแน่นในระยะไกลด้วย ก็เพราะเป้าหมายของกริดระยะไกลวิ่งตาม Scale ไม่ใช่ค่าคงที่ตายตัว — ตั้ง Scale ถี่ ผืนน้ำไกลๆ ก็ยังถี่ (ลงไปได้ถึงช่องขนาดราว 3 พิกเซล) ตั้งห่าง ก็ห่างทั้งใกล้และไกล
 
 ---
+
+## ทำงานร่วมกับฟีเจอร์อื่น
+
+### Specular
+เป็นเจ้าของ **สี** ของประกาย และเป็นคนละชั้นกัน: Specular คือ **ดวงแดดสะท้อนดวงใหญ่ดวงเดียว** ที่วิ่งตามทิศแสง ส่วน Sparkle คือ **จุดเล็กๆ นับร้อย** ที่กระจายอยู่รอบแนวเดียวกันนั้น เปิดคู่กันคือภาพแดดกระทบน้ำจริงๆ ที่มีทั้งลำแสงใหญ่และเศษประกายรอบๆ
+
+### Caustics
+คู่ที่ควรเปิดพร้อมกัน คนละชั้นแต่หลักการเดียวกัน — Sparkle อยู่บน **ผิวน้ำ**, [Caustics]({{ '/env/water/water-caustics/' | relative_url }}) อยู่บน **พื้นใต้น้ำ** ทั้งคู่จำกัดตัวเองอยู่ในน้ำตื้นด้วย Depth Fade ของตัวเอง เปิดคู่กันแล้วน้ำตื้นจะมีชีวิตทั้งบนผิวและใต้ผิว
+
+### Depth Color
+ตัวกำหนดว่าน้ำใสลึกแค่ไหน ควรตั้ง **Depth Fade** ของ Sparkle ให้สัมพันธ์กับ **See-Through Depth** เพื่อให้ประกายอยู่ในแถบน้ำที่ตายังอ่านออกว่าใส
+
+### Lighting — เงา
+ต่างจาก Specular และ Caustics ตรงที่ **เงาไม่ดับประกาย** น้ำตื้นที่อยู่ในเงาก้อนหินหรือใต้ร่มไม้ก็ยังระยิบอยู่ (ตั้งใจให้เป็นอย่างนั้น เพราะผิวน้ำในร่มก็ยังกระเพื่อมรับแสงจากท้องฟ้า) แต่ยังคูณด้วยสีของ Directional Light อยู่ ตกกลางคืนจึงดับไปเองพร้อมแสง
+
+### Reflection
+Sparkle ถูกบวกเข้าไป **ก่อน** ที่ผิวน้ำจะเบลนด์เข้าหาภาพสะท้อน ฉะนั้นในมุมเฉียดที่ Reflection แรงจัด ประกายจะถูกภาพสะท้อนกลืนไปด้วย ถ้าอยากให้ประกายเด่นในมุมนั้น ให้ลด **Reflection Intensity** หรือเพิ่ม **Fresnel Power** เพื่อให้ภาพสะท้อนบางลง
+
+### Underwater
+ประกายเป็นเรื่องของการมองผิวน้ำ **จากข้างบน** เท่านั้น มองขึ้นมาจากใต้น้ำจะไม่มีชั้นนี้ — สิ่งที่เห็นแทนคือวงมองทะลุกับ Surface Caustics ดู [Underwater]({{ '/env/water/water-underwater/' | relative_url }})
+
+---
+
+## Good to Know
+
+- **ไม่ใช้เท็กซ์เจอร์เลย** จุดทั้งหมดคำนวณสดจากกริด ไม่มีไฟล์ให้จัดการ ไม่กิน VRAM เพิ่ม
+- **ถูกมาก** แต่ละพิกเซลอ่านกริดแค่ 2 ชั้น ชั้นละหนึ่งช่อง ไม่มีการวนลูปเช็คช่องเพื่อนบ้าน และพิกเซลที่ลึกเกิน Depth Fade ออกจากการคำนวณก่อนถึงส่วนนั้น
+- **แต่ละจุดถูกล็อกอยู่ในช่องของตัวเอง** รวมทั้งขอบนุ่มกันหยักของมันด้วย จึงไม่มีจุดที่ถูกตัดครึ่งและไม่เห็นรอยตะแกรงของกริด
+- **ประกายไม่กระพริบพร้อมกัน** แต่ละช่องสุ่มจังหวะของตัวเอง และจังหวะถูกบีบให้แหลม — สว่างวับสั้นๆ แล้วเงียบไปนาน ไม่ใช่หายใจขึ้นลงนุ่มๆ
+- **ขยับใน Edit Mode ด้วย** เดินด้วยนาฬิกาของ shader จูนแล้วเห็นผลทันทีไม่ต้องกด Play
+- **Sun Focus 0 มีความหมายจริง** ระบบดักค่านี้ไว้เป็นกรณีพิเศษให้กระจายเท่ากันทุกจุดบนผิวน้ำ ไม่ใช่ค่าที่เข้าใกล้ศูนย์แล้วเพี้ยน
+- **แนวแดดสะท้อนคิดจากผิวน้ำแบบเรียบ** ไม่ใช่จาก normal ของลายคลื่น กลุ่มประกายจึงเป็นแนวกว้างสะอาดตา ไม่กลายเป็นสัญญาณรบกวนซ้อนสัญญาณรบกวน
+- **ต้องมี Depth Texture** ไม่งั้นระบบไม่รู้ว่าน้ำตรงนั้นตื้นหรือลึก
+- ค่าทั้งหมดเป็นของ Material ฉะนั้นบ่อที่ใช้ Material เดียวกันจะได้ประกายแบบเดียวกันหมด
