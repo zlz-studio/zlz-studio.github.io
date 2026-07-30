@@ -34,7 +34,7 @@ published: false
 
 ## General
 
-<!-- TODO: ภาพ Inspector กลุ่ม General — Material_Foam_General.png -->
+![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
 
 ค่าที่คุมฟองทั้งระบบ ทั้งเส้นน้ำและกลุ่มฟอง
 
