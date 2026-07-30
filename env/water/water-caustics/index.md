@@ -16,8 +16,7 @@ published: false
 ทั้งหมดเป็น procedural ไม่ใช้เท็กซ์เจอร์ ไม่มี pass เพิ่ม และปิดไว้แล้วไม่กินอะไรเลย
 
 ## Showcase Water Caustics
-<!-- TODO: ใส่ id คลิป (ต้นฉบับ: ZLZ Env Shader\Water\Caustics\Water_Caustics.mp4) -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="LgNnoRAp2yA" %}
 
 ---
 
