@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underwater | ZLZ Env Shader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* tree-style sub items (e.g. changelog versions under Overview) */
+    .sidebar .sideTree {
+      margin-left: 14px;
+      border-left: 1px solid #2b3648;
+    }
+
+    .sidebar .sideTree a {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 12px;
+    }
+
+    .sidebar .sideTree a::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #2b3648;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    /* Markdown tables */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .content th,
+    .content td {
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #1f2937;
+    }
+
+    .content thead th {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content td:first-child {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .content tbody tr:nth-child(even) {
+      background: #0f1521;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      
+
+<div class="sidebar">
+<h2>ZLZ Env Shader</h2>
+
+
+
+
+
+<h3>Paint Mode</h3>
+
+<a href="/env/paint-mode/"
+   class="">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<!-- TODO: Paint Mode sub-pages -->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Grass</h3>
+
+
+
+<div class="sideTree">
+
+
+<a href="/env/grass/grass-setup/"
+   class="">
+   Grass Setup
+</a>
+
+
+
+<a href="/env/grass/grass-material/"
+   class="">
+   Grass Material
+</a>
+
+
+
+<a href="/env/grass/grass-global-wind/"
+   class="">
+   Grass Global Wind
+</a>
+
+
+
+<a href="/env/grass/grass-optimized/"
+   class="">
+   Grass Optimized
+</a>
+
+
+
+<a href="/env/grass/grass-color-camera/"
+   class="">
+   Grass Color Camera
+</a>
+
+
+
+<a href="/env/grass/grass-interaction/"
+   class="">
+   Grass Interaction
+</a>
+
+
+
+<a href="/env/grass/grass-lod/"
+   class="">
+   Grass LOD
+</a>
+
+
+
+<a href="/env/grass/grass-edges/"
+   class="">
+   Grass Edges
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<h3>Water</h3>
+
+
+
+<div class="sideTree">
+
+
+<a href="/env/water/water-interaction/"
+   class="">
+   Water Interaction
+</a>
+
+
+
+<a href="/env/water/water-waves/"
+   class="">
+   Water Waves
+</a>
+
+
+
+<a href="/env/water/water-floater/"
+   class="">
+   Water Floater
+</a>
+
+
+
+<a href="/env/water/water-ring-wave/"
+   class="">
+   Water Ring Wave
+</a>
+
+
+
+<a href="/env/water/water-underwater/"
+   class="active">
+   Underwater
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+<h3>Other Products</h3>
+
+<a href="/features/">ZLZ Anime Shader Docs</a>
+
+</div>
+
+
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h1 id="underwater">Underwater</h1>
+
+<p>Dive below the surface and the whole world changes. The screen sinks into a murk the colour of that particular pond, the surface overhead becomes a rolling ceiling with a bright window in the middle that looks up into the world above, ringed by a dim mirrored rim, the floor below is dappled with dancing light, and small specks drift up past the camera.</p>
+
+<p>The moment the camera <strong>crosses the surface</strong>, the whole image melts into streaks for about half a second — water sheeting off the lens on the way up, a churning plunge on the way down.</p>
+
+<p>Underwater is <strong>two halves driven by one switch</strong></p>
+
+<ul>
+  <li><strong>The surface seen from below</strong> — done inside the water shader itself (Snell’s window, under the hood)</li>
+  <li><strong>Full-screen murk + caustics on the floor + floating particles + the crossing melt</strong> — done by the URP Renderer Feature <code class="language-plaintext highlighter-rouge">ZLZ Env Underwater</code></li>
+</ul>
+
+<h2 id="showcase-underwater">Showcase Underwater</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/Si35C7-wr2A?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=Si35C7-wr2A&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<hr />
+
+<h2 id="setup">Setup</h2>
+
+<p>Three things have to be in place — miss any one of them and nothing shows at all.</p>
+
+<ol>
+  <li><strong>On the water material</strong> — turn on the <strong>Underwater</strong> feature (the button grid at the top of the Inspector)</li>
+  <li><strong>On the water object</strong> — the <code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> component has to be there (water made from the Dashboard or the Base Prefab already has it)</li>
+  <li><strong>On the URP Renderer</strong> — the Renderer Feature <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Underwater</code></strong> has to be in the list</li>
+</ol>
+
+<blockquote>
+  <p><strong>Step 3 is normally not yours to do</strong> — the Dashboard installs the Renderer Feature during Setup. If it ever goes missing (deleted by hand), the Dashboard’s <strong>Underwater</strong> section reports <code class="language-plaintext highlighter-rouge">⚠ Removed</code> with an <strong>Install Underwater Feature</strong> button to put it back.</p>
+</blockquote>
+
+<h3 id="what-the-urp-asset-needs">What the URP Asset Needs</h3>
+
+<p><img src="../water-underwater/URP_Asset.png" alt="URP_Asset" /></p>
+
+<ul>
+  <li><strong>Opaque Texture — required.</strong> With it off, the surface seen from below is a blank ceiling (both the material Inspector and the water object’s own Inspector warn you right where the settings are)</li>
+  <li><strong>Depth Texture — required.</strong> The murk and the floor caustics read distance from depth</li>
+</ul>
+
+<blockquote>
+  <p><strong>One switch drives both halves.</strong> The material’s Underwater toggle turns on the surface underside <em>and</em> that pond’s full-screen murk — one tick and you are done. Turning it on also flips the surface to <strong>Cull Off</strong> (both faces drawn) for you, because otherwise the surface simply is not there once you are below it.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="settings-live-in-two-places--with-a-clean-split">Settings Live in Two Places — With a Clean Split</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Where</th>
+      <th>What it controls</th>
+      <th>Shared?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Material &gt; Underwater</strong></td>
+      <td>how the <strong>surface looks when seen from below</strong></td>
+      <td>every pond using that material</td>
+    </tr>
+    <tr>
+      <td><strong>Water object &gt; Underwater Fog</strong></td>
+      <td>this pond’s <strong>murk</strong> + floor caustics + particles + crossing melt</td>
+      <td>that one pond only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The intent: a clear spring and a murky swamp can share one material and still each keep their own sense of how thick the water is.</p>
+
+<hr />
+
+<h2 id="water-object--underwater-fog">Water Object &gt; Underwater Fog</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/lbJoay5tfpg?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=lbJoay5tfpg&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>This section sits on the <strong>water object’s own Inspector</strong>, and only appears once the material has the Underwater feature on.</p>
+
+<blockquote>
+  <p><strong>This one does not move to the Dashboard.</strong> Unlike Shore Flow, which the Dashboard owns so the same list is never edited from two panels, the murk genuinely belongs to <em>this pond</em>, so it stays next to it — reachable there even when the water sits under a Dashboard. The Dashboard’s Underwater section only reports the Renderer Feature’s status.</p>
+</blockquote>
+
+<h3 id="the-ponds-murk">The Pond’s Murk</h3>
+
+<ul>
+  <li><strong>Fog Color</strong> (default a deep blue-green) — the murk the whole scene fades into</li>
+  <li><strong>Visibility (m)</strong> (default <code class="language-plaintext highlighter-rouge">12</code>) — metres of clear view under water before the fog takes over (~63% fogged at this distance). Low = murky swamp, high = clear spring</li>
+  <li><strong>Depth Darken (m)</strong> (default <code class="language-plaintext highlighter-rouge">8</code>) — metres below the surface at which the fog colour reaches its darkest. It dims as the camera dives, so depth reads as depth (the floor is about a quarter of the authored colour — it never goes pitch black)</li>
+  <li><strong>Waterline Softness (m)</strong> (default <code class="language-plaintext highlighter-rouge">0.2</code>) — softness of the on-screen waterline while the camera straddles the surface. Small = a crisp line, large = a soft blend</li>
+  <li><strong>Max Depth (m)</strong> (<code class="language-plaintext highlighter-rouge">2–100</code>, default <code class="language-plaintext highlighter-rouge">50</code>) — how deep this water body actually is. Past this depth the camera counts as being <strong>beneath</strong> the water body rather than inside it, and the murk fades back out over 2 metres. Set it comfortably deeper than the real floor</li>
+</ul>
+
+<blockquote>
+  <p><strong>Why Max Depth exists.</strong> Whether the camera is in the water is tested against the pond’s XZ footprint, and a cave or a room under an elevated pond sits inside that same footprint — a camera down there would be called “30 m under water”. This value is the line that says where the water’s real volume ends.</p>
+</blockquote>
+
+<h3 id="underwater-detail--what-the-camera-sees-the-whole-time-it-is-submerged">Underwater Detail — What the Camera Sees the Whole Time It Is Submerged</h3>
+
+<ul>
+  <li><strong>Floor Caustics</strong> (<code class="language-plaintext highlighter-rouge">0–4</code>, default <code class="language-plaintext highlighter-rouge">0.8</code>) — the dancing light web on the floor. This is a <strong>multiplier</strong> on the material’s Caustics Intensity, not a second absolute brightness — <code class="language-plaintext highlighter-rouge">1</code> = exactly as bright as the water shows it from above. <code class="language-plaintext highlighter-rouge">0</code> = off</li>
+  <li><strong>Floating Particles</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.35</code>) — small specks drifting up past the camera: the hanging particulate that sells being <em>inside</em> the water. <code class="language-plaintext highlighter-rouge">0</code> = off</li>
+</ul>
+
+<h3 id="surface-crossing">Surface Crossing</h3>
+
+<ul>
+  <li><strong>Melt Duration (s)</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.6</code>) — seconds the full-screen melt takes to settle when the camera crosses the surface, in either direction. <code class="language-plaintext highlighter-rouge">0</code> = off, and the three values below <strong>grey out together</strong></li>
+  <li><strong>Melt Strength</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how hard the image is dragged and wobbled</li>
+  <li><strong>Streaks</strong> (<code class="language-plaintext highlighter-rouge">4–48</code>, default <code class="language-plaintext highlighter-rouge">24</code>) — how many streak columns the melt tears the screen into. Few = broad heavy sheets, many = a fine drizzle</li>
+  <li><strong>Flash</strong> (<code class="language-plaintext highlighter-rouge">0–0.5</code>, default <code class="language-plaintext highlighter-rouge">0.12</code>) — brightness of the froth flash right at the crossing instant. <code class="language-plaintext highlighter-rouge">0</code> = no flash</li>
+</ul>
+
+<blockquote>
+  <p><strong>All of this belongs to the pond, not to the material.</strong> Drop a sea and a swimming pool into one scene and each keeps its own murk and its own melt even while they share a material. The values ride Prefabs and Scenes like any other component field.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="material--underwater">Material &gt; Underwater</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/HzJjoIa-WvM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=HzJjoIa-WvM&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>This section only appears once the Underwater feature is on, and comes in three groups.</p>
+
+<h3 id="looking-up">Looking Up</h3>
+
+<p>Looking up from below, the whole world above compresses into a circle overhead. Outside that circle the surface mirrors the dark water back down at you, and the circle’s edge is bent by the ripples the entire time — never a still, clean ring.</p>
+
+<ul>
+  <li><strong>Sky View Tint</strong> (HDR Color, default white) — multiplied over the world seen up through the surface. Use it to pull that view into the water’s own tone</li>
+  <li><strong>Rim Brightness</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.35</code>) — how bright the dim rim around the circle gets. <code class="language-plaintext highlighter-rouge">0</code> = a near-black mirror rim, <code class="language-plaintext highlighter-rouge">1</code> = barely dimmed at all</li>
+</ul>
+
+<h3 id="surface-motion">Surface Motion</h3>
+
+<ul>
+  <li><strong>Ripple Strength</strong> (<code class="language-plaintext highlighter-rouge">0–3</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how wavy the surface reads from below. It shapes both the billowing edge of the circle and the light-and-dark banding across the ceiling</li>
+  <li><strong>Refraction</strong> (<code class="language-plaintext highlighter-rouge">0–0.15</code>, default <code class="language-plaintext highlighter-rouge">0.03</code>) — how far the world above swims about. Its own slider, separate from Ripple Strength, because “how sharply the rim is cut” and “how far the image swims” are two different looks</li>
+  <li><strong>Sheen</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — the dark and light bands running across the whole ceiling with the slope of the waves. Without it the surface reads as a still sheet from below, because the circle’s edge only responds to ripples inside its own narrow band overhead</li>
+</ul>
+
+<h3 id="overlays--borrowed-from-other-features">Overlays — Borrowed From Other Features</h3>
+
+<p>These stay <strong>greyed out</strong> until their parent feature is on.</p>
+
+<ul>
+  <li><strong>Surface Caustics (uses Caustics)</strong> (<code class="language-plaintext highlighter-rouge">0–5</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — the dancing light web on the surface itself, seen from below, strongest toward the window where the light comes through — needs the <strong>Caustics</strong> feature (the whole pattern comes from the Caustics section)</li>
+  <li><strong>Foam &amp; Rings (uses Foam Flow bake)</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.8</code>) — shoreline foam and Ring Wave visible from below — needs <strong>Foam</strong> + <strong>Foam Flow</strong>, and a bake already done</li>
+  <li><strong>Foam Width (m)</strong> (<code class="language-plaintext highlighter-rouge">0.2–5</code>, default <code class="language-plaintext highlighter-rouge">1.5</code>) — the horizontal reach of the foam band as seen from below (the crisp inked line is a quarter of it)</li>
+</ul>
+
+<blockquote>
+  <p><strong>Why the underside foam needs a bake.</strong> From below, a view ray hits an object on its <strong>silhouette</strong>, not at its true contact with the water (the object’s own belly hides that). Depth-driven foam therefore prints in the wrong place and slides with the camera. Reading the baked distance field instead puts the underwater foam <strong>exactly where the player saw it before diving</strong>.</p>
+
+  <p>The price of that accuracy: the piece has to be in the baked Shore Flow list (<a href="/env/water/water-ring-wave/">Water Ring Wave</a>).</p>
+
+  <p><strong>And why it has to be wider than the top side.</strong> A submerged belly occludes the surface right around the true contact, so a band as thin as the top-side one hides entirely inside that annulus. The band still <strong>starts at the true contact</strong> — this value only reaches outward, past the occluder.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="caustics">Caustics</h3>
+<p>It owns the whole pattern — both the web on the floor while diving and the web on the surface when you look up. Scale / Speed / Sharpness / Colour / Depth Fade all come from the material’s Caustics section, so both sides are the same pattern exactly. <strong>Switch the Caustics feature off and the underwater floor goes dark with it.</strong></p>
+
+<p>The floor caustics project straight down, so they drape over everything submerged rather than the floor alone (rocks, posts and props get dappled too, which is how real caustics behave), and they fade with the depth of water above the spot according to Caustics Depth Fade.</p>
+
+<h3 id="foam--foam-flow--ring-wave">Foam / Foam Flow / Ring Wave</h3>
+<p>Shoreline foam, the inked waterline and Ring Wave are all visible from below through <strong>Foam &amp; Rings</strong>, read from the same bake — nothing extra to run, but a bake does have to exist. See <a href="/env/water/water-ring-wave/">Water Ring Wave</a>.</p>
+
+<h3 id="waves-shore-breath">Waves (Shore Breath)</h3>
+<p>The level that decides “submerged or not” is the <strong>live, moving</strong> one, not the rest level, so a swell washing over a camera floating at the waterline really does change the view — and the fog’s fade-in at the waterline exists precisely to keep that from flickering. See <a href="/env/water/water-waves/">Water Waves</a>.</p>
+
+<h3 id="reflection">Reflection</h3>
+<p>The surface underside <strong>does not use Planar Reflection</strong>: a mirror image is an above-water concept. The dim rim seen from below comes from light reflecting back down inside the water, computed in the underside itself — so leaving Reflection on costs the underwater view nothing and changes nothing about it.</p>
+
+<h3 id="refraction">Refraction</h3>
+<p>A different thing. Refraction is seeing through the water <strong>from above</strong>; Underwater has its own Refraction slider for seeing through it <strong>from below</strong>. They are tuned separately and never interfere.</p>
+
+<h3 id="water-interaction">Water Interaction</h3>
+<p>Ripples from <a href="/env/water/water-interaction/">Water Interaction</a> bend the real surface normal, so the surface seen from below moves with them too — the circle’s edge, the banding on the ceiling and the image seen up through it all follow, with nothing extra to set up.</p>
+
+<h3 id="sunlight">Sunlight</h3>
+<p>The caustic tint and the floating particles are multiplied by the scene sun’s colour and intensity (<code class="language-plaintext highlighter-rouge">RenderSettings.sun</code>), so everything dies down together at night.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>VR is not supported yet</strong> — a fullscreen pass under stereo needs its own path, so while XR is enabled the whole thing switches itself off (the surface still draws, but there is no murk, no particles and no crossing melt)</li>
+  <li><strong>Cameras rendering to a Render Texture are skipped</strong>, as are preview cameras, reflection probes and the planar reflection’s own mirror camera — so they can never overwrite the values the visible camera just published</li>
+  <li><strong>The Scene view is allowed through.</strong> Dive the scene camera and you see the murk and the caustics while tuning</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> is required.</strong> A bare water mesh wearing only the material has no known surface level, so the murk does nothing (the Dashboard adds the component for you when it finds a mesh already wearing a water material)</li>
+  <li><strong>Several water bodies at once are supported.</strong> The camera is inside the body whose surface level is vertically closest — a sea and a rooftop pool coexist in one scene without confusion</li>
+</ul>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
