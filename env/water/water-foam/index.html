@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Water Caustics | ZLZ Env Shader</title>
+  <title>Water Foam | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -697,7 +697,7 @@
 
 
 <a href="/env/water/water-foam/"
-   class="">
+   class="active">
    Water Foam
 </a>
 
@@ -718,7 +718,7 @@
 
 
 <a href="/env/water/water-caustics/"
-   class="active">
+   class="">
    Water Caustics
 </a>
 
@@ -752,19 +752,26 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="water-caustics">Water Caustics</h1>
+        <h1 id="water-foam">Water Foam</h1>
 
-<p>The rippling web of light on the floor beneath clear water — sunlight focused by the moving surface into bright threads that weave together and crawl, endlessly. It is the single cue that tells a player at a glance “this water is clear and there is a bottom down there”, instead of a blue sheet laid over the sand.</p>
+<p>White foam where the water meets the ground — a crisp inked waterline running along the shore, with soft clusters of froth trailing behind it toward open water. Both come out of the <strong>depth of the water</strong> on their own: no edge to draw, no texture to paint, and nothing to fix up when a rock moves or the beach is reshaped.</p>
 
-<p>The pattern is <strong>projected onto the floor</strong>, not stuck to the surface: it is computed from the real world position of the bottom seen through the water, so wherever the camera moves the web stays with the ground it belongs to, and the ripples slide across it rather than dragging it along.</p>
+<p>Every value in this section is measured in <strong>metres of water depth</strong> rather than UV, so no matter how far the water body is scaled the foam keeps its width.</p>
 
-<p>All of it is procedural — no textures, no extra pass, and nothing at all while the feature is off.</p>
+<p>The foam comes in two layers, each with its own group of controls.</p>
 
-<h2 id="showcase-water-caustics">Showcase Water Caustics</h2>
+<ul>
+  <li><strong>Foam Line</strong> — the crisp waterline hugging the shore’s edge. This is what gives the shore its <em>drawn</em> line</li>
+  <li><strong>Foam Noise</strong> — the clusters broken up by a scrolling noise pattern. This is what gives it <em>body</em></li>
+</ul>
+
+<p>Both layers carry <strong>their own Opacity</strong>, so for the crisp line without the froth — or the froth without the line — turn the other side down to <code class="language-plaintext highlighter-rouge">0</code> and leave everything else exactly as it was.</p>
+
+<h2 id="showcase-water-foam">Showcase Water Foam</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/LgNnoRAp2yA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=LgNnoRAp2yA&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/em_9K3y1hx8?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=em_9K3y1hx8&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
@@ -774,46 +781,90 @@
 <h2 id="setup">Setup</h2>
 
 <ol>
-  <li><strong>On the water material</strong> — turn on the <strong>Caustics</strong> feature (the button grid at the top of the Inspector)</li>
-  <li><strong>On the URP Asset</strong> — make sure <strong>Depth Texture</strong> is on, because the system has to know how deep the floor is before it can project the web onto it</li>
+  <li><strong>On the water material</strong> — the <strong>Foam</strong> feature is already on from the start (the only button in the grid that ships enabled)</li>
+  <li><strong>On the URP Asset</strong> — keep <strong>Depth Texture</strong> on, because all of the foam places itself from the depth of the water</li>
 </ol>
 
-<blockquote>
-  <p><strong>Pair it with Refraction.</strong> With Refraction on, the water shows the real bottom through the surface and the caustics land exactly on that visible bottom — the setup this was built for. Without Refraction the web still works: the surface’s own opacity is raised by the web’s brightness for you, so it punches through the clear shallows.</p>
-</blockquote>
-
-<p>Nothing to bake, no component to add, no extra light to place — the web takes its colour and its light from the scene’s Directional Light.</p>
+<p><strong>Foam Flow</strong> and <strong>Ring Wave</strong> are extras that need a bake first — the Scan and Bake steps are on the <a href="/env/water/water-ring-wave/">Water Ring Wave</a> page.</p>
 
 <hr />
 
-<h2 id="parameters">Parameters</h2>
+<h2 id="general">General</h2>
 
-<p><img src="../water-caustics/Material_WaterCaustics.png" alt="Material_WaterCaustics" /></p>
+<p><img src="../water-foam/Material_Foam1.png" alt="Material_Foam_General" /></p>
 
-<p>All of these live on the material under <strong>Caustics</strong>, and only appear once the feature is on.</p>
+<p>The values that cover the whole foam system, waterline and clusters alike.</p>
 
 <ul>
-  <li><strong>Color</strong> (HDR, default white) — the colour of the light web. It is already multiplied by the Directional Light’s colour, so white is the normal answer; reach for this when the light under water should read greener or bluer than the light above it</li>
-  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–4</code>, default <code class="language-plaintext highlighter-rouge">1.2</code>) — how bright the web is. <code class="language-plaintext highlighter-rouge">0</code> = invisible</li>
-  <li><strong>Scale</strong> (<code class="language-plaintext highlighter-rouge">0.1–8</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how fine the web is, measured in <strong>world space</strong> rather than UV or mesh size. High = a tight small mesh (a swimming pool), low = a broad one (open sea). Stretch the water body as far as you like and the web keeps its size</li>
-  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–3</code>, default <code class="language-plaintext highlighter-rouge">0.6</code>) — how fast the web crawls. <code class="language-plaintext highlighter-rouge">0</code> = frozen (still a web, just not moving)</li>
-  <li><strong>Sharpness</strong> (<code class="language-plaintext highlighter-rouge">1–16</code>, default <code class="language-plaintext highlighter-rouge">6</code>) — how thin the threads are. High = fine crisp lines, like very clear pool water, and a darker floor overall because the threads are thinner. Low = wide soft light spread over the whole bottom</li>
-  <li><strong>Depth Fade</strong> (<code class="language-plaintext highlighter-rouge">0.1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how many metres of water column it takes for the web to disappear. It is brightest at the shore and falls off on an accelerating (squared) curve with depth</li>
+  <li><strong>Color</strong> (HDR, default white) — the colour of every kind of foam, including the froth from Interaction and the foam seen from under water</li>
+  <li><strong>Opacity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how opaque the foam is overall. (It is the Color’s alpha, pulled out as its own slider: alpha inside a colour picker is easy to miss, and at <code class="language-plaintext highlighter-rouge">0</code> the whole system silently disappears with nothing to explain it.) It multiplies on top of each layer’s own Opacity</li>
+</ul>
+
+<hr />
+
+<h2 id="foam-noise--the-clusters">Foam Noise — The Clusters</h2>
+
+<p><img src="../water-foam/Material_Foam2.png" alt="Material_Foam_Noise" /></p>
+
+<p>This layer is the body of the foam, broken into clumps: a noise pattern cut by a brightness threshold, then weighted by how close the pixel is to the shore.</p>
+
+<ul>
+  <li><strong>Opacity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how opaque <strong>the clusters alone</strong> are, multiplied on top of the General Opacity. Turn it down to let the waterline or Ring Wave stand out without touching anything else</li>
+  <li><strong>Width</strong> (metres, default <code class="language-plaintext highlighter-rouge">0.5</code>) — how many metres out from the shore the cluster band reaches. Past that is open water with no foam</li>
+  <li><strong>Noise</strong> (Texture) — the cluster pattern, tiled in world space (set its frequency in the texture’s own Scale field)</li>
+  <li><strong>Speed</strong> (Vector XY, default <code class="language-plaintext highlighter-rouge">(0.05, 0.03)</code>) — the direction and speed the pattern scrolls. <strong>Used while Foam Flow is off</strong>; with Foam Flow on, the movement is driven by Flow Speed / Distance instead</li>
+  <li><strong>Cutoff</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.4</code>) — how bright the noise has to be before it counts as foam. Low = foam everywhere, high = sparse patches</li>
+  <li><strong>Softness</strong> (<code class="language-plaintext highlighter-rouge">0.001–0.5</code>, default <code class="language-plaintext highlighter-rouge">0.1</code>) — how feathered the cluster edges are. Low = crisp stylized clumps, high = a gentle blur</li>
+  <li><strong>Distort</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — bends where the pattern is read using the ripple normal, so the clusters flex with the water instead of sitting rigid on the world grid (it reuses what the surface already sampled, so it costs no extra texture read)</li>
+  <li><strong>Wave Fade</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — <strong>only appears with the Waves feature on</strong>. <code class="language-plaintext highlighter-rouge">1</code> = the clusters wash out in the trough and come back in full on the crest, like foam carried up the beach and dragged back. <code class="language-plaintext highlighter-rouge">0</code> = the swell is ignored</li>
 </ul>
 
 <blockquote>
-  <p><strong>Why does it have to fade with depth?</strong> Two reasons that match the real thing: the focused light is absorbed before it reaches a deep bottom, and deep water in this system is already opaque (see Depth Color). Set Depth Fade near the <strong>See-Through Depth</strong> in the Depth Color section and the web will vanish right about where the bottom stops being visible.</p>
+  <p><strong>Wave Fade only touches the clusters.</strong> The waterline stays put throughout, so the shore never loses its inked edge at low tide.</p>
 </blockquote>
 
 <hr />
 
-<h2 id="where-the-pattern-comes-from">Where the Pattern Comes From</h2>
+<h2 id="foam-line--the-waterline">Foam Line — The Waterline</h2>
 
-<p>The web is built from <strong>two layers of Worley noise</strong> at different scales and phases, combined. Each cell owns a feature point that orbits inside it on a sine, which is what makes the whole field crawl and shimmer. The bright part is the <strong>ridge between cells</strong> — the ground that is furthest from any feature point — and that ridge network is the web you see.</p>
+<p><img src="../water-foam/Material_Foam3.png" alt="Material_Foam_Line" /></p>
 
-<p>Two layers, because a single one reads immediately as one repeating round grid.</p>
+<p>A thin solid band sitting exactly where the water meets the ground. This is what makes the shore read as line art.</p>
+
+<ul>
+  <li><strong>Opacity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how opaque <strong>the waterline alone</strong> is, the twin of the Foam Noise Opacity. <code class="language-plaintext highlighter-rouge">0</code> = no drawn line, just the froth, with every other value of the line left intact rather than dismantled</li>
+  <li><strong>Width</strong> (<code class="language-plaintext highlighter-rouge">0–1</code> metres, default <code class="language-plaintext highlighter-rouge">0.15</code>) — the thickness of the line, in metres of water depth. <code class="language-plaintext highlighter-rouge">0</code> turns the waterline off</li>
+  <li><strong>Softness Out</strong> (<code class="language-plaintext highlighter-rouge">0.01–1</code>, default <code class="language-plaintext highlighter-rouge">0.3</code>) — the fade at the <strong>open-water</strong> end. Low = a hard inked edge, <code class="language-plaintext highlighter-rouge">1</code> = a full gradient</li>
+  <li><strong>Softness In</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — the fade at the <strong>shore</strong> end. <code class="language-plaintext highlighter-rouge">0</code> = solid right up against the sand, which is the classic inked look</li>
+  <li><strong>Wobble</strong> (<code class="language-plaintext highlighter-rouge">0–1</code> metres, default <code class="language-plaintext highlighter-rouge">0.2</code>) — how far the line’s edge wanders off the true contour, following a soft scrolling noise field. It billows the line into froth lobes and sends fingers up to touch the sand here and there. <code class="language-plaintext highlighter-rouge">0</code> = an even, machine-drawn stripe</li>
+  <li><strong>Noise Scale</strong> (default <code class="language-plaintext highlighter-rouge">15</code>) — the size of the lobes that Wobble produces. Low = long broad lobes, high = a fine ripple</li>
+  <li><strong>Noise Speed (XY)</strong> (default <code class="language-plaintext highlighter-rouge">(0, -0.2)</code>) — the direction and speed that noise field drifts</li>
+</ul>
 
 <hr />
+
+<h2 id="flow--foam-that-runs-toward-the-shore">Flow — Foam That Runs Toward the Shore</h2>
+
+<p><img src="../water-foam/Material_Foam4.png" alt="Material_Foam_Flow" /></p>
+
+<p>Normally the foam pattern scrolls one way across the whole surface, following <strong>Speed</strong> — which falls apart the moment there is an island or a rock out in the water, because foam should run toward the shore on <strong>every</strong> side of it. Flow fixes that by carrying the pattern along a direction field baked ahead of time.</p>
+
+<p>At the bottom of the Foam section is a full-width <strong>ON / OFF bar named Flow</strong> (the same language the feature buttons at the top use). That one switch owns the two groups that share the same baked map — <strong>Foam Flow</strong> and <strong>Ring Wave</strong> — so with it off you get one bar and nothing else cluttering the Inspector.</p>
+
+<h3 id="foam-flow">Foam Flow</h3>
+
+<ul>
+  <li><strong>Flow Map</strong> — the direction map (RG = direction in world XZ, <code class="language-plaintext highlighter-rouge">0.5</code> at the middle = no flow). It normally comes from <strong>Dashboard &gt; Water &gt; Bake Foam Flow</strong>, so there is nothing to author by hand</li>
+  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–3</code>, default <code class="language-plaintext highlighter-rouge">0.6</code>) — how fast the pattern travels</li>
+  <li><strong>Distance</strong> (<code class="language-plaintext highlighter-rouge">0–10</code> metres, default <code class="language-plaintext highlighter-rouge">1.5</code>) — how many metres it travels over one cycle</li>
+  <li><strong>Area (Center XZ, Size XZ)</strong> (default <code class="language-plaintext highlighter-rouge">(0, 0, 100, 100)</code>) — the world rectangle the map covers. The bake sets this for you</li>
+</ul>
+
+<p>The advection reads the pattern twice, half a cycle apart, and cross-fades the two at their wrap points, so the pattern never visibly snaps back — and those two reads only happen inside the foam band.</p>
+
+<h3 id="ring-wave">Ring Wave</h3>
+
+<p>The other group under the same Flow switch: bands of foam spreading out around a rock or a post standing in the water, read from the same map. It has a page of its own at <a href="/env/water/water-ring-wave/">Water Ring Wave</a> — its sliders stay locked until a properly baked Flow Map is bound.</p>
 
       </div>
     </main>
