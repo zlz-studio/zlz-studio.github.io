@@ -16,8 +16,7 @@ published: false
 และจุดที่อยู่ไกลก็ยัง **เป็นจุด** ไม่บวมเป็นก้อนแสง ไม่ถูกเกลี่ยเป็นฝ้าสว่างๆ และไม่คลานยิบๆ กวนตา
 
 ## Showcase Water Sparkle
-<!-- TODO: ใส่ id คลิป -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="_xY8MbSuL1E" %}
 
 ---
 
