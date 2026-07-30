@@ -31,7 +31,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ภาพ Inspector หัวข้อ Sparkle — Material_WaterSparkle.png -->
+![Water_Wave_Dashboard](../water-waves/Water_Wave_Dashboard.png)
 
 ทั้งหมดอยู่บน Material ใต้หัวข้อ **Sparkle** และจะโผล่มาเมื่อเปิดฟีเจอร์แล้ว
 
