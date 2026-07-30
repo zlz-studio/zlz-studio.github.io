@@ -33,7 +33,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ภาพ Inspector หัวข้อ Caustics — Caustics_Mat.png -->
+![Material_WaterCaustics](../water-caustics/Material_WaterCaustics.png)
 
 ทั้งหมดอยู่บน Material ใต้หัวข้อ **Caustics** และจะโผล่มาเมื่อเปิดฟีเจอร์แล้ว
 
