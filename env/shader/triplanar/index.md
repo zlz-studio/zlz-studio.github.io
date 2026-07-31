@@ -5,8 +5,6 @@ last_modified_at: 2026-07-30
 published: false
 ---
 
-<!-- DRAFT ภาษาไทย — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: แปลเป็นอังกฤษ แล้วลบ published: false -->
-
 # Triplanar
 
 ปูเท็กซ์เจอร์ลงบนเมชโดย **ไม่สนใจ UV ของเมชเลย** — ระบบฉายเท็กซ์เจอร์เข้ามาจากสามแกนของโลก (บน, หน้า, ข้าง) แล้วผสมกันตามทิศที่ผิวหันไป ผลคือหน้าผา ก้อนหิน หรือกล่อง blockout ที่ UV บิดเบี้ยวหรือไม่มี UV เลย ก็ปูลายได้เนียนสนิท ไม่มีลายยืด ไม่มีตะเข็บ
@@ -35,7 +33,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ภาพ Inspector หัวข้อ Texture ตอนเปิด Triplanar — Material_Triplanar.png -->
+![Material_WaterCaustics](../water-caustics/Material_WaterCaustics.png)
 
 - **World Tiling** (`0.01–10`, default `1`) — ความถี่ของลายเทียบกับโลกจริง ค่าสูง = ลายซ้ำถี่ขึ้น (ลายดูเล็กลง) ค่านี้คุม **Albedo, Normal Map และ Feature Mask พร้อมกันทั้งหมด** เพื่อให้ทั้งสามอยู่ตรงกันเสมอ
 - **Blend Sharpness** (`1–20`, default `4`) — สามแกนไล่ผสมกันแข็งหรือนุ่มแค่ไหน ค่าสูง = เอนไปหาแกนที่ผิวหันไปหามากที่สุด รอยต่อคมขึ้น, ค่าต่ำ = ไล่ผสมกันกว้างๆ นุ่มขึ้น
