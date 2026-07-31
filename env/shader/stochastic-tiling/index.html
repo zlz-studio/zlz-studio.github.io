@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triplanar | ZLZ Env Shader</title>
+  <title>Stochastic Sampling | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -590,7 +590,7 @@
 
 
 <a href="/env/shader/triplanar/"
-   class="active">
+   class="">
    Triplanar
 </a>
 
@@ -618,7 +618,7 @@
 
 
 <a href="/env/shader/stochastic-tiling/"
-   class="">
+   class="active">
    Stochastic Sampling
 </a>
 
@@ -797,19 +797,19 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="triplanar">Triplanar</h1>
+        <h1 id="stochastic-sampling">Stochastic Sampling</h1>
 
-<p>Lay textures onto a mesh while <strong>ignoring its UVs entirely</strong> — the system projects the texture in from the three world axes (top, front, side) and blends them by the direction the surface faces. A cliff, a rock or a blockout box whose UVs are stretched, or which has no UVs at all, tiles cleanly: no smearing, no seams.</p>
+<p>Kill the <strong>visible repeat</strong> that shows up when one texture tiles across a large surface. The same rock, the same clump of grass, coming back at even intervals until the eye reads it as a grid.</p>
 
-<p>It is an enormous shortcut for environment work: sculpt a cliff in Blender and drop it straight into Unity — no time spent unwrapping, and no worry that reshaping it later will break the UVs.</p>
+<p>The usual fixes are a bigger texture, or several textures swapped around — both cost VRAM and authoring time. This fixes the <strong>way the texture is read</strong> instead, without adding a single file.</p>
 
-<p>And because the pattern is anchored to world coordinates, <strong>separate meshes placed next to each other tile as one continuous surface</strong>. A cliff assembled from ten rocks reads as one rock face rather than ten pieces each carrying their own patch of texture.</p>
+<p>And it does not trade the repeat away for blur. Most of the surface still comes through at full sharpness, just shuffled until the eye cannot find the rhythm; the blending is confined to narrow seams whose width you control with <strong>Blend Width</strong>.</p>
 
-<h2 id="showcase-triplanar">Showcase Triplanar</h2>
+<h2 id="showcase-stochastic-sampling">Showcase Stochastic Sampling</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/96LcH8KkDWo?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=96LcH8KkDWo&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/lPIMUnf1H4g?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=lPIMUnf1H4g&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
@@ -818,74 +818,151 @@
 
 <h2 id="setup">Setup</h2>
 
-<p>Turn on the <strong>Triplanar</strong> feature in the Features grid at the top of the material — that is the whole setup. Nothing else to configure, no UVs needed, nothing to bake.</p>
+<p>Turn on the <strong>Stochastic</strong> feature in the Features grid at the top of the Inspector. The <strong>Stochastic Sampling</strong> section appears, with an orange <strong><code class="language-plaintext highlighter-rouge">STOCHASTIC ON</code></strong> badge reporting its state.</p>
 
-<p>Once it is on, the <strong>Texture</strong> section rearranges itself:</p>
-
-<ul>
-  <li>A blue <strong><code class="language-plaintext highlighter-rouge">TRIPLANAR ON</code></strong> badge appears at the top of the section, telling you the tiling is world-space from now on</li>
-  <li>Unity’s <strong>Tiling / Offset</strong> fields disappear, replaced in the same spot by <strong>World Tiling</strong> and <strong>Blend Sharpness</strong></li>
-</ul>
-
-<blockquote>
-  <p><strong>Each mode keeps its own values.</strong> Switch Triplanar back off and the old Tiling / Offset numbers are still there, untouched — so you can flip between the two to compare results without losing anything.</p>
-</blockquote>
+<p>It ships <strong>off</strong>, because this one genuinely costs something (see Cost below). It is meant to be switched on for the surfaces that need it, not left on across a whole scene.</p>
 
 <hr />
 
 <h2 id="parameters">Parameters</h2>
 
-<p><img src="../triplanar/Material_Triplanar.png" alt="Material_Triplanar" /></p>
+<p><img src="../stochastic-tiling/Material_Stochastic.png" alt="Material_Stochastic" /></p>
 
 <ul>
-  <li><strong>World Tiling</strong> (<code class="language-plaintext highlighter-rouge">0.01–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how frequently the pattern repeats against the real world. Higher = it repeats more often (the pattern looks smaller). This one value drives <strong>the Albedo, the Normal Map and the Feature Mask together</strong>, so all three always line up</li>
-  <li><strong>Blend Sharpness</strong> (<code class="language-plaintext highlighter-rouge">1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how hard or soft the three axes cross-fade into each other. High = biased toward whichever axis the surface faces most, giving a crisper seam. Low = a wider, softer blend</li>
+  <li><strong>Pattern Size</strong> (<code class="language-plaintext highlighter-rouge">1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how often the texture re-randomizes. Higher = smaller random patches and more variation. <strong>Raise it until the repeating grid disappears</strong>, then stop</li>
+  <li><strong>Grid Shape</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5774</code>) — shears the random lattice. The default suits most textures; <strong>only touch it if a directional pattern still shows through</strong></li>
+  <li><strong>Blend Width</strong> (<code class="language-plaintext highlighter-rouge">0.02–1</code>, default <code class="language-plaintext highlighter-rouge">0.2</code>) — the <strong>detail versus seams</strong> dial. Low keeps a single sample dominant across most of a patch, so the Normal Map keeps its full depth and the Albedo its full contrast, at the price of tighter, more noticeable transitions between patches. High blends all three samples together and the surface goes flat and hazy</li>
 </ul>
 
 <blockquote>
-  <p><strong>Blend Sharpness only shows on curved or sloped surfaces.</strong> A straight wall or a flat floor already faces one axis head-on, so turning the value barely changes anything. To see it clearly, try it on a sphere.</p>
+  <p><strong>Raise Blend Width only as far as you need to</strong> — until the transitions stop reading as edges — and then stop.</p>
 </blockquote>
+
+<p>In practice <strong>Pattern Size</strong> and <strong>Blend Width</strong> are the two you tune. Grid Shape can be left alone.</p>
 
 <hr />
 
-<h2 id="what-switches-to-world-space">What Switches to World Space</h2>
+<h2 id="how-it-works">How It Works</h2>
+
+<p>UV space is split into a <strong>triangular lattice</strong>. Each cell shifts the texture lookup by its own random offset, and the three overlapping cells are sampled and mixed.</p>
+
+<p>The random offset comes from hashing the cell coordinate directly, so a given cell always gets the same value — the pattern never crawls or flickers as the camera moves.</p>
+
+<h3 id="the-hard-part-is-the-seams">The Hard Part Is the Seams</h3>
+
+<p>Mixing all three samples by their raw weight — the textbook form — makes <strong>almost every pixel an average of three unrelated regions of the texture</strong>. Every rock edge, crack and groove comes through at roughly a third of its strength, with faint ghosts of two other places laid over it.</p>
+
+<p>The average colour survives, but the structure does not. The surface goes flat and hazy, and <strong>pushing the contrast back afterwards does not help</strong>, because the detail was averaged away rather than merely dimmed.</p>
+
+<p>The fix is to <strong>confine the blend to a narrow band along the cell borders</strong>, keeping only the weights that fall within <code class="language-plaintext highlighter-rouge">Blend Width</code> of the dominant one. Over most of a patch a single sample wins outright and reaches the screen at <strong>full detail</strong>; blending happens only at the seams.</p>
+
+<p>At a cell corner one weight is already 1, so a corner stays a single sample at any Blend Width — both ends of the slider’s range stay continuous.</p>
+
+<h3 id="normal-maps-get-their-own-path">Normal Maps Get Their Own Path</h3>
+
+<p>Mixing three samples pulls the result <strong>in toward the average</strong>. On albedo that reads as a mild haze. On a normal map what shrinks is the <strong>surface tilt</strong>, and it shrinks by a different amount in each part of a cell — which makes the lattice itself visible as soft flat patches.</p>
+
+<p>So the tilt that the blend removes is scaled back in by a computed factor, which is exact when the three samples are independent. At a cell corner that factor is 1, so again both ends stay continuous.</p>
+
+<p>The other half is <strong>blend order</strong>. The colour path mixes the raw texel and lets the caller unpack it afterwards. A normal map cannot work that way: mixing while still packed leaves a shortened result, and rebuilding the Z axis from it then flattens the surface a second time, invisibly. So each sample is <strong>unpacked first and mixed afterwards</strong>, which is also correct for any encoding — BC5, DXT5nm or raw RGB.</p>
+
+<h3 id="mip-selection">Mip Selection</h3>
+
+<p>The lookup uses <strong>the original UV’s gradients</strong> to choose the mip level, rather than letting the hardware derive them from the already-offset UV. Without that, the jumps between cells would fool the hardware into picking the wrong mip and leave seams.</p>
+
+<hr />
+
+<h2 id="cost">Cost</h2>
+
+<p>The cost here is <strong>texture bandwidth, not ALU</strong>. The numbers that matter :</p>
 
 <table>
   <thead>
     <tr>
-      <th>Part</th>
-      <th>With Triplanar on</th>
+      <th>Situation</th>
+      <th>Fetches per texture</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Albedo</strong></td>
-      <td>projected from the three world axes</td>
+      <td>Stochastic off</td>
+      <td>1</td>
     </tr>
     <tr>
-      <td><strong>Normal Map</strong></td>
-      <td>projected from the three world axes, and resolved directly in world space</td>
+      <td>Stochastic on</td>
+      <td><strong>3</strong></td>
     </tr>
     <tr>
-      <td><strong>Feature Mask (RGBA)</strong></td>
-      <td>projected from the three world axes, so Metallic / Smoothness / Emissive still match the pattern you see</td>
-    </tr>
-    <tr>
-      <td><strong>Paint Layer textures</strong></td>
-      <td>projected from the three world axes, and <strong>each layer carries its own World Tiling</strong></td>
-    </tr>
-    <tr>
-      <td><strong>Paint Mask</strong></td>
-      <td><strong>stays on UVs</strong>, because the brush paints in UV space</td>
+      <td>Stochastic + Triplanar</td>
+      <td><strong>9</strong> (one triplet per world axis)</td>
     </tr>
   </tbody>
 </table>
 
-<p>The three-axis blend weights are computed <strong>once per pixel</strong> and shared by every texture, so the Albedo, the Normal and the Mask are locked to exactly the same projection and can never drift apart.</p>
+<p>Multiply that by <strong>how many base textures the material actually uses</strong>. With Albedo, Normal Map and Feature Mask all in play, it is three times over.</p>
 
-<blockquote>
-  <p><strong>The Normal Map has no Tiling field of its own</strong> — in either mode. It always follows the Albedo’s mapping (it is hidden in the shader itself), because otherwise you would get a surface whose colour detail and bump detail do not line up.</p>
-</blockquote>
+<p>This makes <strong>Stochastic together with Triplanar the most expensive combination</strong> in the shader. Save it for large surfaces where it pays — a cliff face, ground that covers the whole scene — rather than small props.</p>
+
+<p>With the feature off, everything drops back to a single fetch. Nothing is left behind.</p>
+
+<hr />
+
+<h2 id="which-textures-suit-it">Which Textures Suit It</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Works well</th>
+      <th>Do not use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rock, dirt, grass, sand, moss</td>
+      <td>brick, tile, floorboards</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The dividing line is whether the pattern <strong>has structure that has to line up</strong>.</p>
+
+<p>Nobody knows where any particular pebble belongs in a rock texture, so shuffling it still reads as rock. Brick and tile have courses that must meet exactly; a random offset breaks them and the misalignment reads as wrong immediately.</p>
+
+<hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="triplanar">Triplanar</h3>
+<p>They work together, and it is the most sensible pairing there is — cliffs and terrain, the surfaces Triplanar exists for, are exactly the wide surfaces where a repeat shows up worst.</p>
+
+<p>With both on, each of Triplanar’s three world-axis lookups becomes a stochastic one, at the cost shown in the table above. See <a href="/env/shader/triplanar/">Triplanar</a>.</p>
+
+<h3 id="normal-map">Normal Map</h3>
+<p>The base Normal Map is shuffled the same way the Albedo is, so the relief and the colour stop repeating <strong>together</strong>, rather than fixing one and leaving the other on a grid.</p>
+
+<p>And because normal maps get the dedicated path described above, the surface’s depth is not eaten by this feature — the Normal Strength you set still reads the way you set it. See <a href="/env/shader/normal/">Normal Map</a>.</p>
+
+<p>Under Triplanar each world axis is its own tilt-corrected stochastic set before the three are blended together.</p>
+
+<h3 id="feature-mask">Feature Mask</h3>
+<p>The base Feature Mask is shuffled along with everything else, so the places that are glossy or metal still line up with the pattern you can see instead of drifting off it. See <a href="/env/shader/specular/">Specular &amp; Metallic</a>.</p>
+
+<h3 id="paint-mode">Paint Mode</h3>
+<p><strong>Painted layers do not use Stochastic</strong> — they stay on a single plain lookup. This feature covers the base surface’s textures only.</p>
+
+<p>If a painted layer covers enough ground to show its own repeat, it needs a different fix: adjust that layer’s Size, or paint it so its coverage is not one large unbroken sheet.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>It covers the base Albedo, Normal Map and Feature Mask only.</strong> Paint Mode’s layers are not included</li>
+  <li><strong>Not for structured patterns.</strong> Brick, tile and floorboards lose their alignment and read as wrong</li>
+  <li><strong>3× the texture fetches, and 9× combined with Triplanar.</strong> This is a feature to switch on in specific places, not across a scene</li>
+  <li><strong>It fixes repetition, it does not add detail.</strong> A texture too low-res to hold up close by is a different problem</li>
+  <li><strong>Detail and seams always trade against each other.</strong> <code class="language-plaintext highlighter-rouge">Blend Width</code> moves the balance point, but no setting gives you both in full</li>
+</ul>
 
       </div>
     </main>
