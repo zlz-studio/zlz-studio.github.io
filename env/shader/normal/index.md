@@ -16,7 +16,7 @@ published: false
 จุดที่ควรรู้คือ Normal Map ในเชดเดอร์ตัวนี้ **ไม่ได้ทำงานอยู่ลำพัง** — มันคือทิศของผิวที่ระบบอื่นทั้งหมดอ่านต่อ ทั้ง Specular, Reflection, Paint Mode, Surface Accumulation ไปจนถึง SSAO และ Decal ของ URP
 
 ## Showcase Normal Map
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="SaC2mu4enEI" %}
 
 ---
 
