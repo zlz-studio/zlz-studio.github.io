@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass Optimized | ZLZ Env Shader</title>
+  <title>Normal Map | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -602,7 +602,7 @@
 
 
 <a href="/env/shader/normal/"
-   class="">
+   class="active">
    Normal Map
 </a>
 
@@ -651,7 +651,7 @@
 
 
 <a href="/env/grass/grass-optimized/"
-   class="active">
+   class="">
    Grass Optimized
 </a>
 
@@ -781,93 +781,116 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-optimized">Grass Optimized</h1>
+        <h1 id="normal-map">Normal Map</h1>
 
-<h2 id="showcase--texture-vs-mesh-render-scale-1">Showcase — Texture vs Mesh (Render Scale 1)</h2>
+<p>Add surface relief without spending a single extra polygon — cracks in stone, mortar lines between bricks, wood grain, rippled sand. It all comes from a texture that says <strong>which way each pixel faces</strong>, and lets the light do the rest.</p>
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/1Nu8tF2xBtI?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=1Nu8tF2xBtI&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<p>Environment work needs this more than most. Nearly every surface in a scene is a large plane carrying very few polygons, and without a Normal Map a wall or a floor is a dead-flat sheet that catches light identically across its whole area.</p>
 
-<h2 id="showcase--texture-vs-mesh-render-scale-2">Showcase — Texture vs Mesh (Render Scale 2)</h2>
+<p>The thing worth knowing is that the Normal Map here <strong>is not working alone</strong> — it is the surface direction that everything downstream reads: Specular, Reflection, Paint Mode, Surface Accumulation, and on out to URP’s SSAO and Decals.</p>
+
+<h2 id="showcase-normal-map">Showcase Normal Map</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/TuCkT8qo7Ww?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=TuCkT8qo7Ww&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/SaC2mu4enEI?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=SaC2mu4enEI&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
 <hr />
 
-<h2 id="zlz-grass-mesh-baker">ZLZ Grass Mesh Baker</h2>
+<h2 id="setup">Setup</h2>
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/FSAfKJ4hOb0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=FSAfKJ4hOb0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<p>Turn on the <strong>Normal Map</strong> feature in the Features grid at the top of the Inspector and the <strong>Normal Map</strong> section appears. Drop a texture in the slot and you are done.</p>
 
-<p>A grass card + a texture with alpha: most of the card’s area is transparent pixels, yet the GPU still has to process every one of them (fetch texture → test alpha clip → discard the pixel). That is what causes Overdraw — and ZLZ Grass Mesh Baker fixes it.</p>
-
-<p><strong>What you get</strong></p>
-<ul>
-  <li>No Texture fetch</li>
-  <li>No Alpha Clip</li>
-  <li>No Overdraw from transparent pixels</li>
-  <li>Height Gradient + Wind still work exactly the same (the UVs are preserved)</li>
-  <li>No mesh modelling needed — just have the grass shape you want, press Bake, and the mesh is ready to use</li>
-</ul>
-
-<h3 id="how-to-open">How to open</h3>
-<p>Window &gt; ZLZ &gt; Grass Mesh Baker</p>
-
-<h3 id="how-it-works--3-steps">How it works — 3 steps</h3>
-
-<ul>
-  <li><strong>Trace</strong> — reads the texture’s alpha channel and traces the outline of each blade, reducing the point count to the vertex budget you set</li>
-  <li><strong>Layout</strong> — reads a reference mesh (the card-group mesh the grass uses now) card by card, and replaces every card with the traced shape at the exact same position / rotation / scale (it copies the existing layout, it never invents a new one)</li>
-  <li><strong>UV</strong> — keeps texture-space UVs (x across, y base 0 → tip 1), so Height Gradient and Wind keep working exactly as before</li>
-</ul>
-
-<h3 id="settings">Settings</h3>
-<ul>
-  <li><strong>Grass Texture</strong> — the source texture to take the shape from (only the alpha channel is read)</li>
-  <li><strong>Layout Mesh</strong> — the existing card-group mesh the grass uses (e.g. <code class="language-plaintext highlighter-rouge">SM_Grass_Group1</code>); every card in it is replaced by the traced shape</li>
-  <li><strong>Alpha Cutoff</strong> (<code class="language-plaintext highlighter-rouge">0.05–0.95</code>) — the alpha level counted as solid grass. Match it to the <strong>material’s Alpha Cutoff</strong> so the mesh edge lands where the clipped edge used to be</li>
-  <li><strong>Simplify</strong> (<code class="language-plaintext highlighter-rouge">0.5–8</code> pixels) — the outline tolerance. Higher = fewer points / coarser edge / lighter, lower = a tighter edge / more points</li>
-  <li><strong>Bend Segments</strong> (<code class="language-plaintext highlighter-rouge">1–12</code>) — the horizontal vertex rows from base to tip. The wind bends the mesh per vertex, so more rows = a smoother lean, fewer rows = lighter but stiffer</li>
-  <li>The Preview shows the traced outline (gold) and the Bend Segments guide lines, plus the Cards / Verts / Tris stats before you press <strong>Bake Mesh</strong></li>
-</ul>
+<p>The feature ships <strong>off</strong>, and while it is off its calculations are stripped out of the compiled shader entirely — nothing is left behind to pay for.</p>
 
 <blockquote>
-  <p>After baking: the mesh can be used directly with a material that has its Texture feature turned off. See the Demo for an example.</p>
+  <p><strong>The texture has to be set to Texture Type <code class="language-plaintext highlighter-rouge">Normal map</code> in its Import Settings.</strong> Otherwise Unity does not compress it as a normal map and the result comes out wrong.</p>
 </blockquote>
 
 <hr />
 
-<h2 id="zlz-env-grass-resolution">ZLZ Env Grass Resolution</h2>
+<h2 id="parameters">Parameters</h2>
 
-<p><img src="../grass-optimized/Grass_Resolution.png" alt="Grass_Resolution" /></p>
+<p><img src="../normal/Material_NormalMap.png" alt="Material_NormalMap" /></p>
 
-<p>Renders the grass color into a downsampled buffer and composites it back — paying the remaining overdraw at only a fraction of the pixels.</p>
-
-<h3 id="setup-zlz-env-grass-resolution">Setup ZLZ Env Grass Resolution</h3>
 <ul>
-  <li>Add Renderer Feature &gt; <strong>ZLZ Env Grass Resolution</strong> to the main URP renderer used to render the image</li>
-  <li><strong>Depth Texture</strong> must be enabled on the URP Asset</li>
+  <li><strong>Normal Map</strong> — the texture slot. It defaults to <code class="language-plaintext highlighter-rouge">bump</code>, which is a flat surface</li>
+  <li><strong>Normal Strength</strong> (<code class="language-plaintext highlighter-rouge">0–5</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how deep the relief reads. <code class="language-plaintext highlighter-rouge">0</code> = flat, as though nothing were assigned. <code class="language-plaintext highlighter-rouge">1</code> = exactly what the texture describes. Above <code class="language-plaintext highlighter-rouge">1</code> pushes it past the authored depth, useful for keeping detail readable at a distance</li>
 </ul>
 
-<h3 id="resolution">Resolution</h3>
+<h3 id="why-there-is-no-tiling--offset">Why There Is No Tiling / Offset</h3>
+
+<p>The Normal Map here <strong>always samples the Albedo’s UV</strong> — and follows the Triplanar projection along with it when Triplanar is on. Its own Tiling / Offset never did anything, so the field is hidden rather than left sitting there as a dead control.</p>
+
+<p>That is a design decision rather than a limitation. If the colour pattern and the relief pattern do not line up, the surface reads as wrong immediately. Forcing both onto the same UV rules that problem out from the start.</p>
+
+<hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="paint-mode">Paint Mode</h3>
+<p>With Paint Mode on, this section grows a <strong>Paint Layers</strong> block underneath, carrying a <strong>Layer N Normal Map</strong> slot and a <strong>Layer N Strength</strong> slider for every active layer. The number of slots follows Paint Mode’s Active Layer Count, up to 4.</p>
+
+<p>Everything to do with normals lives in this one section, so there is no jumping between two places in the Inspector.</p>
+
+<p><strong>Each layer’s Strength is independent of the base Normal Strength.</strong> You can tune how deep the painted grass or dirt reads without touching the rock underneath it, and without re-baking a texture.</p>
+
+<p>Painted layer normals blend over the base by each layer’s mask weight at that point.</p>
+
+<h3 id="triplanar">Triplanar</h3>
+<p>There are two separate paths, and they <strong>are never mixed</strong> :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>How it is computed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Triplanar off</strong></td>
+      <td>the base normal and every paint-layer normal stack in tangent space, then convert to world space in a single transform</td>
+    </tr>
+    <tr>
+      <td><strong>Triplanar on</strong></td>
+      <td>every normal is projected from the three world axes and resolved directly in world space</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So a cliff or a blockout mesh with no UVs still carries proper relief. See <a href="/env/shader/triplanar/">Triplanar</a>.</p>
+
+<h3 id="stochastic-sampling">Stochastic Sampling</h3>
+<p>With Stochastic on, the Normal Map goes through the same treatment as the Albedo — three taps per pixel blended together. The relief stops repeating in a visible grid <strong>at the same time</strong> as the colour does, rather than fixing one and leaving the other out of step.</p>
+
+<h3 id="surface-accumulation">Surface Accumulation</h3>
+<p>Snow, dust or moss settling on a surface <strong>flattens the relief underneath it</strong> by the Accum Normal Flatten amount, which is what should happen: snow lying thick fills the mortar lines in. Wherever the cover is heaviest the surface reads smoothest, while the thinner edges still show the pattern beneath.</p>
+
+<h3 id="specular-and-reflection">Specular and Reflection</h3>
+<p>Both read the surface direction after the Normal Map has bent it, so highlights and reflections travel across the relief on their own with nothing extra to configure.</p>
+
+<blockquote>
+  <p>If you already want the reflection to ripple, pick either the Normal Map or <strong>Mirror Distortion</strong> from <a href="/env/shader/planar-reflection/">Planar Reflection</a> — running both stacks two patterns on top of each other and just reads as busy.</p>
+</blockquote>
+
+<h3 id="ssao-decals-and-screen-space-outline">SSAO, Decals and Screen-Space Outline</h3>
+<p>The same normal is written into the DepthNormals pass, so every URP system that reads surface direction from that buffer — <strong>SSAO, URP Decals and Screen-Space Outline</strong> — sees the surface exactly as the eye does, not the raw flat polygon.</p>
+
+<p>SSAO’s contact darkening therefore lands in the real grooves, and decals curve over the detail they sit on. This is handled for you; there is nothing to set up.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
 
 <ul>
-  <li><strong>Full</strong> — renders at native resolution (the feature idles, grass draws its own color) → highest quality / sharpest edges, but no saving</li>
-  <li><strong>Half</strong> — half per axis (= 1/4 of the pixels) → much faster, edges soften slightly; the best value for most cases</li>
-  <li><strong>Quarter</strong> — a quarter per axis (= 1/16 of the pixels) → fastest, softest edges; good for mobile or very dense grass fields</li>
+  <li><strong>The mesh needs tangents.</strong> In the normal path (Triplanar off) the maths runs through the mesh’s tangent basis, so a model imported without tangents comes out wrong. When a mesh has no UVs, or stretched ones, turn on Triplanar instead</li>
+  <li><strong>It has no Tiling / Offset of its own</strong>, as described above — it always shares the Albedo’s UV</li>
+  <li><strong>The texture has to be imported as a Normal map</strong>, or the result is wrong</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">0</code> is not the same as off.</strong> Setting Normal Strength to <code class="language-plaintext highlighter-rouge">0</code> does flatten the surface, but the shader still samples the texture. When you are done with it, switch the feature off in the Features grid to actually strip the work out</li>
 </ul>
 
       </div>
