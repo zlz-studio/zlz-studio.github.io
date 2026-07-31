@@ -5,8 +5,6 @@ last_modified_at: 2026-07-31
 published: false
 ---
 
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
-
 # Planar Reflection
 
 สะท้อนฉากจริงลงบนพื้นผิวแบบ **กระจกเงา** — พื้นหินเปียกหลังฝนตก พื้นหินอ่อนในโถงวัง หรือถนนยางมะตอยที่ยังไม่แห้ง จะเห็นเงาของกำแพง เสา และตัวละครที่ยืนอยู่ตรงนั้นจริงๆ ไม่ใช่แค่ก้อนแสงเบลอๆ จาก Reflection Probe
@@ -16,8 +14,7 @@ published: false
 เพราะต้องวาดฉากซ้ำอีกรอบ Planar Reflection จึงเป็นฟีเจอร์ที่ **แพงที่สุดตัวหนึ่งของ Env Shader** ส่วน Performance Settings ใน Renderer Feature จึงถูกออกแบบมาให้ตัดต้นทุนตรงนี้โดยเฉพาะ และค่าเริ่มต้นก็ตั้งมาแบบประหยัดไว้ก่อนแล้ว
 
 ## Showcase Planar Reflection
-<!-- TODO: ถ่ายคลิปแล้วแทนบรรทัดนี้ด้วย include youtube-loop.html พร้อม id ของคลิป
-     (เขียนเป็น Liquid tag ตรงๆ ไม่ต้องอยู่ใน comment — ดูตัวอย่างที่ env/shader/triplanar/index.md) -->
+{% include youtube-loop.html id="zPGiegraj8Y" %}
 
 ---
 
