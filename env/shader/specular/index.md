@@ -16,7 +16,7 @@ published: false
 ไฮไลต์ที่ได้เป็น **GGX ตัวเดียวกับ URP Lit** และปรับเทียบมาแล้วให้ Specular Intensity `1` ได้ผลเท่ากับผิว URP Lit มาตรฐาน จึงเริ่มจากฐานที่ถูกต้องตามฟิสิกส์ก่อน แล้วค่อยดันไปทางสไตล์การ์ตูนได้ถ้าต้องการ
 
 ## Showcase Specular & Metallic
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="I8F_pRc5Y-E" %}
 
 ---
 
