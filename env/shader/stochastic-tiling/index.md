@@ -1,135 +1,133 @@
 ---
 layout: docs
 title: Stochastic Sampling
-last_modified_at: 2026-07-31
-published: false
+last_modified_at: 2026-08-01
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Stochastic Sampling
 
-ลบ **ลายซ้ำเป็นตาราง** ที่โผล่ขึ้นมาเวลาเท็กซ์เจอร์ใบเดียวถูก tiling ไปทั่วพื้นที่กว้างๆ ก้อนหินก้อนเดิม กอหญ้ากอเดิม โผล่ซ้ำเป็นระยะเท่าๆ กันจนตาจับได้ว่าเป็นกริด
+Kill the **visible repeat** that shows up when one texture tiles across a large surface. The same rock, the same clump of grass, coming back at even intervals until the eye reads it as a grid.
 
-ปกติทางแก้คือทำเท็กซ์เจอร์ใหญ่ขึ้นหรือทำหลายใบมาสลับ ซึ่งกินทั้ง VRAM และเวลาทำงาน ฟีเจอร์นี้แก้ที่**วิธีอ่านเท็กซ์เจอร์**แทน โดยไม่ต้องเพิ่มไฟล์อะไรเลยสักใบ
+The usual fixes are a bigger texture, or several textures swapped around — both cost VRAM and authoring time. This fixes the **way the texture is read** instead, without adding a single file.
 
-จุดสำคัญคือมันไม่ได้แลกมาด้วยความเบลอ — พื้นที่ส่วนใหญ่ของผิวยังคมเต็มร้อย แค่ถูกสับตำแหน่งใหม่จนตาหาจังหวะซ้ำไม่เจอ ส่วนการผสมจะเกิดเฉพาะตรงรอยต่อแคบๆ ซึ่งกว้างแค่ไหนคุณคุมเองได้ที่ **Blend Width**
+And it does not trade the repeat away for blur. Most of the surface still comes through at full sharpness, just shuffled until the eye cannot find the rhythm; the blending is confined to narrow seams whose width you control with **Blend Width**.
 
 ## Showcase Stochastic Sampling
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="lPIMUnf1H4g" %}
 
 ---
 
 ## Setup
 
-เปิดฟีเจอร์ **Stochastic** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Stochastic Sampling** จะโผล่ขึ้นมาพร้อมป้าย **`STOCHASTIC ON`** สีส้มบอกสถานะ
+Turn on the **Stochastic** feature in the Features grid at the top of the Inspector. The **Stochastic Sampling** section appears, with an orange **`STOCHASTIC ON`** badge reporting its state.
 
-ค่าเริ่มต้นคือ **ปิด** เพราะฟีเจอร์นี้มีต้นทุนเพิ่มจริง (อ่านรายละเอียดที่หัวข้อ Cost ด้านล่าง) จึงเป็นของที่เลือกเปิดเฉพาะพื้นผิวที่ต้องการ ไม่ใช่เปิดทิ้งไว้ทั้งฉาก
+It ships **off**, because this one genuinely costs something (see Cost below). It is meant to be switched on for the surfaces that need it, not left on across a whole scene.
 
 ---
 
 ## Parameters
 
-<!-- TODO: ใส่สกรีนช็อตหัวข้อ Stochastic Sampling เป็น Material_Stochastic.png -->
+![Material_Stochastic](../stochastic-tiling/Material_Stochastic.png)
 
-- **Pattern Size** (`1–20`, default `4`) — ความถี่ที่ลายจะถูกสุ่มใหม่ ยิ่งสูง = แต่ละหย่อมสุ่มยิ่งเล็กลง ความหลากหลายยิ่งมาก **วิธีปรับคือค่อยๆ ดันขึ้นจนกริดที่ซ้ำหายไป** แล้วหยุด
-- **Grid Shape** (`0–1`, default `0.5774`) — บิดรูปทรงของตะแกรงสุ่ม ค่าเริ่มต้นเหมาะกับเท็กซ์เจอร์ส่วนใหญ่อยู่แล้ว **ควรแตะเฉพาะตอนที่ยังเห็นลายพาดเป็นแนวทิศทางใดทิศทางหนึ่งหลงเหลืออยู่**
-- **Blend Width** (`0.02–1`, default `0.2`) — ตัวชี้ขาดระหว่าง **รายละเอียด** กับ **รอยต่อ** ค่าต่ำ = ให้ตัวอย่างเดียวครองพื้นที่เกือบทั้งหย่อม Normal Map จึงเก็บความลึกไว้ครบและ Albedo เก็บคอนทราสต์ไว้ครบ แลกกับรอยต่อระหว่างหย่อมที่แคบและสังเกตง่ายขึ้น ค่าสูง = เบลนด์ทั้งสามตัวอย่างเข้าด้วยกัน ผิวจะแบนและขุ่น
+- **Pattern Size** (`1–20`, default `4`) — how often the texture re-randomizes. Higher = smaller random patches and more variation. **Raise it until the repeating grid disappears**, then stop
+- **Grid Shape** (`0–1`, default `0.5774`) — shears the random lattice. The default suits most textures; **only touch it if a directional pattern still shows through**
+- **Blend Width** (`0.02–1`, default `0.2`) — the **detail versus seams** dial. Low keeps a single sample dominant across most of a patch, so the Normal Map keeps its full depth and the Albedo its full contrast, at the price of tighter, more noticeable transitions between patches. High blends all three samples together and the surface goes flat and hazy
 
-> **วิธีปรับ Blend Width คือดันขึ้นเท่าที่จำเป็น** ให้รอยต่อหยุดอ่านเป็นเส้นขอบ แล้วหยุดทันที ไม่ต้องดันต่อ
+> **Raise Blend Width only as far as you need to** — until the transitions stop reading as edges — and then stop.
 
-ในทางปฏิบัติ **Pattern Size** กับ **Blend Width** คือสองตัวที่ต้องปรับ ส่วน Grid Shape ปล่อยไว้ตามเดิมได้เลย
+In practice **Pattern Size** and **Blend Width** are the two you tune. Grid Shape can be left alone.
 
 ---
 
-## หลักการทำงาน
+## How It Works
 
-ระบบจะซอย UV ออกเป็น **ตะแกรงสามเหลี่ยม** แล้วให้แต่ละช่องเลื่อนตำแหน่งที่ไปหยิบเท็กซ์เจอร์ด้วยค่าสุ่มของตัวเอง จากนั้นหยิบมา **3 ช่องที่ซ้อนกัน** แล้วผสมกัน
+UV space is split into a **triangular lattice**. Each cell shifts the texture lookup by its own random offset, and the three overlapping cells are sampled and mixed.
 
-ค่าสุ่มมาจากการ hash พิกัดช่องโดยตรง จึงได้ค่าเดิมทุกครั้งสำหรับช่องเดิม — ลายไม่ไหลไม่กระพริบเวลากล้องขยับ
+The random offset comes from hashing the cell coordinate directly, so a given cell always gets the same value — the pattern never crawls or flickers as the camera moves.
 
-### จุดที่ยากคือรอยต่อ
+### The Hard Part Is the Seams
 
-ถ้าผสมทั้งสามตัวอย่างตามน้ำหนักตรงๆ แบบสูตรมาตรฐาน ผลคือ **เกือบทุกพิกเซลกลายเป็นค่าเฉลี่ยของเนื้อเท็กซ์เจอร์สามที่ที่ไม่เกี่ยวกันเลย** ขอบหิน รอยแตก ร่องทุกเส้น จะเหลือความเข้มราวหนึ่งในสาม แล้วมีเงาจางของอีกสองที่ทับอยู่ข้างบน
+Mixing all three samples by their raw weight — the textbook form — makes **almost every pixel an average of three unrelated regions of the texture**. Every rock edge, crack and groove comes through at roughly a third of its strength, with faint ghosts of two other places laid over it.
 
-สีเฉลี่ยยังเหมือนเดิม แต่โครงสร้างหายไป ผิวจะแบนและขุ่น และ**ดันคอนทราสต์กลับทีหลังก็ไม่ช่วย** เพราะรายละเอียดถูกเฉลี่ยหายไปแล้ว ไม่ได้แค่จางลง
+The average colour survives, but the structure does not. The surface goes flat and hazy, and **pushing the contrast back afterwards does not help**, because the detail was averaged away rather than merely dimmed.
 
-ทางแก้คือ **จำกัดการเบลนด์ให้อยู่แค่แถบแคบๆ ตามแนวรอยต่อของช่อง** เก็บเฉพาะน้ำหนักที่อยู่ในระยะ `Blend Width` จากตัวที่มากที่สุด ผลคือพื้นที่ส่วนใหญ่ของแต่ละหย่อมมีตัวอย่างเดียวชนะขาด และมาถึงจอ**ด้วยรายละเอียดเต็ม 100%** ส่วนการเบลนด์เกิดเฉพาะตรงรอยต่อเท่านั้น
+The fix is to **confine the blend to a narrow band along the cell borders**, keeping only the weights that fall within `Blend Width` of the dominant one. Over most of a patch a single sample wins outright and reaches the screen at **full detail**; blending happens only at the seams.
 
-ตรงมุมของช่อง น้ำหนักหนึ่งตัวเป็น 1 อยู่แล้ว จึงเหลือตัวอย่างเดียวเสมอไม่ว่าตั้ง Blend Width เท่าไหร่ ปลายทั้งสองด้านของสไลเดอร์จึงต่อเนื่องกัน
+At a cell corner one weight is already 1, so a corner stays a single sample at any Blend Width — both ends of the slider's range stay continuous.
 
-### Normal Map มีเส้นทางของตัวเอง
+### Normal Maps Get Their Own Path
 
-การผสมสามตัวอย่างทำให้ค่าที่ได้ **หดเข้าหาค่ากลาง** ซึ่งบน Albedo แค่ดูขุ่นนิดหน่อย แต่บน Normal Map สิ่งที่หดคือ **ความชันของผิว** และหดไม่เท่ากันในแต่ละจุดของช่อง ผลคือตัวตะแกรงเองจะโผล่ให้เห็นเป็นหย่อมแบนๆ นุ่มๆ
+Mixing three samples pulls the result **in toward the average**. On albedo that reads as a mild haze. On a normal map what shrinks is the **surface tilt**, and it shrinks by a different amount in each part of a cell — which makes the lattice itself visible as soft flat patches.
 
-ระบบจึงชดเชยความชันที่หายไปกลับคืนตามสัดส่วนที่คำนวณได้ ซึ่งแม่นยำเมื่อตัวอย่างทั้งสามไม่สัมพันธ์กัน และที่มุมช่องค่าชดเชยเป็น 1 พอดี ปลายทั้งสองด้านจึงต่อเนื่องเช่นกัน
+So the tilt that the blend removes is scaled back in by a computed factor, which is exact when the three samples are independent. At a cell corner that factor is 1, so again both ends stay continuous.
 
-อีกจุดคือ **ลำดับการแตกค่า** — เส้นทางของสีผสมค่าดิบแล้วค่อยแตกทีหลัง แต่ Normal Map ทำแบบนั้นไม่ได้ เพราะจะกลายเป็นการผสมในรูปแบบที่ยังบีบอัดอยู่ แล้วตอนคำนวณแกน Z กลับคืนจะยิ่งกดผิวให้แบนลงไปอีกชั้นโดยที่มองไม่เห็นสาเหตุ ระบบจึง**แตกค่าของแต่ละตัวอย่างก่อนแล้วค่อยผสม** ซึ่งได้ผลถูกต้องกับทุกรูปแบบการบีบอัด ไม่ว่าจะเป็น BC5, DXT5nm หรือ RGB ดิบ
+The other half is **blend order**. The colour path mixes the raw texel and lets the caller unpack it afterwards. A normal map cannot work that way: mixing while still packed leaves a shortened result, and rebuilding the Z axis from it then flattens the surface a second time, invisibly. So each sample is **unpacked first and mixed afterwards**, which is also correct for any encoding — BC5, DXT5nm or raw RGB.
 
-### การเลือก mipmap
+### Mip Selection
 
-ระบบใช้ **ค่าความชันของ UV ดั้งเดิม** ในการเลือกระดับ mipmap แทนที่จะปล่อยให้ฮาร์ดแวร์คำนวณจาก UV ที่ถูกเลื่อนไปแล้ว ถ้าไม่ทำแบบนี้ การกระโดดของตำแหน่งระหว่างช่องจะหลอกให้ฮาร์ดแวร์เลือก mip ผิดจนเกิดรอยตะเข็บ
+The lookup uses **the original UV's gradients** to choose the mip level, rather than letting the hardware derive them from the already-offset UV. Without that, the jumps between cells would fool the hardware into picking the wrong mip and leave seams.
 
 ---
 
 ## Cost
 
-ต้นทุนของฟีเจอร์นี้อยู่ที่ **แบนด์วิดท์ของการอ่านเท็กซ์เจอร์ ไม่ใช่การคำนวณ** — ตัวเลขที่ต้องรู้คือ
+The cost here is **texture bandwidth, not ALU**. The numbers that matter :
 
-| สถานการณ์ | จำนวนครั้งที่อ่าน ต่อเท็กซ์เจอร์หนึ่งใบ |
+| Situation | Fetches per texture |
 |---|---|
-| ปิด Stochastic | 1 |
-| เปิด Stochastic | **3** |
-| เปิด Stochastic + Triplanar | **9** (สามชุดต่อหนึ่งแกนโลก) |
+| Stochastic off | 1 |
+| Stochastic on | **3** |
+| Stochastic + Triplanar | **9** (one triplet per world axis) |
 
-ตัวเลขนี้คูณกับ**จำนวนเท็กซ์เจอร์ฐานที่ใช้อยู่** ถ้าใช้ครบทั้ง Albedo, Normal Map และ Feature Mask ก็คือคูณสาม
+Multiply that by **how many base textures the material actually uses**. With Albedo, Normal Map and Feature Mask all in play, it is three times over.
 
-ด้วยเหตุนี้ **Stochastic + Triplanar พร้อมกันจึงเป็นการผสมที่แพงที่สุด** ของเชดเดอร์ตัวนี้ ควรใช้เฉพาะกับพื้นผิวใหญ่ๆ ที่คุ้มจริง เช่นหน้าผาหรือพื้นดินที่กินพื้นที่ทั้งฉาก ไม่ใช่กับพร็อพชิ้นเล็ก
+This makes **Stochastic together with Triplanar the most expensive combination** in the shader. Save it for large surfaces where it pays — a cliff face, ground that covers the whole scene — rather than small props.
 
-เมื่อปิดฟีเจอร์ ทุกอย่างจะกลับไปเป็นการอ่านครั้งเดียวตามปกติ ไม่เหลือต้นทุนค้างไว้
+With the feature off, everything drops back to a single fetch. Nothing is left behind.
 
 ---
 
-## เหมาะกับเท็กซ์เจอร์แบบไหน
+## Which Textures Suit It
 
-| ใช้ได้ดี | ไม่ควรใช้ |
+| Works well | Do not use |
 |---|---|
-| หิน ดิน หญ้า ทราย มอสส์ | อิฐ กระเบื้อง ไม้ปูพื้น |
+| rock, dirt, grass, sand, moss | brick, tile, floorboards |
 
-เส้นแบ่งอยู่ตรงที่ลายนั้น **มีโครงสร้างที่ต้องเรียงให้ตรงกันหรือไม่**
+The dividing line is whether the pattern **has structure that has to line up**.
 
-ลายอินทรีย์อย่างหินหรือดินไม่มีใครรู้ว่าก้อนไหนควรอยู่ตรงไหน สับตำแหน่งยังไงก็ยังดูเป็นหินอยู่ดี แต่ลายอิฐหรือกระเบื้องมีแนวเส้นที่ต้องต่อกันพอดี พอถูกเลื่อนแบบสุ่ม แนวจะขาดกลายเป็นรอยเหลื่อมที่ดูผิดทันที
+Nobody knows where any particular pebble belongs in a rock texture, so shuffling it still reads as rock. Brick and tile have courses that must meet exactly; a random offset breaks them and the misalignment reads as wrong immediately.
 
 ---
 
 ## Works With Other Features
 
 ### Triplanar
-ใช้ร่วมกันได้และเป็นการจับคู่ที่สมเหตุสมผลที่สุด เพราะหน้าผาหรือพื้นดินที่ใช้ Triplanar มักเป็นพื้นผิวกว้างที่เห็นการซ้ำชัดที่สุดอยู่แล้ว
+They work together, and it is the most sensible pairing there is — cliffs and terrain, the surfaces Triplanar exists for, are exactly the wide surfaces where a repeat shows up worst.
 
-เมื่อเปิดทั้งคู่ การหยิบจากสามแกนโลกของ Triplanar จะกลายเป็นการหยิบแบบสุ่มทั้งสามแกน แต่ต้องแลกด้วยต้นทุนตามตารางด้านบน ดูเพิ่มที่ [Triplanar]({{ '/env/shader/triplanar/' | relative_url }})
+With both on, each of Triplanar's three world-axis lookups becomes a stochastic one, at the cost shown in the table above. See [Triplanar]({{ '/env/shader/triplanar/' | relative_url }}).
 
 ### Normal Map
-Normal Map ของผิวฐานถูกสุ่มด้วยวิธีเดียวกับ Albedo ลายนูนกับลายสีจึงหายซ้ำ**ไปพร้อมกัน** ไม่ใช่แก้อย่างเดียวจนอีกอย่างยังเป็นตารางอยู่
+The base Normal Map is shuffled the same way the Albedo is, so the relief and the colour stop repeating **together**, rather than fixing one and leaving the other on a grid.
 
-และเพราะ Normal Map มีเส้นทางเฉพาะที่ชดเชยความชันกลับคืน (ดูหัวข้อหลักการทำงาน) ความลึกของผิวจึงไม่ถูกฟีเจอร์นี้กินหายไป ค่า Normal Strength ที่ตั้งไว้ยังให้ผลตามเดิม ดูเพิ่มที่ [Normal Map]({{ '/env/shader/normal/' | relative_url }})
+And because normal maps get the dedicated path described above, the surface's depth is not eaten by this feature — the Normal Strength you set still reads the way you set it. See [Normal Map]({{ '/env/shader/normal/' | relative_url }}).
 
-เมื่อใช้ร่วมกับ Triplanar แต่ละแกนโลกก็เป็นชุดสุ่มที่ชดเชยความชันแล้วเช่นกัน ก่อนจะถูกนำไปเบลนด์รวมสามแกน
+Under Triplanar each world axis is its own tilt-corrected stochastic set before the three are blended together.
 
 ### Feature Mask
-Feature Mask ของผิวฐานก็ถูกสุ่มตามไปด้วย ตำแหน่งที่มันวาวหรือเป็นโลหะจึงยังตรงกับลายที่ตาเห็น ไม่หลุดออกจากกัน ดูเพิ่มที่ [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }})
+The base Feature Mask is shuffled along with everything else, so the places that are glossy or metal still line up with the pattern you can see instead of drifting off it. See [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }}).
 
 ### Paint Mode
-**เลเยอร์ที่ระบายไม่ได้ใช้ Stochastic** — ยังอ่านแบบปกติครั้งเดียว ฟีเจอร์นี้ครอบคลุมเฉพาะเท็กซ์เจอร์ของผิวฐานเท่านั้น
+**Painted layers do not use Stochastic** — they stay on a single plain lookup. This feature covers the base surface's textures only.
 
-ถ้าเลเยอร์ที่ระบายทับกินพื้นที่กว้างจนเห็นลายซ้ำ ต้องแก้ด้วยวิธีอื่น เช่นปรับ Size ของเลเยอร์นั้น หรือระบายให้ขอบเขตไม่เป็นผืนใหญ่ผืนเดียว
+If a painted layer covers enough ground to show its own repeat, it needs a different fix: adjust that layer's Size, or paint it so its coverage is not one large unbroken sheet.
 
 ---
 
 ## Limits
 
-- **ครอบคลุมเฉพาะ Albedo, Normal Map และ Feature Mask ของผิวฐาน** เลเยอร์ของ Paint Mode ไม่รวมอยู่ด้วย
-- **ไม่เหมาะกับลายที่มีโครงสร้าง** อิฐ กระเบื้อง ไม้ปูพื้น จะเสียแนวจนดูผิด
-- **อ่านเท็กซ์เจอร์ 3 เท่า และ 9 เท่าเมื่อรวมกับ Triplanar** เป็นฟีเจอร์ที่ต้องเลือกเปิดเป็นจุดๆ ไม่ใช่เปิดทั้งฉาก
-- **แก้อาการซ้ำ ไม่ได้เพิ่มรายละเอียด** ถ้าเท็กซ์เจอร์ความละเอียดต่ำจนเบลอเมื่อมองใกล้ ฟีเจอร์นี้ช่วยไม่ได้ — เป็นคนละปัญหากัน
-- **รายละเอียดกับรอยต่อเป็นสิ่งที่ต้องแลกกันเสมอ** `Blend Width` ย้ายจุดสมดุลได้ แต่ไม่มีค่าไหนที่ได้ทั้งสองอย่างเต็มร้อยพร้อมกัน
+- **It covers the base Albedo, Normal Map and Feature Mask only.** Paint Mode's layers are not included
+- **Not for structured patterns.** Brick, tile and floorboards lose their alignment and read as wrong
+- **3× the texture fetches, and 9× combined with Triplanar.** This is a feature to switch on in specific places, not across a scene
+- **It fixes repetition, it does not add detail.** A texture too low-res to hold up close by is a different problem
+- **Detail and seams always trade against each other.** `Blend Width` moves the balance point, but no setting gives you both in full

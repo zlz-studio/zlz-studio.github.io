@@ -872,7 +872,8 @@
       {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
       {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
       {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
-      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular %}
+      {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -916,6 +917,13 @@
             <span class="featMeta">
               <span class="featName">Specular &amp; Metallic</span>
               <small class="featDate">Updated {{ shaderSpecular.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderStochastic %}<a class="featCard" href="/env/shader/stochastic-tiling/">
+            <img src="/env/shader/Surface_Stochastic_Thumb.webp" data-anim="/env/shader/Surface_Stochastic_Hover.webp" alt="Stochastic Sampling" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Stochastic Sampling</span>
+              <small class="featDate">Updated {{ shaderStochastic.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           <!-- TODO: remaining Environment Shader sub-pages -->

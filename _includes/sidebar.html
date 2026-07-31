@@ -15,7 +15,8 @@
 {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
 {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
 {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular %}
+{% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -59,6 +60,13 @@
 <a href="{{ '/env/shader/specular/' | relative_url }}"
    class="{% if page.url contains '/env/shader/specular/' %}active{% endif %}">
    Specular &amp; Metallic
+</a>
+{% endif %}
+
+{% if shaderStochastic %}
+<a href="{{ '/env/shader/stochastic-tiling/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/stochastic-tiling/' %}active{% endif %}">
+   Stochastic Sampling
 </a>
 {% endif %}
 
