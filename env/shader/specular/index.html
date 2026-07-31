@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass Setup | ZLZ Env Shader</title>
+  <title>Specular & Metallic | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -610,7 +610,7 @@
 
 
 <a href="/env/shader/specular/"
-   class="">
+   class="active">
    Specular &amp; Metallic
 </a>
 
@@ -638,7 +638,7 @@
 
 
 <a href="/env/grass/grass-setup/"
-   class="active">
+   class="">
    Grass Setup
 </a>
 
@@ -789,80 +789,150 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-setup">Grass Setup</h1>
+        <h1 id="specular--metallic">Specular &amp; Metallic</h1>
 
-<p>Plant grass on your Terrain in just a few steps. Everything is controlled from a single place, the <code class="language-plaintext highlighter-rouge">ZLZ_Env Dashboard</code>, and one scene can hold many grass types at once.</p>
+<p>Control <strong>how glossy</strong> a surface is and <strong>whether it is metal</strong> — polished stone with a highlight sweeping across it, a steel pipe reflecting in its own brass colour, or a plain plaster wall that reflects nothing at all.</p>
 
-<h2 id="showcase-grass-grow-one-click">Showcase Grass Grow One-Click</h2>
+<p>Both live in one feature because they answer the same question — <strong>how does light bounce off this surface</strong>. In the shader itself they sit in the same <strong>Specular</strong> block, not in separate places.</p>
+
+<p>The highlight is <strong>GGX, the same one URP Lit uses</strong>, calibrated so that Specular Intensity <code class="language-plaintext highlighter-rouge">1</code> matches a standard URP Lit surface. You start from a physically correct base and push toward a stylized look from there, rather than the other way round.</p>
+
+<h2 id="showcase-specular--metallic">Showcase Specular &amp; Metallic</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/3qydgQaQi_s?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=3qydgQaQi_s&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/I8F_pRc5Y-E?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=I8F_pRc5Y-E&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
-<h2 id="showcase-grass-custom-paint">Showcase Grass Custom Paint</h2>
+<hr />
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/ach4JE-mKX0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=ach4JE-mKX0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<h2 id="setup">Setup</h2>
 
-<h2 id="setup-steps">Setup Steps</h2>
+<p>Turn on the <strong>Specular</strong> feature in the Features grid at the top of the Inspector and the <strong>Specular</strong> section appears with everything below in it, Metallic included.</p>
 
-<p><img src="../GrassSetup.png" alt="GrassSetup" /></p>
+<p>It ships <strong>off</strong>, and while it is off these calculations are stripped out of the compiled shader.</p>
 
-<ol>
-  <li><strong>Place the Dashboard:</strong> add <code class="language-plaintext highlighter-rouge">ZLZ_Env Dashboard</code> to the root of your environment (above all ground meshes). Every mesh under it appears in the panel with an On/Off switch.</li>
-  <li><strong>Choose where to plant:</strong> tick on the meshes you want grass to grow on.</li>
-  <li><strong>Source:</strong> choose where grass grows across the mesh.
-    <ul>
-      <li><strong>Uniform:</strong> grass covers the whole mesh.</li>
-      <li><strong>Painted (Mask):</strong> grass grows only where you have painted the ground, following the ground material’s Texture Paint. For example, if the ground is painted with a grass zone and a sand zone, grass grows only in the grass zone and stays off the sand.</li>
-    </ul>
-  </li>
-  <li><strong>Grass Type:</strong> pick or create a Grass Type. Ready-made presets are included:
-    <ul>
-      <li>5 grass types</li>
-      <li>4 lying flower types</li>
-      <li>1 standing flower type in 4 colors</li>
-      <li>or create your own Grass Type</li>
-    </ul>
-  </li>
-  <li><strong>Grow All:</strong> press <code class="language-plaintext highlighter-rouge">Grow All</code> and the grass is generated from your settings.</li>
-  <li><strong>Paint more (optional):</strong> press <code class="language-plaintext highlighter-rouge">Grow All</code> first, then drag the mouse across the ground to paint extra grass by hand.</li>
-</ol>
+<blockquote>
+  <p><strong>Metallic only does anything while Specular is on.</strong> With Specular off, Metallic is forced to <code class="language-plaintext highlighter-rouge">0</code> no matter where the slider sits.</p>
+</blockquote>
 
-<h2 id="creating-your-own-grass-type">Creating Your Own Grass Type</h2>
+<hr />
 
-<p><img src="../Create_GrassType.png" alt="Create_GrassType" /></p>
+<h2 id="parameters">Parameters</h2>
+
+<p><img src="../specular/Material_Specular_Metal.png" alt="Material_Specular_Metal" /></p>
 
 <ul>
-  <li>Press <code class="language-plaintext highlighter-rouge">Create New</code> on the Grass Type field in the Dashboard.</li>
-  <li>The new file is created at <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Grass/Types/ZLZ_GrassType.asset</code>.</li>
-  <li>Every setting can be edited directly on the Grass Type:</li>
-  <li><strong>Material:</strong> the material for this grass or flower (each asset has a live preview so you can tell them apart).</li>
-  <li><strong>Meshes:</strong> the mesh(es) for LOD 0. You can add several, and one is picked at random per tuft.</li>
-  <li><strong>Far Mesh:</strong> the mesh for LOD 1 (the far field). Leave it empty to use the full LOD 0 mesh at every distance.</li>
-  <li><strong>Density (per m2):</strong> how densely this type is planted per square metre. Higher means thicker grass.</li>
-  <li><strong>Max Tufts:</strong> a safety cap on this type’s count, so grass can never explode on a very large surface.</li>
-  <li><strong>Size Min:</strong> the smallest size for this grass or flower.</li>
-  <li><strong>Size Max:</strong> the largest size. Each tuft gets a random size between Min and Max.</li>
-  <li><strong>Height Offset:</strong> sinks or raises the base of the grass or flower. Use a small negative value to push the base into the ground so blades do not float.</li>
-  <li><strong>Clustering:</strong> higher values make grass and flowers gather into patches (0 = an even scatter, like normal grass). When Clustering is on, a <code class="language-plaintext highlighter-rouge">Patch Size</code> slider appears to set how wide each patch is.</li>
+  <li><strong>Specular Color</strong> (default white) — the colour of the highlight, multiplied on top of the light’s own colour</li>
+  <li><strong>Specular Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–5</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how strong the highlight is. <code class="language-plaintext highlighter-rouge">1</code> matches a standard URP Lit surface; above that is deliberate exaggeration for stylized work</li>
+  <li><strong>Smoothness</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — how polished the surface is. Low = matte, a wide faint highlight. High = polished, a small sharp one</li>
+  <li><strong>Metallic</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — <code class="language-plaintext highlighter-rouge">0</code> = an ordinary surface with a white highlight. <code class="language-plaintext highlighter-rouge">1</code> = metal</li>
 </ul>
 
-<h2 id="where-is-grass-data-stored">Where Is Grass Data Stored</h2>
+<h3 id="what-metallic-actually-changes">What Metallic Actually Changes</h3>
 
-<p><img src="../GrassSetup.png" alt="GrassSetup" /></p>
+<p>This is not just a gloss dial. It changes three things about the surface at once, following URP’s Metallic workflow :</p>
 
-<p>Grass is stored in <code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassData</code>, located at <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Baked/GrassData/</code>.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>As Metallic goes toward <code class="language-plaintext highlighter-rouge">1</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>The highlight</strong></td>
+      <td>shifts from white to <strong>the Albedo’s own colour</strong> (brass gets a gold highlight)</td>
+    </tr>
+    <tr>
+      <td><strong>The reflection</strong></td>
+      <td>is tinted the same way, from both the Probe and Planar Reflection</td>
+    </tr>
+    <tr>
+      <td><strong>The diffuse body</strong></td>
+      <td>falls away almost entirely</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That last one surprises people, but it is correct — <strong>a metal’s colour lives in its reflections, not in its diffuse</strong>. If you push Metallic to <code class="language-plaintext highlighter-rouge">1</code> and the object turns black, the scene has nothing for it to reflect; the settings are not wrong.</p>
+
+<blockquote>
+  <p><strong>Metallic needs a scene with something to reflect.</strong> If you are making metal, keep a Reflection Probe in the scene, or turn on <a href="/env/shader/planar-reflection/">Planar Reflection</a> alongside it.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="toon-highlight">Toon Highlight</h2>
+
+<p>A toggle at the very bottom of the section. It ships <strong>off</strong>, which gives the soft, physically-grounded GGX highlight. Turning it on blends toward a hard-edged anime highlight and reveals two sliders.</p>
+
 <ul>
-  <li>One Grass Data file works with one Dashboard only. Growing again with the same Grass Data overwrites the previous data immediately.</li>
-  <li>Press <code class="language-plaintext highlighter-rouge">New</code> to create a fresh Grass Data file yourself.</li>
+  <li><strong>Step</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — how hard the edge gets. <code class="language-plaintext highlighter-rouge">0</code> = still soft, <code class="language-plaintext highlighter-rouge">1</code> = a full anime step. It narrows the edge and blends in more of the stylized shape at the same time</li>
+  <li><strong>Threshold</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — where that edge falls along the highlight’s curve, which is what decides whether the highlight reads large or small</li>
+</ul>
+
+<p>It sits at the bottom because it is a styling accent for hero props, not part of everyday surface setup. Most environment surfaces should stay on GGX.</p>
+
+<hr />
+
+<h2 id="feature-mask--per-pixel-control">Feature Mask — Per-Pixel Control</h2>
+
+<p>The Smoothness and Metallic sliders apply to the whole surface evenly. When you want <strong>only part of a surface to be glossy or metal</strong>, wire it to the Feature Mask.</p>
+
+<p>The system uses a single RGBA texture as the mask bank for the base surface, with each channel (R/G/B/A) holding one feature’s mask. You choose which feature reads which channel in the <strong>Mask Layout</strong> section, and the mask tiles with the Albedo.</p>
+
+<p>Both Metallic and Smoothness default to <strong>None</strong>, meaning they are not wired to a channel yet and the sliders apply across the whole surface as normal.</p>
+
+<p>Underneath the two sliders is a strip reporting which of them a mask is currently driving — it exists so a slider that appears to do nothing explains itself.</p>
+
+<blockquote>
+  <p>Mask values <strong>multiply</strong> the slider rather than replacing it. If the slider is <code class="language-plaintext highlighter-rouge">0</code>, a fully white mask still gives you <code class="language-plaintext highlighter-rouge">0</code>.</p>
+</blockquote>
+
+<p><strong>When no feature uses the mask at all, the shader does not sample that texture.</strong> This is managed for you; there is nothing to strip out by hand.</p>
+
+<hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="reflection">Reflection</h3>
+<p>Reflection Probe lighting <strong>is not exclusive to the Reflection feature</strong> — turning on Specular alone already gives you probe reflections, scaled by Smoothness.</p>
+
+<p>With <strong>both Specular and Reflection off</strong>, the surface stays fully matte and picks up no environment gloss at all, matching how a low-smoothness URP surface behaves.</p>
+
+<p>Pixels with very low Smoothness skip the probe sample entirely, for free.</p>
+
+<p>For a true mirror image you also need <a href="/env/shader/planar-reflection/">Planar Reflection</a>.</p>
+
+<h3 id="paint-mode">Paint Mode</h3>
+<p>With Paint Mode on this section changes shape. Smoothness and Metallic move under a <strong>Paint Layers</strong> heading and are renamed <strong>Base Smoothness</strong> and <strong>Base Metallic</strong>, followed by <strong>Layer N Smoothness</strong> and <strong>Layer N Metallic</strong> for every active layer.</p>
+
+<p>That makes the base surface and the painted layers read as one set — painted water glossy, the grass beside it matte, a steel plate metal, all inside a single material.</p>
+
+<p><strong>Specular Color and Specular Intensity stay shared across the material</strong>, not split per layer.</p>
+
+<p>Every layer’s Metallic starts at <code class="language-plaintext highlighter-rouge">0</code>, which keeps the natural reading — dirt painted over a steel floor is dirt, until the layer says otherwise.</p>
+
+<h3 id="normal-map">Normal Map</h3>
+<p>The highlight reads the surface direction after the Normal Map has bent it, so it travels across the relief on its own. See <a href="/env/shader/normal/">Normal Map</a>.</p>
+
+<h3 id="surface-accumulation">Surface Accumulation</h3>
+<p>Snow or dust settling on a surface pulls Smoothness toward its own value by how thickly it has gathered, so a covered area takes on the gloss of what is lying on it rather than staying at the gloss of the surface underneath.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>Metallic does nothing while Specular is off</strong> — the value is forced to <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>Metallic with nothing to reflect goes black.</strong> The scene needs a Reflection Probe or Planar Reflection</li>
+  <li><strong>A masked Smoothness only applies while Specular is on.</strong> With Reflection on but Specular off, the probe reflection uses the raw Smoothness slider without the mask</li>
+  <li><strong>Masks multiply, they do not replace.</strong> A slider left at <code class="language-plaintext highlighter-rouge">0</code> stays <code class="language-plaintext highlighter-rouge">0</code></li>
+  <li><strong>There is one Feature Mask bank.</strong> The base surface uses a single RGBA texture, so at most 4 features can be wired at once</li>
 </ul>
 
       </div>
