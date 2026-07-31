@@ -839,7 +839,8 @@
       <!-- Env: Environment Shader -->
       {% assign shaderOverview = site.pages | where: "url", "/env/shader/" | first %}
       {% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
-      {% if shaderOverview or shaderPaintMode %}
+      {% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -855,6 +856,13 @@
             <span class="featMeta">
               <span class="featName">Paint Mode</span>
               <small class="featDate">Updated {{ shaderPaintMode.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderTriplanar %}<a class="featCard" href="/env/shader/triplanar/">
+            <img src="/env/shader/Surface_Triplanar_Thumb.webp" data-anim="/env/shader/Surface_Triplanar_Hover.webp" alt="Triplanar" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Triplanar</span>
+              <small class="featDate">Updated {{ shaderTriplanar.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           <!-- TODO: remaining Environment Shader sub-pages -->

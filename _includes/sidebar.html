@@ -11,7 +11,8 @@
 
 {% assign shaderOverview = site.pages | where: "url", "/env/shader/" | first %}
 {% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
-{% if shaderOverview or shaderPaintMode %}
+{% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -27,6 +28,13 @@
 <a href="{{ '/env/shader/paint-mode/' | relative_url }}"
    class="{% if page.url contains '/env/shader/paint-mode/' %}active{% endif %}">
    Paint Mode
+</a>
+{% endif %}
+
+{% if shaderTriplanar %}
+<a href="{{ '/env/shader/triplanar/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/triplanar/' %}active{% endif %}">
+   Triplanar
 </a>
 {% endif %}
 
