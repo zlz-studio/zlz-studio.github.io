@@ -13,7 +13,8 @@
 {% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
 {% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
 {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection %}
+{% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -43,6 +44,13 @@
 <a href="{{ '/env/shader/planar-reflection/' | relative_url }}"
    class="{% if page.url contains '/env/shader/planar-reflection/' %}active{% endif %}">
    Planar Reflection
+</a>
+{% endif %}
+
+{% if shaderNormal %}
+<a href="{{ '/env/shader/normal/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/normal/' %}active{% endif %}">
+   Normal Map
 </a>
 {% endif %}
 

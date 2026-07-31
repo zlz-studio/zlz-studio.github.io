@@ -2,18 +2,16 @@
 layout: docs
 title: Normal Map
 last_modified_at: 2026-07-31
-published: false
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Normal Map
 
-ใส่รายละเอียดนูนต่ำลงบนผิวโดยไม่เพิ่มโพลีกอนสักเหลี่ยม — รอยแตกบนหิน ร่องอิฐ เสี้ยนไม้ ผิวทรายเป็นคลื่น ทั้งหมดนี้มาจากเท็กซ์เจอร์ที่บอกว่า "แต่ละพิกเซลหันไปทางไหน" แล้วปล่อยให้แสงทำงานที่เหลือ
+Add surface relief without spending a single extra polygon — cracks in stone, mortar lines between bricks, wood grain, rippled sand. It all comes from a texture that says **which way each pixel faces**, and lets the light do the rest.
 
-ของแบบนี้จำเป็นกับงาน Environment เป็นพิเศษ เพราะพื้นผิวส่วนใหญ่ในฉากคือระนาบใหญ่ๆ ที่มีโพลีกอนน้อยมาก ถ้าไม่มี Normal Map กำแพงกับพื้นจะเป็นแผ่นเรียบสนิทที่แสงตกกระทบเท่ากันหมดทั้งแผ่น
+Environment work needs this more than most. Nearly every surface in a scene is a large plane carrying very few polygons, and without a Normal Map a wall or a floor is a dead-flat sheet that catches light identically across its whole area.
 
-จุดที่ควรรู้คือ Normal Map ในเชดเดอร์ตัวนี้ **ไม่ได้ทำงานอยู่ลำพัง** — มันคือทิศของผิวที่ระบบอื่นทั้งหมดอ่านต่อ ทั้ง Specular, Reflection, Paint Mode, Surface Accumulation ไปจนถึง SSAO และ Decal ของ URP
+The thing worth knowing is that the Normal Map here **is not working alone** — it is the surface direction that everything downstream reads: Specular, Reflection, Paint Mode, Surface Accumulation, and on out to URP's SSAO and Decals.
 
 ## Showcase Normal Map
 {% include youtube-loop.html id="SaC2mu4enEI" %}
@@ -22,11 +20,11 @@ published: false
 
 ## Setup
 
-เปิดฟีเจอร์ **Normal Map** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Normal Map** จะโผล่ขึ้นมา ใส่เท็กซ์เจอร์ลงช่องแล้วใช้งานได้ทันที
+Turn on the **Normal Map** feature in the Features grid at the top of the Inspector and the **Normal Map** section appears. Drop a texture in the slot and you are done.
 
-ค่าเริ่มต้นของฟีเจอร์นี้คือ **ปิด** และเมื่อปิดอยู่ โค้ดส่วนนี้จะถูกถอดออกจากเชดเดอร์ที่คอมไพล์จริง ไม่เหลือต้นทุนใดๆ ทิ้งไว้
+The feature ships **off**, and while it is off its calculations are stripped out of the compiled shader entirely — nothing is left behind to pay for.
 
-> **เท็กซ์เจอร์ต้องตั้ง Texture Type เป็น `Normal map` ใน Import Settings** ไม่งั้น Unity จะไม่ได้บีบอัดมันแบบ normal map และผลที่ได้จะเพี้ยน
+> **The texture has to be set to Texture Type `Normal map` in its Import Settings.** Otherwise Unity does not compress it as a normal map and the result comes out wrong.
 
 ---
 
@@ -34,59 +32,59 @@ published: false
 
 ![Material_NormalMap](../normal/Material_NormalMap.png)
 
-- **Normal Map** — ช่องใส่เท็กซ์เจอร์ ค่าตั้งต้นคือ `bump` (ผิวเรียบ)
-- **Normal Strength** (`0–5`, default `1`) — ความลึกของรายละเอียด `0` = แบนราบเหมือนไม่ได้ใส่, `1` = ตามที่เท็กซ์เจอร์เขียนไว้จริง, มากกว่า `1` = ดันให้เกินจริงเพื่อให้เห็นชัดขึ้นในระยะไกล
+- **Normal Map** — the texture slot. It defaults to `bump`, which is a flat surface
+- **Normal Strength** (`0–5`, default `1`) — how deep the relief reads. `0` = flat, as though nothing were assigned. `1` = exactly what the texture describes. Above `1` pushes it past the authored depth, useful for keeping detail readable at a distance
 
-### ทำไมไม่มีช่อง Tiling / Offset
+### Why There Is No Tiling / Offset
 
-Normal Map ที่นี่ **ใช้ UV ชุดเดียวกับ Albedo เสมอ** (และใช้การโปรเจกต์แบบ Triplanar ตามไปด้วยเมื่อเปิด Triplanar) ช่อง Tiling / Offset ของตัวมันเองจึงไม่เคยมีผลอะไรเลย ทีมงานเลยซ่อนทิ้งไปเพื่อไม่ให้เป็นปุ่มหลอก
+The Normal Map here **always samples the Albedo's UV** — and follows the Triplanar projection along with it when Triplanar is on. Its own Tiling / Offset never did anything, so the field is hidden rather than left sitting there as a dead control.
 
-นี่เป็นการตัดสินใจเชิงออกแบบ ไม่ใช่ข้อจำกัด — ถ้าลายสีกับลายนูนไม่ตรงกัน พื้นผิวจะดูผิดทันที การบังคับให้ทั้งคู่ใช้ UV เดียวกันจึงกันปัญหานั้นตั้งแต่ต้น
+That is a design decision rather than a limitation. If the colour pattern and the relief pattern do not line up, the surface reads as wrong immediately. Forcing both onto the same UV rules that problem out from the start.
 
 ---
 
 ## Works With Other Features
 
 ### Paint Mode
-เมื่อเปิด Paint Mode หัวข้อนี้จะยาวขึ้น มีหัวข้อย่อย **Paint Layers** โผล่ขึ้นมาต่อท้าย พร้อมช่อง **Layer N Normal Map** และ **Layer N Strength** ของแต่ละเลเยอร์ที่ใช้งานอยู่ (จำนวนช่องวิ่งตาม Active Layer Count ของ Paint Mode ได้สูงสุด 4)
+With Paint Mode on, this section grows a **Paint Layers** block underneath, carrying a **Layer N Normal Map** slot and a **Layer N Strength** slider for every active layer. The number of slots follows Paint Mode's Active Layer Count, up to 4.
 
-ทุกอย่างที่เกี่ยวกับ Normal Map จึงอยู่รวมกันในหัวข้อเดียว ไม่ต้องกระโดดไปมาระหว่างสองหัวข้อ
+Everything to do with normals lives in this one section, so there is no jumping between two places in the Inspector.
 
-**Strength ของแต่ละเลเยอร์เป็นอิสระจาก Normal Strength ของผิวฐาน** ปรับความลึกของหญ้าหรือดินที่ระบายทับได้โดยไม่ต้องไปยุ่งกับ normal map ของหินข้างล่าง และไม่ต้องเบคเท็กซ์เจอร์ใหม่
+**Each layer's Strength is independent of the base Normal Strength.** You can tune how deep the painted grass or dirt reads without touching the rock underneath it, and without re-baking a texture.
 
-normal ของเลเยอร์ที่ระบายจะผสมทับผิวฐานตามน้ำหนักของมาสก์แต่ละจุด
+Painted layer normals blend over the base by each layer's mask weight at that point.
 
 ### Triplanar
-มีสองเส้นทางแยกกันชัดเจน และ**ไม่เคยผสมกัน** :
+There are two separate paths, and they **are never mixed** :
 
-| โหมด | วิธีคำนวณ |
+| Mode | How it is computed |
 |---|---|
-| **Triplanar ปิด** | normal ของผิวฐานกับของทุก Paint Layer ซ้อนกันใน tangent space แล้วแปลงเป็น world space ครั้งเดียว |
-| **Triplanar เปิด** | normal ทั้งหมดถูกโปรเจกต์จากสามแกนโลกและคำนวณใน world space โดยตรง |
+| **Triplanar off** | the base normal and every paint-layer normal stack in tangent space, then convert to world space in a single transform |
+| **Triplanar on** | every normal is projected from the three world axes and resolved directly in world space |
 
-ผลคือหน้าผาหรือ blockout ที่ไม่มี UV ก็ยังมีรายละเอียดนูนต่ำได้ตามปกติ ดูเพิ่มที่ [Triplanar]({{ '/env/shader/triplanar/' | relative_url }})
+So a cliff or a blockout mesh with no UVs still carries proper relief. See [Triplanar]({{ '/env/shader/triplanar/' | relative_url }}).
 
 ### Stochastic Sampling
-เมื่อเปิด Stochastic ตัว Normal Map จะถูกสุ่มตัวอย่างด้วยวิธีเดียวกับ Albedo คือ 3 ตัวอย่างต่อพิกเซลแล้วเบลนด์เข้าด้วยกัน ลายนูนจึงไม่ซ้ำเป็นตาราง**พร้อมกับ**ลายสี ไม่ใช่แก้แค่อย่างใดอย่างหนึ่งจนเหลื่อมกัน
+With Stochastic on, the Normal Map goes through the same treatment as the Albedo — three taps per pixel blended together. The relief stops repeating in a visible grid **at the same time** as the colour does, rather than fixing one and leaving the other out of step.
 
 ### Surface Accumulation
-หิมะ ฝุ่น หรือมอสส์ที่ตกลงบนผิว จะ **ค่อยๆ กลบรายละเอียดนูนข้างใต้ให้เรียบลง** ตามค่า Accum Normal Flatten ซึ่งสมเหตุสมผล เพราะหิมะที่ทับหนาย่อมกลบร่องอิฐจนหายไป จุดที่หิมะจับหนาที่สุดจะเรียบที่สุด ส่วนบริเวณที่หิมะบางยังเห็นลายเดิมอยู่
+Snow, dust or moss settling on a surface **flattens the relief underneath it** by the Accum Normal Flatten amount, which is what should happen: snow lying thick fills the mortar lines in. Wherever the cover is heaviest the surface reads smoothest, while the thinner edges still show the pattern beneath.
 
-### Specular และ Reflection
-ทั้งสองอย่างอ่านทิศของผิวที่ผ่าน Normal Map มาแล้ว ไฮไลต์และภาพสะท้อนจึงวิ่งตามรายละเอียดนูนต่ำไปด้วยโดยไม่ต้องตั้งค่าอะไรเพิ่ม
+### Specular and Reflection
+Both read the surface direction after the Normal Map has bent it, so highlights and reflections travel across the relief on their own with nothing extra to configure.
 
-> ถ้าต้องการให้ภาพสะท้อนเป็นระลอกอยู่แล้ว ควรเลือกใช้อย่างใดอย่างหนึ่งระหว่าง Normal Map กับ **Mirror Distortion** ของ [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}) ไม่งั้นลายจะซ้อนกันจนดูรก
+> If you already want the reflection to ripple, pick either the Normal Map or **Mirror Distortion** from [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}) — running both stacks two patterns on top of each other and just reads as busy.
 
-### SSAO, Decal และ Screen-Space Outline
-normal ตัวเดียวกันนี้ถูกเขียนลง DepthNormals pass ด้วย ระบบของ URP ที่อ่านทิศผิวจากบัฟเฟอร์นั้น — **SSAO, URP Decals และ Screen-Space Outline** — จึงเห็นผิวแบบเดียวกับที่ตาเห็นเป๊ะ ไม่ใช่ผิวเรียบของโพลีกอนดิบ
+### SSAO, Decals and Screen-Space Outline
+The same normal is written into the DepthNormals pass, so every URP system that reads surface direction from that buffer — **SSAO, URP Decals and Screen-Space Outline** — sees the surface exactly as the eye does, not the raw flat polygon.
 
-เงาอ้อมของ SSAO จึงลงตามร่องจริงบนผิว และเดคัลก็โค้งไปตามรายละเอียดที่รองอยู่ ส่วนนี้ทำงานให้เอง ไม่มีอะไรต้องตั้งค่า
+SSAO's contact darkening therefore lands in the real grooves, and decals curve over the detail they sit on. This is handled for you; there is nothing to set up.
 
 ---
 
 ## Limits
 
-- **ต้องมี Tangent บนโมเดล** ในโหมดปกติ (Triplanar ปิด) การคำนวณต้องใช้ tangent basis ของเมช โมเดลที่ import มาโดยไม่มี tangent จะได้ผลผิดเพี้ยน กรณีที่เมชไม่มี UV หรือ UV ยืด ให้เปิด Triplanar แทน
-- **ไม่มี Tiling / Offset เป็นของตัวเอง** ตามที่อธิบายไว้ด้านบน — ต้องใช้ UV ร่วมกับ Albedo เสมอ
-- **เท็กซ์เจอร์ต้องตั้งเป็น Normal map ใน Import Settings** ไม่งั้นผลที่ได้จะเพี้ยน
-- **`0` ไม่ได้แปลว่าปิดฟีเจอร์** ตั้ง Normal Strength เป็น `0` จะได้ผิวแบนก็จริง แต่เชดเดอร์ยังอ่านเท็กซ์เจอร์อยู่ ถ้าไม่ใช้แล้วให้ปิดสวิตช์ที่กริด Features เพื่อถอดโค้ดส่วนนี้ออกจริงๆ
+- **The mesh needs tangents.** In the normal path (Triplanar off) the maths runs through the mesh's tangent basis, so a model imported without tangents comes out wrong. When a mesh has no UVs, or stretched ones, turn on Triplanar instead
+- **It has no Tiling / Offset of its own**, as described above — it always shares the Albedo's UV
+- **The texture has to be imported as a Normal map**, or the result is wrong
+- **`0` is not the same as off.** Setting Normal Strength to `0` does flatten the surface, but the shader still samples the texture. When you are done with it, switch the feature off in the Features grid to actually strip the work out
