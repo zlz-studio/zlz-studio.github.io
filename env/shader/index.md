@@ -80,3 +80,5 @@ When one is disabled its calculations are removed from the shader entirely.
 <!-- TODO: link each sub-page as it is written -->
 
 - [Paint Mode](../shader/paint-mode/) — painting texture layers onto your own meshes
+- [Triplanar](../shader/triplanar/) — world-axis projection for UV-less or stretched meshes
+- [Planar Reflection](../shader/planar-reflection/) — mirror-camera reflections for flat, wet-looking surfaces
