@@ -32,7 +32,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ใส่สกรีนช็อตหัวข้อ Specular เป็น Material_Specular.png -->
+![Material_Triplanar](../triplanar/Material_Triplanar.png)
 
 - **Specular Color** (default ขาว) — สีของไฮไลต์ คูณทับสีของแสงอีกที
 - **Specular Intensity** (`0–5`, default `1`) — ความแรงของไฮไลต์ `1` = เท่ากับผิว URP Lit มาตรฐาน สูงกว่านั้นคือดันให้เกินจริงเพื่องานสไตไลซ์
