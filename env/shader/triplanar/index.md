@@ -16,8 +16,7 @@ published: false
 และเพราะลายอิงพิกัดโลก **เมชหลายก้อนที่วางต่อกันจะปูลายต่อเนื่องเป็นผืนเดียว** หน้าผาที่ประกอบจากหินสิบก้อนจึงอ่านออกเป็นหน้าผาเดียว ไม่ใช่สิบชิ้นที่แปะลายคนละที
 
 ## Showcase Triplanar
-<!-- TODO: ใส่ id คลิป -->
-<!-- {% include youtube-loop.html id="XXXXXXXXXXX" %} -->
+{% include youtube-loop.html id="96LcH8KkDWo" %}
 
 ---
 
