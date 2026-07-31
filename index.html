@@ -871,7 +871,8 @@
       {% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
       {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
       {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
-      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal %}
+      {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -908,6 +909,13 @@
             <span class="featMeta">
               <span class="featName">Normal Map</span>
               <small class="featDate">Updated {{ shaderNormal.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderSpecular %}<a class="featCard" href="/env/shader/specular/">
+            <img src="/env/shader/Surface_SpecularMetallic_Thumb.webp" data-anim="/env/shader/Surface_SpecularMetallic_Hover.webp" alt="Specular &amp; Metallic" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Specular &amp; Metallic</span>
+              <small class="featDate">Updated {{ shaderSpecular.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           <!-- TODO: remaining Environment Shader sub-pages -->

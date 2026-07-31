@@ -83,3 +83,4 @@ When one is disabled its calculations are removed from the shader entirely.
 - [Triplanar](../shader/triplanar/) — world-axis projection for UV-less or stretched meshes
 - [Planar Reflection](../shader/planar-reflection/) — mirror-camera reflections for flat, wet-looking surfaces
 - [Normal Map](../shader/normal/) — surface relief without extra geometry, shared with SSAO and Decals
+- [Specular & Metallic](../shader/specular/) — how glossy a surface is, and whether it reads as metal

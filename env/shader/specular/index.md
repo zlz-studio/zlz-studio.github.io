@@ -2,18 +2,16 @@
 layout: docs
 title: "Specular & Metallic"
 last_modified_at: 2026-07-31
-published: false
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Specular & Metallic
 
-ควบคุมว่าผิวจะ **มันวาวแค่ไหน** และ **เป็นโลหะหรือไม่** — พื้นหินขัดที่มีไฮไลต์กวาดผ่าน ท่อเหล็กที่สะท้อนเป็นสีทองเหลืองของตัวมันเอง หรือผนังปูนด้านที่ไม่สะท้อนอะไรเลย
+Control **how glossy** a surface is and **whether it is metal** — polished stone with a highlight sweeping across it, a steel pipe reflecting in its own brass colour, or a plain plaster wall that reflects nothing at all.
 
-ทั้งสองอย่างอยู่ในฟีเจอร์เดียวกันเพราะมันคือคำถามเดียวกัน — **แสงกระเด้งออกจากผิวนี้ยังไง** ในเชดเดอร์เองก็อยู่ในหัวข้อ **Specular** ชุดเดียวกัน ไม่ได้แยกกัน
+Both live in one feature because they answer the same question — **how does light bounce off this surface**. In the shader itself they sit in the same **Specular** block, not in separate places.
 
-ไฮไลต์ที่ได้เป็น **GGX ตัวเดียวกับ URP Lit** และปรับเทียบมาแล้วให้ Specular Intensity `1` ได้ผลเท่ากับผิว URP Lit มาตรฐาน จึงเริ่มจากฐานที่ถูกต้องตามฟิสิกส์ก่อน แล้วค่อยดันไปทางสไตล์การ์ตูนได้ถ้าต้องการ
+The highlight is **GGX, the same one URP Lit uses**, calibrated so that Specular Intensity `1` matches a standard URP Lit surface. You start from a physically correct base and push toward a stylized look from there, rather than the other way round.
 
 ## Showcase Specular & Metallic
 {% include youtube-loop.html id="I8F_pRc5Y-E" %}
@@ -22,11 +20,11 @@ published: false
 
 ## Setup
 
-เปิดฟีเจอร์ **Specular** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Specular** จะโผล่ขึ้นมาพร้อมค่าทั้งหมด รวมทั้ง Metallic ด้วย
+Turn on the **Specular** feature in the Features grid at the top of the Inspector and the **Specular** section appears with everything below in it, Metallic included.
 
-ค่าเริ่มต้นคือ **ปิด** และเมื่อปิดอยู่ โค้ดส่วนนี้จะถูกถอดออกจากเชดเดอร์ที่คอมไพล์จริง
+It ships **off**, and while it is off these calculations are stripped out of the compiled shader.
 
-> **Metallic ทำงานเฉพาะเมื่อ Specular เปิดอยู่** ถ้าปิด Specular ค่า Metallic จะถูกบังคับเป็น `0` ทั้งหมด ไม่ว่าจะตั้งสไลเดอร์ไว้เท่าไหร่ก็ตาม
+> **Metallic only does anything while Specular is on.** With Specular off, Metallic is forced to `0` no matter where the slider sits.
 
 ---
 
@@ -34,86 +32,86 @@ published: false
 
 ![Material_Specular_Metal](../specular/Material_Specular_Metal.png)
 
-- **Specular Color** (default ขาว) — สีของไฮไลต์ คูณทับสีของแสงอีกที
-- **Specular Intensity** (`0–5`, default `1`) — ความแรงของไฮไลต์ `1` = เท่ากับผิว URP Lit มาตรฐาน สูงกว่านั้นคือดันให้เกินจริงเพื่องานสไตไลซ์
-- **Smoothness** (`0–1`, default `0.5`) — ความเนียนของผิว ค่าต่ำ = ผิวด้าน ไฮไลต์กว้างและจาง ค่าสูง = ผิวขัดมัน ไฮไลต์เล็กและคม
-- **Metallic** (`0–1`, default `0`) — `0` = ผิวทั่วไป ไฮไลต์เป็นสีขาว, `1` = โลหะ
+- **Specular Color** (default white) — the colour of the highlight, multiplied on top of the light's own colour
+- **Specular Intensity** (`0–5`, default `1`) — how strong the highlight is. `1` matches a standard URP Lit surface; above that is deliberate exaggeration for stylized work
+- **Smoothness** (`0–1`, default `0.5`) — how polished the surface is. Low = matte, a wide faint highlight. High = polished, a small sharp one
+- **Metallic** (`0–1`, default `0`) — `0` = an ordinary surface with a white highlight. `1` = metal
 
-### Metallic เปลี่ยนอะไรบ้าง
+### What Metallic Actually Changes
 
-ค่านี้ไม่ได้แค่ทำให้มันวาวขึ้น แต่เปลี่ยนพฤติกรรมของผิวไปสามทางพร้อมกัน ตามหลักการเดียวกับ Metallic workflow ของ URP :
+This is not just a gloss dial. It changes three things about the surface at once, following URP's Metallic workflow :
 
-| ส่วน | เมื่อดัน Metallic ไปทาง `1` |
+| Part | As Metallic goes toward `1` |
 |---|---|
-| **ไฮไลต์** | เปลี่ยนจากสีขาวไปเป็น **สีของ Albedo เอง** (ทองเหลืองได้ไฮไลต์สีทอง) |
-| **ภาพสะท้อน** | ย้อมด้วยสี Albedo เช่นกัน ทั้งจาก Probe และจาก Planar Reflection |
-| **เนื้อสีของวัตถุ** | จางหายไปเกือบหมด |
+| **The highlight** | shifts from white to **the Albedo's own colour** (brass gets a gold highlight) |
+| **The reflection** | is tinted the same way, from both the Probe and Planar Reflection |
+| **The diffuse body** | falls away almost entirely |
 
-ข้อสุดท้ายมักทำให้คนตกใจ แต่เป็นเรื่องถูกต้อง — **สีของโลหะอยู่ในภาพสะท้อนของมัน ไม่ได้อยู่ในเนื้อสี** ถ้าดัน Metallic เป็น `1` แล้ววัตถุกลายเป็นสีดำ แปลว่าฉากนั้นไม่มีอะไรให้มันสะท้อน ไม่ใช่ตั้งค่าผิด
+That last one surprises people, but it is correct — **a metal's colour lives in its reflections, not in its diffuse**. If you push Metallic to `1` and the object turns black, the scene has nothing for it to reflect; the settings are not wrong.
 
-> **Metallic ต้องการฉากที่มีของให้สะท้อน** ถ้าจะทำโลหะ ควรมี Reflection Probe ในฉาก หรือเปิด [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}) ควบคู่ไปด้วย
+> **Metallic needs a scene with something to reflect.** If you are making metal, keep a Reflection Probe in the scene, or turn on [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}) alongside it.
 
 ---
 
 ## Toon Highlight
 
-สวิตช์ที่อยู่ล่างสุดของหัวข้อ ค่าเริ่มต้น **ปิด** = ใช้ไฮไลต์ GGX แบบนุ่มตามฟิสิกส์ เมื่อเปิดจะค่อยๆ ผสมไปหาไฮไลต์แบบอนิเมะที่ขอบคม และจะมีสไลเดอร์สองตัวโผล่ขึ้นมา
+A toggle at the very bottom of the section. It ships **off**, which gives the soft, physically-grounded GGX highlight. Turning it on blends toward a hard-edged anime highlight and reveals two sliders.
 
-- **Step** (`0–1`, default `0`) — ความคมของขอบ `0` = ยังนุ่มอยู่เหมือนเดิม, `1` = ขอบคมแบบอนิเมะเต็มที่ ค่านี้ทั้งบีบขอบให้แคบลงและผสมรูปทรงสไตไลซ์เข้ามามากขึ้นไปพร้อมกัน
-- **Threshold** (`0–1`, default `0.5`) — ตำแหน่งที่ขอบไปตกอยู่บนเส้นโค้งของไฮไลต์ ปรับเพื่อเลือกว่าจะให้ดวงไฮไลต์ใหญ่หรือเล็ก
+- **Step** (`0–1`, default `0`) — how hard the edge gets. `0` = still soft, `1` = a full anime step. It narrows the edge and blends in more of the stylized shape at the same time
+- **Threshold** (`0–1`, default `0.5`) — where that edge falls along the highlight's curve, which is what decides whether the highlight reads large or small
 
-ที่วางไว้ล่างสุดเพราะเป็นของแต่งสไตล์สำหรับพร็อพเด่นๆ ไม่ใช่ของที่ต้องตั้งทุกครั้งในงานปกติ ฐานของผิว Environment ส่วนใหญ่ควรอยู่ที่ GGX
+It sits at the bottom because it is a styling accent for hero props, not part of everyday surface setup. Most environment surfaces should stay on GGX.
 
 ---
 
-## Feature Mask — คุมทีละพิกเซล
+## Feature Mask — Per-Pixel Control
 
-สไลเดอร์ Smoothness กับ Metallic ตั้งค่าให้ทั้งผิวเท่ากันหมด ถ้าอยากให้ **บางส่วนของผิวเท่านั้นที่มันวาวหรือเป็นโลหะ** ต้องผูกเข้ากับ Feature Mask
+The Smoothness and Metallic sliders apply to the whole surface evenly. When you want **only part of a surface to be glossy or metal**, wire it to the Feature Mask.
 
-ระบบนี้ใช้เท็กซ์เจอร์ RGBA ใบเดียวเป็นคลังมาสก์ของผิวฐาน โดยแต่ละแชนแนล (R/G/B/A) เก็บมาสก์ของฟีเจอร์หนึ่งตัว ไปเลือกว่าฟีเจอร์ไหนใช้แชนแนลไหนได้ที่หัวข้อ **Mask Layout** และมาสก์นี้ tiling ตาม Albedo
+The system uses a single RGBA texture as the mask bank for the base surface, with each channel (R/G/B/A) holding one feature's mask. You choose which feature reads which channel in the **Mask Layout** section, and the mask tiles with the Albedo.
 
-ค่าเริ่มต้นของทั้ง Metallic และ Smoothness คือ **None** แปลว่ายังไม่ผูกกับแชนแนลไหน สไลเดอร์จึงมีผลทั้งผิวตามปกติ
+Both Metallic and Smoothness default to **None**, meaning they are not wired to a channel yet and the sliders apply across the whole surface as normal.
 
-ใต้สไลเดอร์ทั้งสองจะมีแถบบอกอยู่ว่าตัวไหนถูกมาสก์คุมอยู่ — มีไว้เพื่อไม่ให้เกิดอาการ "ลากสไลเดอร์แล้วไม่มีอะไรเกิดขึ้น" โดยไม่รู้สาเหตุ
+Underneath the two sliders is a strip reporting which of them a mask is currently driving — it exists so a slider that appears to do nothing explains itself.
 
-> ค่าจากมาสก์เป็นตัว **คูณ** กับสไลเดอร์ ไม่ใช่แทนที่ ถ้าสไลเดอร์เป็น `0` ต่อให้มาสก์ขาวทั้งใบก็ยังได้ `0` อยู่ดี
+> Mask values **multiply** the slider rather than replacing it. If the slider is `0`, a fully white mask still gives you `0`.
 
-**เมื่อไม่มีฟีเจอร์ไหนใช้มาสก์เลย เชดเดอร์จะไม่อ่านเท็กซ์เจอร์นั้นเลย** ระบบจัดการให้เอง ไม่ต้องคอยถอดออกเอง
+**When no feature uses the mask at all, the shader does not sample that texture.** This is managed for you; there is nothing to strip out by hand.
 
 ---
 
 ## Works With Other Features
 
 ### Reflection
-ภาพสะท้อนจาก Reflection Probe **ไม่ได้เป็นของฟีเจอร์ Reflection แต่เพียงผู้เดียว** — เปิด Specular อย่างเดียวก็ได้ภาพสะท้อนจาก Probe มาแล้ว โดยความแรงถูกคูณด้วย Smoothness
+Reflection Probe lighting **is not exclusive to the Reflection feature** — turning on Specular alone already gives you probe reflections, scaled by Smoothness.
 
-ถ้า **ปิดทั้ง Specular และ Reflection** ผิวนั้นจะด้านสนิท ไม่รับภาพสะท้อนจากสภาพแวดล้อมเลย ซึ่งตรงกับพฤติกรรมของผิว URP ที่ smoothness ต่ำ
+With **both Specular and Reflection off**, the surface stays fully matte and picks up no environment gloss at all, matching how a low-smoothness URP surface behaves.
 
-และพิกเซลที่ Smoothness ต่ำมากจะข้ามการอ่าน Probe ไปเลยเพื่อประหยัด
+Pixels with very low Smoothness skip the probe sample entirely, for free.
 
-ถ้าต้องการภาพสะท้อนแบบกระจกเงาจริงๆ ต้องเปิด [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}) เพิ่ม
+For a true mirror image you also need [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}).
 
 ### Paint Mode
-เมื่อเปิด Paint Mode หัวข้อนี้จะเปลี่ยนหน้าตา สไลเดอร์ Smoothness กับ Metallic จะย้ายไปอยู่ใต้หัวข้อย่อย **Paint Layers** และเปลี่ยนชื่อเป็น **Base Smoothness** กับ **Base Metallic** ตามด้วย **Layer N Smoothness** และ **Layer N Metallic** ของแต่ละเลเยอร์
+With Paint Mode on this section changes shape. Smoothness and Metallic move under a **Paint Layers** heading and are renamed **Base Smoothness** and **Base Metallic**, followed by **Layer N Smoothness** and **Layer N Metallic** for every active layer.
 
-ทำให้ผิวฐานกับเลเยอร์ที่ระบายทับอ่านเป็นชุดเดียวกัน — น้ำที่ระบายไว้มันวาว หญ้าข้างๆ ด้าน แผ่นเหล็กเป็นโลหะ ทั้งหมดอยู่ในวัสดุเดียว
+That makes the base surface and the painted layers read as one set — painted water glossy, the grass beside it matte, a steel plate metal, all inside a single material.
 
-**Specular Color กับ Specular Intensity ยังใช้ร่วมกันทั้งวัสดุ** ไม่ได้แยกรายเลเยอร์
+**Specular Color and Specular Intensity stay shared across the material**, not split per layer.
 
-Metallic ของทุกเลเยอร์ตั้งต้นที่ `0` ซึ่งให้ผลที่เป็นธรรมชาติ — ดินที่ระบายทับพื้นเหล็กก็ควรเป็นดิน จนกว่าจะสั่งเป็นอย่างอื่น
+Every layer's Metallic starts at `0`, which keeps the natural reading — dirt painted over a steel floor is dirt, until the layer says otherwise.
 
 ### Normal Map
-ไฮไลต์อ่านทิศของผิวหลังผ่าน Normal Map แล้ว จึงวิ่งตามรายละเอียดนูนต่ำไปเอง ดูเพิ่มที่ [Normal Map]({{ '/env/shader/normal/' | relative_url }})
+The highlight reads the surface direction after the Normal Map has bent it, so it travels across the relief on its own. See [Normal Map]({{ '/env/shader/normal/' | relative_url }}).
 
 ### Surface Accumulation
-หิมะหรือฝุ่นที่ตกลงบนผิวจะดึงค่า Smoothness ไปหาค่าของตัวมันเองตามความหนาที่จับ พื้นที่ถูกหิมะกลบจึงเปลี่ยนความมันวาวไปตามวัสดุที่ทับอยู่ ไม่ใช่ค้างอยู่ที่ความมันของผิวเดิม
+Snow or dust settling on a surface pulls Smoothness toward its own value by how thickly it has gathered, so a covered area takes on the gloss of what is lying on it rather than staying at the gloss of the surface underneath.
 
 ---
 
 ## Limits
 
-- **Metallic ไม่ทำงานถ้า Specular ปิดอยู่** ค่าจะถูกบังคับเป็น `0`
-- **Metallic ที่ไม่มีอะไรให้สะท้อนจะกลายเป็นสีดำ** ต้องมี Reflection Probe หรือ Planar Reflection ในฉาก
-- **Smoothness ที่มาจากมาสก์มีผลเฉพาะเมื่อ Specular เปิด** ถ้าเปิดแค่ Reflection อย่างเดียว ภาพสะท้อนจาก Probe จะใช้ค่าสไลเดอร์ Smoothness ตรงๆ โดยไม่ผ่านมาสก์
-- **มาสก์เป็นตัวคูณ ไม่ใช่ตัวแทนที่** สไลเดอร์ที่ตั้งไว้ `0` จะยังเป็น `0` เสมอ
-- **มี Feature Mask ได้ชุดเดียว** ผิวฐานใช้เท็กซ์เจอร์ RGBA ใบเดียว จึงผูกฟีเจอร์ได้สูงสุด 4 ตัวพร้อมกัน
+- **Metallic does nothing while Specular is off** — the value is forced to `0`
+- **Metallic with nothing to reflect goes black.** The scene needs a Reflection Probe or Planar Reflection
+- **A masked Smoothness only applies while Specular is on.** With Reflection on but Specular off, the probe reflection uses the raw Smoothness slider without the mask
+- **Masks multiply, they do not replace.** A slider left at `0` stays `0`
+- **There is one Feature Mask bank.** The base surface uses a single RGBA texture, so at most 4 features can be wired at once
