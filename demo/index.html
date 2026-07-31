@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes">
   <title>ZLZ Anime Shader</title>
+  <link rel="preload" as="script" href="Build/Build.loader.js">
   <style>
     html, body { margin:0; padding:0; height:100%; background:#0e1116; overflow:hidden;
                  font-family:-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -55,9 +56,12 @@
     var fsBtn   = document.querySelector("#zlz-fs");
 
     var config = {
-      dataUrl:      "Build/Build.data.unityweb",
-      frameworkUrl: "Build/Build.framework.js.unityweb",
-      codeUrl:      "Build/Build.wasm.unityweb",
+      // Uncompressed build: the browser compiles the wasm while it streams, and
+      // no Brotli has to be unpacked in JS (that step cost ~30s on GitHub Pages,
+      // which cannot send the "Content-Encoding: br" header these files need).
+      dataUrl:      "Build/Build.data",
+      frameworkUrl: "Build/Build.framework.js",
+      codeUrl:      "Build/Build.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName:    "ZLZ Studio",
       productName:    "ZLZ Anime Shader",
@@ -72,6 +76,7 @@
         fill.style.width = v + "%";
         pct.textContent  = v + "%";
       }).then(function (unity) {
+        window.zlzBootMs = Math.round(performance.now());  // handy when tuning load time
         loading.classList.add("hidden");          // fade out the loading screen
         fsBtn.style.display = "block";
         fsBtn.onclick = function () { unity.SetFullscreen(1); };
