@@ -4,6 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZLZ Studio</title>
+  <meta name="description" content="ZLZ Anime Shader for Unity URP — a transparent hair shader and anime-style lighting toolkit. Try the WebGL demo in your browser." />
+  <link rel="canonical" href="https://zlz-studio.github.io/" />
+
+  <!-- Link previews (Discord, Unity Forum, X) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ZLZ Studio" />
+  <meta property="og:title" content="ZLZ Anime Shader for Unity URP" />
+  <meta property="og:description" content="Transparent hair shader and anime-style lighting for Unity URP. Try the WebGL demo in your browser." />
+  <meta property="og:url" content="https://zlz-studio.github.io/" />
+  <meta property="og:image" content="https://zlz-studio.github.io/images/games/Showcase_Regulus_001.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <style>
     .item a { text-decoration: underline; }
     /* ===== Scaled WebGL Embed ===== */
@@ -30,6 +42,21 @@
       border:0;
       display:block;
     }
+
+    /* Shown for the moment between first paint and the iframe being injected. */
+    .stagePoster{
+      width:1280px;
+      height:720px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      background:radial-gradient(120% 120% at 50% 30%, #1b2230 0%, #0e1116 72%);
+      color:#e7ecf3;
+    }
+    .stagePosterTitle{font-size:24px; font-weight:600; letter-spacing:.5px;}
+    .stagePoster small{opacity:.5; font-size:13px;}
     :root{
       --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af;
       --accent:#f59e0b; --line:rgba(255,255,255,.10);
@@ -815,13 +842,15 @@
         </div>
       </div>
       
+      <!-- The iframe is injected by JS once the page itself is interactive, so the
+           25 MB demo never sits on the critical path. It still starts on its own —
+           no click needed — the visitor just gets a usable page while it boots. -->
       <div class="embedScaled" id="demoWrap">
-        <div class="stage" id="demoStage">
-          <iframe
-            src="/demo/"
-            allow="fullscreen; autoplay; gamepad *"
-            allowfullscreen>
-          </iframe>
+        <div class="stage" id="demoStage" data-demo-src="/demo/">
+          <div class="stagePoster" id="demoPoster">
+            <div class="stagePosterTitle">ZLZ Anime Shader</div>
+            <small>Starting demo…</small>
+          </div>
         </div>
       </div>
 
@@ -1376,7 +1405,10 @@
         t.setAttribute("aria-selected", active ? "true" : "false");
       });
       // demo needs re-scaling after becoming visible again
-      if (key === "anime" && typeof fitItchDemo === "function") fitItchDemo();
+      if (key === "anime"){
+        if (typeof fitItchDemo === "function") fitItchDemo();
+        if (typeof window.zlzInjectDemo === "function") window.zlzInjectDemo();
+      }
     }
 
     tabs.forEach(function(t){
@@ -1405,8 +1437,56 @@
     wrap.style.height = (baseH * scale) + "px"; // prevent clipping
   }
 
-  window.addEventListener("load", fitItchDemo);
-  window.addEventListener("resize", fitItchDemo);
+  // Size it as soon as the box exists — waiting for window.load meant waiting on
+  // the demo itself, so the stage sat unscaled and overflowing until it booted.
+  fitItchDemo();
+  const demoWrapEl = document.getElementById("demoWrap");
+  if (demoWrapEl && window.ResizeObserver){
+    new ResizeObserver(fitItchDemo).observe(demoWrapEl); // also covers tab switches
+  } else {
+    window.addEventListener("resize", fitItchDemo);
+  }
+  </script>
+
+  <script>
+  // ===== Demo iframe: auto-start, but off the critical path =====
+  // Unity's boot is CPU-heavy and a same-origin iframe shares the page's renderer
+  // process, so injecting it inline froze the page until the demo was ready.
+  // Waiting for load + idle lets the page become clickable first; the demo still
+  // starts by itself, with no interaction required.
+  (function(){
+    var stage = document.getElementById("demoStage");
+    if(!stage) return;
+    var injected = false;
+
+    function injectDemo(){
+      if(injected) return;
+      // Don't spend 60 MB on a demo the visitor isn't looking at (Env tab).
+      if(stage.closest(".demo").style.display === "none") return;
+      injected = true;
+
+      var frame = document.createElement("iframe");
+      frame.src = stage.dataset.demoSrc;
+      frame.setAttribute("allow", "fullscreen; autoplay; gamepad *");
+      frame.setAttribute("allowfullscreen", "");
+      frame.setAttribute("title", "ZLZ Anime Shader WebGL demo");
+      frame.addEventListener("load", function(){
+        var poster = document.getElementById("demoPoster");
+        if(poster) poster.remove();
+      });
+      stage.appendChild(frame);
+    }
+
+    // Re-checked on tab switch so Env → Anime starts the demo on first view.
+    window.zlzInjectDemo = injectDemo;
+
+    function schedule(){
+      if(window.requestIdleCallback) requestIdleCallback(injectDemo, {timeout:1500});
+      else setTimeout(injectDemo, 200);
+    }
+    if(document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule);
+  })();
   </script>
   <script>
   document.querySelectorAll("[data-slider]").forEach(function(slider){
