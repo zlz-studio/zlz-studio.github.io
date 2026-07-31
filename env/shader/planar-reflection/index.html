@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Water Waves | ZLZ Env Shader</title>
+  <title>Planar Reflection | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -594,7 +594,7 @@
 
 
 <a href="/env/shader/planar-reflection/"
-   class="">
+   class="active">
    Planar Reflection
 </a>
 
@@ -704,7 +704,7 @@
 
 
 <a href="/env/water/water-waves/"
-   class="active">
+   class="">
    Water Waves
 </a>
 
@@ -773,104 +773,166 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="water-waves-shore-breath">Water Waves (Shore Breath)</h1>
+        <h1 id="planar-reflection">Planar Reflection</h1>
 
-<p>The whole surface <strong>rises and falls as one</strong> to a rhythm you draw yourself, like the sea slowly breathing in and out. As the level climbs the water swallows more of the beach; as it drops the sand comes back. The foam along the shore and the shallow water colours follow the level on their own.</p>
+<p>Mirror the real scene onto a surface — wet stone after rain, polished marble in a palace hall, asphalt that has not dried yet. You see the walls, the pillars and the character standing there <strong>reflected properly</strong>, not the vague coloured blur a Reflection Probe gives you.</p>
 
-<p>The lift has <strong>no slope</strong> — every point moves by the same amount, so there is no travelling swell. That is deliberate: the reflection, the Fresnel and the surface direction all hold perfectly steady while the level breathes. The small-scale life of the water stays with the scrolling ripple normal map.</p>
+<p>It works by placing <strong>a second camera mirrored across the plane</strong> and drawing the scene again from there. The result matches the real scene every frame: something moves, its reflection moves with it.</p>
 
-<h2 id="showcase-water-waves">Showcase Water Waves</h2>
+<p>Because it draws the scene a second time, the cost is the whole point of the design — so the package ships a renderer tuned for exactly that pass, which is what keeps this feature usable at all.</p>
+
+<h2 id="showcase-planar-reflection">Showcase Planar Reflection</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/Hac9OmXSVg8?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=Hac9OmXSVg8&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/zPGiegraj8Y?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zPGiegraj8Y&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
 <hr />
 
-<h2 id="setup">Setup</h2>
+<h2 id="reflection-comes-in-two-tiers">Reflection Comes in Two Tiers</h2>
 
-<p>Two things go together.</p>
+<p>Reflection in the Env Shader is two layers stacked on each other :</p>
 
-<ol>
-  <li><strong>On the water material</strong> — turn on the <strong>Waves</strong> feature (the button grid at the top of the Inspector)</li>
-  <li><strong>On the water object</strong> — tune the rhythm under <strong>Dashboard &gt; Water</strong> (or straight on the water object’s Inspector, if it does not sit under a Dashboard)</li>
-</ol>
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Source</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Reflection Probe</strong></td>
+      <td>probes baked into the scene</td>
+      <td>always on, cannot be disabled</td>
+    </tr>
+    <tr>
+      <td><strong>Planar Reflection</strong></td>
+      <td>a mirror camera redrawing the scene in real time</td>
+      <td>toggled from the Features grid</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Probe tier works for free with nothing to configure. Planar Reflection is the tier that <strong>layers on top of it</strong> when you want a reflection that is sharp and true to the scene.</p>
 
 <blockquote>
-  <p><strong>Why isn’t this on the material?</strong> The rhythm is an <strong>AnimationCurve</strong>, and a material cannot hold a curve. The values live on the <code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> component instead — which works out nicely, because every pond gets its own rhythm even when they all share one material.</p>
+  <p>If a surface does not need mirror-grade sharpness, the Reflection Probe alone is usually enough — and it costs nothing extra.</p>
 </blockquote>
 
-<p>The material’s Waves section has nothing to tune: it only points you to the Dashboard.</p>
+<hr />
+
+<h2 id="setup">Setup</h2>
+
+<p>Planar Reflection needs <strong>both halves</strong>. Miss either one and no reflection appears at all.</p>
+
+<ol>
+  <li><strong>On the material</strong> — turn on the <strong>Reflection</strong> feature in the Features grid at the top of the Inspector</li>
+  <li><strong>On the URP Renderer</strong> — the Renderer Feature <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Planar Reflection</code></strong> has to be in the list</li>
+</ol>
+
+<p>Once the material side is on, the <strong>Reflection</strong> section appears in the Inspector with every value described below.</p>
 
 <hr />
 
-<h2 id="parameters">Parameters</h2>
+<h2 id="parameters--material">Parameters — Material</h2>
 
-<p><img src="../water-waves/Water_Wave_Dashboard.png" alt="Water_Wave_Dashboard" /></p>
+<p><img src="../planar-reflection/Material_Reflection.png" alt="Material_Reflection" /></p>
 
-<p>All three live under <strong>Dashboard &gt; Water</strong>, and only appear once the material has the <strong>Waves</strong> feature on.</p>
+<h3 id="surface-reflection">Surface Reflection</h3>
 
 <ul>
-  <li><strong>Wave Shape</strong> (curve) — the rise and fall across one loop. X = 0 to 1 is the progress through the loop; Y = <code class="language-plaintext highlighter-rouge">0</code> is the lowest level and <code class="language-plaintext highlighter-rouge">1</code> the highest</li>
-  <li><strong>Wave Height</strong> (metres, default <code class="language-plaintext highlighter-rouge">0.2</code>) — how far the surface travels above and below its rest level. This is the distance <strong>one way</strong>: the full trough-to-crest range is twice this value</li>
-  <li><strong>Seconds per Loop</strong> (seconds, default <code class="language-plaintext highlighter-rouge">5</code>) — the time for one full pass of the curve, minimum <code class="language-plaintext highlighter-rouge">0.25</code>. Higher values give the slow, heavy rhythm of open sea</li>
+  <li><strong>Intensity</strong> (default <code class="language-plaintext highlighter-rouge">1</code>) — how strongly the reflection blends onto the surface. Higher = the mirror image reads clearly, lower = it sinks back into the surface’s own colour</li>
+  <li><strong>Smoothness</strong> (default <code class="language-plaintext highlighter-rouge">0.5</code>) — how polished the surface is. High = glass-flat, a crisp mirror. Low = matte, the reflection scatters and softens</li>
 </ul>
 
-<h3 id="shape-the-motion-freely-with-the-curve">Shape the Motion Freely with the Curve</h3>
+<h3 id="driven-by">Driven By</h3>
 
-<p><img src="../water-waves/Water_Wave_Curve.png" alt="Water_Wave_Curve" /></p>
+<p>Chooses <strong>where on the surface</strong> the reflection appears.</p>
 
 <ul>
-  <li>The curve <strong>loops seamlessly</strong> — the end joins back to the start on its own, so the seam never jumps</li>
-  <li>Drag the keyframes however you like: a hard surge with a long retreat, or a still pond that swells once and settles</li>
-  <li>Right-click the curve field to <strong>Copy / Paste</strong> it onto another pond. Undo is fully supported</li>
+  <li><strong>Smoothness</strong> — reads the Smoothness channel of the Feature Mask, so only the areas you painted reflect. This is the one for patchy wet ground, like puddles across a road</li>
+  <li><strong>Whole Surface</strong> — the entire surface reflects evenly, no mask needed</li>
+</ul>
+
+<blockquote>
+  <p><strong>Smoothness</strong> mode needs a Feature Mask assigned in the <strong>Mask Layout</strong> section first. If you have not packed one yet, use <strong>Whole Surface</strong> for now.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Fresnel Power</strong> (default <code class="language-plaintext highlighter-rouge">0.86</code>) — how much stronger the reflection gets at grazing angles. Wet ground seen from low down really does reflect harder than seen from straight above; this sets how steep that falloff is</li>
+</ul>
+
+<h3 id="mirror-distortion">Mirror Distortion</h3>
+
+<p>This group makes the reflection <strong>ripple</strong> instead of sitting there as a dead-flat mirror — it is what sells the idea that a thin film of water is actually lying on the surface.</p>
+
+<ul>
+  <li><strong>Distortion</strong> (default <code class="language-plaintext highlighter-rouge">0.195</code>) — strength of the warp. <code class="language-plaintext highlighter-rouge">0</code> = a perfectly flat mirror; higher = the reflection wobbles more</li>
+  <li><strong>Distortion Scale</strong> (default <code class="language-plaintext highlighter-rouge">0.7</code>) — size of the ripple pattern. Low = broad rolling waves, high = tight small ripples</li>
+  <li><strong>Distortion Speed</strong> (default <code class="language-plaintext highlighter-rouge">2</code>) — how fast the ripples travel. Set <code class="language-plaintext highlighter-rouge">0</code> to freeze them in place</li>
+  <li><strong>Distortion Falloff (m)</strong> (default <code class="language-plaintext highlighter-rouge">5</code>) — the distance in metres over which the warp fades out. Ripples stay visible near the camera and settle down further away, which keeps distant reflections from breaking up into flickering noise</li>
+</ul>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<p>A dropdown for inspecting the reflection in isolation while tuning. <strong>Default</strong> is the normal, final result.</p>
+
+<!-- TODO: list every option in the Debug Mode dropdown and what each one displays -->
+
+<hr />
+
+<h2 id="parameters--renderer-feature">Parameters — Renderer Feature</h2>
+
+<p><img src="../planar-reflection/RenderFeature_Planar_Reflection.png" alt="RenderFeature_Planar_Reflection" /></p>
+
+<p>This section lives on the <strong>URP Renderer</strong>, not on a material — so what you set here applies to <strong>every material using Planar Reflection in the scene at once</strong>.</p>
+
+<h3 id="settings">Settings</h3>
+
+<ul>
+  <li><strong>Should Render Planar</strong> — the master switch for the whole system. Turn it off and the mirror camera never draws, which makes it an instant before / after comparison, or a way to park the cost while profiling</li>
+  <li><strong>Culling Mask</strong> (default <code class="language-plaintext highlighter-rouge">Everything</code>) — which Layers are allowed to <strong>appear in the reflection</strong>. This is where the biggest savings are : drop the effects, the dust, the small props nobody can pick out in a reflection anyway, and the second pass immediately has less to draw</li>
+  <li><strong>Renderer Index</strong> (recommended <code class="language-plaintext highlighter-rouge">URP_Reflection</code>) — which Renderer in the URP Asset the mirror camera draws with. Point it at <strong><code class="language-plaintext highlighter-rouge">URP_Reflection</code></strong>, which ships with the package and is tuned for this job specifically, light enough to run on Mobile. A <strong><code class="language-plaintext highlighter-rouge">✔ recommended</code></strong> badge appears once you have picked the right one</li>
+</ul>
+
+<h3 id="performance-settings">Performance Settings</h3>
+
+<p>Everything in this group exists to <strong>cut the cost of that second pass</strong>. The defaults are already set on the frugal side.</p>
+
+<ul>
+  <li><strong>Render Scale</strong> (default <code class="language-plaintext highlighter-rouge">1</code>) — resolution of the reflection. <code class="language-plaintext highlighter-rouge">1</code> = full resolution; dropping it softens the mirror image but speeds things up noticeably. This is the first value to try when you need frames back</li>
+  <li><strong>Render Shadows</strong> (default off) — whether shadows are drawn into the reflection. Normally off, because shadows in a reflection are barely noticeable and expensive</li>
+  <li><strong>Include Skybox</strong> (default off) — whether the reflection carries the sky. Turn it on when the surface faces open sky directly, like an outdoor plaza floor</li>
+  <li><strong>Include Fog</strong> (default off) — whether scene fog affects the reflection. Turn it on when the scene’s fog is heavy enough that an unfogged reflection looks detached from it</li>
+  <li><strong>Render Range</strong> (default <code class="language-plaintext highlighter-rouge">500</code>) — how far the mirror camera can see. Anything beyond this is left out of the reflection, so trimming it to fit your scene cuts real work</li>
+  <li><strong>Maximum LOD Level</strong> (default <code class="language-plaintext highlighter-rouge">0</code>) — forces objects in the reflection onto coarser LODs, so the second pass draws lighter versions of your models</li>
+</ul>
+
+<blockquote>
+  <p><strong>Suggested order when you need frames back</strong> : trim the <strong>Culling Mask</strong> first → lower <strong>Render Range</strong> → lower <strong>Render Scale</strong> → then reach for <strong>Maximum LOD Level</strong>. The first three cut work with almost no effect on what the player actually sees.</p>
+</blockquote>
+
+<h3 id="safety">Safety</h3>
+
+<ul>
+  <li><strong>Disable In VR</strong> (default on) — switches Planar Reflection off automatically under VR, because redrawing the scene in stereo costs twice over. Leave this on</li>
 </ul>
 
 <hr />
 
-<h2 id="animates-in-edit-mode-too">Animates in Edit Mode Too</h2>
-
-<p><strong>The surface rises and falls right in Edit Mode</strong> — no need to press Play. The lift is computed in the shader’s vertex stage, which runs on the shader clock, and that keeps ticking in the editor. Compose the scene knowing exactly how far the water reaches at high tide.</p>
-
-<p><a href="/env/water/water-floater/">Water Floater</a>, however, only runs in Play mode: the C# side has no clock that matches the shader’s inside the editor. In Edit Mode it falls back to the rest level, which is the level you want to place props against anyway.</p>
-
-<hr />
-
-<h2 id="effects-on-other-features">Effects on Other Features</h2>
-
-<h3 id="foam--wave-fade">Foam — Wave Fade</h3>
-<p>With Waves on, the <strong>Foam</strong> section gains one extra value: <strong>Wave Fade</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>). It does not appear at all while Waves is off.</p>
+<h2 id="limits">Limits</h2>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">1</code> = the clustered foam (Foam Noise) <strong>washes out in the trough and comes in full on the crest</strong>, like foam carried up the beach and dragged back</li>
-  <li><code class="language-plaintext highlighter-rouge">0</code> = the swell is ignored and the foam shows the same at all times</li>
-</ul>
-
-<p>It only touches the <strong>clustered foam</strong>. The <strong>Foam Line</strong> (the crisp inked waterline) stays put throughout, so the shore never loses its edge at low tide.</p>
-
-<h3 id="reflection">Reflection</h3>
-<p>The reflection is anchored to the <strong>rest level</strong>, not the moving one. The mirror camera renders against a fixed plane, so letting the reflection ride the surface would make the mirrored image slide up and down. This is handled for you — nothing to configure.</p>
-
-<h3 id="water-interaction">Water Interaction</h3>
-<p>The <strong>Surface Range</strong> on <code class="language-plaintext highlighter-rouge">ZLZ_Env Water Interactor</code> automatically allows for Wave Height, so a character never falls out of the gate at the top of the swell.</p>
-
-<h3 id="water-floater">Water Floater</h3>
-<p>Floating objects ride the Shore Breath on their own, because the C# side reads the same curve, the same height and the same clock as the shader — so a boat or a barrel sits exactly on the surface the player sees.</p>
-
-<hr />
-
-<h2 id="good-to-know">Good to Know</h2>
-
-<ul>
-  <li>Every point on the surface <strong>moves together</strong>. There is no travelling swell — for rings spreading out from a character, pair this with the <strong>Interaction</strong> feature</li>
-  <li>It costs almost nothing: the work happens in the vertex stage and reads a baked 128×1 pixel curve texture</li>
-  <li>Each water body keeps its own curve, height and loop time, even when they share a material</li>
-  <li>The values ride Prefabs and Scenes like any other component field</li>
-  <li>A material with Waves on but no <code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code> component on the object simply stays still (nothing breaks, nothing stutters) — there is no one to hand it the curve</li>
-  <li>The waves honour <code class="language-plaintext highlighter-rouge">Time.timeScale</code>, so slow motion and pausing slow and stop the rhythm with the game</li>
+  <li><strong>The Renderer Feature is never optional</strong> — turning the feature on in the material is not enough. Without <code class="language-plaintext highlighter-rouge">ZLZ Env Planar Reflection</code> on the URP Renderer, no reflection appears</li>
+  <li><strong>The mirror camera renders against a fixed plane</strong> — Planar Reflection suits surfaces that are <strong>flat</strong>. Something curved or heavily broken up will reflect in ways that do not match reality; reach for a Reflection Probe there instead</li>
+  <li><strong>It costs one more pass over the scene</strong> — drawing the scene twice is the reason Planar Reflection is usually written off as impractical. ZLZ Env Shader ships a purpose-built renderer for it that brings the second pass down to <strong>2–5%</strong>, which is what makes it viable on Mobile</li>
+  <li><strong>VR is off by default</strong>, via the <strong>Disable In VR</strong> switch</li>
+  <li><strong>Cameras rendering to a Render Texture are skipped</strong>, as are preview cameras and reflection probes — the mirror camera never stacks on top of those</li>
 </ul>
 
       </div>
