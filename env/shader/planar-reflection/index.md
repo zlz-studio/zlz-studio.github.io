@@ -2,45 +2,45 @@
 layout: docs
 title: Planar Reflection
 last_modified_at: 2026-07-31
-published: false
+published: true
 ---
 
 # Planar Reflection
 
-สะท้อนฉากจริงลงบนพื้นผิวแบบ **กระจกเงา** — พื้นหินเปียกหลังฝนตก พื้นหินอ่อนในโถงวัง หรือถนนยางมะตอยที่ยังไม่แห้ง จะเห็นเงาของกำแพง เสา และตัวละครที่ยืนอยู่ตรงนั้นจริงๆ ไม่ใช่แค่ก้อนแสงเบลอๆ จาก Reflection Probe
+Mirror the real scene onto a surface — wet stone after rain, polished marble in a palace hall, asphalt that has not dried yet. You see the walls, the pillars and the character standing there **reflected properly**, not the vague coloured blur a Reflection Probe gives you.
 
-วิธีทำงานคือระบบจะวาง **กล้องอีกตัวหนึ่งสะท้อนข้ามระนาบ** แล้ววาดฉากซ้ำจากมุมนั้น ผลที่ได้จึงเป็นภาพสะท้อนที่ตรงตามฉากจริงทุกเฟรม วัตถุขยับ ภาพสะท้อนก็ขยับตาม
+It works by placing **a second camera mirrored across the plane** and drawing the scene again from there. The result matches the real scene every frame: something moves, its reflection moves with it.
 
-เพราะต้องวาดฉากซ้ำอีกรอบ Planar Reflection จึงเป็นฟีเจอร์ที่ **แพงที่สุดตัวหนึ่งของ Env Shader** ส่วน Performance Settings ใน Renderer Feature จึงถูกออกแบบมาให้ตัดต้นทุนตรงนี้โดยเฉพาะ และค่าเริ่มต้นก็ตั้งมาแบบประหยัดไว้ก่อนแล้ว
+Because it draws the scene a second time, the cost is the whole point of the design — so the package ships a renderer tuned for exactly that pass, which is what keeps this feature usable at all.
 
 ## Showcase Planar Reflection
 {% include youtube-loop.html id="zPGiegraj8Y" %}
 
 ---
 
-## Reflection ทำงานเป็น 2 ชั้น
+## Reflection Comes in Two Tiers
 
-การสะท้อนของ Env Shader แบ่งเป็นสองชั้นซ้อนกัน :
+Reflection in the Env Shader is two layers stacked on each other :
 
-| ชั้น | ที่มา | สถานะ |
+| Tier | Source | State |
 |---|---|---|
-| **Reflection Probe** | Probe ที่เบคไว้ในฉาก | เปิดอยู่เสมอ ปิดไม่ได้ |
-| **Planar Reflection** | กล้องกระจกที่วาดฉากซ้ำแบบเรียลไทม์ | เปิด/ปิดได้จากปุ่ม Features |
+| **Reflection Probe** | probes baked into the scene | always on, cannot be disabled |
+| **Planar Reflection** | a mirror camera redrawing the scene in real time | toggled from the Features grid |
 
-ชั้น Probe ทำงานให้ฟรีอยู่แล้วโดยไม่ต้องตั้งค่าอะไร ส่วน Planar Reflection คือชั้นที่ **ซ้อนทับลงไปอีกที** เมื่อคุณต้องการภาพสะท้อนที่คมและตรงกับฉากจริง
+The Probe tier works for free with nothing to configure. Planar Reflection is the tier that **layers on top of it** when you want a reflection that is sharp and true to the scene.
 
-> ถ้าพื้นผิวนั้นไม่ได้ต้องการความคมระดับกระจกเงา การใช้ Reflection Probe อย่างเดียวมักจะพอ และไม่มีต้นทุนเพิ่มเลย
+> If a surface does not need mirror-grade sharpness, the Reflection Probe alone is usually enough — and it costs nothing extra.
 
 ---
 
 ## Setup
 
-Planar Reflection ต้องครบ **สองฝั่ง** ขาดฝั่งใดฝั่งหนึ่งจะไม่เห็นภาพสะท้อน
+Planar Reflection needs **both halves**. Miss either one and no reflection appears at all.
 
-1. **ฝั่ง Material** — เปิดฟีเจอร์ **Reflection** จากปุ่มกริด Features ด้านบนสุดของ Inspector
-2. **ฝั่ง URP Renderer** — ต้องมี Renderer Feature ชื่อ **`ZLZ Env Planar Reflection`** อยู่ในลิสต์
+1. **On the material** — turn on the **Reflection** feature in the Features grid at the top of the Inspector
+2. **On the URP Renderer** — the Renderer Feature **`ZLZ Env Planar Reflection`** has to be in the list
 
-เมื่อเปิดฝั่ง Material แล้ว หัวข้อ **Reflection** จะโผล่ขึ้นมาใน Inspector พร้อมค่าทั้งหมดที่อธิบายด้านล่าง
+Once the material side is on, the **Reflection** section appears in the Inspector with every value described below.
 
 ---
 
@@ -50,34 +50,34 @@ Planar Reflection ต้องครบ **สองฝั่ง** ขาดฝ�
 
 ### Surface Reflection
 
-- **Intensity** (default `1`) — ความเข้มของภาพสะท้อนที่ผสมลงบนพื้นผิว ยิ่งสูงยิ่งเห็นภาพสะท้อนชัด ยิ่งต่ำภาพสะท้อนยิ่งจางลงไปกับสีพื้นผิวเดิม
-- **Smoothness** (default `0.5`) — ความเนียนของผิว ค่าสูง = ผิวเรียบเหมือนกระจก ภาพสะท้อนคมชัด ค่าต่ำ = ผิวด้าน ภาพสะท้อนฟุ้งกระจาย
+- **Intensity** (default `1`) — how strongly the reflection blends onto the surface. Higher = the mirror image reads clearly, lower = it sinks back into the surface's own colour
+- **Smoothness** (default `0.5`) — how polished the surface is. High = glass-flat, a crisp mirror. Low = matte, the reflection scatters and softens
 
 ### Driven By
 
-เลือกว่าจะให้ภาพสะท้อน **ปรากฏตรงไหนของพื้นผิว**
+Chooses **where on the surface** the reflection appears.
 
-- **Smoothness** — อ่านจากแชนแนล Smoothness ของ Feature Mask ทำให้สะท้อนเฉพาะบริเวณที่คุณระบายไว้ เหมาะกับพื้นที่เปียกเป็นหย่อมๆ เช่นแอ่งน้ำบนถนน
-- **Whole Surface** — สะท้อนทั้งผิวเท่ากันหมด ไม่ต้องใช้ Mask
+- **Smoothness** — reads the Smoothness channel of the Feature Mask, so only the areas you painted reflect. This is the one for patchy wet ground, like puddles across a road
+- **Whole Surface** — the entire surface reflects evenly, no mask needed
 
-> โหมด **Smoothness** ต้องมี Feature Mask อยู่ในหัวข้อ **Mask Layout** ก่อน ถ้ายังไม่ได้ใส่ ให้ใช้ **Whole Surface** ไปก่อน หรือดูวิธีแพ็คมาสก์ได้ที่หัวข้อ Mask Layout
+> **Smoothness** mode needs a Feature Mask assigned in the **Mask Layout** section first. If you have not packed one yet, use **Whole Surface** for now.
 
-- **Fresnel Power** (default `0.86`) — ควบคุมว่าภาพสะท้อนจะแรงขึ้นแค่ไหนเมื่อมองผิวในมุมเฉียง ตามธรรมชาติแล้วพื้นเปียกที่มองจากมุมราบจะสะท้อนแรงกว่ามองจากด้านบนตรงๆ ค่านี้คือตัวกำหนดความชันของการไล่นั้น
+- **Fresnel Power** (default `0.86`) — how much stronger the reflection gets at grazing angles. Wet ground seen from low down really does reflect harder than seen from straight above; this sets how steep that falloff is
 
 ### Mirror Distortion
 
-กลุ่มนี้ทำให้ภาพสะท้อน **บิดเป็นระลอก** แทนที่จะเป็นกระจกเงานิ่งสนิท ช่วยให้พื้นเปียกดูมีผิวน้ำบางๆ อยู่จริง
+This group makes the reflection **ripple** instead of sitting there as a dead-flat mirror — it is what sells the idea that a thin film of water is actually lying on the surface.
 
-- **Distortion** (default `0.195`) — ความแรงของการบิด `0` = กระจกเงาเรียบสนิท ยิ่งสูงภาพสะท้อนยิ่งย้วย
-- **Distortion Scale** (default `0.7`) — ขนาดของลายระลอก ค่าต่ำ = ระลอกใหญ่เป็นคลื่นกว้างๆ ค่าสูง = ระลอกถี่เล็ก
-- **Distortion Speed** (default `2`) — ความเร็วที่ลายระลอกไหล ตั้ง `0` เพื่อให้หยุดนิ่ง
-- **Distortion Falloff (m)** (default `5`) — ระยะเป็นเมตรที่การบิดจะค่อยๆ จางหายไป ระลอกใกล้กล้องยังเห็นชัด ส่วนที่ไกลออกไปจะนิ่งลง กันไม่ให้ภาพสะท้อนระยะไกลกลายเป็นนอยส์กระพริบ
+- **Distortion** (default `0.195`) — strength of the warp. `0` = a perfectly flat mirror; higher = the reflection wobbles more
+- **Distortion Scale** (default `0.7`) — size of the ripple pattern. Low = broad rolling waves, high = tight small ripples
+- **Distortion Speed** (default `2`) — how fast the ripples travel. Set `0` to freeze them in place
+- **Distortion Falloff (m)** (default `5`) — the distance in metres over which the warp fades out. Ripples stay visible near the camera and settle down further away, which keeps distant reflections from breaking up into flickering noise
 
 ### Debug Mode
 
-ดรอปดาวน์สำหรับดูผลลัพธ์แยกส่วนขณะปรับค่า ค่าปกติคือ **Default** (แสดงผลจริง)
+A dropdown for inspecting the reflection in isolation while tuning. **Default** is the normal, final result.
 
-<!-- TODO: ลิสต์ตัวเลือกทั้งหมดในดรอปดาวน์ Debug Mode พร้อมอธิบายว่าแต่ละอันแสดงอะไร -->
+<!-- TODO: list every option in the Debug Mode dropdown and what each one displays -->
 
 ---
 
@@ -85,37 +85,37 @@ Planar Reflection ต้องครบ **สองฝั่ง** ขาดฝ�
 
 ![RenderFeature_Planar_Reflection](../planar-reflection/RenderFeature_Planar_Reflection.png)
 
-ส่วนนี้อยู่บน **URP Renderer** ไม่ใช่บน Material — ค่าที่ตั้งตรงนี้จึงมีผลกับ **ทุกวัสดุที่ใช้ Planar Reflection ในฉากพร้อมกัน**
+This section lives on the **URP Renderer**, not on a material — so what you set here applies to **every material using Planar Reflection in the scene at once**.
 
 ### Settings
 
-- **Should Render Planar** — สวิตช์หลักของทั้งระบบ ปิดตัวนี้แล้วกล้องกระจกจะไม่วาดเลย ใช้เทียบ before / after หรือปิดทิ้งไว้ตอนโปรไฟล์ประสิทธิภาพได้ทันที
-- **Culling Mask** (default `Everything`) — เลือกว่า Layer ไหนบ้างที่จะ **ปรากฏในภาพสะท้อน** นี่คือจุดที่ประหยัดได้มากที่สุด : ตัดพวกเอฟเฟกต์ ฝุ่น หรือ props เล็กๆ ที่มองไม่ออกอยู่แล้วในภาพสะท้อนออกไป ก็ลดของที่ต้องวาดซ้ำลงทันที
-- **Renderer Index** (แนะนำ `URP_Reflection`) — เลือกว่ากล้องกระจกจะวาดด้วย Renderer ตัวไหนใน URP Asset ให้ชี้ไปที่ **`URP_Reflection`** ที่เตรียมมาให้ในแพ็กเกจ ซึ่ง optimize มาสำหรับงานนี้โดยเฉพาะ เบาพอที่จะใช้บน Mobile ได้ ระบบจะขึ้นป้าย **`✔ recommended`** ให้เมื่อเลือกถูกตัว
+- **Should Render Planar** — the master switch for the whole system. Turn it off and the mirror camera never draws, which makes it an instant before / after comparison, or a way to park the cost while profiling
+- **Culling Mask** (default `Everything`) — which Layers are allowed to **appear in the reflection**. This is where the biggest savings are : drop the effects, the dust, the small props nobody can pick out in a reflection anyway, and the second pass immediately has less to draw
+- **Renderer Index** (recommended `URP_Reflection`) — which Renderer in the URP Asset the mirror camera draws with. Point it at **`URP_Reflection`**, which ships with the package and is tuned for this job specifically, light enough to run on Mobile. A **`✔ recommended`** badge appears once you have picked the right one
 
 ### Performance Settings
 
-ทั้งกลุ่มนี้มีไว้เพื่อ **ลดต้นทุนของการวาดฉากรอบที่สอง** ค่าเริ่มต้นตั้งมาแบบประหยัดไว้แล้ว
+Everything in this group exists to **cut the cost of that second pass**. The defaults are already set on the frugal side.
 
-- **Render Scale** (default `1`) — ความละเอียดของภาพสะท้อน `1` = เต็มความละเอียด ลดลงมาแล้วภาพสะท้อนจะนุ่มขึ้นแต่เร็วขึ้นชัดเจน เป็นค่าที่ควรลองลดเป็นอันดับแรกเมื่อต้องการเฟรมเรต
-- **Render Shadows** (default ปิด) — วาดเงาในภาพสะท้อนด้วยหรือไม่ ปกติปิดไว้เพราะเงาในภาพสะท้อนแทบสังเกตไม่เห็น แต่ราคาแพง
-- **Include Skybox** (default ปิด) — ให้ภาพสะท้อนมีท้องฟ้าด้วยหรือไม่ เปิดเมื่อพื้นผิวหันขึ้นรับท้องฟ้าโดยตรง เช่นพื้นลานกลางแจ้ง
-- **Include Fog** (default ปิด) — ให้หมอกของฉากมีผลกับภาพสะท้อนหรือไม่ เปิดเมื่อฉากใช้หมอกหนาจนภาพสะท้อนที่ไม่มีหมอกดูหลุดออกจากฉาก
-- **Render Range** (default `500`) — ระยะไกลสุดที่กล้องกระจกจะมองเห็น ของที่ไกลกว่านี้จะไม่ถูกวาดลงในภาพสะท้อน ลดค่านี้ลงให้พอดีกับฉากช่วยตัดงานได้มาก
-- **Maximum LOD Level** (default `0`) — บังคับให้ของในภาพสะท้อนใช้ LOD ที่หยาบลง เพื่อวาดโมเดลเวอร์ชันเบากว่าในรอบที่สอง
+- **Render Scale** (default `1`) — resolution of the reflection. `1` = full resolution; dropping it softens the mirror image but speeds things up noticeably. This is the first value to try when you need frames back
+- **Render Shadows** (default off) — whether shadows are drawn into the reflection. Normally off, because shadows in a reflection are barely noticeable and expensive
+- **Include Skybox** (default off) — whether the reflection carries the sky. Turn it on when the surface faces open sky directly, like an outdoor plaza floor
+- **Include Fog** (default off) — whether scene fog affects the reflection. Turn it on when the scene's fog is heavy enough that an unfogged reflection looks detached from it
+- **Render Range** (default `500`) — how far the mirror camera can see. Anything beyond this is left out of the reflection, so trimming it to fit your scene cuts real work
+- **Maximum LOD Level** (default `0`) — forces objects in the reflection onto coarser LODs, so the second pass draws lighter versions of your models
 
-> **ลำดับที่แนะนำเมื่อต้องรีดเฟรมเรต** : ตัด **Culling Mask** ก่อน → ลด **Render Range** → ลด **Render Scale** → ค่อยขยับ **Maximum LOD Level** สามอย่างแรกลดงานลงโดยแทบไม่กระทบภาพที่ผู้เล่นเห็น
+> **Suggested order when you need frames back** : trim the **Culling Mask** first → lower **Render Range** → lower **Render Scale** → then reach for **Maximum LOD Level**. The first three cut work with almost no effect on what the player actually sees.
 
 ### Safety
 
-- **Disable In VR** (default เปิด) — ปิด Planar Reflection อัตโนมัติเมื่อรันบน VR เพราะการวาดฉากซ้ำในโหมดสเตอริโอมีต้นทุนสองเท่า แนะนำให้เปิดค่านี้ไว้
+- **Disable In VR** (default on) — switches Planar Reflection off automatically under VR, because redrawing the scene in stereo costs twice over. Leave this on
 
 ---
 
 ## Limits
 
-- **ต้องมี Renderer Feature เสมอ** — เปิดฟีเจอร์บน Material อย่างเดียวไม่พอ ถ้าไม่มี `ZLZ Env Planar Reflection` อยู่บน URP Renderer จะไม่มีภาพสะท้อนเกิดขึ้น
-- **กล้องกระจกวาดกับระนาบคงที่** — Planar Reflection เหมาะกับพื้นผิวที่ **ราบ** พื้นที่โค้งหรือขรุขระมากๆ จะได้ภาพสะท้อนที่ไม่ตรงกับความเป็นจริง กรณีนั้นควรใช้ Reflection Probe แทน
-- **มีต้นทุนคือการวาดฉากอีกหนึ่งรอบ** — การวาดฉากซ้ำอีกรอบคือเหตุผลที่ Planar Reflection มักถูกมองว่าใช้จริงไม่ได้ ZLZ Env Shader จึงเตรียม Renderer เฉพาะทางมาให้พร้อมในแพ็กเกจ รีดต้นทุนรอบที่สองเหลือเพียง **2–5%** จนใช้บน Mobile ได้จริง
-- **VR ปิดอยู่โดยค่าเริ่มต้น** ผ่านสวิตช์ **Disable In VR**
-- **กล้องที่เรนเดอร์ลง Render Texture, กล้องพรีวิว และ Reflection Probe จะถูกข้าม** — กล้องกระจกจะไม่ทำงานซ้อนกับกล้องพวกนี้
+- **The Renderer Feature is never optional** — turning the feature on in the material is not enough. Without `ZLZ Env Planar Reflection` on the URP Renderer, no reflection appears
+- **The mirror camera renders against a fixed plane** — Planar Reflection suits surfaces that are **flat**. Something curved or heavily broken up will reflect in ways that do not match reality; reach for a Reflection Probe there instead
+- **It costs one more pass over the scene** — drawing the scene twice is the reason Planar Reflection is usually written off as impractical. ZLZ Env Shader ships a purpose-built renderer for it that brings the second pass down to **2–5%**, which is what makes it viable on Mobile
+- **VR is off by default**, via the **Disable In VR** switch
+- **Cameras rendering to a Render Texture are skipped**, as are preview cameras and reflection probes — the mirror camera never stacks on top of those
