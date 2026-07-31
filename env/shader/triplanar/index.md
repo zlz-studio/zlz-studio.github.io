@@ -33,7 +33,7 @@ published: false
 
 ## Parameters
 
-![Material_WaterCaustics](../water-caustics/Material_WaterCaustics.png)
+![Material_Triplanar](../triplanar/Material_Triplanar.png)
 
 - **World Tiling** (`0.01–10`, default `1`) — ความถี่ของลายเทียบกับโลกจริง ค่าสูง = ลายซ้ำถี่ขึ้น (ลายดูเล็กลง) ค่านี้คุม **Albedo, Normal Map และ Feature Mask พร้อมกันทั้งหมด** เพื่อให้ทั้งสามอยู่ตรงกันเสมอ
 - **Blend Sharpness** (`1–20`, default `4`) — สามแกนไล่ผสมกันแข็งหรือนุ่มแค่ไหน ค่าสูง = เอนไปหาแกนที่ผิวหันไปหามากที่สุด รอยต่อคมขึ้น, ค่าต่ำ = ไล่ผสมกันกว้างๆ นุ่มขึ้น
