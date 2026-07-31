@@ -32,7 +32,7 @@ published: false
 
 ## Parameters
 
-![Material_Triplanar](../triplanar/Material_Triplanar.png)
+![Material_Specular_Metal](../specular/Material_Specular_Metal.png)
 
 - **Specular Color** (default ขาว) — สีของไฮไลต์ คูณทับสีของแสงอีกที
 - **Specular Intensity** (`0–5`, default `1`) — ความแรงของไฮไลต์ `1` = เท่ากับผิว URP Lit มาตรฐาน สูงกว่านั้นคือดันให้เกินจริงเพื่องานสไตไลซ์
