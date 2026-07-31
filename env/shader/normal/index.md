@@ -32,7 +32,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ใส่สกรีนช็อตหัวข้อ Normal Map เป็น Material_Normal.png -->
+![Material_NormalMap](../normal/Material_NormalMap.png)
 
 - **Normal Map** — ช่องใส่เท็กซ์เจอร์ ค่าตั้งต้นคือ `bump` (ผิวเรียบ)
 - **Normal Strength** (`0–5`, default `1`) — ความลึกของรายละเอียด `0` = แบนราบเหมือนไม่ได้ใส่, `1` = ตามที่เท็กซ์เจอร์เขียนไว้จริง, มากกว่า `1` = ดันให้เกินจริงเพื่อให้เห็นชัดขึ้นในระยะไกล
