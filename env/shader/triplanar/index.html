@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass Optimized | ZLZ Env Shader</title>
+  <title>Triplanar | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -586,7 +586,7 @@
 
 
 <a href="/env/shader/triplanar/"
-   class="">
+   class="active">
    Triplanar
 </a>
 
@@ -635,7 +635,7 @@
 
 
 <a href="/env/grass/grass-optimized/"
-   class="active">
+   class="">
    Grass Optimized
 </a>
 
@@ -765,94 +765,95 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-optimized">Grass Optimized</h1>
+        <h1 id="triplanar">Triplanar</h1>
 
-<h2 id="showcase--texture-vs-mesh-render-scale-1">Showcase — Texture vs Mesh (Render Scale 1)</h2>
+<p>Lay textures onto a mesh while <strong>ignoring its UVs entirely</strong> — the system projects the texture in from the three world axes (top, front, side) and blends them by the direction the surface faces. A cliff, a rock or a blockout box whose UVs are stretched, or which has no UVs at all, tiles cleanly: no smearing, no seams.</p>
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/1Nu8tF2xBtI?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=1Nu8tF2xBtI&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<p>It is an enormous shortcut for environment work: sculpt a cliff in Blender and drop it straight into Unity — no time spent unwrapping, and no worry that reshaping it later will break the UVs.</p>
 
-<h2 id="showcase--texture-vs-mesh-render-scale-2">Showcase — Texture vs Mesh (Render Scale 2)</h2>
+<p>And because the pattern is anchored to world coordinates, <strong>separate meshes placed next to each other tile as one continuous surface</strong>. A cliff assembled from ten rocks reads as one rock face rather than ten pieces each carrying their own patch of texture.</p>
+
+<h2 id="showcase-triplanar">Showcase Triplanar</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/TuCkT8qo7Ww?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=TuCkT8qo7Ww&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/96LcH8KkDWo?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=96LcH8KkDWo&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
 <hr />
 
-<h2 id="zlz-grass-mesh-baker">ZLZ Grass Mesh Baker</h2>
+<h2 id="setup">Setup</h2>
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/FSAfKJ4hOb0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=FSAfKJ4hOb0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
+<p>Turn on the <strong>Triplanar</strong> feature in the Features grid at the top of the material — that is the whole setup. Nothing else to configure, no UVs needed, nothing to bake.</p>
 
-<p>A grass card + a texture with alpha: most of the card’s area is transparent pixels, yet the GPU still has to process every one of them (fetch texture → test alpha clip → discard the pixel). That is what causes Overdraw — and ZLZ Grass Mesh Baker fixes it.</p>
-
-<p><strong>What you get</strong></p>
-<ul>
-  <li>No Texture fetch</li>
-  <li>No Alpha Clip</li>
-  <li>No Overdraw from transparent pixels</li>
-  <li>Height Gradient + Wind still work exactly the same (the UVs are preserved)</li>
-  <li>No mesh modelling needed — just have the grass shape you want, press Bake, and the mesh is ready to use</li>
-</ul>
-
-<h3 id="how-to-open">How to open</h3>
-<p>Window &gt; ZLZ &gt; Grass Mesh Baker</p>
-
-<h3 id="how-it-works--3-steps">How it works — 3 steps</h3>
+<p>Once it is on, the <strong>Texture</strong> section rearranges itself:</p>
 
 <ul>
-  <li><strong>Trace</strong> — reads the texture’s alpha channel and traces the outline of each blade, reducing the point count to the vertex budget you set</li>
-  <li><strong>Layout</strong> — reads a reference mesh (the card-group mesh the grass uses now) card by card, and replaces every card with the traced shape at the exact same position / rotation / scale (it copies the existing layout, it never invents a new one)</li>
-  <li><strong>UV</strong> — keeps texture-space UVs (x across, y base 0 → tip 1), so Height Gradient and Wind keep working exactly as before</li>
-</ul>
-
-<h3 id="settings">Settings</h3>
-<ul>
-  <li><strong>Grass Texture</strong> — the source texture to take the shape from (only the alpha channel is read)</li>
-  <li><strong>Layout Mesh</strong> — the existing card-group mesh the grass uses (e.g. <code class="language-plaintext highlighter-rouge">SM_Grass_Group1</code>); every card in it is replaced by the traced shape</li>
-  <li><strong>Alpha Cutoff</strong> (<code class="language-plaintext highlighter-rouge">0.05–0.95</code>) — the alpha level counted as solid grass. Match it to the <strong>material’s Alpha Cutoff</strong> so the mesh edge lands where the clipped edge used to be</li>
-  <li><strong>Simplify</strong> (<code class="language-plaintext highlighter-rouge">0.5–8</code> pixels) — the outline tolerance. Higher = fewer points / coarser edge / lighter, lower = a tighter edge / more points</li>
-  <li><strong>Bend Segments</strong> (<code class="language-plaintext highlighter-rouge">1–12</code>) — the horizontal vertex rows from base to tip. The wind bends the mesh per vertex, so more rows = a smoother lean, fewer rows = lighter but stiffer</li>
-  <li>The Preview shows the traced outline (gold) and the Bend Segments guide lines, plus the Cards / Verts / Tris stats before you press <strong>Bake Mesh</strong></li>
+  <li>A blue <strong><code class="language-plaintext highlighter-rouge">TRIPLANAR ON</code></strong> badge appears at the top of the section, telling you the tiling is world-space from now on</li>
+  <li>Unity’s <strong>Tiling / Offset</strong> fields disappear, replaced in the same spot by <strong>World Tiling</strong> and <strong>Blend Sharpness</strong></li>
 </ul>
 
 <blockquote>
-  <p>After baking: the mesh can be used directly with a material that has its Texture feature turned off. See the Demo for an example.</p>
+  <p><strong>Each mode keeps its own values.</strong> Switch Triplanar back off and the old Tiling / Offset numbers are still there, untouched — so you can flip between the two to compare results without losing anything.</p>
 </blockquote>
 
 <hr />
 
-<h2 id="zlz-env-grass-resolution">ZLZ Env Grass Resolution</h2>
+<h2 id="parameters">Parameters</h2>
 
-<p><img src="../grass-optimized/Grass_Resolution.png" alt="Grass_Resolution" /></p>
-
-<p>Renders the grass color into a downsampled buffer and composites it back — paying the remaining overdraw at only a fraction of the pixels.</p>
-
-<h3 id="setup-zlz-env-grass-resolution">Setup ZLZ Env Grass Resolution</h3>
-<ul>
-  <li>Add Renderer Feature &gt; <strong>ZLZ Env Grass Resolution</strong> to the main URP renderer used to render the image</li>
-  <li><strong>Depth Texture</strong> must be enabled on the URP Asset</li>
-</ul>
-
-<h3 id="resolution">Resolution</h3>
+<p><img src="../triplanar/Material_Triplanar.png" alt="Material_Triplanar" /></p>
 
 <ul>
-  <li><strong>Full</strong> — renders at native resolution (the feature idles, grass draws its own color) → highest quality / sharpest edges, but no saving</li>
-  <li><strong>Half</strong> — half per axis (= 1/4 of the pixels) → much faster, edges soften slightly; the best value for most cases</li>
-  <li><strong>Quarter</strong> — a quarter per axis (= 1/16 of the pixels) → fastest, softest edges; good for mobile or very dense grass fields</li>
+  <li><strong>World Tiling</strong> (<code class="language-plaintext highlighter-rouge">0.01–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how frequently the pattern repeats against the real world. Higher = it repeats more often (the pattern looks smaller). This one value drives <strong>the Albedo, the Normal Map and the Feature Mask together</strong>, so all three always line up</li>
+  <li><strong>Blend Sharpness</strong> (<code class="language-plaintext highlighter-rouge">1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how hard or soft the three axes cross-fade into each other. High = biased toward whichever axis the surface faces most, giving a crisper seam. Low = a wider, softer blend</li>
 </ul>
+
+<blockquote>
+  <p><strong>Blend Sharpness only shows on curved or sloped surfaces.</strong> A straight wall or a flat floor already faces one axis head-on, so turning the value barely changes anything. To see it clearly, try it on a sphere.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="what-switches-to-world-space">What Switches to World Space</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>With Triplanar on</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Albedo</strong></td>
+      <td>projected from the three world axes</td>
+    </tr>
+    <tr>
+      <td><strong>Normal Map</strong></td>
+      <td>projected from the three world axes, and resolved directly in world space</td>
+    </tr>
+    <tr>
+      <td><strong>Feature Mask (RGBA)</strong></td>
+      <td>projected from the three world axes, so Metallic / Smoothness / Emissive still match the pattern you see</td>
+    </tr>
+    <tr>
+      <td><strong>Paint Layer textures</strong></td>
+      <td>projected from the three world axes, and <strong>each layer carries its own World Tiling</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Paint Mask</strong></td>
+      <td><strong>stays on UVs</strong>, because the brush paints in UV space</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The three-axis blend weights are computed <strong>once per pixel</strong> and shared by every texture, so the Albedo, the Normal and the Mask are locked to exactly the same projection and can never drift apart.</p>
+
+<blockquote>
+  <p><strong>The Normal Map has no Tiling field of its own</strong> — in either mode. It always follows the Albedo’s mapping (it is hidden in the shader itself), because otherwise you would get a surface whose colour detail and bump detail do not line up.</p>
+</blockquote>
 
       </div>
     </main>
