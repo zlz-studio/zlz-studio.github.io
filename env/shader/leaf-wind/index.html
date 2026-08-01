@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass LOD | ZLZ Env Shader</title>
+  <title>Wind | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -634,7 +634,7 @@
 
 
 <a href="/env/shader/leaf-wind/"
-   class="">
+   class="active">
    Wind
 </a>
 
@@ -704,7 +704,7 @@
 
 
 <a href="/env/grass/grass-lod/"
-   class="active">
+   class="">
    Grass LOD
 </a>
 
@@ -813,45 +813,173 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-lod">Grass LOD</h1>
+        <h1 id="wind">Wind</h1>
 
-<p>The Grass LOD system keeps grass cheap to render by simplifying and culling it based on distance from the camera — full-detail meshes stay near the camera, while faraway grass drops to a lighter mesh or is removed entirely.</p>
+<p>Make <strong>trees, bushes and leaves move with the wind</strong> by displacing vertices in the vertex stage. The tip leans with the wind while the base stays planted.</p>
 
-<h2 id="showcase">Showcase</h2>
+<p>The motion is two layers stacked — <strong>Trunk Sway</strong>, the slow wide bend along the wind direction, and <strong>Leaf Flutter</strong>, the fast small shimmer of individual leaves riding on top of it.</p>
+
+<p>What makes it usable in practice is that <strong>every pass moves together</strong> — the pass that draws the image, the shadows, and the depth. The shadow cast on the ground sways with the tree instead of sitting still while the tree moves.</p>
+
+<h2 id="showcase-wind">Showcase Wind</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/J0blYvQDdok?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=J0blYvQDdok&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/-KgWsFig7OM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=-KgWsFig7OM&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
-<p><img src="../Grass_LOD.png" alt="Grass LOD" /></p>
+<hr />
 
-<h3 id="where-to-configure">Where to Configure</h3>
+<h2 id="setup">Setup</h2>
+
+<p>Turn on the <strong>Wind</strong> feature in the Features grid at the top of the Inspector. The <strong>Wind</strong> section appears, with a green <strong><code class="language-plaintext highlighter-rouge">WIND ON</code></strong> badge reporting its state.</p>
+
+<p>The only thing you have to set afterwards is the <strong>Height Mask</strong>, to match the plant’s actual height (see below). Everything else moves the moment you switch it on.</p>
+
+<blockquote>
+  <p><strong>There is no mask to paint.</strong> The system uses each vertex’s height relative to the model’s pivot to decide how much it should move. If the tree’s pivot sits at its base as usual, it works straight away.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="wind-source--decide-where-the-wind-comes-from">Wind Source — Decide Where the Wind Comes From</h2>
+
+<p>The first value in this section determines which sliders appear below it.</p>
+
+<h3 id="local">Local</h3>
+<p>This material carries its own wind — direction, strength, speed and gust size. Good for a single hero plant that wants its own rhythm.</p>
+
+<h3 id="global">Global</h3>
+<p>The <strong>ZLZ_Env Wind Controller</strong> placed in the scene owns direction, strength, speed and gust, and this material keeps one value: <strong>Weight</strong>, how much of that wind it catches.</p>
+
+<p>The payoff is a scene that moves as one — the wind rises and settles everywhere at the same moment, grass and trees together, tuned from a single place. See <a href="/env/grass/grass-global-wind/">Grass Global Wind</a>.</p>
+
+<blockquote>
+  <p><strong>Setting Global with no Controller in the scene does not break anything</strong> — the material falls back to its own Local values, and the Inspector warns you and tells you how to add one.</p>
+</blockquote>
+
+<p><strong>Whichever mode you pick, Leaf Flutter and Height Mask always stay on the material</strong>, because those two describe that particular plant’s character rather than the wind’s.</p>
+
+<hr />
+
+<h2 id="parameters">Parameters</h2>
+
+<p><img src="../leaf-wind/Material_Wind.png" alt="Material_Wind" /></p>
+
+<h3 id="trunk-sway--local-mode-only">Trunk Sway — Local mode only</h3>
+
 <ul>
-  <li>All LOD settings live on <code class="language-plaintext highlighter-rouge">ZLZ_Global_Grass</code>
-<!-- TODO: add the asset/prefab path for ZLZ_Global_Grass, e.g. Path : Assets/.../ZLZ_Global_Grass.prefab --></li>
+  <li><strong>Strength</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.3</code>) — how far the tip leans with the wind, in world units</li>
+  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–20</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — the sway rate. Low = a lazy drift, high = a brisk wind</li>
+  <li><strong>Direction (deg)</strong> (<code class="language-plaintext highlighter-rouge">0–360</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — the wind’s heading on the ground plane, in degrees. One dial sweeps the whole compass</li>
+  <li><strong>Gust Scale</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">0.2</code>) — spreads a travelling gust across space so neighbouring plants fall out of sync. <code class="language-plaintext highlighter-rouge">0</code> = every plant sways in lockstep</li>
 </ul>
 
-<h3 id="performance">Performance</h3>
+<h3 id="wind-weight--global-mode-only">Wind Weight — Global mode only</h3>
+
 <ul>
-  <li>Reports information about the grass currently in the scene, so you can see the impact of your LOD settings at a glance</li>
+  <li><strong>Weight</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how much of the scene wind this material catches. <code class="language-plaintext highlighter-rouge">1</code> = full, <code class="language-plaintext highlighter-rouge">0</code> = ignores it. Use it to let low bushes move less than tall trees under the same wind</li>
 </ul>
 
-<h3 id="lod-levels">LOD Levels</h3>
+<h3 id="leaf-flutter--both-modes">Leaf Flutter — both modes</h3>
+
 <ul>
-  <li><strong>LOD 0</strong> = full-detail grass mesh</li>
-  <li><strong>LOD 1</strong> = low-poly mesh with a reduced instance count</li>
-  <li><strong>Culled</strong> = grass is removed entirely</li>
-  <li>You choose which LOD is displayed at each distance range</li>
+  <li><strong>Flutter Strength</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.1</code>) — the fast shimmer layered on top of the sway. <code class="language-plaintext highlighter-rouge">0</code> = off, which is <strong>the cheapest option</strong> and right for solid trunks that should not have fluttering leaves</li>
+  <li><strong>Flutter Speed</strong> (<code class="language-plaintext highlighter-rouge">0–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how quickly the shimmer runs</li>
+  <li><strong>Flutter Scale</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — its spatial frequency. Higher = finer, more independent per-leaf motion</li>
 </ul>
 
-<h3 id="settings">Settings</h3>
+<h3 id="height-mask--both-modes">Height Mask — both modes</h3>
+
 <ul>
-  <li><strong>Debug LOD Distance</strong> — visualizes each distance range so you can see where the LOD transitions happen</li>
-  <li><strong>LOD 1 Density</strong> — controls how much the grass count is thinned out within the LOD 1 range</li>
-  <li><strong>Distance Fade</strong> — blends the transition between LOD ranges so switching looks smooth instead of popping</li>
+  <li><strong>Height Base</strong> (default <code class="language-plaintext highlighter-rouge">0</code>) — the object-space height at which the bend starts. Anything below it stays planted</li>
+  <li><strong>Height Range</strong> (<code class="language-plaintext highlighter-rouge">0.01–20</code>, default <code class="language-plaintext highlighter-rouge">2</code>) — how far above the base the bend ramps up to full. <strong>Match it to the plant’s real height</strong></li>
+</ul>
+
+<p>The ramp is not linear — it eases in from the base, so the trunk reads solid and the tip reads supple, rather than the whole plant leaning by the same amount.</p>
+
+<h3 id="debug">Debug</h3>
+
+<ul>
+  <li><strong>Debug Mode</strong> — set it to <strong>Height Mask</strong> to paint the sway amount as greyscale, <strong>black at the base and white at the tip</strong>, so Height Base and Height Range can be dialled by eye instead of guessed. Set it back to <strong>Off</strong> for production</li>
+</ul>
+
+<hr />
+
+<h2 id="how-trunk-sway-and-leaf-flutter-differ">How Trunk Sway and Leaf Flutter Differ</h2>
+
+<p>The two layers differ in <strong>where their timing comes from</strong>, and that is what decides how each one looks.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Trunk Sway</th>
+      <th>Leaf Flutter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Timing read from</td>
+      <td>the plant’s position in the world</td>
+      <td>each individual vertex’s position</td>
+    </tr>
+    <tr>
+      <td>Result</td>
+      <td>the whole plant leans as one piece</td>
+      <td>each leaf jitters out of step</td>
+    </tr>
+    <tr>
+      <td>Character</td>
+      <td>slow, wide</td>
+      <td>fast, small</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Because Trunk Sway reads the plant’s position, the whole plant leans together as a single object, and plants standing in different places fall out of step by themselves — which is what reads as a gust travelling across a forest.</p>
+
+<p>Leaf Flutter reads the vertex position instead, so neighbouring leaves shimmer on different beats, giving a sparkle that a whole-plant lean cannot produce.</p>
+
+<hr />
+
+<h2 id="cost">Cost</h2>
+
+<p>All of it runs in the <strong>vertex stage</strong>, not per pixel, so the cost scales with the model’s vertex count rather than how much of the screen it covers. A large tree close to the camera is no more expensive than the same tree far away.</p>
+
+<p><strong>No texture is read at all.</strong> The gust pattern is generated in the shader, so there is no noise map to prepare.</p>
+
+<p>Worth knowing: this runs in <strong>every pass</strong> — image, shadow and depth — so the vertex displacement is recomputed in each of them. That is the price of having shadows sway with the tree instead of standing still.</p>
+
+<p>The part you can drop for free is <strong>Leaf Flutter</strong> — set Flutter Strength to <code class="language-plaintext highlighter-rouge">0</code> and that whole block is skipped. Right for trunks, rocks, or anything that should not have leaves shimmering anyway.</p>
+
+<p>With the feature off, the code is stripped out of the compiled shader entirely.</p>
+
+<hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="grass">Grass</h3>
+<p>Grass runs on its own shader, but <strong>reads the wind from the same Controller</strong> when both are set to Global. Grass and trees in one scene therefore move on the same beat, rising and settling together.</p>
+
+<h3 id="surface-accumulation">Surface Accumulation</h3>
+<p>They work at different stages and do not collide — Wind moves vertex positions, while Accumulation decides from the direction a surface faces. Snow resting on a branch sways with the branch without sliding off it. See <a href="/env/shader/snow-accumulation/">Surface Accumulation</a>.</p>
+
+<h3 id="normal-map-and-specular">Normal Map and Specular</h3>
+<p>Both run per pixel, after the vertices have already moved, so surface detail and highlights travel with the moving model as you would expect.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>The motion is driven by object-space height.</strong> If a plant’s pivot is not at its base, compensate with Height Base</li>
+  <li><strong>It leans along one wind direction.</strong> It does not simulate twisting, or branches whipping independently of each other</li>
+  <li><strong>It does not know about obstacles.</strong> A tree behind a wall still catches the full wind</li>
+  <li><strong>Height Range has to be set.</strong> Left at the default on a much taller tree, the plant reaches full lean halfway up the trunk. Use Debug Mode to see it</li>
+  <li><strong>Characters running past do not push the wind.</strong> It is a signal computed from time and position, with no interaction from anything moving through it</li>
 </ul>
 
       </div>
