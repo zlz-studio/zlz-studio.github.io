@@ -2,16 +2,16 @@
 layout: docs
 title: Surface Accumulation
 last_modified_at: 2026-08-01
-published: false
+published: true
 ---
 
 # Surface Accumulation
 
-ให้ **หิมะ ฝุ่น หรือมอสส์** ไปเกาะอยู่บนด้านที่หงายขึ้นของพื้นผิว — หลังคาขาวโพลนขณะที่ผนังยังโล่ง ขอบหินมีฝุ่นจับด้านบน ก้อนหินในป่ามีมอสส์ขึ้นเฉพาะฝั่งที่รับแสง
+Settle **snow, dust or moss** onto the up-facing parts of a surface — a roof gone white while the walls stay clear, dust caught along the top edge of a rock, moss growing on the one side of a boulder that catches the light.
 
-ทั้งหมดนี้ทำจาก **การคำนวณล้วนๆ ไม่แตะเท็กซ์เจอร์แม้แต่ใบเดียว** ไม่ต้องเตรียมมาสก์ ไม่ต้องระบายเอง ไม่ต้องเบคอะไรทั้งนั้น เชดเดอร์ดูจากทิศที่ผิวหันไปเทียบกับทิศที่กำหนด แล้วตัดสินเองว่าตรงไหนควรมีของทับ
+All of it is **pure arithmetic, with no texture involved at all**. No mask to author, nothing to paint by hand, nothing to bake. The shader compares the direction a surface faces against a direction you choose, and works out for itself where the cover belongs.
 
-ข้อดีของวิธีนี้คือ **หมุนวัตถุแล้วหิมะย้ายตาม** ทันที เอียงหลังคาใหม่ หิมะก็ไปกองอยู่ด้านที่หงายขึ้นเสมอ ไม่ต้องกลับไปแก้มาสก์
+The advantage of doing it that way is that **rotating an object moves the snow with it**. Re-pitch a roof and the cover settles on whatever side now faces up — there is no mask to go back and fix.
 
 ## Showcase Surface Accumulation
 {% include youtube-loop.html id="9H3A9BwHlSM" %}
@@ -20,9 +20,9 @@ published: false
 
 ## Setup
 
-เปิดฟีเจอร์ **Accumulation** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Surface Accumulation** จะโผล่ขึ้นมาพร้อมป้าย **`ACCUMULATION ON`** สีฟ้าบอกสถานะ
+Turn on the **Accumulation** feature in the Features grid at the top of the Inspector. The **Surface Accumulation** section appears, with a blue **`ACCUMULATION ON`** badge reporting its state.
 
-ใส่ค่าเริ่มต้นมาให้เป็นหิมะอยู่แล้ว (สีขาวอมฟ้าเล็กน้อย ตกลงมาจากด้านบน) เปิดแล้วเห็นผลทันทีโดยไม่ต้องตั้งอะไรเพิ่ม
+The defaults are already snow — a faintly blue-white cover falling from above — so it reads correctly the moment you switch it on, with nothing else to set.
 
 ---
 
@@ -30,42 +30,41 @@ published: false
 
 ![Material_Snow](../snow-accumulation/Material_Snow.png)
 
-- **Color** (default ขาวอมฟ้า) — สีของสิ่งที่มาทับ ขาวเกือบสนิทสำหรับหิมะ น้ำตาลสำหรับฝุ่น เขียวสำหรับมอสส์
-- **Coverage** (`0–1`, default `0.5`) — ปริมาณโดยรวม ยิ่งสูงยิ่งไหลลงไปตามความลาดชันได้ลึก **ปลายทั้งสองด้านเป็นค่าสัมบูรณ์** — `0` คือผิวโล่งสนิทจริงๆ และ `1` คือทับทุกหน้ารวมถึงด้านล่างด้วย
-- **Edge Softness** (`0–1`, default `0.2`) — ขอบของแนวหิมะจะไล่นุ่มหรือคมชัด
-- **Smoothness** (`0–1`, default `0.5`) — ความมันวาวของบริเวณที่ถูกทับ สูง = หิมะเปียกเป็นเงา ต่ำ = ฝุ่นแห้งด้าน ค่านี้ส่งต่อไปให้ Specular และ Reflection
-- **Edge Noise** (`0–1`, default `0.3`) — ทำให้ขอบไม่เป็นเส้นตรงเนียนเกินจริง `0` = ขอบเรียบสะอาด
-- **Noise Scale** (`0.1–20`, default `5`) — ขนาดของหย่อมที่ใช้กวนขอบ ยิ่งสูงยิ่งแตกละเอียด
-- **Normal Flatten** (`0–1`, default `0.7`) — สิ่งที่มาทับกลบรายละเอียดนูนข้างใต้มากแค่ไหน
-- **Direction** (default `(0, 1, 0)`) — ทิศที่ของจะมาเกาะ ค่าเริ่มต้นคือชี้ขึ้นตามแกนโลก (หิมะตกจากฟ้า) เอียงได้ถ้าอยากให้มอสส์ขึ้นเฉพาะผนังฝั่งหนึ่ง
+- **Color** (default blue-white) — the colour of the cover. Near-white for snow, brown for dust, green for moss
+- **Coverage** (`0–1`, default `0.5`) — the master amount. Higher reaches further down the slopes. **Both ends are absolute** — `0` leaves the surface completely clear, and `1` covers every face including the undersides
+- **Edge Softness** (`0–1`, default `0.2`) — whether the snowline fades gradually or cuts crisply
+- **Smoothness** (`0–1`, default `0.5`) — the surface response of the covered area. High = wet, shiny snow; low = dry, matte dust. This feeds straight into Specular and Reflection
+- **Edge Noise** (`0–1`, default `0.3`) — breaks the edge so it is not an unnaturally clean band. `0` = a clean edge
+- **Noise Scale** (`0.1–20`, default `5`) — the world size of the patches that break up the edge. Higher = finer break-up
+- **Normal Flatten** (`0–1`, default `0.7`) — how much the cover smooths the bump detail underneath it
+- **Direction** (default `(0, 1, 0)`) — where the cover settles. The default points along world up, so snow falls from the sky. Tilt it for moss on one particular wall
 
-> **ปล่อยช่อง Direction ว่างเป็น `(0,0,0)` ไม่พัง** ระบบดักไว้แล้วและจะกลับไปใช้ทิศขึ้นตามแกนโลกแทน
+> **Leaving Direction empty at `(0,0,0)` will not break anything** — that case is guarded and falls back to world up.
 
 ---
 
 ## Cost
 
-**ไม่มีการอ่านเท็กซ์เจอร์เพิ่มเลยแม้แต่ครั้งเดียว** ต้นทุนเป็นการคำนวณล้วน เพราะสีเป็นสีเรียบและตัวกวนขอบสร้างขึ้นเองในเชดเดอร์
+**Not one extra texture read.** The cost is arithmetic only, because the colour is flat and the edge break-up is generated in the shader.
 
-ค่าที่ต้องใช้อย่างทิศของผิวและตำแหน่งในโลก เป็นของที่พิกเซลนั้นถืออยู่แล้ว ไม่ต้องส่งอะไรเพิ่ม
+The values it needs — the surface direction and the world position — are things the pixel is already carrying, so nothing extra has to be passed in.
 
-ตัวที่แพงที่สุดในนี้คือสัญญาณรบกวนสามมิติ ซึ่งจะข้ามไปทั้งก้อนเมื่อตั้ง **Edge Noise เป็น `0`** ถ้าต้องการขอบเรียบอยู่แล้วก็ไม่ต้องจ่ายส่วนนี้
+The most expensive part is the three-dimensional noise, and that whole block is skipped when **Edge Noise is `0`**. If you wanted a clean edge anyway, you do not pay for it.
 
-เมื่อปิดฟีเจอร์ โค้ดทั้งหมดถูกถอดออกจากเชดเดอร์ที่คอมไพล์จริง
+With the feature off, the code is stripped out of the compiled shader entirely.
 
 ---
 
 ## Works With Other Features
 
-### Paint Mode และ Triplanar
-ฟีเจอร์นี้ทำงานทีหลังทั้งคู่ จึงทับลงบนผลลัพธ์สุดท้ายไม่ว่าผิวข้างล่างจะประกอบมาจากอะไร หน้าผาที่ใช้ Triplanar หรือพื้นที่ระบายหลายเลเยอร์ ก็มีหิมะจับได้เหมือนกันหมดโดยไม่ต้องตั้งค่าต่างกัน
+### Paint Mode and Triplanar
+This feature runs after both of them, so it overlays the finished result no matter what the surface underneath was assembled from. A Triplanar cliff and a multi-layer painted floor both take snow the same way, with nothing to configure differently.
 
 ### Normal Map
-ค่า Normal Flatten คือตัวคุมว่าของที่มาทับจะกลบรายละเอียดนูนข้างใต้แค่ไหน ตรงที่ทับหนาที่สุดจะเรียบที่สุด ส่วนขอบที่ทับบางยังเห็นลายเดิมอยู่ ดูเพิ่มที่ [Normal Map]({{ '/env/shader/normal/' | relative_url }})
+Normal Flatten is what decides how far the cover smooths the relief beneath it. The most heavily covered areas read smoothest, while the thinly covered edges still show the original detail. See [Normal Map]({{ '/env/shader/normal/' | relative_url }}).
 
 ### Specular & Metallic
-ค่า Smoothness ของหัวข้อนี้เข้าไปแทนที่ค่าเดิมของผิวตามน้ำหนักการทับ หิมะเปียกจึงเป็นเงาได้ทั้งที่หินข้างใต้ยังด้าน ดูเพิ่มที่ [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }})
+This section's Smoothness replaces the surface's own value by how much cover is present, so wet snow can be shiny while the rock beneath it stays matte. See [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }}).
 
 ### Stochastic Sampling
-ทำงานคนละชั้นกัน ไม่รบกวนกัน — Stochastic แก้ที่ตอนอ่านเท็กซ์เจอร์ ส่วนฟีเจอร์นี้ทับทีหลังตอนผิวประกอบเสร็จแล้ว
-
+They work on separate layers and do not interfere. Stochastic changes how the texture is read; this feature overlays afterwards, once the surface is fully assembled.

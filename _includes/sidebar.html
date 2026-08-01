@@ -16,7 +16,8 @@
 {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
 {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
 {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic %}
+{% assign shaderAccumulation = site.pages | where: "url", "/env/shader/snow-accumulation/" | first %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -67,6 +68,13 @@
 <a href="{{ '/env/shader/stochastic-tiling/' | relative_url }}"
    class="{% if page.url contains '/env/shader/stochastic-tiling/' %}active{% endif %}">
    Stochastic Sampling
+</a>
+{% endif %}
+
+{% if shaderAccumulation %}
+<a href="{{ '/env/shader/snow-accumulation/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/snow-accumulation/' %}active{% endif %}">
+   Surface Accumulation
 </a>
 {% endif %}
 

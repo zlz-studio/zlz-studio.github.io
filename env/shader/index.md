@@ -85,3 +85,4 @@ When one is disabled its calculations are removed from the shader entirely.
 - [Normal Map](../shader/normal/) — surface relief without extra geometry, shared with SSAO and Decals
 - [Specular & Metallic](../shader/specular/) — how glossy a surface is, and whether it reads as metal
 - [Stochastic Sampling](../shader/stochastic-tiling/) — hides the visible repeat when a texture tiles across a large surface
+- [Surface Accumulation](../shader/snow-accumulation/) — snow, dust or moss settling on up-facing surfaces, with no mask to author
