@@ -2,16 +2,16 @@
 layout: docs
 title: Emission
 last_modified_at: 2026-08-01
-published: false
+published: true
 ---
 
 # Emission
 
-ทำให้บางส่วนของพื้นผิว **เปล่งแสงออกมาเอง** — คริสตัลเรืองแสงในถ้ำ หน้าต่างบ้านที่ติดไฟตอนกลางคืน ป้ายนีออน รอยแตกบนหินที่มีลาวาอยู่ข้างใน หรือเห็ดเรืองแสงในป่าลึก
+Make parts of a surface **give off their own light** — crystals glowing in a cave, house windows lit at night, a neon sign, cracks in rock with lava behind them, mushrooms glowing deep in a forest.
 
-แสงนี้ **ไม่ขึ้นกับแสงในฉาก** ถูกบวกเข้าไปหลังการคำนวณแสงทั้งหมดเสร็จแล้ว ของที่เปล่งแสงจึงยังสว่างอยู่แม้อยู่ในเงามืดสนิท ซึ่งเป็นพฤติกรรมที่ควรเป็น — หลอดไฟไม่ได้ดับลงเพราะมันอยู่ในที่ร่ม
+This light **does not depend on the scene's lighting**. It is added after all the lighting has been worked out, so anything emissive stays bright even in full shadow — which is how it should be. A lamp does not go out because it is standing in the shade.
 
-และยังมี **Emission Pulse** เป็นฟีเจอร์ย่อยในตัว สำหรับทำแสงที่เต้นขึ้นลงเป็นจังหวะ โดยไม่ต้องเขียนสคริปต์หรือทำอนิเมชันเอง
+There is also **Emission Pulse** built in as a sub-feature, for light that beats up and down on a rhythm, with no script and no animation to author.
 
 ## Showcase Emission
 {% include youtube-loop.html id="oirhud6Ob1s" %}
@@ -20,9 +20,9 @@ published: false
 
 ## Setup
 
-เปิดฟีเจอร์ **Emission** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Emission** จะโผล่ขึ้นมา
+Turn on the **Emission** feature in the Features grid at the top of the Inspector and the **Emission** section appears.
 
-ค่าเริ่มต้นคือ **ปิด** และเมื่อปิดอยู่ โค้ดส่วนนี้จะถูกถอดออกจากเชดเดอร์ที่คอมไพล์จริง
+It ships **off**, and while it is off these calculations are stripped out of the compiled shader.
 
 ---
 
@@ -30,65 +30,65 @@ published: false
 
 ![Material_Emissive](../emissive/Material_Emissive.png)
 
-- **Emission Color** (default ขาว, เป็นช่องแบบ **HDR**) — สีของแสงที่เปล่งออกมา ช่องนี้รับค่าเกิน 1 ได้ผ่านตัวคูณ Intensity ในหน้าต่างเลือกสี ซึ่งเป็นช่วงที่ Bloom จะจับไปทำให้ฟุ้ง
-- **Emission Intensity** (`0–10`, default `1`) — ความสว่าง ดันเกิน `1` เพื่อผลักเข้าช่วง HDR ให้ Bloom เก็บไปฟุ้งต่อ
+- **Emission Color** (default white, an **HDR** field) — the colour of the light given off. This field accepts values above 1 through the Intensity multiplier in the colour picker, which is the range Bloom picks up and blooms
+- **Emission Intensity** (`0–10`, default `1`) — the brightness. Push it past `1` to reach into HDR range so Bloom can take over
 
 ### Emission Pulse
 
-สวิตช์ย่อยที่มีเปิดปิดของตัวเอง แยกจากสวิตช์หลัก ปิดอยู่โดยค่าเริ่มต้น เปิดแล้วจะมีสองค่าโผล่ขึ้นมา
+A sub-feature with its own on/off switch, independent of the parent. Off by default; turning it on reveals two values.
 
-- **Pulse Speed** (`0.1–10`, default `1`) — ความเร็วของการเต้น
-- **Pulse Min Intensity** (`0–10`, default `0`) — ความสว่างที่จุดหรี่สุดของจังหวะ
+- **Pulse Speed** (`0.1–10`, default `1`) — how fast the light beats
+- **Pulse Min Intensity** (`0–10`, default `0`) — the brightness at the dimmest point of the beat
 
-การเต้นเป็นคลื่นไซน์ที่ไล่ขึ้นลงระหว่าง **Pulse Min Intensity** กับ **Emission Intensity** พูดง่ายๆ คือ Intensity เป็นจุดสว่างสุด ส่วน Pulse Min เป็นจุดหรี่สุด
+The beat is a sine wave running between **Pulse Min Intensity** and **Emission Intensity**. Put simply, Intensity is the bright end and Pulse Min is the dim end.
 
-- ตั้ง Pulse Min เป็น `0` = หรี่จนดับสนิทแล้วสว่างขึ้นมาใหม่ เหมาะกับไฟกะพริบเตือน
-- ตั้ง Pulse Min ใกล้ๆ Intensity = เต้นเบาๆ เหมือนหายใจ เหมาะกับคริสตัลเวทมนตร์
+- Pulse Min at `0` = fades out completely and comes back — right for a blinking warning light
+- Pulse Min close to Intensity = a gentle breathing beat — right for a magic crystal
 
 ---
 
-## เลือกว่าตรงไหนจะเรืองแสง
+## Choosing What Glows
 
-ถ้าไม่ทำอะไรเลย **ทั้งผิวจะเรืองแสงหมด** ซึ่งเหมาะกับวัตถุที่เปล่งแสงทั้งชิ้นอย่างหลอดไฟหรือคริสตัล
+Left alone, **the whole surface glows**, which suits objects that emit across their entire body — a lamp, a crystal.
 
-ถ้าอยากให้เฉพาะบางส่วนเรืองแสง — หน้าต่างบนผนังบ้าน รอยแตกบนก้อนหิน — ต้องผูกเข้ากับแชนแนลของ **Feature Mask** ที่หัวข้อ **Mask Layout** โดยสีขาวในมาสก์คือเรืองแสงเต็มที่ สีดำคือไม่เรือง
+To glow only in places — windows on a house wall, cracks in a boulder — wire it to a **Feature Mask** channel in the **Mask Layout** section. White in the mask means full glow, black means none.
 
-ใต้สไลเดอร์จะมีแถบบอกอยู่ว่าตอนนี้เรืองแสงทั้งผิวหรือกำลังอ่านจากแชนแนลไหน
+Underneath the sliders is a strip reporting whether the whole surface is glowing or which channel it is currently reading.
 
-> **ค่าเริ่มต้นของ Env Shader คือเรืองแสงทั้งผิว** ต่างจาก ZLZ Anime Shader ที่ต้องมีมาสก์ก่อนถึงจะทำงาน ถ้าเปิด Emission แล้ววัตถุสว่างทั้งชิ้นทั้งที่ไม่ได้ตั้งใจ แปลว่ายังไม่ได้ผูกมาสก์
+> **The Env Shader's default is to glow across the whole surface**, unlike ZLZ Anime Shader where a mask has to be present before the effect does anything. If you turn Emission on and the whole object lights up unintentionally, that means no mask is wired yet.
 
 ---
 
 ## Cost
 
-**ไม่มีการอ่านเท็กซ์เจอร์เพิ่ม** ทั้ง Feature Mask และสีเท็กซ์เจอร์เป็นค่าที่ถูกอ่านไปแล้วในขั้นตอนก่อนหน้า ตัวฟีเจอร์นี้เองเป็นแค่การคูณและบวกไม่กี่ครั้ง
+**No extra texture reads.** Both the Feature Mask and the surface colour have already been sampled at earlier stages; this feature itself is just a few multiplies and an add.
 
-ส่วน Emission Pulse เพิ่มการคำนวณคลื่นไซน์ต่อพิกเซล ซึ่งแทบไม่มีผลต่อประสิทธิภาพ และถูกถอดออกทั้งก้อนเมื่อปิดสวิตช์ย่อยนี้
+Emission Pulse adds a sine per pixel, which is close to free, and the whole block is stripped out when that sub-switch is off.
 
-**Feature Mask ใบเดียวถูกใช้ร่วมกันกับ Metallic และ Smoothness** ดังนั้นถ้าใช้ Emission ร่วมกับสองตัวนั้น จะไม่ได้เสียเท็กซ์เจอร์เพิ่มเลย เป็นเหตุผลหลักที่ระบบมาสก์ออกแบบมาแบบนี้
+**The single Feature Mask is shared with Metallic and Smoothness**, so using Emission alongside those two costs no additional texture at all. That is the main reason the mask system is built this way.
 
 ---
 
 ## Works With Other Features
 
 ### Bloom
-Emission ไม่ได้ทำให้แสงฟุ้งด้วยตัวเอง — มันแค่ผลักค่าสีให้สว่างเกิน 1 ส่วนความฟุ้งเป็นงานของ **Bloom** ใน Volume ของ URP ถ้าอยากได้แสงฟุ้ง ต้องเปิด Bloom ในฉากด้วย ไม่งั้นจะได้แค่สีสว่างจัดแต่ขอบคม
+Emission does not make light bleed on its own — it only pushes colour values above 1. The bleed itself is **Bloom's** job, in URP's Volume. If you want a glow that spills, Bloom has to be enabled in the scene; otherwise you get a very bright colour with hard edges.
 
 ### Specular & Metallic
-ใช้ Feature Mask ใบเดียวกัน คนละแชนแนล จึงวางแผนได้ว่าจะให้แชนแนลไหนคุมอะไร ดูเพิ่มที่ [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }})
+They share one Feature Mask on different channels, so you can plan which channel drives what. See [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }}).
 
-### Paint Mode และ Triplanar
-Emission อ่านจากสีเท็กซ์เจอร์ที่ประกอบเสร็จแล้ว ดังนั้นถ้าระบายเลเยอร์ทับหรือใช้ Triplanar สีที่เรืองแสงจะตามสิ่งที่ตาเห็นจริงเสมอ
+### Paint Mode and Triplanar
+Emission reads the surface colour after it has been fully assembled, so painting a layer over something or projecting it with Triplanar keeps the glow matching whatever is actually visible.
 
 ### Surface Accumulation
-หิมะที่มาทับจะกลบสีเท็กซ์เจอร์เดิม ส่วนที่เคยเรืองแสงจึงหรี่ลงตามไปด้วยเมื่อถูกทับ ซึ่งสมเหตุสมผล — ป้ายไฟที่ถูกหิมะกลบก็ควรมืดลงจริงๆ ดูเพิ่มที่ [Surface Accumulation]({{ '/env/shader/snow-accumulation/' | relative_url }})
+Snow settling over a surface replaces the colour underneath it, so an area that was glowing dims as it gets covered. Which is right — a lit sign buried under snow really should go dark. See [Surface Accumulation]({{ '/env/shader/snow-accumulation/' | relative_url }}).
 
 ---
 
 ## Limits
 
-- **ไม่ได้ส่องสว่างสิ่งรอบข้าง** เป็นแสงบนตัวผิวเองเท่านั้น ไม่ได้ทำให้พื้นข้างๆ สว่างขึ้น ถ้าต้องการแบบนั้นต้องวาง Light จริงเพิ่ม
-- **ส่วนที่เท็กซ์เจอร์ดำจะไม่เรืองแสง** ตามสูตร — ต้องมีสีในเท็กซ์เจอร์ก่อน
-- **ความฟุ้งต้องอาศัย Bloom** ตัวฟีเจอร์เองไม่ได้ทำให้ฟุ้ง
-- **การเต้นเป็นคลื่นไซน์รูปเดียว** ไม่มีให้เลือกรูปคลื่นอื่น และไม่มีการสุ่มจังหวะ วัตถุที่ใช้วัสดุเดียวกันจะเต้นพร้อมกันทั้งหมด
-- **มี Feature Mask ได้ชุดเดียว** ผิวฐานใช้เท็กซ์เจอร์ RGBA ใบเดียว จึงผูกฟีเจอร์ได้สูงสุด 4 ตัวพร้อมกัน
+- **It does not light anything around it.** The glow lives on the surface itself and will not brighten the ground beside it. For that, place a real Light as well
+- **Black areas of the texture will not glow.** The emission is multiplied by the surface's own colour, and anything multiplied by zero stays zero — the area has to carry some colour in the texture first
+- **The bleed depends on Bloom.** The feature does not produce it by itself
+- **The beat is one fixed sine shape.** There is no choice of waveform and no per-object offset, so every object sharing a material pulses in unison
+- **There is one Feature Mask bank.** The base surface uses a single RGBA texture, so at most 4 features can be wired at once

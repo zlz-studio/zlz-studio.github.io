@@ -87,3 +87,4 @@ When one is disabled its calculations are removed from the shader entirely.
 - [Stochastic Sampling](../shader/stochastic-tiling/) — hides the visible repeat when a texture tiles across a large surface
 - [Surface Accumulation](../shader/snow-accumulation/) — snow, dust or moss settling on up-facing surfaces, with no mask to author
 - [Wind](../shader/leaf-wind/) — vertex-stage foliage sway, driven locally or by the scene Wind Controller
+- [Emission](../shader/emissive/) — surfaces that give off their own light, with an optional pulse
