@@ -874,7 +874,8 @@
       {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
       {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
       {% assign shaderAccumulation = site.pages | where: "url", "/env/shader/snow-accumulation/" | first %}
-      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation %}
+      {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -932,6 +933,13 @@
             <span class="featMeta">
               <span class="featName">Surface Accumulation</span>
               <small class="featDate">Updated {{ shaderAccumulation.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderWind %}<a class="featCard" href="/env/shader/leaf-wind/">
+            <img src="/env/shader/Surface_LeafWind_Thumb.webp" data-anim="/env/shader/Surface_LeafWind_Hover.webp" alt="Wind" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Wind</span>
+              <small class="featDate">Updated {{ shaderWind.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           <!-- TODO: remaining Environment Shader sub-pages -->

@@ -2,18 +2,16 @@
 layout: docs
 title: Wind
 last_modified_at: 2026-08-01
-published: false
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # Wind
 
-ทำให้ **ต้นไม้ พุ่มไม้ และใบไม้ไหวไปกับลม** โดยขยับจุดยอดของโมเดลในขั้นตอน vertex ยอดโอนไปตามแรงลม ส่วนโคนยังปักอยู่กับที่
+Make **trees, bushes and leaves move with the wind** by displacing vertices in the vertex stage. The tip leans with the wind while the base stays planted.
 
-การไหวแบ่งเป็นสองชั้นซ้อนกัน — **Trunk Sway** คือการโอนตัวช้าๆ กว้างๆ ไปตามทิศลม และ **Leaf Flutter** คือการสั่นถี่ๆ เล็กๆ ของใบแต่ละใบที่ซ้อนอยู่บนนั้นอีกที
+The motion is two layers stacked — **Trunk Sway**, the slow wide bend along the wind direction, and **Leaf Flutter**, the fast small shimmer of individual leaves riding on top of it.
 
-จุดที่ทำให้ใช้งานได้จริงคือ **ทุก pass ขยับพร้อมกันหมด** ทั้ง pass ที่วาดภาพ เงา และความลึก เงาที่ทอดลงพื้นจึงไหวตามต้นไม้ไปด้วย ไม่ใช่เงานิ่งอยู่กับที่ขณะที่ต้นไม้ไหว
+What makes it usable in practice is that **every pass moves together** — the pass that draws the image, the shadows, and the depth. The shadow cast on the ground sways with the tree instead of sitting still while the tree moves.
 
 ## Showcase Wind
 {% include youtube-loop.html id="-KgWsFig7OM" %}
@@ -22,29 +20,29 @@ published: false
 
 ## Setup
 
-เปิดฟีเจอร์ **Wind** จากปุ่มกริด Features ด้านบนสุดของ Inspector แล้วหัวข้อ **Wind** จะโผล่ขึ้นมาพร้อมป้าย **`WIND ON`** สีเขียวบอกสถานะ
+Turn on the **Wind** feature in the Features grid at the top of the Inspector. The **Wind** section appears, with a green **`WIND ON`** badge reporting its state.
 
-สิ่งที่ต้องตั้งต่อจากนั้นมีอย่างเดียวคือ **Height Mask** ให้พอดีกับความสูงของต้นไม้ (ดูหัวข้อด้านล่าง) ที่เหลือเปิดแล้วไหวได้เลย
+The only thing you have to set afterwards is the **Height Mask**, to match the plant's actual height (see below). Everything else moves the moment you switch it on.
 
-> **ไม่ต้องระบายมาสก์ใดๆ ทั้งสิ้น** ระบบใช้ความสูงของจุดยอดเทียบกับ pivot ของโมเดลเป็นตัวตัดสินว่าตรงไหนควรไหวมากไหวน้อย ถ้า pivot ของต้นไม้อยู่ที่โคนตามปกติ ก็ใช้ได้ทันที
+> **There is no mask to paint.** The system uses each vertex's height relative to the model's pivot to decide how much it should move. If the tree's pivot sits at its base as usual, it works straight away.
 
 ---
 
-## Wind Source — เลือกก่อนว่าลมมาจากไหน
+## Wind Source — Decide Where the Wind Comes From
 
-ค่าแรกสุดของหัวข้อนี้เป็นตัวชี้ขาดว่าสไลเดอร์ตัวไหนจะโผล่ขึ้นมาให้ปรับ
+The first value in this section determines which sliders appear below it.
 
 ### Local
-วัสดุนี้ถือลมของตัวเอง ทั้งทิศ ความแรง ความเร็ว และขนาดของ gust — เหมาะกับต้นไม้เดี่ยวๆ ที่อยากได้จังหวะเฉพาะตัว
+This material carries its own wind — direction, strength, speed and gust size. Good for a single hero plant that wants its own rhythm.
 
 ### Global
-ให้ **ZLZ_Env Wind Controller** ที่วางไว้ในฉากเป็นเจ้าของทั้งทิศ ความแรง ความเร็ว และ gust ส่วนวัสดุนี้เหลือค่าเดียวคือ **Weight** ว่าจะรับลมนั้นมากี่เปอร์เซ็นต์
+The **ZLZ_Env Wind Controller** placed in the scene owns direction, strength, speed and gust, and this material keeps one value: **Weight**, how much of that wind it catches.
 
-ข้อดีคือทั้งฉากไหวเป็นจังหวะเดียวกัน — ลมแรงขึ้นพร้อมกัน สงบลงพร้อมกัน ทั้งหญ้าและต้นไม้ ปรับที่เดียวจบ ดูเพิ่มที่ [Grass Global Wind]({{ '/env/grass/grass-global-wind/' | relative_url }})
+The payoff is a scene that moves as one — the wind rises and settles everywhere at the same moment, grass and trees together, tuned from a single place. See [Grass Global Wind]({{ '/env/grass/grass-global-wind/' | relative_url }}).
 
-> **ตั้ง Global แล้วแต่ยังไม่มี Controller ในฉากก็ไม่พัง** — วัสดุจะถอยกลับไปใช้ค่า Local ของตัวเองแทน และ Inspector จะขึ้นคำเตือนบอกพร้อมบอกวิธีเพิ่ม Controller ให้
+> **Setting Global with no Controller in the scene does not break anything** — the material falls back to its own Local values, and the Inspector warns you and tells you how to add one.
 
-**ไม่ว่าเลือกโหมดไหน Leaf Flutter กับ Height Mask ยังเป็นของวัสดุนี้เสมอ** เพราะสองอย่างนี้คือบุคลิกของต้นไม้ต้นนั้น ไม่ใช่เรื่องของลม
+**Whichever mode you pick, Leaf Flutter and Height Mask always stay on the material**, because those two describe that particular plant's character rather than the wind's.
 
 ---
 
@@ -52,83 +50,83 @@ published: false
 
 ![Material_Wind](../leaf-wind/Material_Wind.png)
 
-### Trunk Sway — โหมด Local เท่านั้น
+### Trunk Sway — Local mode only
 
-- **Strength** (`0–2`, default `0.3`) — ระยะที่ยอดโอนไปตามลม วัดเป็นหน่วยในโลก
-- **Speed** (`0–20`, default `1`) — จังหวะการโอน ต่ำ = ลมเอื่อยๆ สูง = ลมแรงกระชาก
-- **Direction (deg)** (`0–360`, default `0`) — ทิศลมบนระนาบพื้น เป็นองศา หมุนได้รอบเข็มทิศด้วยค่าเดียว
-- **Gust Scale** (`0–10`, default `0.2`) — ขนาดของระลอกลมที่พัดผ่านไปในพื้นที่ ทำให้ต้นไม้ที่อยู่ข้างกันไม่ไหวพร้อมกันเป๊ะ ตั้ง `0` = ทุกต้นไหวพร้อมกันหมดเหมือนถูกสั่งพร้อมกัน
+- **Strength** (`0–2`, default `0.3`) — how far the tip leans with the wind, in world units
+- **Speed** (`0–20`, default `1`) — the sway rate. Low = a lazy drift, high = a brisk wind
+- **Direction (deg)** (`0–360`, default `0`) — the wind's heading on the ground plane, in degrees. One dial sweeps the whole compass
+- **Gust Scale** (`0–10`, default `0.2`) — spreads a travelling gust across space so neighbouring plants fall out of sync. `0` = every plant sways in lockstep
 
-### Wind Weight — โหมด Global เท่านั้น
+### Wind Weight — Global mode only
 
-- **Weight** (`0–1`, default `1`) — รับลมจากฉากมากแค่ไหน `1` = เต็มที่ `0` = ไม่รับเลย ใช้ให้พุ่มไม้เตี้ยไหวน้อยกว่าต้นไม้สูงในลมชุดเดียวกัน
+- **Weight** (`0–1`, default `1`) — how much of the scene wind this material catches. `1` = full, `0` = ignores it. Use it to let low bushes move less than tall trees under the same wind
 
-### Leaf Flutter — ใช้ได้ทั้งสองโหมด
+### Leaf Flutter — both modes
 
-- **Flutter Strength** (`0–1`, default `0.1`) — ความแรงของการสั่นถี่ที่ซ้อนบนการโอน ตั้ง `0` = ปิด ซึ่ง**ถูกที่สุด** เหมาะกับลำต้นตันๆ ที่ไม่ควรมีใบสั่น
-- **Flutter Speed** (`0–20`, default `4`) — ความเร็วของการสั่น
-- **Flutter Scale** (`0–10`, default `1`) — ความถี่เชิงพื้นที่ ยิ่งสูงใบแต่ละใบยิ่งสั่นแยกกันเป็นอิสระ
+- **Flutter Strength** (`0–1`, default `0.1`) — the fast shimmer layered on top of the sway. `0` = off, which is **the cheapest option** and right for solid trunks that should not have fluttering leaves
+- **Flutter Speed** (`0–20`, default `4`) — how quickly the shimmer runs
+- **Flutter Scale** (`0–10`, default `1`) — its spatial frequency. Higher = finer, more independent per-leaf motion
 
-### Height Mask — ใช้ได้ทั้งสองโหมด
+### Height Mask — both modes
 
-- **Height Base** (default `0`) — ความสูงในพิกัดโมเดลที่การโอนเริ่มต้น อะไรที่อยู่ต่ำกว่านี้จะปักนิ่งอยู่กับที่
-- **Height Range** (`0.01–20`, default `2`) — ระยะเหนือฐานที่การโอนจะไต่ขึ้นจนเต็มที่ **ควรตั้งให้พอดีกับความสูงจริงของต้นไม้**
+- **Height Base** (default `0`) — the object-space height at which the bend starts. Anything below it stays planted
+- **Height Range** (`0.01–20`, default `2`) — how far above the base the bend ramps up to full. **Match it to the plant's real height**
 
-การไต่ขึ้นไม่ได้เป็นเส้นตรง แต่ค่อยๆ เร่งขึ้นจากโคน ทำให้โคนต้นดูหนักแน่นและยอดดูอ่อนไหว แทนที่จะโอนเท่ากันทั้งต้น
+The ramp is not linear — it eases in from the base, so the trunk reads solid and the tip reads supple, rather than the whole plant leaning by the same amount.
 
 ### Debug
 
-- **Debug Mode** — ตั้งเป็น **Height Mask** เพื่อระบายค่าการไหวออกมาเป็นภาพขาวดำ **ดำที่โคน ขาวที่ยอด** ทำให้ตั้ง Height Base กับ Height Range ด้วยตาได้เลยโดยไม่ต้องเดา ตั้งกลับเป็น **Off** เมื่อใช้งานจริง
+- **Debug Mode** — set it to **Height Mask** to paint the sway amount as greyscale, **black at the base and white at the tip**, so Height Base and Height Range can be dialled by eye instead of guessed. Set it back to **Off** for production
 
 ---
 
-## Trunk Sway กับ Leaf Flutter ต่างกันตรงไหน
+## How Trunk Sway and Leaf Flutter Differ
 
-สองชั้นนี้ต่างกันที่ **ที่มาของจังหวะ** ซึ่งเป็นตัวกำหนดว่าผลออกมาหน้าตาเป็นยังไง
+The two layers differ in **where their timing comes from**, and that is what decides how each one looks.
 
 | | Trunk Sway | Leaf Flutter |
 |---|---|---|
-| จังหวะอ่านจาก | ตำแหน่งของต้นในโลก | ตำแหน่งของจุดยอดแต่ละจุด |
-| ผลที่ได้ | ทั้งต้นโอนไปเป็นก้อนเดียวกัน | ใบแต่ละใบสั่นไม่ตรงกัน |
-| ความเร็ว | ช้า กว้าง | เร็ว เล็ก |
+| Timing read from | the plant's position in the world | each individual vertex's position |
+| Result | the whole plant leans as one piece | each leaf jitters out of step |
+| Character | slow, wide | fast, small |
 
-เพราะ Trunk Sway อ่านจากตำแหน่งของต้น ต้นไม้ทั้งต้นจึงโอนไปพร้อมกันเหมือนเป็นชิ้นเดียว และต้นที่อยู่คนละที่ก็หลุดจังหวะกันเองจนกลายเป็นระลอกลมที่พัดผ่านทั้งป่า
+Because Trunk Sway reads the plant's position, the whole plant leans together as a single object, and plants standing in different places fall out of step by themselves — which is what reads as a gust travelling across a forest.
 
-ส่วน Leaf Flutter อ่านจากตำแหน่งของจุดยอด ใบที่อยู่ติดกันจึงสั่นคนละจังหวะ ได้ความระยิบระยับที่การโอนทั้งต้นให้ไม่ได้
+Leaf Flutter reads the vertex position instead, so neighbouring leaves shimmer on different beats, giving a sparkle that a whole-plant lean cannot produce.
 
 ---
 
 ## Cost
 
-ทั้งหมดทำงานใน **ขั้นตอน vertex** ไม่ใช่ทีละพิกเซล ต้นทุนจึงผูกกับจำนวนจุดยอดของโมเดล ไม่ใช่ขนาดที่มันกินพื้นที่บนจอ ต้นไม้ต้นใหญ่ที่อยู่ใกล้กล้องจึงไม่ได้แพงกว่าตอนอยู่ไกล
+All of it runs in the **vertex stage**, not per pixel, so the cost scales with the model's vertex count rather than how much of the screen it covers. A large tree close to the camera is no more expensive than the same tree far away.
 
-**ไม่มีการอ่านเท็กซ์เจอร์เลย** ระลอกลมสร้างขึ้นเองในเชดเดอร์ทั้งหมด ไม่ต้องเตรียม noise map
+**No texture is read at all.** The gust pattern is generated in the shader, so there is no noise map to prepare.
 
-จุดที่ควรรู้คือฟีเจอร์นี้ทำงาน **ในทุก pass** ทั้งภาพ เงา และความลึก การขยับจุดยอดจึงถูกคำนวณซ้ำในแต่ละ pass ซึ่งเป็นราคาที่ต้องจ่ายเพื่อให้เงาไหวตามต้นไม้ ไม่ใช่ค้างนิ่ง
+Worth knowing: this runs in **every pass** — image, shadow and depth — so the vertex displacement is recomputed in each of them. That is the price of having shadows sway with the tree instead of standing still.
 
-ตัวที่ตัดออกได้ฟรีคือ **Leaf Flutter** — ตั้ง Flutter Strength เป็น `0` แล้วส่วนนั้นจะถูกข้ามไปทั้งก้อน เหมาะกับลำต้น ก้อนหิน หรืออะไรที่ไม่ควรมีใบสั่นอยู่แล้ว
+The part you can drop for free is **Leaf Flutter** — set Flutter Strength to `0` and that whole block is skipped. Right for trunks, rocks, or anything that should not have leaves shimmering anyway.
 
-เมื่อปิดฟีเจอร์ โค้ดทั้งหมดถูกถอดออกจากเชดเดอร์ที่คอมไพล์จริง
+With the feature off, the code is stripped out of the compiled shader entirely.
 
 ---
 
 ## Works With Other Features
 
 ### Grass
-หญ้าใช้เชดเดอร์คนละตัว แต่ **อ่านลมจาก Controller ตัวเดียวกัน** เมื่อทั้งคู่ตั้งเป็น Global หญ้ากับต้นไม้ในฉากเดียวกันจึงไหวเป็นจังหวะเดียวกัน แรงขึ้นและสงบลงพร้อมกัน
+Grass runs on its own shader, but **reads the wind from the same Controller** when both are set to Global. Grass and trees in one scene therefore move on the same beat, rising and settling together.
 
 ### Surface Accumulation
-ทำงานคนละขั้นตอนกัน ไม่ชนกัน — Wind ขยับตำแหน่งจุดยอด ส่วน Accumulation ตัดสินจากทิศที่ผิวหันไป หิมะที่เกาะบนกิ่งจึงไหวไปกับกิ่งโดยไม่หลุดออกจากที่ ดูเพิ่มที่ [Surface Accumulation]({{ '/env/shader/snow-accumulation/' | relative_url }})
+They work at different stages and do not collide — Wind moves vertex positions, while Accumulation decides from the direction a surface faces. Snow resting on a branch sways with the branch without sliding off it. See [Surface Accumulation]({{ '/env/shader/snow-accumulation/' | relative_url }}).
 
-### Normal Map และ Specular
-ทั้งคู่ทำงานทีละพิกเซลหลังจากจุดยอดถูกขยับไปแล้ว รายละเอียดผิวและไฮไลต์จึงติดไปกับโมเดลที่ไหวอยู่ตามปกติ
+### Normal Map and Specular
+Both run per pixel, after the vertices have already moved, so surface detail and highlights travel with the moving model as you would expect.
 
 ---
 
 ## Limits
 
-- **การไหวอ่านจากความสูงในพิกัดโมเดล** ถ้า pivot ของต้นไม้ไม่ได้อยู่ที่โคน ต้องชดเชยด้วย Height Base เอา
-- **โอนไปตามทิศลมทิศเดียว** ไม่ได้จำลองการหมุนรอบตัวหรือการสะบัดของกิ่งแยกกิ่ง
-- **ไม่รู้จักสิ่งกีดขวาง** ต้นไม้ที่อยู่หลังกำแพงก็ยังรับลมเต็มเหมือนกลางแจ้ง
-- **Height Range ต้องตั้งเอง** ถ้าปล่อยค่าเริ่มต้นไว้กับต้นไม้ที่สูงกว่านั้นมาก จะได้ต้นไม้ที่โอนเต็มที่ตั้งแต่กลางลำต้น ใช้ Debug Mode ช่วยดู
-- **ตัวละครที่วิ่งผ่านไม่ได้ผลักลม** ลมเป็นสัญญาณที่คำนวณจากเวลาและตำแหน่ง ไม่มีการโต้ตอบกับสิ่งที่เคลื่อนที่ผ่าน
+- **The motion is driven by object-space height.** If a plant's pivot is not at its base, compensate with Height Base
+- **It leans along one wind direction.** It does not simulate twisting, or branches whipping independently of each other
+- **It does not know about obstacles.** A tree behind a wall still catches the full wind
+- **Height Range has to be set.** Left at the default on a much taller tree, the plant reaches full lean halfway up the trunk. Use Debug Mode to see it
+- **Characters running past do not push the wind.** It is a signal computed from time and position, with no interaction from anything moving through it
