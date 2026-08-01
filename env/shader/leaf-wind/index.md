@@ -50,7 +50,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ใส่สกรีนช็อตหัวข้อ Wind เป็น Material_Wind.png -->
+![Material_Wind](../leaf-wind/Material_Wind.png)
 
 ### Trunk Sway — โหมด Local เท่านั้น
 
