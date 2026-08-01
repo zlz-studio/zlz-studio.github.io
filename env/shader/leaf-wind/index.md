@@ -16,7 +16,7 @@ published: false
 จุดที่ทำให้ใช้งานได้จริงคือ **ทุก pass ขยับพร้อมกันหมด** ทั้ง pass ที่วาดภาพ เงา และความลึก เงาที่ทอดลงพื้นจึงไหวตามต้นไม้ไปด้วย ไม่ใช่เงานิ่งอยู่กับที่ขณะที่ต้นไม้ไหว
 
 ## Showcase Wind
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="-KgWsFig7OM" %}
 
 ---
 
