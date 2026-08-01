@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Water Caustics | ZLZ Env Shader</title>
+  <title>Surface Accumulation | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -626,7 +626,7 @@
 
 
 <a href="/env/shader/snow-accumulation/"
-   class="">
+   class="active">
    Surface Accumulation
 </a>
 
@@ -771,7 +771,7 @@
 
 
 <a href="/env/water/water-caustics/"
-   class="active">
+   class="">
    Water Caustics
 </a>
 
@@ -805,19 +805,19 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="water-caustics">Water Caustics</h1>
+        <h1 id="surface-accumulation">Surface Accumulation</h1>
 
-<p>The rippling web of light on the floor beneath clear water — sunlight focused by the moving surface into bright threads that weave together and crawl, endlessly. It is the single cue that tells a player at a glance “this water is clear and there is a bottom down there”, instead of a blue sheet laid over the sand.</p>
+<p>Settle <strong>snow, dust or moss</strong> onto the up-facing parts of a surface — a roof gone white while the walls stay clear, dust caught along the top edge of a rock, moss growing on the one side of a boulder that catches the light.</p>
 
-<p>The pattern is <strong>projected onto the floor</strong>, not stuck to the surface: it is computed from the real world position of the bottom seen through the water, so wherever the camera moves the web stays with the ground it belongs to, and the ripples slide across it rather than dragging it along.</p>
+<p>All of it is <strong>pure arithmetic, with no texture involved at all</strong>. No mask to author, nothing to paint by hand, nothing to bake. The shader compares the direction a surface faces against a direction you choose, and works out for itself where the cover belongs.</p>
 
-<p>All of it is procedural — no textures, no extra pass, and nothing at all while the feature is off.</p>
+<p>The advantage of doing it that way is that <strong>rotating an object moves the snow with it</strong>. Re-pitch a roof and the cover settles on whatever side now faces up — there is no mask to go back and fix.</p>
 
-<h2 id="showcase-water-caustics">Showcase Water Caustics</h2>
+<h2 id="showcase-surface-accumulation">Showcase Surface Accumulation</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/LgNnoRAp2yA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=LgNnoRAp2yA&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/9H3A9BwHlSM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=9H3A9BwHlSM&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
@@ -826,47 +826,58 @@
 
 <h2 id="setup">Setup</h2>
 
-<ol>
-  <li><strong>On the water material</strong> — turn on the <strong>Caustics</strong> feature (the button grid at the top of the Inspector)</li>
-  <li><strong>On the URP Asset</strong> — make sure <strong>Depth Texture</strong> is on, because the system has to know how deep the floor is before it can project the web onto it</li>
-</ol>
+<p>Turn on the <strong>Accumulation</strong> feature in the Features grid at the top of the Inspector. The <strong>Surface Accumulation</strong> section appears, with a blue <strong><code class="language-plaintext highlighter-rouge">ACCUMULATION ON</code></strong> badge reporting its state.</p>
 
-<blockquote>
-  <p><strong>Pair it with Refraction.</strong> With Refraction on, the water shows the real bottom through the surface and the caustics land exactly on that visible bottom — the setup this was built for. Without Refraction the web still works: the surface’s own opacity is raised by the web’s brightness for you, so it punches through the clear shallows.</p>
-</blockquote>
-
-<p>Nothing to bake, no component to add, no extra light to place — the web takes its colour and its light from the scene’s Directional Light.</p>
+<p>The defaults are already snow — a faintly blue-white cover falling from above — so it reads correctly the moment you switch it on, with nothing else to set.</p>
 
 <hr />
 
 <h2 id="parameters">Parameters</h2>
 
-<p><img src="../water-caustics/Material_WaterCaustics.png" alt="Material_WaterCaustics" /></p>
-
-<p>All of these live on the material under <strong>Caustics</strong>, and only appear once the feature is on.</p>
+<p><img src="../snow-accumulation/Material_Snow.png" alt="Material_Snow" /></p>
 
 <ul>
-  <li><strong>Color</strong> (HDR, default white) — the colour of the light web. It is already multiplied by the Directional Light’s colour, so white is the normal answer; reach for this when the light under water should read greener or bluer than the light above it</li>
-  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–4</code>, default <code class="language-plaintext highlighter-rouge">1.2</code>) — how bright the web is. <code class="language-plaintext highlighter-rouge">0</code> = invisible</li>
-  <li><strong>Scale</strong> (<code class="language-plaintext highlighter-rouge">0.1–8</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how fine the web is, measured in <strong>world space</strong> rather than UV or mesh size. High = a tight small mesh (a swimming pool), low = a broad one (open sea). Stretch the water body as far as you like and the web keeps its size</li>
-  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–3</code>, default <code class="language-plaintext highlighter-rouge">0.6</code>) — how fast the web crawls. <code class="language-plaintext highlighter-rouge">0</code> = frozen (still a web, just not moving)</li>
-  <li><strong>Sharpness</strong> (<code class="language-plaintext highlighter-rouge">1–16</code>, default <code class="language-plaintext highlighter-rouge">6</code>) — how thin the threads are. High = fine crisp lines, like very clear pool water, and a darker floor overall because the threads are thinner. Low = wide soft light spread over the whole bottom</li>
-  <li><strong>Depth Fade</strong> (<code class="language-plaintext highlighter-rouge">0.1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how many metres of water column it takes for the web to disappear. It is brightest at the shore and falls off on an accelerating (squared) curve with depth</li>
+  <li><strong>Color</strong> (default blue-white) — the colour of the cover. Near-white for snow, brown for dust, green for moss</li>
+  <li><strong>Coverage</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — the master amount. Higher reaches further down the slopes. <strong>Both ends are absolute</strong> — <code class="language-plaintext highlighter-rouge">0</code> leaves the surface completely clear, and <code class="language-plaintext highlighter-rouge">1</code> covers every face including the undersides</li>
+  <li><strong>Edge Softness</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.2</code>) — whether the snowline fades gradually or cuts crisply</li>
+  <li><strong>Smoothness</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — the surface response of the covered area. High = wet, shiny snow; low = dry, matte dust. This feeds straight into Specular and Reflection</li>
+  <li><strong>Edge Noise</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.3</code>) — breaks the edge so it is not an unnaturally clean band. <code class="language-plaintext highlighter-rouge">0</code> = a clean edge</li>
+  <li><strong>Noise Scale</strong> (<code class="language-plaintext highlighter-rouge">0.1–20</code>, default <code class="language-plaintext highlighter-rouge">5</code>) — the world size of the patches that break up the edge. Higher = finer break-up</li>
+  <li><strong>Normal Flatten</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.7</code>) — how much the cover smooths the bump detail underneath it</li>
+  <li><strong>Direction</strong> (default <code class="language-plaintext highlighter-rouge">(0, 1, 0)</code>) — where the cover settles. The default points along world up, so snow falls from the sky. Tilt it for moss on one particular wall</li>
 </ul>
 
 <blockquote>
-  <p><strong>Why does it have to fade with depth?</strong> Two reasons that match the real thing: the focused light is absorbed before it reaches a deep bottom, and deep water in this system is already opaque (see Depth Color). Set Depth Fade near the <strong>See-Through Depth</strong> in the Depth Color section and the web will vanish right about where the bottom stops being visible.</p>
+  <p><strong>Leaving Direction empty at <code class="language-plaintext highlighter-rouge">(0,0,0)</code> will not break anything</strong> — that case is guarded and falls back to world up.</p>
 </blockquote>
 
 <hr />
 
-<h2 id="where-the-pattern-comes-from">Where the Pattern Comes From</h2>
+<h2 id="cost">Cost</h2>
 
-<p>The web is built from <strong>two layers of Worley noise</strong> at different scales and phases, combined. Each cell owns a feature point that orbits inside it on a sine, which is what makes the whole field crawl and shimmer. The bright part is the <strong>ridge between cells</strong> — the ground that is furthest from any feature point — and that ridge network is the web you see.</p>
+<p><strong>Not one extra texture read.</strong> The cost is arithmetic only, because the colour is flat and the edge break-up is generated in the shader.</p>
 
-<p>Two layers, because a single one reads immediately as one repeating round grid.</p>
+<p>The values it needs — the surface direction and the world position — are things the pixel is already carrying, so nothing extra has to be passed in.</p>
+
+<p>The most expensive part is the three-dimensional noise, and that whole block is skipped when <strong>Edge Noise is <code class="language-plaintext highlighter-rouge">0</code></strong>. If you wanted a clean edge anyway, you do not pay for it.</p>
+
+<p>With the feature off, the code is stripped out of the compiled shader entirely.</p>
 
 <hr />
+
+<h2 id="works-with-other-features">Works With Other Features</h2>
+
+<h3 id="paint-mode-and-triplanar">Paint Mode and Triplanar</h3>
+<p>This feature runs after both of them, so it overlays the finished result no matter what the surface underneath was assembled from. A Triplanar cliff and a multi-layer painted floor both take snow the same way, with nothing to configure differently.</p>
+
+<h3 id="normal-map">Normal Map</h3>
+<p>Normal Flatten is what decides how far the cover smooths the relief beneath it. The most heavily covered areas read smoothest, while the thinly covered edges still show the original detail. See <a href="/env/shader/normal/">Normal Map</a>.</p>
+
+<h3 id="specular--metallic">Specular &amp; Metallic</h3>
+<p>This section’s Smoothness replaces the surface’s own value by how much cover is present, so wet snow can be shiny while the rock beneath it stays matte. See <a href="/env/shader/specular/">Specular &amp; Metallic</a>.</p>
+
+<h3 id="stochastic-sampling">Stochastic Sampling</h3>
+<p>They work on separate layers and do not interfere. Stochastic changes how the texture is read; this feature overlays afterwards, once the surface is fully assembled.</p>
 
       </div>
     </main>
