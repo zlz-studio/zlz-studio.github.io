@@ -16,7 +16,7 @@ published: false
 ข้อดีของวิธีนี้คือ **หมุนวัตถุแล้วหิมะย้ายตาม** ทันที เอียงหลังคาใหม่ หิมะก็ไปกองอยู่ด้านที่หงายขึ้นเสมอ ไม่ต้องกลับไปแก้มาสก์
 
 ## Showcase Surface Accumulation
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="9H3A9BwHlSM" %}
 
 ---
 
