@@ -679,6 +679,21 @@
       grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
       gap:12px;
     }
+    /* Placeholder body for a docs section whose pages are still drafts. */
+    .fxReserved{
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:8px; padding:34px 18px; text-align:center;
+      border:1px dashed var(--line); border-radius:12px;
+      background:rgba(17,24,39,.35);
+    }
+    .fxReservedMark{
+      width:46px; height:46px; border-radius:999px;
+      border:2px dashed rgba(245,158,11,.55);
+      display:flex; align-items:center; justify-content:center;
+      font-size:20px; color:var(--accent);
+    }
+    .fxReservedTitle{font-weight:800;}
+    .fxReserved small{color:var(--muted); max-width:46ch;}
     .featCard{
       display:flex; flex-direction:column;
       border:1px solid rgba(255,255,255,.08);
@@ -1100,6 +1115,19 @@
       <!-- Env: Features -->
       
       
+
+      
+      
+      <section class="card docsBlock" data-product="env" style="display:none;">
+        <h2>FX Runtime</h2>
+        
+        <div class="fxReserved">
+          <div class="fxReservedMark">✦</div>
+          <div class="fxReservedTitle">Coming soon</div>
+          <small>Target Darken, Light Sweep and Upgrade — the runtime effects ZLZ Env Shader shares with ZLZ Anime Shader</small>
+        </div>
+        
+      </section>
 
       <!-- Setup Character -->
       <section class="card docsBlock" data-product="anime">
