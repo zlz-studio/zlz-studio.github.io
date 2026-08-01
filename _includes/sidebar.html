@@ -291,6 +291,30 @@
 </div>
 {% endif %}
 
+{% comment %}
+  FX Runtime : runtime/gameplay-driven effects shared with ZLZ Anime Shader.
+  Gated like every other block, so the heading only appears once a page inside it
+  is published — an empty heading would read as broken nav. The home page carries
+  the visible "coming soon" frame in the meantime.
+{% endcomment %}
+{% assign fxTargetDarken = site.pages | where: "url", "/env/fx/target-darken/" | first %}
+{% if fxTargetDarken %}
+<h3>FX Runtime</h3>
+
+<div class="sideTree">
+
+{% if fxTargetDarken %}
+<a href="{{ '/env/fx/target-darken/' | relative_url }}"
+   class="{% if page.url contains '/env/fx/target-darken/' %}active{% endif %}">
+   Target Darken FX Runtime
+</a>
+{% endif %}
+
+<!-- TODO: Light Sweep, Upgrade -->
+
+</div>
+{% endif %}
+
 <h3>Other Products</h3>
 
 <a href="{{ '/features/' | relative_url }}">ZLZ Anime Shader Docs</a>
