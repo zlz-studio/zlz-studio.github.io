@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wind | ZLZ Env Shader</title>
+  <title>Emission | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -635,14 +635,14 @@
 
 
 <a href="/env/shader/leaf-wind/"
-   class="active">
+   class="">
    Wind
 </a>
 
 
 
 <a href="/env/shader/emissive/"
-   class="">
+   class="active">
    Emission
 </a>
 
@@ -821,19 +821,19 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="wind">Wind</h1>
+        <h1 id="emission">Emission</h1>
 
-<p>Make <strong>trees, bushes and leaves move with the wind</strong> by displacing vertices in the vertex stage. The tip leans with the wind while the base stays planted.</p>
+<p>Make parts of a surface <strong>give off their own light</strong> — crystals glowing in a cave, house windows lit at night, a neon sign, cracks in rock with lava behind them, mushrooms glowing deep in a forest.</p>
 
-<p>The motion is two layers stacked — <strong>Trunk Sway</strong>, the slow wide bend along the wind direction, and <strong>Leaf Flutter</strong>, the fast small shimmer of individual leaves riding on top of it.</p>
+<p>This light <strong>does not depend on the scene’s lighting</strong>. It is added after all the lighting has been worked out, so anything emissive stays bright even in full shadow — which is how it should be. A lamp does not go out because it is standing in the shade.</p>
 
-<p>What makes it usable in practice is that <strong>every pass moves together</strong> — the pass that draws the image, the shadows, and the depth. The shadow cast on the ground sways with the tree instead of sitting still while the tree moves.</p>
+<p>There is also <strong>Emission Pulse</strong> built in as a sub-feature, for light that beats up and down on a rhythm, with no script and no animation to author.</p>
 
-<h2 id="showcase-wind">Showcase Wind</h2>
+<h2 id="showcase-emission">Showcase Emission</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/-KgWsFig7OM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=-KgWsFig7OM&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/oirhud6Ob1s?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=oirhud6Ob1s&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
@@ -842,152 +842,87 @@
 
 <h2 id="setup">Setup</h2>
 
-<p>Turn on the <strong>Wind</strong> feature in the Features grid at the top of the Inspector. The <strong>Wind</strong> section appears, with a green <strong><code class="language-plaintext highlighter-rouge">WIND ON</code></strong> badge reporting its state.</p>
+<p>Turn on the <strong>Emission</strong> feature in the Features grid at the top of the Inspector and the <strong>Emission</strong> section appears.</p>
 
-<p>The only thing you have to set afterwards is the <strong>Height Mask</strong>, to match the plant’s actual height (see below). Everything else moves the moment you switch it on.</p>
-
-<blockquote>
-  <p><strong>There is no mask to paint.</strong> The system uses each vertex’s height relative to the model’s pivot to decide how much it should move. If the tree’s pivot sits at its base as usual, it works straight away.</p>
-</blockquote>
-
-<hr />
-
-<h2 id="wind-source--decide-where-the-wind-comes-from">Wind Source — Decide Where the Wind Comes From</h2>
-
-<p>The first value in this section determines which sliders appear below it.</p>
-
-<h3 id="local">Local</h3>
-<p>This material carries its own wind — direction, strength, speed and gust size. Good for a single hero plant that wants its own rhythm.</p>
-
-<h3 id="global">Global</h3>
-<p>The <strong>ZLZ_Env Wind Controller</strong> placed in the scene owns direction, strength, speed and gust, and this material keeps one value: <strong>Weight</strong>, how much of that wind it catches.</p>
-
-<p>The payoff is a scene that moves as one — the wind rises and settles everywhere at the same moment, grass and trees together, tuned from a single place. See <a href="/env/grass/grass-global-wind/">Grass Global Wind</a>.</p>
-
-<blockquote>
-  <p><strong>Setting Global with no Controller in the scene does not break anything</strong> — the material falls back to its own Local values, and the Inspector warns you and tells you how to add one.</p>
-</blockquote>
-
-<p><strong>Whichever mode you pick, Leaf Flutter and Height Mask always stay on the material</strong>, because those two describe that particular plant’s character rather than the wind’s.</p>
+<p>It ships <strong>off</strong>, and while it is off these calculations are stripped out of the compiled shader.</p>
 
 <hr />
 
 <h2 id="parameters">Parameters</h2>
 
-<p><img src="../leaf-wind/Material_Wind.png" alt="Material_Wind" /></p>
-
-<h3 id="trunk-sway--local-mode-only">Trunk Sway — Local mode only</h3>
+<p><img src="../emissive/Material_Emissive.png" alt="Material_Emissive" /></p>
 
 <ul>
-  <li><strong>Strength</strong> (<code class="language-plaintext highlighter-rouge">0–2</code>, default <code class="language-plaintext highlighter-rouge">0.3</code>) — how far the tip leans with the wind, in world units</li>
-  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–20</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — the sway rate. Low = a lazy drift, high = a brisk wind</li>
-  <li><strong>Direction (deg)</strong> (<code class="language-plaintext highlighter-rouge">0–360</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — the wind’s heading on the ground plane, in degrees. One dial sweeps the whole compass</li>
-  <li><strong>Gust Scale</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">0.2</code>) — spreads a travelling gust across space so neighbouring plants fall out of sync. <code class="language-plaintext highlighter-rouge">0</code> = every plant sways in lockstep</li>
+  <li><strong>Emission Color</strong> (default white, an <strong>HDR</strong> field) — the colour of the light given off. This field accepts values above 1 through the Intensity multiplier in the colour picker, which is the range Bloom picks up and blooms</li>
+  <li><strong>Emission Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — the brightness. Push it past <code class="language-plaintext highlighter-rouge">1</code> to reach into HDR range so Bloom can take over</li>
 </ul>
 
-<h3 id="wind-weight--global-mode-only">Wind Weight — Global mode only</h3>
+<h3 id="emission-pulse">Emission Pulse</h3>
+
+<p>A sub-feature with its own on/off switch, independent of the parent. Off by default; turning it on reveals two values.</p>
 
 <ul>
-  <li><strong>Weight</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how much of the scene wind this material catches. <code class="language-plaintext highlighter-rouge">1</code> = full, <code class="language-plaintext highlighter-rouge">0</code> = ignores it. Use it to let low bushes move less than tall trees under the same wind</li>
+  <li><strong>Pulse Speed</strong> (<code class="language-plaintext highlighter-rouge">0.1–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how fast the light beats</li>
+  <li><strong>Pulse Min Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">0</code>) — the brightness at the dimmest point of the beat</li>
 </ul>
 
-<h3 id="leaf-flutter--both-modes">Leaf Flutter — both modes</h3>
+<p>The beat is a sine wave running between <strong>Pulse Min Intensity</strong> and <strong>Emission Intensity</strong>. Put simply, Intensity is the bright end and Pulse Min is the dim end.</p>
 
 <ul>
-  <li><strong>Flutter Strength</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.1</code>) — the fast shimmer layered on top of the sway. <code class="language-plaintext highlighter-rouge">0</code> = off, which is <strong>the cheapest option</strong> and right for solid trunks that should not have fluttering leaves</li>
-  <li><strong>Flutter Speed</strong> (<code class="language-plaintext highlighter-rouge">0–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how quickly the shimmer runs</li>
-  <li><strong>Flutter Scale</strong> (<code class="language-plaintext highlighter-rouge">0–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — its spatial frequency. Higher = finer, more independent per-leaf motion</li>
-</ul>
-
-<h3 id="height-mask--both-modes">Height Mask — both modes</h3>
-
-<ul>
-  <li><strong>Height Base</strong> (default <code class="language-plaintext highlighter-rouge">0</code>) — the object-space height at which the bend starts. Anything below it stays planted</li>
-  <li><strong>Height Range</strong> (<code class="language-plaintext highlighter-rouge">0.01–20</code>, default <code class="language-plaintext highlighter-rouge">2</code>) — how far above the base the bend ramps up to full. <strong>Match it to the plant’s real height</strong></li>
-</ul>
-
-<p>The ramp is not linear — it eases in from the base, so the trunk reads solid and the tip reads supple, rather than the whole plant leaning by the same amount.</p>
-
-<h3 id="debug">Debug</h3>
-
-<ul>
-  <li><strong>Debug Mode</strong> — set it to <strong>Height Mask</strong> to paint the sway amount as greyscale, <strong>black at the base and white at the tip</strong>, so Height Base and Height Range can be dialled by eye instead of guessed. Set it back to <strong>Off</strong> for production</li>
+  <li>Pulse Min at <code class="language-plaintext highlighter-rouge">0</code> = fades out completely and comes back — right for a blinking warning light</li>
+  <li>Pulse Min close to Intensity = a gentle breathing beat — right for a magic crystal</li>
 </ul>
 
 <hr />
 
-<h2 id="how-trunk-sway-and-leaf-flutter-differ">How Trunk Sway and Leaf Flutter Differ</h2>
+<h2 id="choosing-what-glows">Choosing What Glows</h2>
 
-<p>The two layers differ in <strong>where their timing comes from</strong>, and that is what decides how each one looks.</p>
+<p>Left alone, <strong>the whole surface glows</strong>, which suits objects that emit across their entire body — a lamp, a crystal.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>Trunk Sway</th>
-      <th>Leaf Flutter</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Timing read from</td>
-      <td>the plant’s position in the world</td>
-      <td>each individual vertex’s position</td>
-    </tr>
-    <tr>
-      <td>Result</td>
-      <td>the whole plant leans as one piece</td>
-      <td>each leaf jitters out of step</td>
-    </tr>
-    <tr>
-      <td>Character</td>
-      <td>slow, wide</td>
-      <td>fast, small</td>
-    </tr>
-  </tbody>
-</table>
+<p>To glow only in places — windows on a house wall, cracks in a boulder — wire it to a <strong>Feature Mask</strong> channel in the <strong>Mask Layout</strong> section. White in the mask means full glow, black means none.</p>
 
-<p>Because Trunk Sway reads the plant’s position, the whole plant leans together as a single object, and plants standing in different places fall out of step by themselves — which is what reads as a gust travelling across a forest.</p>
+<p>Underneath the sliders is a strip reporting whether the whole surface is glowing or which channel it is currently reading.</p>
 
-<p>Leaf Flutter reads the vertex position instead, so neighbouring leaves shimmer on different beats, giving a sparkle that a whole-plant lean cannot produce.</p>
+<blockquote>
+  <p><strong>The Env Shader’s default is to glow across the whole surface</strong>, unlike ZLZ Anime Shader where a mask has to be present before the effect does anything. If you turn Emission on and the whole object lights up unintentionally, that means no mask is wired yet.</p>
+</blockquote>
 
 <hr />
 
 <h2 id="cost">Cost</h2>
 
-<p>All of it runs in the <strong>vertex stage</strong>, not per pixel, so the cost scales with the model’s vertex count rather than how much of the screen it covers. A large tree close to the camera is no more expensive than the same tree far away.</p>
+<p><strong>No extra texture reads.</strong> Both the Feature Mask and the surface colour have already been sampled at earlier stages; this feature itself is just a few multiplies and an add.</p>
 
-<p><strong>No texture is read at all.</strong> The gust pattern is generated in the shader, so there is no noise map to prepare.</p>
+<p>Emission Pulse adds a sine per pixel, which is close to free, and the whole block is stripped out when that sub-switch is off.</p>
 
-<p>Worth knowing: this runs in <strong>every pass</strong> — image, shadow and depth — so the vertex displacement is recomputed in each of them. That is the price of having shadows sway with the tree instead of standing still.</p>
-
-<p>The part you can drop for free is <strong>Leaf Flutter</strong> — set Flutter Strength to <code class="language-plaintext highlighter-rouge">0</code> and that whole block is skipped. Right for trunks, rocks, or anything that should not have leaves shimmering anyway.</p>
-
-<p>With the feature off, the code is stripped out of the compiled shader entirely.</p>
+<p><strong>The single Feature Mask is shared with Metallic and Smoothness</strong>, so using Emission alongside those two costs no additional texture at all. That is the main reason the mask system is built this way.</p>
 
 <hr />
 
 <h2 id="works-with-other-features">Works With Other Features</h2>
 
-<h3 id="grass">Grass</h3>
-<p>Grass runs on its own shader, but <strong>reads the wind from the same Controller</strong> when both are set to Global. Grass and trees in one scene therefore move on the same beat, rising and settling together.</p>
+<h3 id="bloom">Bloom</h3>
+<p>Emission does not make light bleed on its own — it only pushes colour values above 1. The bleed itself is <strong>Bloom’s</strong> job, in URP’s Volume. If you want a glow that spills, Bloom has to be enabled in the scene; otherwise you get a very bright colour with hard edges.</p>
+
+<h3 id="specular--metallic">Specular &amp; Metallic</h3>
+<p>They share one Feature Mask on different channels, so you can plan which channel drives what. See <a href="/env/shader/specular/">Specular &amp; Metallic</a>.</p>
+
+<h3 id="paint-mode-and-triplanar">Paint Mode and Triplanar</h3>
+<p>Emission reads the surface colour after it has been fully assembled, so painting a layer over something or projecting it with Triplanar keeps the glow matching whatever is actually visible.</p>
 
 <h3 id="surface-accumulation">Surface Accumulation</h3>
-<p>They work at different stages and do not collide — Wind moves vertex positions, while Accumulation decides from the direction a surface faces. Snow resting on a branch sways with the branch without sliding off it. See <a href="/env/shader/snow-accumulation/">Surface Accumulation</a>.</p>
-
-<h3 id="normal-map-and-specular">Normal Map and Specular</h3>
-<p>Both run per pixel, after the vertices have already moved, so surface detail and highlights travel with the moving model as you would expect.</p>
+<p>Snow settling over a surface replaces the colour underneath it, so an area that was glowing dims as it gets covered. Which is right — a lit sign buried under snow really should go dark. See <a href="/env/shader/snow-accumulation/">Surface Accumulation</a>.</p>
 
 <hr />
 
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li><strong>The motion is driven by object-space height.</strong> If a plant’s pivot is not at its base, compensate with Height Base</li>
-  <li><strong>It leans along one wind direction.</strong> It does not simulate twisting, or branches whipping independently of each other</li>
-  <li><strong>It does not know about obstacles.</strong> A tree behind a wall still catches the full wind</li>
-  <li><strong>Height Range has to be set.</strong> Left at the default on a much taller tree, the plant reaches full lean halfway up the trunk. Use Debug Mode to see it</li>
-  <li><strong>Characters running past do not push the wind.</strong> It is a signal computed from time and position, with no interaction from anything moving through it</li>
+  <li><strong>It does not light anything around it.</strong> The glow lives on the surface itself and will not brighten the ground beside it. For that, place a real Light as well</li>
+  <li><strong>Black areas of the texture will not glow.</strong> The emission is multiplied by the surface’s own colour, and anything multiplied by zero stays zero — the area has to carry some colour in the texture first</li>
+  <li><strong>The bleed depends on Bloom.</strong> The feature does not produce it by itself</li>
+  <li><strong>The beat is one fixed sine shape.</strong> There is no choice of waveform and no per-object offset, so every object sharing a material pulses in unison</li>
+  <li><strong>There is one Feature Mask bank.</strong> The base surface uses a single RGBA texture, so at most 4 features can be wired at once</li>
 </ul>
 
       </div>
