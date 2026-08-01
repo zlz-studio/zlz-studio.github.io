@@ -16,7 +16,7 @@ published: false
 และยังมี **Emission Pulse** เป็นฟีเจอร์ย่อยในตัว สำหรับทำแสงที่เต้นขึ้นลงเป็นจังหวะ โดยไม่ต้องเขียนสคริปต์หรือทำอนิเมชันเอง
 
 ## Showcase Emission
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="oirhud6Ob1s" %}
 
 ---
 
