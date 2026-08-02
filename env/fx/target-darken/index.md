@@ -54,7 +54,7 @@ published: false
 
 ## Parameters
 
-<!-- TODO: ใส่สกรีนช็อตหัวข้อ Target Darken เป็น Material_TargetDarken.png -->
+![Material_TargetDarken](../target-darken/Material_TargetDarken.png)
 
 - **Darken Intensity** (`0–1`, default `0.05`) — ผิวนี้จะมืดลงแค่ไหนตอน Global อยู่ที่เต็ม **ยิ่งค่าต่ำยิ่งมืด** (`0` = ดำสนิท, `1` = ไม่มืดเลย)
 - **Darken Local** (`0–1`, default `1`) — ผิวนี้ตามฉากหรือไม่ `1` = ตาม, `0` = สว่างค้างไว้
