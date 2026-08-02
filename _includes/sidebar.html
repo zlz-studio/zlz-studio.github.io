@@ -297,9 +297,17 @@
   is published — an empty heading would read as broken nav. The home page carries
   the visible "coming soon" frame in the meantime.
 {% endcomment %}
+{% assign fxOverview = site.pages | where: "url", "/env/fx/" | first %}
 {% assign fxTargetDarken = site.pages | where: "url", "/env/fx/target-darken/" | first %}
-{% if fxTargetDarken %}
+{% if fxOverview or fxTargetDarken %}
 <h3>FX Runtime</h3>
+
+{% if fxOverview %}
+<a href="{{ '/env/fx/' | relative_url }}"
+   class="{% if page.url == '/env/fx/' or page.url == '/env/fx/index.html' %}active{% endif %}">
+   Overview
+</a>
+{% endif %}
 
 <div class="sideTree">
 
