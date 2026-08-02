@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triplanar | ZLZ Env Shader</title>
+  <title>Target Darken FX Runtime | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -593,7 +593,7 @@
 
 
 <a href="/env/shader/triplanar/"
-   class="active">
+   class="">
    Triplanar
 </a>
 
@@ -820,7 +820,7 @@
 
 
 <a href="/env/fx/target-darken/"
-   class="">
+   class="active">
    Target Darken FX Runtime
 </a>
 
@@ -843,95 +843,191 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="triplanar">Triplanar</h1>
+        <h1 id="target-darken-fx-runtime">Target Darken FX Runtime</h1>
 
-<p>Lay textures onto a mesh while <strong>ignoring its UVs entirely</strong> — the system projects the texture in from the three world axes (top, front, side) and blends them by the direction the surface faces. A cliff, a rock or a blockout box whose UVs are stretched, or which has no UVs at all, tiles cleanly: no smearing, no seams.</p>
+<p><strong>Dim the whole scene to make one target stand out</strong> — a character casting a skill, a boss making its entrance, a cutscene, or any moment where the player should be looking at one thing.</p>
 
-<p>It is an enormous shortcut for environment work: sculpt a cliff in Blender and drop it straight into Unity — no time spent unwrapping, and no worry that reshaping it later will break the UVs.</p>
+<p>Unlike the features in the Environment Shader section, <strong>this one is driven from game code at runtime</strong> rather than set once in a material and left. The material carries only two values; everything else is a call from script.</p>
 
-<p>And because the pattern is anchored to world coordinates, <strong>separate meshes placed next to each other tile as one continuous surface</strong>. A cliff assembled from ten rocks reads as one rock face rather than ten pieces each carrying their own patch of texture.</p>
+<p>And it covers <strong>the ground, the grass and the water together</strong>, because all three shaders read the same value. The whole scene dims in one go, rather than the ground going dark while the grass stays lit.</p>
 
-<h2 id="showcase-triplanar">Showcase Triplanar</h2>
+<h2 id="showcase-target-darken">Showcase Target Darken</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/96LcH8KkDWo?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=96LcH8KkDWo&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/wtKRi4lDlfQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=wtKRi4lDlfQ&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
 
 <hr />
 
-<h2 id="setup">Setup</h2>
+<h2 id="concept--two-layers-to-understand-first">Concept — Two Layers to Understand First</h2>
 
-<p>Turn on the <strong>Triplanar</strong> feature in the Features grid at the top of the material — that is the whole setup. Nothing else to configure, no UVs needed, nothing to bake.</p>
+<p>Control is split into two layers, and once those are clear the rest follows.</p>
 
-<p>Once it is on, the <strong>Texture</strong> section rearranges itself:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Where it lives</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Global</strong></td>
+      <td>script / the scene’s Manager</td>
+      <td>switches dimming on for <strong>the whole scene</strong> — <code class="language-plaintext highlighter-rouge">0</code> = normal, <code class="language-plaintext highlighter-rouge">1</code> = fully dimmed</td>
+    </tr>
+    <tr>
+      <td><strong>Local</strong></td>
+      <td>each material</td>
+      <td>whether this surface <strong>follows or ignores</strong> the Global value</td>
+    </tr>
+  </tbody>
+</table>
 
-<ul>
-  <li>A blue <strong><code class="language-plaintext highlighter-rouge">TRIPLANAR ON</code></strong> badge appears at the top of the section, telling you the tiling is world-space from now on</li>
-  <li>Unity’s <strong>Tiling / Offset</strong> fields disappear, replaced in the same spot by <strong>World Tiling</strong> and <strong>Blend Sharpness</strong></li>
-</ul>
+<p>Put simply: <strong>Global turns the mode on, Local picks who is exempt.</strong></p>
+
+<p>The two multiply together — a surface dims only when Global is on <strong>and</strong> its own Local is <code class="language-plaintext highlighter-rouge">1</code>.</p>
 
 <blockquote>
-  <p><strong>Each mode keeps its own values.</strong> Switch Triplanar back off and the old Tiling / Offset numbers are still there, untouched — so you can flip between the two to compare results without losing anything.</p>
+  <p><strong>Local defaults to <code class="language-plaintext highlighter-rouge">1</code></strong>, meaning every surface follows the scene by default, and that is what it should be left at. Leaving it at <code class="language-plaintext highlighter-rouge">0</code> makes the feature look broken: Global switches on and nothing happens.</p>
 </blockquote>
+
+<hr />
+
+<h2 id="setup">Setup</h2>
+
+<h3 id="1-on-the-materials">1. On the materials</h3>
+<p>Turn on the <strong>Target Darken</strong> feature in the Features grid. The <strong>Target Darken</strong> section appears. Do this on every material that should dim — ground, grass, water.</p>
+
+<h3 id="2-in-the-scene">2. In the scene</h3>
+<p>Add the <strong><code class="language-plaintext highlighter-rouge">ZLZ_Env Darken Manager</code></strong> component, from <code class="language-plaintext highlighter-rouge">Add Component &gt; ZLZ &gt; Environment Shader &gt; ZLZ_Env Darken Manager</code>.</p>
+
+<p>It owns the Global value and animates the dim-in and the restore.</p>
+
+<h3 id="3-on-anything-you-want-exempt">3. On anything you want exempt</h3>
+<p>Objects that should stay bright while the scene dims need a <strong><code class="language-plaintext highlighter-rouge">ZLZ_EnvVFX</code></strong> component, then a call to <code class="language-plaintext highlighter-rouge">Darken.Exclude()</code> from code.</p>
 
 <hr />
 
 <h2 id="parameters">Parameters</h2>
 
-<p><img src="../triplanar/Material_Triplanar.png" alt="Material_Triplanar" /></p>
+<p><img src="../target-darken/Material_TargetDarken.png" alt="Material_TargetDarken" /></p>
 
 <ul>
-  <li><strong>World Tiling</strong> (<code class="language-plaintext highlighter-rouge">0.01–10</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how frequently the pattern repeats against the real world. Higher = it repeats more often (the pattern looks smaller). This one value drives <strong>the Albedo, the Normal Map and the Feature Mask together</strong>, so all three always line up</li>
-  <li><strong>Blend Sharpness</strong> (<code class="language-plaintext highlighter-rouge">1–20</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how hard or soft the three axes cross-fade into each other. High = biased toward whichever axis the surface faces most, giving a crisper seam. Low = a wider, softer blend</li>
+  <li><strong>Darken Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.05</code>) — how dark this surface goes when Global is at full. <strong>Lower is darker</strong> (<code class="language-plaintext highlighter-rouge">0</code> = black, <code class="language-plaintext highlighter-rouge">1</code> = no dimming at all)</li>
+  <li><strong>Darken Local</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — whether this surface follows the scene. <code class="language-plaintext highlighter-rouge">1</code> = follows, <code class="language-plaintext highlighter-rouge">0</code> = stays bright</li>
 </ul>
 
 <blockquote>
-  <p><strong>Blend Sharpness only shows on curved or sloped surfaces.</strong> A straight wall or a flat floor already faces one axis head-on, so turning the value barely changes anything. To see it clearly, try it on a sphere.</p>
+  <p><strong>Keep Darken Intensity the same across every material</strong> — ground, grass, water, and ZLZ Anime Shader’s character materials too. They all read the one Global value but each carries its own Intensity, so mismatched values make things dim by different amounts and it reads as a bug.</p>
 </blockquote>
+
+<p>The Global value itself <strong>does not appear in the Inspector</strong>, because it is a scene-level value written by the Manager or by script.</p>
 
 <hr />
 
-<h2 id="what-switches-to-world-space">What Switches to World Space</h2>
+<h2 id="working-alongside-zlz-anime-shader">Working Alongside ZLZ Anime Shader</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Part</th>
-      <th>With Triplanar on</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Albedo</strong></td>
-      <td>projected from the three world axes</td>
-    </tr>
-    <tr>
-      <td><strong>Normal Map</strong></td>
-      <td>projected from the three world axes, and resolved directly in world space</td>
-    </tr>
-    <tr>
-      <td><strong>Feature Mask (RGBA)</strong></td>
-      <td>projected from the three world axes, so Metallic / Smoothness / Emissive still match the pattern you see</td>
-    </tr>
-    <tr>
-      <td><strong>Paint Layer textures</strong></td>
-      <td>projected from the three world axes, and <strong>each layer carries its own World Tiling</strong></td>
-    </tr>
-    <tr>
-      <td><strong>Paint Mask</strong></td>
-      <td><strong>stays on UVs</strong>, because the brush paints in UV space</td>
-    </tr>
-  </tbody>
-</table>
+<p>This part matters, and it is deliberate — <strong>both packages write the same Global value</strong>.</p>
 
-<p>The three-axis blend weights are computed <strong>once per pixel</strong> and shared by every texture, so the Albedo, the Normal and the Mask are locked to exactly the same projection and can never drift apart.</p>
+<p>That is exactly why a character and the ground it stands on dim together from a single call, with nothing to coordinate. It also means game code written against one package drives the other, because the API is identical on both sides.</p>
+
+<p>But two controllers writing one value would fight and flicker, so:</p>
 
 <blockquote>
-  <p><strong>The Normal Map has no Tiling field of its own</strong> — in either mode. It always follows the Albedo’s mapping (it is hidden in the shader itself), because otherwise you would get a surface whose colour detail and bump detail do not line up.</p>
+  <p><strong>If ZLZ Anime Shader’s <code class="language-plaintext highlighter-rouge">ZLZ_DarkenManager</code> is already in the scene, the Env one stands down</strong> and lets that one drive. Check the state with <code class="language-plaintext highlighter-rouge">IsDeferred</code>.</p>
 </blockquote>
+
+<p>In that case just call <code class="language-plaintext highlighter-rouge">ZLZ_DarkenManager.Instance.Darken()</code> on the Anime side — the ground, grass and water dim along with it.</p>
+
+<hr />
+
+<h2 id="scripting">Scripting</h2>
+
+<h3 id="driving-the-whole-scene">Driving the whole scene</h3>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Animated (recommended) — plays Intro → Loop → Outro</span>
+<span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">Darken</span><span class="p">();</span>
+<span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">Restore</span><span class="p">();</span>
+<span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">ToggleDarken</span><span class="p">();</span>
+
+<span class="c1">// Direct value, no animation</span>
+<span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">SetInstant</span><span class="p">(</span><span class="m">0.5f</span><span class="p">);</span>
+
+<span class="c1">// Check state</span>
+<span class="kt">bool</span> <span class="n">active</span>   <span class="p">=</span> <span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">IsActive</span><span class="p">();</span>
+<span class="kt">bool</span> <span class="n">deferred</span> <span class="p">=</span> <span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">IsDeferred</span><span class="p">;</span>   <span class="c1">// true = the Anime side is driving</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>A <code class="language-plaintext highlighter-rouge">ZLZ_Env Darken Manager</code> has to be in the scene before you call <code class="language-plaintext highlighter-rouge">Instance</code>, or it comes back null.</p>
+</blockquote>
+
+<h3 id="exempting-individual-objects">Exempting individual objects</h3>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Stay bright while the scene dims (local = 0)</span>
+<span class="n">vfx</span><span class="p">.</span><span class="n">Darken</span><span class="p">.</span><span class="nf">Exclude</span><span class="p">();</span>
+
+<span class="c1">// Follow the scene again</span>
+<span class="n">vfx</span><span class="p">.</span><span class="n">Darken</span><span class="p">.</span><span class="nf">Include</span><span class="p">();</span>
+
+<span class="c1">// Set it with a bool</span>
+<span class="n">vfx</span><span class="p">.</span><span class="n">Darken</span><span class="p">.</span><span class="nf">SetExcluded</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+
+<span class="c1">// Check state</span>
+<span class="kt">bool</span> <span class="n">excluded</span> <span class="p">=</span> <span class="n">vfx</span><span class="p">.</span><span class="n">Darken</span><span class="p">.</span><span class="n">IsExcluded</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="example--spotlight-a-boss-entrance">Example — spotlight a boss entrance</h3>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">void</span> <span class="nf">OnBossAppear</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">bossStage</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// The platform the boss stands on should not dim</span>
+    <span class="n">bossStage</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ZLZ_EnvVFX</span><span class="p">&gt;()?.</span><span class="n">Darken</span><span class="p">.</span><span class="nf">Exclude</span><span class="p">();</span>
+    <span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">Darken</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">OnBossDefeated</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">bossStage</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ZLZ_EnvDarkenManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="nf">Restore</span><span class="p">();</span>
+    <span class="n">bossStage</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ZLZ_EnvVFX</span><span class="p">&gt;()?.</span><span class="n">Darken</span><span class="p">.</span><span class="nf">Include</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="driving-it-without-the-manager">Driving it without the Manager</h3>
+
+<p>If you would rather not use the component at all, write the Global value directly — you just do not get the animated transitions.</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Shader</span><span class="p">.</span><span class="nf">SetGlobalFloat</span><span class="p">(</span><span class="s">"_TargetDarkenGlobal"</span><span class="p">,</span> <span class="m">1f</span><span class="p">);</span>   <span class="c1">// 0 = normal, 1 = fully dimmed</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="animation-timing">Animation Timing</h2>
+
+<p>The Manager plays in three stages — <strong>Intro → Loop → Outro</strong> — tuned through a <strong><code class="language-plaintext highlighter-rouge">ZLZ_EnvDarkenSettings</code></strong> asset, created from <code class="language-plaintext highlighter-rouge">Create &gt; ZLZ &gt; FX Settings &gt; Env Darken Settings</code> and dropped into the Manager’s Settings field.</p>
+
+<p>Both the duration and the curve of each stage are adjustable, along with the number of loop repeats.</p>
+
+<p><strong>The Settings field can be left empty.</strong> With nothing assigned, the Manager falls back to identical values built into it.</p>
+
+<p>One asset can be shared by every scene, so a game with twenty levels tunes the dim once. It has the same shape as the Anime side’s <code class="language-plaintext highlighter-rouge">ZLZ_DarkenSettings</code>, so values copy straight across.</p>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>The feature has to be enabled on every material you want dimmed.</strong> A material without it stays lit; nothing dims automatically</li>
+  <li><strong>One Manager per scene.</strong> Add a second and the first one registered stays active while the rest are ignored, with a warning</li>
+  <li><strong>A Global above <code class="language-plaintext highlighter-rouge">1</code> does not dim further.</strong> The material’s Intensity is the floor, and the value is clamped to it</li>
+  <li><strong>It multiplies the surface’s brightness down.</strong> This is not real lighting, so there is no shadow or direction to the dimming</li>
+  <li><strong>Water computes it slightly differently from the ground.</strong> Water’s colour already contains the refracted scene, which that scene’s own shader has dimmed once already, so dimming the finished colour again would darken it twice. Water applies the factor to the light reaching its surface instead — handled for you, with nothing to configure</li>
+</ul>
 
       </div>
     </main>
