@@ -16,7 +16,7 @@ published: false
 และมันครอบคลุม **ทั้งพื้น หญ้า และน้ำ** เพราะเชดเดอร์ทั้งสามตัวอ่านค่าเดียวกัน ทั้งฉากจึงมืดลงพร้อมกันทีเดียว ไม่ใช่มืดเฉพาะพื้นแล้วหญ้ายังสว่างค้างอยู่
 
 ## Showcase Target Darken
-<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+{% include youtube-loop.html id="wtKRi4lDlfQ" %}
 
 ---
 
