@@ -9,20 +9,155 @@ published: false
 
 # Target Darken FX Runtime
 
-<!-- TODO (step 1) : เขียนเนื้อหาภาษาไทย โดยอ่านจาก source จริง
-     - Shaders/Features/ZLZ_EnvDarken.hlsl
-     - Runtime/ZLZ_EnvDarkenManager.cs  (Darken / Restore / ToggleDarken / SetInstant / IsActive / Instance)
-     - Runtime/ZLZ_EnvVFX.cs            (Darken.Exclude / Include / SetExcluded / IsExcluded)
-     - Runtime/ZLZ_EnvDarkenSettings.cs
+**หรี่ทั้งฉากลงเพื่อขับเป้าหมายให้เด่นขึ้นมา** — ตอนตัวละครปล่อยสกิล ตอนบอสปรากฏตัว ตอนเข้าคัตซีน หรือตอนที่อยากให้ผู้เล่นมองไปที่จุดเดียว
 
-     โครงหน้าให้ตามแบบ FX Runtime ของ ZLZ Anime Shader (features/Target-Darken/)
-     ไม่ใช่แบบหน้า Environment Shader ทั่วไป :
-       Demo -> Auto Setup -> Concept (Global / Local) -> Parameters -> Scripting (โค้ด C#)
+ต่างจากฟีเจอร์อื่นในหมวด Environment Shader ตรงที่ **ตัวนี้ถูกสั่งจากโค้ดเกมตอนรัน** ไม่ใช่ค่าที่ตั้งทิ้งไว้ในวัสดุแล้วจบ ในวัสดุมีแค่สองค่า ที่เหลือคือการเรียกจากสคริปต์
 
-     ประเด็นที่ต้องไม่ลืม :
-       - Global x Local สองชั้น (Global เปิดโหมดทั้งฉาก / Local เลือกว่าใครไม่โดน)
-       - Env กับ Anime Shader เขียนลง _TargetDarkenGlobal ตัวเดียวกันโดยตั้งใจ
-         ตัวละครกับพื้นจึงมืดพร้อมกัน แต่ถ้ามี ZLZ_DarkenManager ของ Anime อยู่ในฉาก
-         ตัวของ Env จะถอยให้ (IsDeferred)
-       - วัสดุตัวละครถือ Darken Intensity ของตัวเอง ถ้าใช้ร่วมฉากต้องตั้งให้เท่ากัน
--->
+และมันครอบคลุม **ทั้งพื้น หญ้า และน้ำ** เพราะเชดเดอร์ทั้งสามตัวอ่านค่าเดียวกัน ทั้งฉากจึงมืดลงพร้อมกันทีเดียว ไม่ใช่มืดเฉพาะพื้นแล้วหญ้ายังสว่างค้างอยู่
+
+## Showcase Target Darken
+<!-- TODO: ถ่ายคลิปแล้วใส่ include youtube-loop.html พร้อม id ของคลิป -->
+
+---
+
+## Concept — สองชั้นที่ต้องเข้าใจก่อน
+
+ระบบนี้แยกการควบคุมเป็นสองชั้น และเข้าใจสองชั้นนี้แล้วที่เหลือจะง่ายหมด
+
+| ชั้น | อยู่ที่ไหน | ทำอะไร |
+|---|---|---|
+| **Global** | สคริปต์ / Manager ในฉาก | เปิดโหมดหรี่ให้ **ทั้งฉาก** — `0` = ปกติ, `1` = หรี่เต็มที่ |
+| **Local** | วัสดุแต่ละใบ | บอกว่าผิวนี้ **จะตามหรือไม่ตาม** ค่า Global |
+
+พูดสั้นๆ คือ **Global เปิดโหมด ส่วน Local เลือกว่าใครได้รับการยกเว้น**
+
+ผลลัพธ์จึงคูณกันสองชั้น — ผิวจะมืดก็ต่อเมื่อ Global ถูกเปิด **และ** Local ของผิวนั้นเป็น `1`
+
+> **ค่าเริ่มต้นของ Local คือ `1`** (ตามค่าเริ่มต้นเลยคือทุกผิวตามฉากหมด) ซึ่งเป็นค่าที่ควรปล่อยไว้ ถ้าตั้งเป็น `0` ทิ้งไว้ตั้งแต่แรก จะดูเหมือนฟีเจอร์นี้เสียเพราะเปิด Global แล้วไม่มีอะไรเกิดขึ้น
+
+---
+
+## Setup
+
+### 1. ฝั่งวัสดุ
+เปิดฟีเจอร์ **Target Darken** จากปุ่มกริด Features แล้วหัวข้อ **Target Darken** จะโผล่ขึ้นมา ต้องเปิดกับวัสดุทุกใบที่อยากให้มืดตาม (พื้น หญ้า น้ำ)
+
+### 2. ฝั่งฉาก
+เพิ่ม component **`ZLZ_Env Darken Manager`** เข้าไปในฉาก จาก `Add Component > ZLZ > Environment Shader > ZLZ_Env Darken Manager`
+
+ตัวนี้เป็นคนคุมค่า Global และทำอนิเมชันให้ตอนหรี่เข้า/คืนกลับ
+
+### 3. ฝั่งวัตถุที่อยากยกเว้น (ถ้ามี)
+วัตถุที่ต้องการให้สว่างค้างไว้ตอนฉากมืด ให้ใส่ component **`ZLZ_EnvVFX`** แล้วเรียก `Darken.Exclude()` จากโค้ด
+
+---
+
+## Parameters
+
+<!-- TODO: ใส่สกรีนช็อตหัวข้อ Target Darken เป็น Material_TargetDarken.png -->
+
+- **Darken Intensity** (`0–1`, default `0.05`) — ผิวนี้จะมืดลงแค่ไหนตอน Global อยู่ที่เต็ม **ยิ่งค่าต่ำยิ่งมืด** (`0` = ดำสนิท, `1` = ไม่มืดเลย)
+- **Darken Local** (`0–1`, default `1`) — ผิวนี้ตามฉากหรือไม่ `1` = ตาม, `0` = สว่างค้างไว้
+
+> **ต้องตั้ง Darken Intensity ให้เท่ากันทุกวัสดุ** ทั้งพื้น หญ้า น้ำ และวัสดุตัวละครของ ZLZ Anime Shader ด้วย เพราะทุกตัวอ่านค่า Global ตัวเดียวกันแต่ถือ Intensity ของตัวเอง ถ้าตั้งไม่ตรงกันจะมืดคนละระดับจนดูแปลก
+
+ส่วนค่า Global **ไม่มีในหน้า Inspector** เพราะเป็นค่าระดับฉากที่ Manager หรือสคริปต์เป็นคนเขียน
+
+---
+
+## ทำงานร่วมกับ ZLZ Anime Shader
+
+ข้อนี้สำคัญและเป็นสิ่งที่ออกแบบมาตั้งใจ — **ทั้งสองแพ็กเกจเขียนลงค่า Global ตัวเดียวกัน**
+
+นั่นคือเหตุผลที่ตัวละครกับพื้นที่มันยืนอยู่มืดลงพร้อมกันได้ในคำสั่งเดียว โดยไม่ต้องประสานอะไรเพิ่ม และโค้ดเกมที่เขียนไว้กับฝั่งหนึ่งก็สั่งอีกฝั่งได้เลยเพราะชุดคำสั่งเหมือนกันทั้งหมด
+
+แต่ถ้ามีตัวคุมสองตัวแย่งกันเขียนค่าเดียวกัน ภาพจะกระพริบ ระบบจึงกำหนดไว้ว่า:
+
+> **ถ้า `ZLZ_DarkenManager` ของ ZLZ Anime Shader อยู่ในฉากอยู่แล้ว ตัวของ Env จะถอยให้เอง** และปล่อยให้ฝั่ง Anime เป็นคนขับ ตรวจสถานะได้จาก `IsDeferred`
+
+ในกรณีนี้ให้เรียกผ่าน `ZLZ_DarkenManager.Instance.Darken()` ของฝั่ง Anime ไปเลย พื้น หญ้า น้ำ จะมืดตามไปด้วยเอง
+
+---
+
+## Scripting
+
+### สั่งทั้งฉาก
+
+```csharp
+// แบบมีอนิเมชัน (แนะนำ) — เล่น Intro → Loop → Outro
+ZLZ_EnvDarkenManager.Instance.Darken();
+ZLZ_EnvDarkenManager.Instance.Restore();
+ZLZ_EnvDarkenManager.Instance.ToggleDarken();
+
+// ตั้งค่าตรงๆ ไม่มีอนิเมชัน
+ZLZ_EnvDarkenManager.Instance.SetInstant(0.5f);
+
+// เช็กสถานะ
+bool active   = ZLZ_EnvDarkenManager.Instance.IsActive();
+bool deferred = ZLZ_EnvDarkenManager.Instance.IsDeferred;   // true = ฝั่ง Anime เป็นคนขับอยู่
+```
+
+> ต้องมี `ZLZ_Env Darken Manager` อยู่ในฉากก่อนเรียก `Instance` ไม่งั้นจะได้ null
+
+### ยกเว้นวัตถุบางชิ้น
+
+```csharp
+// สว่างค้างไว้ตอนฉากมืด (local = 0)
+vfx.Darken.Exclude();
+
+// กลับไปตามฉากเหมือนเดิม
+vfx.Darken.Include();
+
+// สั่งด้วย bool ตรงๆ
+vfx.Darken.SetExcluded(true);
+
+// เช็กสถานะ
+bool excluded = vfx.Darken.IsExcluded;
+```
+
+### ตัวอย่าง — สปอตไลต์ตอนบอสปรากฏตัว
+
+```csharp
+void OnBossAppear(GameObject bossStage)
+{
+    // เวทีที่บอสยืนอยู่ไม่ต้องมืดตาม
+    bossStage.GetComponent<ZLZ_EnvVFX>()?.Darken.Exclude();
+    ZLZ_EnvDarkenManager.Instance.Darken();
+}
+
+void OnBossDefeated(GameObject bossStage)
+{
+    ZLZ_EnvDarkenManager.Instance.Restore();
+    bossStage.GetComponent<ZLZ_EnvVFX>()?.Darken.Include();
+}
+```
+
+### เรียกตรงโดยไม่ผ่าน Manager
+
+ถ้าไม่อยากใช้ component เลย เขียนค่า Global เองได้ตรงๆ แต่จะไม่ได้อนิเมชันเข้า/ออก
+
+```csharp
+Shader.SetGlobalFloat("_TargetDarkenGlobal", 1f);   // 0 = ปกติ, 1 = หรี่เต็มที่
+```
+
+---
+
+## จังหวะอนิเมชัน
+
+Manager เล่นเป็นสามช่วง **Intro → Loop → Outro** ปรับได้ผ่าน asset **`ZLZ_EnvDarkenSettings`** ที่สร้างจาก `Create > ZLZ > FX Settings > Env Darken Settings` แล้วลากใส่ช่อง Settings ของ Manager
+
+ปรับได้ทั้งระยะเวลาและเส้นโค้งของแต่ละช่วง รวมถึงจำนวนรอบของ Loop
+
+**ช่อง Settings เว้นว่างได้** ถ้าไม่ใส่ Manager จะใช้ค่าที่ฝังมาในตัวซึ่งเหมือนกันทุกประการ
+
+asset ใบเดียวใช้ร่วมกันได้ทุกฉาก เกมที่มียี่สิบด่านจึงตั้งค่าหรี่ครั้งเดียวจบ และมีรูปแบบเดียวกับ `ZLZ_DarkenSettings` ของฝั่ง Anime ทำให้ก๊อปค่าข้ามกันได้ตรงๆ
+
+---
+
+## Limits
+
+- **ต้องเปิดฟีเจอร์ในวัสดุทุกใบที่อยากให้มืด** วัสดุที่ไม่ได้เปิดจะสว่างค้างอยู่ ไม่ได้มืดตามฉากให้อัตโนมัติ
+- **มี Manager ได้ตัวเดียวต่อฉาก** ถ้าใส่ซ้ำ ตัวแรกที่ลงทะเบียนจะเป็นตัวที่ทำงาน ตัวที่เหลือถูกข้ามพร้อมขึ้นคำเตือน
+- **ค่า Global ที่เกิน `1` ไม่ได้ทำให้มืดกว่าเดิม** ระบบตัดไว้ที่ Intensity ที่ตั้งในวัสดุเป็นเพดาน
+- **เป็นการคูณความสว่างของผิวลงตรงๆ** ไม่ใช่ระบบแสงจริง จึงไม่มีเงาหรือทิศทางของการหรี่
+- **น้ำใช้วิธีคำนวณต่างจากพื้นเล็กน้อย** เพราะสีของน้ำมีภาพฉากที่หักเหผ่านมาซึ่งถูกหรี่ไปแล้วรอบหนึ่ง ระบบจึงไปหรี่ที่แสงที่ตกกระทบผิวน้ำแทนเพื่อไม่ให้มืดซ้ำสองรอบ — ส่วนนี้จัดการให้เอง ไม่ต้องตั้งค่า
