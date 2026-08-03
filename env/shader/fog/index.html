@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Water Sparkle | ZLZ Env Shader</title>
+  <title>Fog | ZLZ Env Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -650,7 +650,7 @@
 
 
 <a href="/env/shader/fog/"
-   class="">
+   class="active">
    Fog
 </a>
 
@@ -788,7 +788,7 @@
 
 
 <a href="/env/water/water-sparkle/"
-   class="active">
+   class="">
    Water Sparkle
 </a>
 
@@ -851,19 +851,17 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="water-sparkle">Water Sparkle</h1>
+        <h1 id="fog">Fog</h1>
 
-<p>Glitter flashing across shallow water — small points of light blinking on and off out of step with each other, gathering thickest along the path where the sun reflects toward the eye. It is the detail that makes shallow water feel <em>alive</em> instead of a smooth surface carrying one lone reflection of the sun.</p>
+<p><strong>One atmosphere for the whole scene</strong> — distance fades the world into a haze, a low mist lies over the ground with the hills and rooftops rising out of it, and the skybox picks up the same tone along the horizon, so land and sky meet with no seam.</p>
 
-<p>The points here are <strong>real points you can count</strong>, not a by-product of the ripple pattern: the system lays a grid over the world and lets each cell hold at most one point. That makes “how many” and “how big” sliders you turn directly, rather than side effects of some other value.</p>
+<p>Unlike the other features in the Environment Shader section, <strong>Fog is not a material feature</strong> — there is no toggle in the Features grid and nothing to set per material. Every value lives on a single component in the scene, and everything that draws fog reads from it. Ground, cliffs, props, grass and water all sink into the same haze, because they all use the same numbers.</p>
 
-<p>And a point in the distance stays <strong>a point</strong> — it never swells into a blob, never smears into a bright haze, and never crawls about as sub-pixel noise.</p>
-
-<h2 id="showcase-water-sparkle">Showcase Water Sparkle</h2>
+<h2 id="showcase-fog">Showcase Fog</h2>
 
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
   <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/_xY8MbSuL1E?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=_xY8MbSuL1E&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    <iframe src="https://www.youtube-nocookie.com/embed/lE-B9awE0lw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=lE-B9awE0lw&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
     </iframe>
   </div>
 </div>
@@ -872,34 +870,120 @@
 
 <h2 id="setup">Setup</h2>
 
-<ol>
-  <li><strong>On the water material</strong> — turn on the <strong>Sparkle</strong> feature (the button grid at the top of the Inspector)</li>
-  <li><strong>On the URP Asset</strong> — keep <strong>Depth Texture</strong> on, because the sparkle knows whether it sits on shallow or deep water from the depth of the water column</li>
-</ol>
+<p>Two things, and the second one is normally already done for you.</p>
 
-<p>Nothing to bake, no component to add, no texture to assign — the sparkle takes the sun’s direction and colour from the scene’s Directional Light.</p>
+<h3 id="1-the-component-in-the-scene">1. The component in the scene</h3>
+
+<p>Add <strong><code class="language-plaintext highlighter-rouge">ZLZ_Env Fog</code></strong> from <code class="language-plaintext highlighter-rouge">Add Component &gt; ZLZ &gt; Environment Shader &gt; ZLZ_Env Fog</code>. It can live anywhere — an empty object called <code class="language-plaintext highlighter-rouge">Fog</code>, or the same object as the Environment Dashboard.</p>
+
+<p>Or let the setup menu do it: <strong><code class="language-plaintext highlighter-rouge">GameObject &gt; ZLZ &gt; Setup ZLZ Global</code></strong> creates Grass, Wind <strong>and</strong> Fog together under a parent called <code class="language-plaintext highlighter-rouge">ZLZ_Global</code>. Running it again is safe — an older scene without a Fog only gains the piece it is missing, and nothing is ever duplicated.</p>
+
+<blockquote>
+  <p><strong>Nothing is baked into the scene.</strong> Every value lives on the component, so the fog rides Prefabs like any other component, and each level can carry its own atmosphere with it.</p>
+</blockquote>
+
+<h3 id="2-the-renderer-feature">2. The Renderer Feature</h3>
+
+<p>The URP Renderer’s feature list has to contain <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Fog</code></strong>. It is installed automatically when the package is imported, along with the other ZLZ features — if it goes missing (deleted by hand, say), put it back with <strong>Add Renderer Feature</strong> on the URP Renderer.</p>
+
+<p>The Renderer Feature itself <strong>has nothing to configure</strong>. Every value lives on the scene component.</p>
+
+<blockquote>
+  <p><strong>No need to tick Depth Texture on the URP Asset.</strong> The pass requests the depth texture itself, so the fog works without touching the URP Asset.</p>
+</blockquote>
+
+<h3 id="turning-the-fog-off">Turning the fog off</h3>
+
+<p>Set <strong>Intensity to <code class="language-plaintext highlighter-rouge">0</code></strong>, or <strong>disable the component</strong>, or <strong>delete the component</strong> — all three do the same thing: the pass is never enqueued, and everything that draws fog skips its own work.</p>
+
+<p>A fog that is not in use costs nothing at all, so there is no reason to strip the component out of a scene that simply does not want fog today.</p>
 
 <hr />
 
 <h2 id="parameters">Parameters</h2>
 
-<p><img src="../water-sparkle/Material_Sparkle.png" alt="Material_Sparkle" /></p>
+<p><img src="../fog/Script_Fog.png" alt="Script_Fog" /></p>
 
-<p>All of these live on the material under <strong>Sparkle</strong>, and only appear once the feature is on.</p>
+<h3 id="fog-1">Fog</h3>
 
 <ul>
-  <li><strong>Amount</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.35</code>) — the fraction of grid cells that carry a sparkle, which is simply <strong>how many points</strong> there are. <code class="language-plaintext highlighter-rouge">0</code> = none at all, <code class="language-plaintext highlighter-rouge">1</code> = every cell has one</li>
-  <li><strong>Size (m)</strong> (<code class="language-plaintext highlighter-rouge">0.001–0.3</code>, default <code class="language-plaintext highlighter-rouge">0.01</code>) — the diameter of a point, in <strong>real world metres</strong>, and independent of Scale</li>
-  <li><strong>Scale (Density)</strong> (<code class="language-plaintext highlighter-rouge">0.1–60</code>, default <code class="language-plaintext highlighter-rouge">12</code>) — the grid frequency, which is the <strong>density</strong> of the glitter (points per metre). High = a tight shimmer, low = fewer points further apart</li>
-  <li><strong>Speed</strong> (<code class="language-plaintext highlighter-rouge">0–12</code>, default <code class="language-plaintext highlighter-rouge">4</code>) — how fast the points twinkle. Each cell keeps its own phase, so they never blink in unison. <code class="language-plaintext highlighter-rouge">0</code> = the points hold still</li>
-  <li><strong>Depth Fade</strong> (<code class="language-plaintext highlighter-rouge">0.1–30</code>, default <code class="language-plaintext highlighter-rouge">2</code>) — how many metres of water column it takes for the sparkle to disappear. Low = a band along the shore only, high = glitter across the whole surface, the open-sea look</li>
-  <li><strong>Sun Focus</strong> (<code class="language-plaintext highlighter-rouge">0–32</code>, default <code class="language-plaintext highlighter-rouge">6</code>) — how tightly the glitter hugs the sun’s reflection path. High = pinned into one narrow lane of light, <code class="language-plaintext highlighter-rouge">0</code> = <strong>spread evenly over the whole surface, with no regard for where the sun is</strong></li>
-  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–4</code>, default <code class="language-plaintext highlighter-rouge">1.5</code>) — how bright the points are</li>
+  <li><strong>Fog Color</strong> (default a pale blue) — the colour everything fades into. Pick something close to the horizon of your skybox for the classic soft look; a darker, dirtier tone reads as dust or dusk</li>
+  <li><strong>Intensity</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — master strength, and the master switch as well. <code class="language-plaintext highlighter-rouge">0</code> turns <strong>the whole system</strong> off and skips every piece of fog work</li>
+  <li><strong>Start Distance</strong> (metres, default <code class="language-plaintext highlighter-rouge">40</code>) — where the fog starts to take hold. Anything closer than this is not touched at all</li>
+  <li><strong>End Distance</strong> (metres, default <code class="language-plaintext highlighter-rouge">250</code>) — where the fog is at full density</li>
+  <li><strong>Density Curve</strong> (<code class="language-plaintext highlighter-rouge">0.25–4</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — shapes the density between Start and End <strong>without moving either end</strong>. Below <code class="language-plaintext highlighter-rouge">1</code> the fog arrives early (thicker up close, the far end unchanged); above <code class="language-plaintext highlighter-rouge">1</code> it stays clear longer and thickens late; <code class="language-plaintext highlighter-rouge">1</code> is an even ramp</li>
 </ul>
 
 <blockquote>
-  <p><strong>The sparkle’s colour comes from the Specular section</strong> — it shares <strong>Specular Color</strong> and is multiplied by the Directional Light’s colour on top of that. There is no separate colour field for Sparkle at the moment, so to recolour the glitter, adjust Specular Color.</p>
+  <p><strong>End is already kept above Start for you.</strong> Drag End below Start and the value snaps back to Start + 0.1 m, so the band can never invert.</p>
 </blockquote>
+
+<h3 id="height">Height</h3>
+
+<ul>
+  <li><strong>Height</strong> (world Y, default <code class="language-plaintext highlighter-rouge">0</code>) — at this height and below, the fog is at full density</li>
+  <li><strong>Height Fade</strong> (metres, default <code class="language-plaintext highlighter-rouge">200</code>) — how many metres above Height the fog takes to thin away to nothing</li>
+</ul>
+
+<p><strong>This pair is what turns distance fog into weather.</strong> Leave Fade at its large default and the height band is nearly full everywhere, which gives you ordinary distance fog. Shrink it to a few metres and you get <strong>a low mist lying on the ground</strong>, with hills, towers and rooftops rising out of it.</p>
+
+<h3 id="sky">Sky</h3>
+
+<ul>
+  <li><strong>Sky Fog</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">1</code>) — how much fog the <strong>skybox</strong> picks up at the horizon. <code class="language-plaintext highlighter-rouge">1</code> blends land and sky together seamlessly, <code class="language-plaintext highlighter-rouge">0</code> leaves the skybox untouched</li>
+</ul>
+
+<p>Sky pixels have nothing behind them, so distance is meaningless there — what decides is <strong>the direction you are looking</strong>. The fog gathers along the horizon and clears as you look up toward the zenith, and at the horizon it reaches exactly the strength the ground fog reaches at End Distance. That is why distant hills and the sky behind them meet without a visible line.</p>
+
+<h3 id="noise">Noise</h3>
+
+<p>Off by default. Turn it on and the fog <strong>gathers and thins into slow drifting banks</strong> instead of sitting perfectly even — the difference between “a fog setting” and weather.</p>
+
+<ul>
+  <li><strong>Noise</strong> (default off) — with it off the noise maths is genuinely skipped, not just hidden</li>
+  <li><strong>Noise Amount</strong> (<code class="language-plaintext highlighter-rouge">0–1</code>, default <code class="language-plaintext highlighter-rouge">0.5</code>) — how far the banks depart from the flat density. <code class="language-plaintext highlighter-rouge">1</code> lets it wander a full ±50%</li>
+  <li><strong>Noise Scale</strong> (default <code class="language-plaintext highlighter-rouge">0.015</code>) — the frequency of the pattern in world space. <strong>Smaller values mean larger, calmer banks</strong></li>
+  <li><strong>Noise Speed</strong> (default <code class="language-plaintext highlighter-rouge">0.3</code>) — how fast the banks drift</li>
+</ul>
+
+<p>The banks <strong>drift diagonally</strong> rather than pulsing in place, so the motion reads as weather rather than as a texture breathing. In the distance they <strong>settle back into flat fog</strong> — from halfway to End Distance the pattern fades out, because out there it is smaller than a pixel and could only shimmer, and a far fog wall should sit calm anyway.</p>
+
+<h3 id="compatibility">Compatibility</h3>
+
+<ul>
+  <li><strong>Sync Unity Fog</strong> (default off) — see the next section</li>
+</ul>
+
+<hr />
+
+<h2 id="sync-unity-fog">Sync Unity Fog</h2>
+
+<p>The ZLZ fog covers <strong>the opaque scene, the skybox and ZLZ water</strong>, but it cannot cover particles or standard shaders from elsewhere, because those are transparent and never reach the depth texture.</p>
+
+<p>Turn this on and the component drives Unity’s own fog with matching values — colour, Linear mode and the same start distance — <strong>while playing only</strong>. Those materials then fade toward the same tone instead of standing out bright in front of a fogged valley.</p>
+
+<blockquote>
+  <p><strong>The trade-off, stated plainly.</strong> The ZLZ ground and grass shaders already apply Unity fog themselves. With this on, both are fogged twice inside the blend band, which reads as slightly denser fog than the values suggest. That is why it is <strong>off by default</strong> — turn it on when you have particles or outside materials that need to match, then re-tune Start / End with it enabled.</p>
+</blockquote>
+
+<p>Two things it deliberately does not do:</p>
+
+<ul>
+  <li><strong>It never touches edit mode.</strong> Writing <code class="language-plaintext highlighter-rouge">RenderSettings</code> on every slider drag would leave the scene dirty, so the bridge only runs in play mode</li>
+  <li><strong>Your project’s own fog settings survive.</strong> They are captured once and restored the moment this stops driving</li>
+</ul>
+
+<hr />
+
+<h2 id="limits">Limits</h2>
+
+<ul>
+  <li><strong>VR is not supported yet</strong> — a fullscreen triangle under stereo needs its own path, so while XR is enabled the pass switches itself off. The fog inside the water shader still runs, so water in a VR scene stays consistent with itself</li>
+  <li><strong>Transparent materials are not fogged</strong>, apart from ZLZ water. Glass, particles and transparent shaders from elsewhere never enter the depth texture — <strong>Sync Unity Fog</strong> is the answer for those</li>
+  <li><strong>Cameras rendering to a Render Texture are skipped</strong>, as are preview cameras, reflection probes and the mirror camera of Planar Reflection. <strong>The Scene view is allowed through</strong>, so you can tune the fog and watch it as you go</li>
+  <li><strong>One fog per scene.</strong> It is an atmosphere, not a per-material or per-volume effect. With two components in one scene, the one enabled last is the one driving</li>
+  <li><strong>This is not volumetric fog.</strong> There are no light shafts and no scattering around lights — it is a haze computed from distance and height, which is what a stylised scene wants and what stays viable on Mobile</li>
+</ul>
 
       </div>
     </main>
