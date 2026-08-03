@@ -29,6 +29,7 @@ the Grass and Water systems each run on their own dedicated shader.
 - Sway foliage with Wind, driven either per-material or by the scene-wide `ZLZ_Env Wind Controller` that Grass also follows
 - Reflect the scene with two tiers : Reflection Probes always on, plus an optional mirror-camera Planar Reflection layered on top
 - Share one RGBA Feature Mask across Metallic, Smoothness, and Emissive to save VRAM and texture samples
+- Sink the whole scene into one atmosphere with Fog — distance haze, low ground mist and a matching sky, driven by a single scene component rather than per material
 - Work with Unity's lighting the way an environment shader should — Lightmaps, Shadowmask, Subtractive lighting, SSAO, and URP Decals are all supported
 - Share the Target Darken, Light Sweep, and Upgrade effects with ZLZ Anime Shader, so characters and environment react to the same game events
 - Turn every optional feature off individually — disabled features are stripped from the compiled shader, keeping it viable on Mobile
@@ -88,3 +89,4 @@ When one is disabled its calculations are removed from the shader entirely.
 - [Surface Accumulation](../shader/snow-accumulation/) — snow, dust or moss settling on up-facing surfaces, with no mask to author
 - [Wind](../shader/leaf-wind/) — vertex-stage foliage sway, driven locally or by the scene Wind Controller
 - [Emission](../shader/emissive/) — surfaces that give off their own light, with an optional pulse
+- [Fog](../shader/fog/) — one scene-wide atmosphere: distance haze, ground mist and a matching sky

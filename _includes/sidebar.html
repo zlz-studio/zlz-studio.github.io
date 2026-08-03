@@ -19,7 +19,8 @@
 {% assign shaderAccumulation = site.pages | where: "url", "/env/shader/snow-accumulation/" | first %}
 {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
 {% assign shaderEmission = site.pages | where: "url", "/env/shader/emissive/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission %}
+{% assign shaderFog = site.pages | where: "url", "/env/shader/fog/" | first %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -91,6 +92,13 @@
 <a href="{{ '/env/shader/emissive/' | relative_url }}"
    class="{% if page.url contains '/env/shader/emissive/' %}active{% endif %}">
    Emission
+</a>
+{% endif %}
+
+{% if shaderFog %}
+<a href="{{ '/env/shader/fog/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/fog/' %}active{% endif %}">
+   Fog
 </a>
 {% endif %}
 
