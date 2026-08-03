@@ -14,8 +14,7 @@ published: false
 ต่างจากฟีเจอร์อื่นในหมวด Environment Shader ตรงที่ **Fog ไม่ใช่ฟีเจอร์ของวัสดุ** — ไม่มีปุ่มเปิดในตาราง Features และไม่มีค่าให้ตั้งทีละวัสดุ ทุกค่าอยู่บน component ตัวเดียวในฉาก แล้วทุกอย่างที่วาดหมอกก็อ่านจากตรงนั้น พื้น หน้าผา props หญ้า และน้ำ จึงจมอยู่ในหมอกชุดเดียวกัน เพราะใช้ตัวเลขชุดเดียวกันทั้งหมด
 
 ## Showcase Fog
-
-{% comment %} TODO: ใส่ include youtube-loop.html พร้อม id ของคลิป เมื่ออัดคลิปโชว์ฟีเจอร์เสร็จ {% endcomment %}
+{% include youtube-loop.html id="lE-B9awE0lw" %}
 
 ---
 
