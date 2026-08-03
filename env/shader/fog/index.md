@@ -9,152 +9,143 @@ published: false
 
 # Fog
 
-**One atmosphere for the whole scene.** Distance fades the world into a haze, low ground mist pools in the valleys while the hills rise out of it, and the skybox picks up the same tone at the horizon so land and sky meet with no seam.
+**บรรยากาศชุดเดียวที่ครอบทั้งฉาก** — ของไกล ๆ จางหายเข้าไปในหมอก หมอกบาง ๆ นอนคลุมพื้นจนเนินเขาและยอดอาคารโผล่พ้นขึ้นมา และ skybox ก็รับโทนเดียวกันตรงเส้นขอบฟ้า พื้นดินกับท้องฟ้าจึงบรรจบกันโดยไม่เห็นรอยต่อ
 
-Unlike the rest of the Environment Shader section, **fog is not a material feature**. There is no toggle in the Features grid and nothing per-material to tune — one component in the scene owns every setting, and everything that draws fog reads from it. Ground, cliffs, props, grass and water all sink into the same haze because they are all fogged by the same numbers.
+ต่างจากฟีเจอร์อื่นในหมวด Environment Shader ตรงที่ **Fog ไม่ใช่ฟีเจอร์ของวัสดุ** — ไม่มีปุ่มเปิดในตาราง Features และไม่มีค่าให้ตั้งทีละวัสดุ ทุกค่าอยู่บน component ตัวเดียวในฉาก แล้วทุกอย่างที่วาดหมอกก็อ่านจากตรงนั้น พื้น หน้าผา props หญ้า และน้ำ จึงจมอยู่ในหมอกชุดเดียวกัน เพราะใช้ตัวเลขชุดเดียวกันทั้งหมด
 
 ## Showcase Fog
 
-{% comment %} TODO: ใส่คลิปโชว์ฟีเจอร์ — include youtube-loop.html พร้อม id เมื่ออัดวิดีโอเสร็จ {% endcomment %}
+{% comment %} TODO: ใส่ include youtube-loop.html พร้อม id ของคลิป เมื่ออัดคลิปโชว์ฟีเจอร์เสร็จ {% endcomment %}
 
 ---
 
-## Concept — Two Halves, One Formula
+## แนวคิด — สองครึ่ง แต่สูตรเดียวกัน
 
-The fog is drawn in two places, and knowing which is which explains everything else on this page.
+หมอกถูกวาดสองที่ และถ้าเข้าใจว่าที่ไหนวาดอะไร เรื่องอื่นในหน้านี้จะอธิบายตัวเองได้หมด
 
-| Half | What it covers | How |
+| ครึ่ง | ครอบอะไร | ทำอย่างไร |
 |---|---|---|
-| **Fullscreen pass** | the opaque scene **and the skybox** | the `ZLZ Env Fog` Renderer Feature reads the depth texture and blends fog over the camera |
-| **In the water shader** | the ZLZ water surface | the water applies the **same** formula to its own finished colour |
+| **Fullscreen pass** | ฉาก opaque ทั้งหมด **และ skybox** | Renderer Feature `ZLZ Env Fog` อ่าน depth texture แล้ว blend สีหมอกทับภาพของกล้อง |
+| **ในเชเดอร์น้ำ** | ผิวน้ำของ ZLZ | น้ำเอา**สูตรเดียวกัน**ไปใส่กับสีสุดท้ายของตัวเอง |
 
-Why the split: a transparent surface is **invisible to the depth texture**, so the fullscreen pass simply cannot see the water. Rather than leave a crisp lake sitting in front of a fogged valley, the water shader includes the same fog code and fogs itself.
+ที่ต้องแยกเป็นสองครึ่งเพราะผิว transparent **ไม่ปรากฏใน depth texture** — fullscreen pass จึงมองไม่เห็นน้ำเลย แทนที่จะปล่อยให้ทะเลสาบใสแจ๋ววางอยู่หน้าหุบเขาที่หมอกจัด เชเดอร์น้ำจึง include โค้ดหมอกชุดเดียวกันแล้วลงหมอกให้ตัวเอง
 
-Both halves come from one file, so there is no second copy of the maths to drift out of sync — the surface and the world behind it always land on the same tone.
+ทั้งสองครึ่งมาจากไฟล์เดียว จึงไม่มีสูตรฉบับที่สองให้เพี้ยนออกจากกัน — ผิวน้ำกับโลกที่อยู่ข้างหลังมันจึงลงเอยที่โทนเดียวกันเสมอ
 
-> **The pass runs *before* transparents.** That is what lets the water draw crisp on top and fog itself, and it also means the water's refraction sees the scene fogged **exactly once** rather than hazing twice where you look through it.
-
----
-
-## Setup
-
-Two things, and the second one is usually already done for you.
-
-### 1. The component in the scene
-
-Add **`ZLZ_Env Fog`** from `Add Component > ZLZ > Environment Shader > ZLZ_Env Fog`. It can live anywhere — an empty `Fog` object, or the same object as the Environment Dashboard.
-
-Or let the setup action do it: **`GameObject > ZLZ > Setup ZLZ Global`** creates the Grass, Wind **and** Fog globals together under a shared `ZLZ_Global` parent. It is idempotent — run it on an older scene and it only adds the pieces that are missing.
-
-> **Nothing is baked into the scene.** Every value lives on the component, so the fog rides Prefabs like any other component and a level can ship its own atmosphere with it.
-
-### 2. The Renderer Feature
-
-**`ZLZ Env Fog`** has to be in the URP Renderer's feature list. It is installed automatically when the package is imported, alongside the other ZLZ features — if it ever goes missing, add it by hand with **Add Renderer Feature** on the URP Renderer.
-
-The feature itself **has nothing to tune**. Every setting is on the scene component.
-
-> **No URP asset checkbox to tick.** The pass requests the depth texture itself, so Depth Texture does not have to be enabled on the URP Asset for the fog to work.
-
-### Turning it off
-
-- **Set Intensity to `0`**, or **disable the component**, or **delete it** — all three do the same thing: the pass is never enqueued and every consumer skips its work
-
-An unused fog costs nothing at all, so there is no reason to strip the component out of a scene that simply does not want fog today.
+> **pass นี้วาดก่อน transparent** นั่นคือเหตุผลที่น้ำวาดทับลงมาได้อย่างคมชัดแล้วค่อยลงหมอกให้ตัวเอง และยังทำให้ภาพหักเหใต้ผิวน้ำ (refraction) เห็นฉากที่ผ่านหมอกมาแล้ว **พอดีหนึ่งครั้ง** ไม่ใช่หมอกซ้อนสองชั้นเฉพาะตรงที่มองทะลุน้ำ
 
 ---
 
-## Parameters
+## การติดตั้ง
+
+มีสองอย่าง และอย่างที่สองปกติทำไว้ให้แล้ว
+
+### 1. component ในฉาก
+
+ใส่ **`ZLZ_Env Fog`** จาก `Add Component > ZLZ > Environment Shader > ZLZ_Env Fog` วางไว้ที่ไหนก็ได้ — จะเป็น object เปล่าชื่อ `Fog` หรือ object เดียวกับ Environment Dashboard ก็ได้
+
+หรือให้เมนู setup จัดการให้: **`GameObject > ZLZ > Setup ZLZ Global`** จะสร้าง Grass, Wind **และ** Fog ให้พร้อมกันใต้ parent ชื่อ `ZLZ_Global` เรียกซ้ำได้ไม่มีปัญหา — ฉากเก่าที่ยังไม่มี Fog จะได้เฉพาะชิ้นที่ขาด ไม่สร้างซ้ำ
+
+> **ไม่มีอะไรถูก bake ลงในฉาก** ค่าทุกตัวอยู่บน component ดังนั้นหมอกจึงติดไปกับ Prefab เหมือน component ทั่วไป และแต่ละด่านพกบรรยากาศของตัวเองไปได้
+
+### 2. Renderer Feature
+
+ในลิสต์ Renderer Feature ของ URP Renderer ต้องมี **`ZLZ Env Fog`** อยู่ ตัวนี้ถูกติดตั้งอัตโนมัติตอน import แพ็กเกจพร้อมกับฟีเจอร์ ZLZ ตัวอื่น — ถ้าหายไป (เช่นถูกลบด้วยมือ) ใส่กลับได้ด้วยปุ่ม **Add Renderer Feature** บน URP Renderer
+
+ตัว Renderer Feature เอง **ไม่มีอะไรให้ตั้งค่า** ทุกค่าอยู่บน component ในฉากทั้งหมด
+
+> **ไม่ต้องไปติ๊ก Depth Texture ที่ URP Asset** pass ขอ depth texture ด้วยตัวเอง หมอกจึงทำงานได้โดยไม่ต้องแก้ URP Asset
+
+### การปิดหมอก
+
+ตั้ง **Intensity เป็น `0`** หรือ **ปิด component** หรือ **ลบ component ทิ้ง** — ทั้งสามอย่างให้ผลเดียวกันคือ pass จะไม่ถูกเรียกเข้าคิว และทุกฝั่งที่วาดหมอกจะข้ามงานของตัวเองไป
+
+หมอกที่ไม่ได้ใช้จึงไม่กินคอสต์อะไรเลย ไม่มีเหตุผลต้องรื้อ component ออกจากฉากที่วันนี้ยังไม่อยากได้หมอก
+
+---
+
+## พารามิเตอร์
 
 <!-- TODO: ![Component_Fog](../fog/Component_Fog.png) -->
 
 ### Fog
 
-- **Fog Color** (default a pale sky blue) — the colour everything fades into. Something close to your horizon sky gives the classic soft look; a darker, dirtier tone reads as haze or dusk
-- **Intensity** (`0–1`, default `1`) — master strength, and the master switch. `0` turns the **whole system** off and skips all fog work everywhere
-- **Start Distance** (m, default `40`) — where the fog begins. Nothing closer than this is touched
-- **End Distance** (m, default `250`) — where the fog reaches full strength
-- **Density Curve** (`0.25–4`, default `1`) — reshapes the density between Start and End **without moving either end**. Below `1` the fog fills in early (thicker up close, the far end unchanged); above `1` it stays clear longer and thickens late. `1` = an even ramp
+- **Fog Color** (ค่าเริ่มต้นเป็นฟ้าอ่อน) — สีที่ทุกอย่างจะจางเข้าไปหา เลือกสีใกล้กับขอบฟ้าของ skybox จะได้ลุคนุ่ม ๆ แบบมาตรฐาน ถ้าเลือกโทนเข้มขุ่นกว่าจะอ่านเป็นฝุ่นหรือแสงยามพลบ
+- **Intensity** (`0–1`, ค่าเริ่มต้น `1`) — ความแรงรวม และเป็นสวิตช์หลักด้วย ค่า `0` คือปิด**ทั้งระบบ** และข้ามงานหมอกทุกจุด
+- **Start Distance** (เมตร, ค่าเริ่มต้น `40`) — ระยะที่หมอกเริ่มจับ อะไรที่ใกล้กว่านี้ไม่ถูกแตะเลย
+- **End Distance** (เมตร, ค่าเริ่มต้น `250`) — ระยะที่หมอกหนาเต็มที่
+- **Density Curve** (`0.25–4`, ค่าเริ่มต้น `1`) — ปรับรูปทรงความหนาระหว่าง Start กับ End **โดยไม่ขยับปลายทั้งสองข้าง** ต่ำกว่า `1` หมอกจะมาเร็ว (ใกล้ ๆ หนาขึ้น ปลายไกลเท่าเดิม) สูงกว่า `1` จะใสอยู่นานแล้วค่อยหนาตอนท้าย ส่วน `1` คือไล่ขึ้นสม่ำเสมอ
 
-> **End is kept above Start for you.** Drag End below Start and it snaps back to Start + 0.1 m, so the band can never invert.
+> **End ถูกกันไม่ให้ต่ำกว่า Start ให้อยู่แล้ว** ลาก End ลงไปต่ำกว่า Start เมื่อไร ค่าจะเด้งกลับมาที่ Start + 0.1 เมตร ช่วงหมอกจึงกลับหัวไม่ได้
 
 ### Height
 
-- **Height** (world Y, default `0`) — at and below this height the fog is at full strength
-- **Height Fade** (m, default `200`) — how many metres above Height the fog takes to thin away to nothing
+- **Height** (ค่า Y ในโลก, ค่าเริ่มต้น `0`) — ที่ความสูงนี้ลงไป หมอกหนาเต็มที่
+- **Height Fade** (เมตร, ค่าเริ่มต้น `200`) — เหนือ Height ขึ้นไปกี่เมตรกว่าหมอกจะจางหายไปหมด
 
-**This pair is what turns distance fog into weather.** With the default large fade the height band is ~1 everywhere and you get plain distance fog. Shrink the fade to a few metres and you get **a low mist sitting on the ground** that hills, towers and rooftops rise out of.
+**คู่นี้คือสิ่งที่เปลี่ยนหมอกตามระยะให้กลายเป็นสภาพอากาศ** ถ้าปล่อย Fade ไว้ค่าใหญ่ตามค่าเริ่มต้น ชั้นความสูงจะเกือบเต็มทุกที่ ผลที่ได้คือหมอกตามระยะแบบธรรมดา แต่ถ้าหด Fade เหลือไม่กี่เมตรจะได้ **หมอกเตี้ย ๆ นอนอยู่กับพื้น** ที่เนินเขา หอคอย และหลังคาโผล่พ้นขึ้นมา
 
 ### Sky
 
-- **Sky Fog** (`0–1`, default `1`) — how much fog the **skybox** picks up at the horizon. `1` blends land and sky seamlessly; `0` leaves the skybox untouched
+- **Sky Fog** (`0–1`, ค่าเริ่มต้น `1`) — **skybox** รับหมอกที่ขอบฟ้ามากแค่ไหน `1` คือกลืนพื้นดินกับท้องฟ้าเข้าด้วยกันสนิท `0` คือไม่แตะ skybox เลย
 
-Sky pixels have nothing behind them, so distance is meaningless there — the **view direction** decides instead. Fog gathers at the horizon and clears toward the zenith, and at the horizon it reaches exactly the strength the ground fog reaches at End Distance. That is why the far hills and the sky behind them meet with no visible line.
+พิกเซลของท้องฟ้าไม่มีอะไรอยู่ข้างหลัง ระยะทางจึงไม่มีความหมาย — ตัวที่ตัดสินคือ **ทิศที่มอง** หมอกจะกองอยู่ที่ขอบฟ้าและใสขึ้นเรื่อย ๆ เมื่อเงยขึ้นหาจุดสูงสุด และตรงขอบฟ้าค่าที่ได้เท่ากับความแรงที่หมอกพื้นดินไปถึงที่ระยะ End Distance พอดี นั่นคือเหตุผลที่ภูเขาไกล ๆ กับท้องฟ้าข้างหลังบรรจบกันโดยไม่มีเส้นคาด
 
 ### Noise
 
-Off by default. Turn it on and the fog **gathers and thins in slow moving banks** instead of sitting perfectly even — the difference between "a fog setting" and "weather".
+ปิดไว้เป็นค่าเริ่มต้น เปิดแล้วหมอกจะ **หนาบางเป็นหย่อม ๆ ไหลช้า ๆ** แทนที่จะเรียบเสมอกันหมด — เป็นความต่างระหว่าง "ค่าหมอกค่าหนึ่ง" กับ "สภาพอากาศ"
 
-- **Noise** (default off) — with it off the noise maths is skipped entirely, not just hidden
-- **Noise Amount** (`0–1`, default `0.5`) — how far the drift departs from the flat density. `1` lets it wander a full ±50%
-- **Noise Scale** (default `0.015`) — world frequency of the drift. **Smaller = larger, calmer banks**
-- **Noise Speed** (default `0.3`) — how fast the banks drift
+- **Noise** (ค่าเริ่มต้นปิด) — ปิดแล้วคณิตศาสตร์ส่วน noise ถูกข้ามไปจริง ๆ ไม่ใช่แค่ซ่อนผลลัพธ์
+- **Noise Amount** (`0–1`, ค่าเริ่มต้น `0.5`) — หย่อมหมอกเบี่ยงจากความหนาแบบเรียบไปได้ไกลแค่ไหน ค่า `1` คือแกว่งได้เต็ม ±50%
+- **Noise Scale** (ค่าเริ่มต้น `0.015`) — ความถี่ของลวดลายในโลกจริง **ยิ่งเลขน้อย หย่อมยิ่งใหญ่และยิ่งนิ่ง**
+- **Noise Speed** (ค่าเริ่มต้น `0.3`) — หย่อมหมอกไหลเร็วแค่ไหน
 
-The banks travel diagonally rather than pulsing in place, so the motion reads as weather rather than as a breathing texture. They also **settle back to flat fog in the distance** — from halfway to End Distance the drift fades out, because out there the pattern is smaller than a pixel and could only shimmer, and a far fog wall should sit calm anyway.
+หย่อมหมอกจะ**ไหลเฉียงไปเรื่อย ๆ** ไม่ใช่เต้นอยู่กับที่ การเคลื่อนไหวจึงอ่านเป็นลมฟ้าอากาศ ไม่ใช่พื้นผิวที่กำลังหายใจ และในระยะไกลมันจะ **คลายกลับเป็นหมอกเรียบ** — จากครึ่งทางถึง End Distance ลวดลายจะจางหายไป เพราะระยะนั้นลายเล็กกว่าหนึ่งพิกเซลแล้ว มีแต่จะซ่าเป็นจุด ๆ อีกอย่างกำแพงหมอกไกล ๆ ควรนิ่งอยู่แล้ว
 
 ### Compatibility
 
-- **Sync Unity Fog** (default off) — see below
+- **Sync Unity Fog** (ค่าเริ่มต้นปิด) — ดูหัวข้อถัดไป
 
 ---
 
 ## Sync Unity Fog
 
-The ZLZ fog covers **the opaque scene, the skybox and the ZLZ water**. It cannot cover a particle system or a third-party standard shader, because those are transparent and never reach the depth texture.
+หมอก ZLZ ครอบ **ฉาก opaque, skybox และน้ำของ ZLZ** แต่ครอบ particle หรือเชเดอร์มาตรฐานจากที่อื่นไม่ได้ เพราะของพวกนั้นเป็น transparent และไม่เคยลงไปอยู่ใน depth texture
 
-Turn this on and, **while playing**, the component drives Unity's own built-in fog with matching values — colour, Linear mode, and the same start distance — so those materials fade toward the same tone instead of hanging bright in front of a fogged valley.
+เปิดค่านี้แล้ว component จะไปขับ fog ของ Unity เองด้วยค่าที่ตรงกัน — สี, โหมด Linear และระยะเริ่มเดียวกัน — **เฉพาะตอน play** วัสดุพวกนั้นจึงจางเข้าหาโทนเดียวกัน แทนที่จะสว่างโดดอยู่หน้าหุบเขาที่หมอกจัด
 
-> **The trade-off, stated plainly.** The ZLZ ground and grass shaders already apply Unity fog themselves. With this on they are fogged twice inside the blend band, which reads as a slightly denser fog than the sliders say. That is why it is **off by default** — turn it on when you have particles or outside materials that need to match, then re-tune Start / End with it on.
+> **ข้อแลกเปลี่ยน พูดกันตรง ๆ** เชเดอร์พื้นและหญ้าของ ZLZ ใส่ fog ของ Unity อยู่แล้วในตัว พอเปิดค่านี้ ทั้งสองอย่างจึงโดนหมอกซ้อนกันสองชั้นภายในช่วง blend ซึ่งจะอ่านออกมาเป็นหมอกที่หนากว่าที่ตั้งไว้เล็กน้อย นั่นคือเหตุผลที่ค่าเริ่มต้น**ปิดไว้** — เปิดเมื่อมี particle หรือวัสดุจากภายนอกที่ต้องเข้าชุดกัน แล้วค่อยจูน Start / End ใหม่ทั้งที่เปิดอยู่
 
-Two things it deliberately does not do:
+สองอย่างที่มันตั้งใจไม่ทำ
 
-- **Edit mode is never touched.** Writing `RenderSettings` on every slider drag would dirty the scene, so the bridge only runs in play mode
-- **Your own fog setup survives.** The project's previous fog settings are captured once and restored the moment this stops driving
+- **ไม่แตะ edit mode เลย** การเขียน `RenderSettings` ทุกครั้งที่ลากสไลเดอร์จะทำให้ฉาก dirty สะพานเชื่อมนี้จึงทำงานเฉพาะตอน play
+- **ค่า fog เดิมของโปรเจกต์ไม่หาย** ค่าเดิมถูกเก็บไว้ครั้งเดียวและคืนกลับให้ทันทีที่เลิกขับ
 
 ---
 
-## Works With Other Features
+## ทำงานร่วมกับฟีเจอร์อื่น
 
-### Ground, Cliffs, Props and Grass
-Nothing to enable. They are opaque, so the fullscreen pass fogs them along with everything else in the depth texture — including grass, which is alpha-tested and writes depth like any solid surface.
+### พื้น หน้าผา props และหญ้า
+ไม่ต้องเปิดอะไรเพิ่ม ทั้งหมดเป็น opaque จึงถูก fullscreen pass ลงหมอกไปพร้อมกับทุกอย่างที่อยู่ใน depth texture — รวมถึงหญ้า ซึ่งเป็น alpha test และเขียน depth เหมือนผิวทึบทั่วไป
 
-### Water
-The water fogs itself with the same formula, applied to its **finished** colour — reflection, foam and caustics included — so the lake and the shore behind it meet in one haze. See [Water Waves]({{ '/env/water/water-waves/' | relative_url }}).
+### น้ำ
+น้ำลงหมอกให้ตัวเองด้วยสูตรเดียวกัน โดยใส่กับสี**สุดท้าย**ของมัน — รวมเงาสะท้อน โฟม และ caustics ไปแล้ว ทะเลสาบกับชายฝั่งข้างหลังจึงบรรจบกันในหมอกผืนเดียว ดู [Water Waves]({{ '/env/water/water-waves/' | relative_url }})
 
 ### Planar Reflection
-No extra pass needed. A reflective floor is opaque, so the pass fogs it together with its reflection, and the water fogs its own final colour with the reflection already in it. See [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }}).
+ไม่ต้องมี pass เพิ่ม พื้นที่สะท้อนได้เป็น opaque อยู่แล้ว pass จึงลงหมอกให้ทั้งพื้นและภาพสะท้อนบนพื้นไปพร้อมกัน ส่วนน้ำก็ลงหมอกกับสีสุดท้ายที่มีภาพสะท้อนรวมอยู่แล้ว ดู [Planar Reflection]({{ '/env/shader/planar-reflection/' | relative_url }})
 
 ### Underwater
-A separate system with its own murk, tuned per pond. The two do not switch each other off, but in practice the environment fog contributes almost nothing below the surface — the distances involved down there are far shorter than Start Distance. See [Underwater]({{ '/env/water/water-underwater/' | relative_url }}).
+คนละระบบกัน ใต้น้ำมีความขุ่นของตัวเองที่จูนแยกรายแหล่งน้ำ ทั้งสองไม่ได้ปิดกันและกัน แต่ในทางปฏิบัติหมอกของฉากแทบไม่มีผลใต้ผิวน้ำ เพราะระยะที่มองเห็นลงไปข้างล่างนั้นสั้นกว่า Start Distance มาก ดู [Underwater]({{ '/env/water/water-underwater/' | relative_url }})
 
 ### Target Darken
-Independent, and they layer in the sensible order — the darken dims the surfaces, the fog then hazes the dimmed result. See [Target Darken FX Runtime]({{ '/env/fx/target-darken/' | relative_url }}).
+เป็นอิสระต่อกัน และซ้อนกันตามลำดับที่ควรจะเป็น — การหรี่ทำให้ผิวมืดลงก่อน แล้วหมอกจึงลงทับผลที่หรี่แล้วอีกที ดู [Target Darken FX Runtime]({{ '/env/fx/target-darken/' | relative_url }})
 
 ---
 
-## Performance
+## ข้อจำกัด
 
-- **Off is genuinely free.** No component, a disabled one, or Intensity `0` means the pass is never enqueued and the water pays a single uniform compare
-- **One fullscreen triangle, no colour copy.** The pass outputs (fog colour, amount) and lets alpha blending do the mix, rather than reading the camera colour back to blend it in a shader
-- **The noise is pure maths, no texture.** With Noise off it is skipped on a uniform branch, so the toggle really removes the cost rather than just the look
-- **The settings are published only when they change.** The component compares a hash each frame instead of pushing ten shader globals blindly
-
----
-
-## Limits
-
-- **VR is not supported yet** — a fullscreen triangle under stereo needs its own path, so while XR is enabled the pass switches itself off. The in-shader water fog still runs, so water in VR scenes stays consistent with itself
-- **Transparent materials are not fogged**, apart from the ZLZ water. Glass, particles and outside transparent shaders never enter the depth texture — **Sync Unity Fog** is the answer for those
-- **Cameras rendering to a Render Texture are skipped**, as are preview cameras, reflection probes and the planar reflection's own mirror camera. **The Scene view is allowed through**, so you can tune the fog and see it
-- **One fog per scene.** It is an atmosphere, not a per-material or per-volume effect. Two components in one scene means the last one enabled is the one driving
-- **This is not volumetric fog.** There are no light shafts and no scattering around light sources — it is a distance-and-height haze, which is what a stylised scene wants and what stays viable on Mobile
+- **ยังไม่รองรับ VR** — fullscreen triangle บนภาพ stereo ต้องมีทางเดินของตัวเอง ระหว่างที่ XR เปิดอยู่ pass จึงปิดตัวเอง ส่วนหมอกในเชเดอร์น้ำยังทำงานปกติ น้ำในฉาก VR จึงยังกลมกลืนกับตัวมันเอง
+- **วัสดุ transparent ไม่ถูกลงหมอก** ยกเว้นน้ำของ ZLZ กระจก particle และเชเดอร์ transparent จากที่อื่นไม่เคยเข้า depth texture — ของพวกนี้ต้องใช้ **Sync Unity Fog** แทน
+- **กล้องที่เรนเดอร์ลง Render Texture ถูกข้าม** เช่นเดียวกับกล้อง preview, reflection probe และกล้องกระจกของ Planar Reflection แต่ **Scene view ปล่อยผ่าน** จะได้จูนหมอกไปดูไป
+- **หนึ่งฉากมีหมอกได้ชุดเดียว** เพราะมันคือบรรยากาศ ไม่ใช่เอฟเฟกต์รายวัสดุหรือราย volume ถ้ามีสอง component ในฉากเดียว ตัวที่ถูกเปิดทีหลังคือตัวที่ได้ขับ
+- **นี่ไม่ใช่ volumetric fog** ไม่มีลำแสงลอดและไม่มีการกระเจิงรอบดวงไฟ — มันคือหมอกที่คิดจากระยะและความสูง ซึ่งเป็นสิ่งที่ฉากสไตไลซ์ต้องการ และเป็นสิ่งที่ยังไหวบน Mobile
