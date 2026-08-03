@@ -2,111 +2,111 @@
 layout: docs
 title: Fog
 last_modified_at: 2026-08-03
-published: false
+published: true
 ---
 
 # Fog
 
-**บรรยากาศชุดเดียวที่ครอบทั้งฉาก** — ของไกล ๆ จางหายเข้าไปในหมอก หมอกบาง ๆ นอนคลุมพื้นจนเนินเขาและยอดอาคารโผล่พ้นขึ้นมา และ skybox ก็รับโทนเดียวกันตรงเส้นขอบฟ้า พื้นดินกับท้องฟ้าจึงบรรจบกันโดยไม่เห็นรอยต่อ
+**One atmosphere for the whole scene** — distance fades the world into a haze, a low mist lies over the ground with the hills and rooftops rising out of it, and the skybox picks up the same tone along the horizon, so land and sky meet with no seam.
 
-ต่างจากฟีเจอร์อื่นในหมวด Environment Shader ตรงที่ **Fog ไม่ใช่ฟีเจอร์ของวัสดุ** — ไม่มีปุ่มเปิดในตาราง Features และไม่มีค่าให้ตั้งทีละวัสดุ ทุกค่าอยู่บน component ตัวเดียวในฉาก แล้วทุกอย่างที่วาดหมอกก็อ่านจากตรงนั้น พื้น หน้าผา props หญ้า และน้ำ จึงจมอยู่ในหมอกชุดเดียวกัน เพราะใช้ตัวเลขชุดเดียวกันทั้งหมด
+Unlike the other features in the Environment Shader section, **Fog is not a material feature** — there is no toggle in the Features grid and nothing to set per material. Every value lives on a single component in the scene, and everything that draws fog reads from it. Ground, cliffs, props, grass and water all sink into the same haze, because they all use the same numbers.
 
 ## Showcase Fog
 {% include youtube-loop.html id="lE-B9awE0lw" %}
 
 ---
 
-## การติดตั้ง
+## Setup
 
-มีสองอย่าง และอย่างที่สองปกติทำไว้ให้แล้ว
+Two things, and the second one is normally already done for you.
 
-### 1. component ในฉาก
+### 1. The component in the scene
 
-ใส่ **`ZLZ_Env Fog`** จาก `Add Component > ZLZ > Environment Shader > ZLZ_Env Fog` วางไว้ที่ไหนก็ได้ — จะเป็น object เปล่าชื่อ `Fog` หรือ object เดียวกับ Environment Dashboard ก็ได้
+Add **`ZLZ_Env Fog`** from `Add Component > ZLZ > Environment Shader > ZLZ_Env Fog`. It can live anywhere — an empty object called `Fog`, or the same object as the Environment Dashboard.
 
-หรือให้เมนู setup จัดการให้: **`GameObject > ZLZ > Setup ZLZ Global`** จะสร้าง Grass, Wind **และ** Fog ให้พร้อมกันใต้ parent ชื่อ `ZLZ_Global` เรียกซ้ำได้ไม่มีปัญหา — ฉากเก่าที่ยังไม่มี Fog จะได้เฉพาะชิ้นที่ขาด ไม่สร้างซ้ำ
+Or let the setup menu do it: **`GameObject > ZLZ > Setup ZLZ Global`** creates Grass, Wind **and** Fog together under a parent called `ZLZ_Global`. Running it again is safe — an older scene without a Fog only gains the piece it is missing, and nothing is ever duplicated.
 
-> **ไม่มีอะไรถูก bake ลงในฉาก** ค่าทุกตัวอยู่บน component ดังนั้นหมอกจึงติดไปกับ Prefab เหมือน component ทั่วไป และแต่ละด่านพกบรรยากาศของตัวเองไปได้
+> **Nothing is baked into the scene.** Every value lives on the component, so the fog rides Prefabs like any other component, and each level can carry its own atmosphere with it.
 
-### 2. Renderer Feature
+### 2. The Renderer Feature
 
-ในลิสต์ Renderer Feature ของ URP Renderer ต้องมี **`ZLZ Env Fog`** อยู่ ตัวนี้ถูกติดตั้งอัตโนมัติตอน import แพ็กเกจพร้อมกับฟีเจอร์ ZLZ ตัวอื่น — ถ้าหายไป (เช่นถูกลบด้วยมือ) ใส่กลับได้ด้วยปุ่ม **Add Renderer Feature** บน URP Renderer
+The URP Renderer's feature list has to contain **`ZLZ Env Fog`**. It is installed automatically when the package is imported, along with the other ZLZ features — if it goes missing (deleted by hand, say), put it back with **Add Renderer Feature** on the URP Renderer.
 
-ตัว Renderer Feature เอง **ไม่มีอะไรให้ตั้งค่า** ทุกค่าอยู่บน component ในฉากทั้งหมด
+The Renderer Feature itself **has nothing to configure**. Every value lives on the scene component.
 
-> **ไม่ต้องไปติ๊ก Depth Texture ที่ URP Asset** pass ขอ depth texture ด้วยตัวเอง หมอกจึงทำงานได้โดยไม่ต้องแก้ URP Asset
+> **No need to tick Depth Texture on the URP Asset.** The pass requests the depth texture itself, so the fog works without touching the URP Asset.
 
-### การปิดหมอก
+### Turning the fog off
 
-ตั้ง **Intensity เป็น `0`** หรือ **ปิด component** หรือ **ลบ component ทิ้ง** — ทั้งสามอย่างให้ผลเดียวกันคือ pass จะไม่ถูกเรียกเข้าคิว และทุกฝั่งที่วาดหมอกจะข้ามงานของตัวเองไป
+Set **Intensity to `0`**, or **disable the component**, or **delete the component** — all three do the same thing: the pass is never enqueued, and everything that draws fog skips its own work.
 
-หมอกที่ไม่ได้ใช้จึงไม่กินคอสต์อะไรเลย ไม่มีเหตุผลต้องรื้อ component ออกจากฉากที่วันนี้ยังไม่อยากได้หมอก
+A fog that is not in use costs nothing at all, so there is no reason to strip the component out of a scene that simply does not want fog today.
 
 ---
 
-## พารามิเตอร์
+## Parameters
 
 ![Script_Fog](../fog/Script_Fog.png)
 
 ### Fog
 
-- **Fog Color** (ค่าเริ่มต้นเป็นฟ้าอ่อน) — สีที่ทุกอย่างจะจางเข้าไปหา เลือกสีใกล้กับขอบฟ้าของ skybox จะได้ลุคนุ่ม ๆ แบบมาตรฐาน ถ้าเลือกโทนเข้มขุ่นกว่าจะอ่านเป็นฝุ่นหรือแสงยามพลบ
-- **Intensity** (`0–1`, ค่าเริ่มต้น `1`) — ความแรงรวม และเป็นสวิตช์หลักด้วย ค่า `0` คือปิด**ทั้งระบบ** และข้ามงานหมอกทุกจุด
-- **Start Distance** (เมตร, ค่าเริ่มต้น `40`) — ระยะที่หมอกเริ่มจับ อะไรที่ใกล้กว่านี้ไม่ถูกแตะเลย
-- **End Distance** (เมตร, ค่าเริ่มต้น `250`) — ระยะที่หมอกหนาเต็มที่
-- **Density Curve** (`0.25–4`, ค่าเริ่มต้น `1`) — ปรับรูปทรงความหนาระหว่าง Start กับ End **โดยไม่ขยับปลายทั้งสองข้าง** ต่ำกว่า `1` หมอกจะมาเร็ว (ใกล้ ๆ หนาขึ้น ปลายไกลเท่าเดิม) สูงกว่า `1` จะใสอยู่นานแล้วค่อยหนาตอนท้าย ส่วน `1` คือไล่ขึ้นสม่ำเสมอ
+- **Fog Color** (default a pale blue) — the colour everything fades into. Pick something close to the horizon of your skybox for the classic soft look; a darker, dirtier tone reads as dust or dusk
+- **Intensity** (`0–1`, default `1`) — master strength, and the master switch as well. `0` turns **the whole system** off and skips every piece of fog work
+- **Start Distance** (metres, default `40`) — where the fog starts to take hold. Anything closer than this is not touched at all
+- **End Distance** (metres, default `250`) — where the fog is at full density
+- **Density Curve** (`0.25–4`, default `1`) — shapes the density between Start and End **without moving either end**. Below `1` the fog arrives early (thicker up close, the far end unchanged); above `1` it stays clear longer and thickens late; `1` is an even ramp
 
-> **End ถูกกันไม่ให้ต่ำกว่า Start ให้อยู่แล้ว** ลาก End ลงไปต่ำกว่า Start เมื่อไร ค่าจะเด้งกลับมาที่ Start + 0.1 เมตร ช่วงหมอกจึงกลับหัวไม่ได้
+> **End is already kept above Start for you.** Drag End below Start and the value snaps back to Start + 0.1 m, so the band can never invert.
 
 ### Height
 
-- **Height** (ค่า Y ในโลก, ค่าเริ่มต้น `0`) — ที่ความสูงนี้ลงไป หมอกหนาเต็มที่
-- **Height Fade** (เมตร, ค่าเริ่มต้น `200`) — เหนือ Height ขึ้นไปกี่เมตรกว่าหมอกจะจางหายไปหมด
+- **Height** (world Y, default `0`) — at this height and below, the fog is at full density
+- **Height Fade** (metres, default `200`) — how many metres above Height the fog takes to thin away to nothing
 
-**คู่นี้คือสิ่งที่เปลี่ยนหมอกตามระยะให้กลายเป็นสภาพอากาศ** ถ้าปล่อย Fade ไว้ค่าใหญ่ตามค่าเริ่มต้น ชั้นความสูงจะเกือบเต็มทุกที่ ผลที่ได้คือหมอกตามระยะแบบธรรมดา แต่ถ้าหด Fade เหลือไม่กี่เมตรจะได้ **หมอกเตี้ย ๆ นอนอยู่กับพื้น** ที่เนินเขา หอคอย และหลังคาโผล่พ้นขึ้นมา
+**This pair is what turns distance fog into weather.** Leave Fade at its large default and the height band is nearly full everywhere, which gives you ordinary distance fog. Shrink it to a few metres and you get **a low mist lying on the ground**, with hills, towers and rooftops rising out of it.
 
 ### Sky
 
-- **Sky Fog** (`0–1`, ค่าเริ่มต้น `1`) — **skybox** รับหมอกที่ขอบฟ้ามากแค่ไหน `1` คือกลืนพื้นดินกับท้องฟ้าเข้าด้วยกันสนิท `0` คือไม่แตะ skybox เลย
+- **Sky Fog** (`0–1`, default `1`) — how much fog the **skybox** picks up at the horizon. `1` blends land and sky together seamlessly, `0` leaves the skybox untouched
 
-พิกเซลของท้องฟ้าไม่มีอะไรอยู่ข้างหลัง ระยะทางจึงไม่มีความหมาย — ตัวที่ตัดสินคือ **ทิศที่มอง** หมอกจะกองอยู่ที่ขอบฟ้าและใสขึ้นเรื่อย ๆ เมื่อเงยขึ้นหาจุดสูงสุด และตรงขอบฟ้าค่าที่ได้เท่ากับความแรงที่หมอกพื้นดินไปถึงที่ระยะ End Distance พอดี นั่นคือเหตุผลที่ภูเขาไกล ๆ กับท้องฟ้าข้างหลังบรรจบกันโดยไม่มีเส้นคาด
+Sky pixels have nothing behind them, so distance is meaningless there — what decides is **the direction you are looking**. The fog gathers along the horizon and clears as you look up toward the zenith, and at the horizon it reaches exactly the strength the ground fog reaches at End Distance. That is why distant hills and the sky behind them meet without a visible line.
 
 ### Noise
 
-ปิดไว้เป็นค่าเริ่มต้น เปิดแล้วหมอกจะ **หนาบางเป็นหย่อม ๆ ไหลช้า ๆ** แทนที่จะเรียบเสมอกันหมด — เป็นความต่างระหว่าง "ค่าหมอกค่าหนึ่ง" กับ "สภาพอากาศ"
+Off by default. Turn it on and the fog **gathers and thins into slow drifting banks** instead of sitting perfectly even — the difference between "a fog setting" and weather.
 
-- **Noise** (ค่าเริ่มต้นปิด) — ปิดแล้วคณิตศาสตร์ส่วน noise ถูกข้ามไปจริง ๆ ไม่ใช่แค่ซ่อนผลลัพธ์
-- **Noise Amount** (`0–1`, ค่าเริ่มต้น `0.5`) — หย่อมหมอกเบี่ยงจากความหนาแบบเรียบไปได้ไกลแค่ไหน ค่า `1` คือแกว่งได้เต็ม ±50%
-- **Noise Scale** (ค่าเริ่มต้น `0.015`) — ความถี่ของลวดลายในโลกจริง **ยิ่งเลขน้อย หย่อมยิ่งใหญ่และยิ่งนิ่ง**
-- **Noise Speed** (ค่าเริ่มต้น `0.3`) — หย่อมหมอกไหลเร็วแค่ไหน
+- **Noise** (default off) — with it off the noise maths is genuinely skipped, not just hidden
+- **Noise Amount** (`0–1`, default `0.5`) — how far the banks depart from the flat density. `1` lets it wander a full ±50%
+- **Noise Scale** (default `0.015`) — the frequency of the pattern in world space. **Smaller values mean larger, calmer banks**
+- **Noise Speed** (default `0.3`) — how fast the banks drift
 
-หย่อมหมอกจะ**ไหลเฉียงไปเรื่อย ๆ** ไม่ใช่เต้นอยู่กับที่ การเคลื่อนไหวจึงอ่านเป็นลมฟ้าอากาศ ไม่ใช่พื้นผิวที่กำลังหายใจ และในระยะไกลมันจะ **คลายกลับเป็นหมอกเรียบ** — จากครึ่งทางถึง End Distance ลวดลายจะจางหายไป เพราะระยะนั้นลายเล็กกว่าหนึ่งพิกเซลแล้ว มีแต่จะซ่าเป็นจุด ๆ อีกอย่างกำแพงหมอกไกล ๆ ควรนิ่งอยู่แล้ว
+The banks **drift diagonally** rather than pulsing in place, so the motion reads as weather rather than as a texture breathing. In the distance they **settle back into flat fog** — from halfway to End Distance the pattern fades out, because out there it is smaller than a pixel and could only shimmer, and a far fog wall should sit calm anyway.
 
 ### Compatibility
 
-- **Sync Unity Fog** (ค่าเริ่มต้นปิด) — ดูหัวข้อถัดไป
+- **Sync Unity Fog** (default off) — see the next section
 
 ---
 
 ## Sync Unity Fog
 
-หมอก ZLZ ครอบ **ฉาก opaque, skybox และน้ำของ ZLZ** แต่ครอบ particle หรือเชเดอร์มาตรฐานจากที่อื่นไม่ได้ เพราะของพวกนั้นเป็น transparent และไม่เคยลงไปอยู่ใน depth texture
+The ZLZ fog covers **the opaque scene, the skybox and ZLZ water**, but it cannot cover particles or standard shaders from elsewhere, because those are transparent and never reach the depth texture.
 
-เปิดค่านี้แล้ว component จะไปขับ fog ของ Unity เองด้วยค่าที่ตรงกัน — สี, โหมด Linear และระยะเริ่มเดียวกัน — **เฉพาะตอน play** วัสดุพวกนั้นจึงจางเข้าหาโทนเดียวกัน แทนที่จะสว่างโดดอยู่หน้าหุบเขาที่หมอกจัด
+Turn this on and the component drives Unity's own fog with matching values — colour, Linear mode and the same start distance — **while playing only**. Those materials then fade toward the same tone instead of standing out bright in front of a fogged valley.
 
-> **ข้อแลกเปลี่ยน พูดกันตรง ๆ** เชเดอร์พื้นและหญ้าของ ZLZ ใส่ fog ของ Unity อยู่แล้วในตัว พอเปิดค่านี้ ทั้งสองอย่างจึงโดนหมอกซ้อนกันสองชั้นภายในช่วง blend ซึ่งจะอ่านออกมาเป็นหมอกที่หนากว่าที่ตั้งไว้เล็กน้อย นั่นคือเหตุผลที่ค่าเริ่มต้น**ปิดไว้** — เปิดเมื่อมี particle หรือวัสดุจากภายนอกที่ต้องเข้าชุดกัน แล้วค่อยจูน Start / End ใหม่ทั้งที่เปิดอยู่
+> **The trade-off, stated plainly.** The ZLZ ground and grass shaders already apply Unity fog themselves. With this on, both are fogged twice inside the blend band, which reads as slightly denser fog than the values suggest. That is why it is **off by default** — turn it on when you have particles or outside materials that need to match, then re-tune Start / End with it enabled.
 
-สองอย่างที่มันตั้งใจไม่ทำ
+Two things it deliberately does not do:
 
-- **ไม่แตะ edit mode เลย** การเขียน `RenderSettings` ทุกครั้งที่ลากสไลเดอร์จะทำให้ฉาก dirty สะพานเชื่อมนี้จึงทำงานเฉพาะตอน play
-- **ค่า fog เดิมของโปรเจกต์ไม่หาย** ค่าเดิมถูกเก็บไว้ครั้งเดียวและคืนกลับให้ทันทีที่เลิกขับ
+- **It never touches edit mode.** Writing `RenderSettings` on every slider drag would leave the scene dirty, so the bridge only runs in play mode
+- **Your project's own fog settings survive.** They are captured once and restored the moment this stops driving
 
 ---
 
-## ข้อจำกัด
+## Limits
 
-- **ยังไม่รองรับ VR** — fullscreen triangle บนภาพ stereo ต้องมีทางเดินของตัวเอง ระหว่างที่ XR เปิดอยู่ pass จึงปิดตัวเอง ส่วนหมอกในเชเดอร์น้ำยังทำงานปกติ น้ำในฉาก VR จึงยังกลมกลืนกับตัวมันเอง
-- **วัสดุ transparent ไม่ถูกลงหมอก** ยกเว้นน้ำของ ZLZ กระจก particle และเชเดอร์ transparent จากที่อื่นไม่เคยเข้า depth texture — ของพวกนี้ต้องใช้ **Sync Unity Fog** แทน
-- **กล้องที่เรนเดอร์ลง Render Texture ถูกข้าม** เช่นเดียวกับกล้อง preview, reflection probe และกล้องกระจกของ Planar Reflection แต่ **Scene view ปล่อยผ่าน** จะได้จูนหมอกไปดูไป
-- **หนึ่งฉากมีหมอกได้ชุดเดียว** เพราะมันคือบรรยากาศ ไม่ใช่เอฟเฟกต์รายวัสดุหรือราย volume ถ้ามีสอง component ในฉากเดียว ตัวที่ถูกเปิดทีหลังคือตัวที่ได้ขับ
-- **นี่ไม่ใช่ volumetric fog** ไม่มีลำแสงลอดและไม่มีการกระเจิงรอบดวงไฟ — มันคือหมอกที่คิดจากระยะและความสูง ซึ่งเป็นสิ่งที่ฉากสไตไลซ์ต้องการ และเป็นสิ่งที่ยังไหวบน Mobile
+- **VR is not supported yet** — a fullscreen triangle under stereo needs its own path, so while XR is enabled the pass switches itself off. The fog inside the water shader still runs, so water in a VR scene stays consistent with itself
+- **Transparent materials are not fogged**, apart from ZLZ water. Glass, particles and transparent shaders from elsewhere never enter the depth texture — **Sync Unity Fog** is the answer for those
+- **Cameras rendering to a Render Texture are skipped**, as are preview cameras, reflection probes and the mirror camera of Planar Reflection. **The Scene view is allowed through**, so you can tune the fog and watch it as you go
+- **One fog per scene.** It is an atmosphere, not a per-material or per-volume effect. With two components in one scene, the one enabled last is the one driving
+- **This is not volumetric fog.** There are no light shafts and no scattering around lights — it is a haze computed from distance and height, which is what a stylised scene wants and what stays viable on Mobile
