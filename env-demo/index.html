@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+  <title>ZLZ Env Shader</title>
+  <link rel="preload" as="script" href="Build/WebGL.loader.js">
+  <style>
+    html, body { margin:0; padding:0; height:100%; background:#0e1116; overflow:hidden;
+                 font-family:-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    #unity-container { position:absolute; inset:0; }
+    #unity-canvas    { width:100%; height:100%; display:block; background:#0e1116; }
+
+    /* ── Loading overlay ───────────────────────────── */
+    #zlz-loading {
+      position:absolute; inset:0; z-index:10;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
+      background:radial-gradient(120% 120% at 50% 30%, #14261b 0%, #0e1116 72%);
+      color:#e7ecf3; transition:opacity .6s ease;
+    }
+    #zlz-loading.hidden { opacity:0; pointer-events:none; }
+    #zlz-title { font-size:24px; font-weight:600; letter-spacing:.5px; }
+    #zlz-sub   { font-size:13px; opacity:.5; margin-top:-12px; }
+    #zlz-bar   { width:320px; max-width:60vw; height:6px; border-radius:6px;
+                 background:rgba(255,255,255,.10); overflow:hidden; }
+    #zlz-fill  { width:0%; height:100%; border-radius:6px;
+                 background:linear-gradient(90deg, #86efac, #38bdf8); transition:width .2s ease; }
+    #zlz-pct   { font-size:12px; opacity:.65; font-variant-numeric:tabular-nums; }
+
+    /* ── Fullscreen button ─────────────────────────── */
+    #zlz-fs { position:absolute; right:14px; bottom:12px; z-index:11;
+              width:36px; height:36px; border:0; border-radius:8px; cursor:pointer;
+              background:rgba(255,255,255,.10); color:#e7ecf3; font-size:16px; line-height:36px; }
+    #zlz-fs:hover { background:rgba(255,255,255,.22); }
+  </style>
+</head>
+<body>
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+    <div id="zlz-loading">
+      <div id="zlz-title">ZLZ Env Shader</div>
+      <div id="zlz-sub">Loading demo…</div>
+      <div id="zlz-bar"><div id="zlz-fill"></div></div>
+      <div id="zlz-pct">0%</div>
+    </div>
+
+    <button id="zlz-fs" title="Fullscreen" style="display:none">⛶</button>
+  </div>
+
+  <script>
+    var canvas  = document.querySelector("#unity-canvas");
+    var loading = document.querySelector("#zlz-loading");
+    var fill    = document.querySelector("#zlz-fill");
+    var pct     = document.querySelector("#zlz-pct");
+    var fsBtn   = document.querySelector("#zlz-fs");
+
+    var config = {
+      // Uncompressed build: the browser compiles the wasm while it streams, and
+      // no Brotli has to be unpacked in JS (that step cost ~30s on GitHub Pages,
+      // which cannot send the "Content-Encoding: br" header these files need).
+      dataUrl:      "Build/WebGL.data",
+      frameworkUrl: "Build/WebGL.framework.js",
+      codeUrl:      "Build/WebGL.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName:    "ZLZ Studio",
+      productName:    "ZLZ Env Shader",
+      productVersion: "0.1.0",
+    };
+
+    var script = document.createElement("script");
+    script.src = "Build/WebGL.loader.js";
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) {
+        var v = Math.round(p * 100);
+        fill.style.width = v + "%";
+        pct.textContent  = v + "%";
+      }).then(function (unity) {
+        window.zlzBootMs = Math.round(performance.now());  // handy when tuning load time
+        loading.classList.add("hidden");          // fade out the loading screen
+        fsBtn.style.display = "block";
+        fsBtn.onclick = function () { unity.SetFullscreen(1); };
+      }).catch(function (msg) {
+        document.querySelector("#zlz-sub").textContent = "Failed to load demo: " + msg;
+        fill.style.background = "#ef4444";
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
