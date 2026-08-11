@@ -834,19 +834,25 @@
       </div>
     </section>
 
-    <!-- ===== ZLZ Env Shader — WebGL Demo (reserved slot) ===== -->
-    <section class="demo" data-product="env" style="display:none;">
+    <!-- ===== ZLZ Env Shader — WebGL Demo (Embed) ===== -->
+    <section class="demo" id="envDemo" data-product="env" style="display:none;">
       <div class="demoHead">
         <div>
-          <h2>WebGL Demo Coming Soon</h2>
+          <h2>WebGL Demo</h2>
           <small>Try ZLZ Env Shader in browser (WebGL)</small>
         </div>
       </div>
 
-      <div class="embedScaled" style="aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px; background:radial-gradient(600px 300px at 50% 30%, #14261b 0%, #0e1116 72%);">
-        <div style="width:74px; height:74px; border-radius:999px; border:2px dashed rgba(34,197,94,.55); display:flex; align-items:center; justify-content:center; font-size:30px; color:#22c55e;">▶</div>
-        <div style="font-weight:800;">Demo slot — reserved</div>
-        <small style="color:var(--muted);">Reserved for the ZLZ Env Shader WebGL demo</small>
+      <!-- Same off-critical-path pattern as the anime demo below : the iframe is
+           injected by JS only when this tab is actually visible, so a visitor on
+           the other tab never downloads this build. -->
+      <div class="embedScaled zlzDemoWrap">
+        <div class="stage zlzDemoStage" data-demo-src="/env-demo/" data-demo-title="ZLZ Env Shader WebGL demo">
+          <div class="stagePoster">
+            <div class="stagePosterTitle">ZLZ Env Shader</div>
+            <small>Starting demo…</small>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -862,8 +868,8 @@
       <!-- The iframe is injected by JS once the page itself is interactive, so the
            25 MB demo never sits on the critical path. It still starts on its own —
            no click needed — the visitor just gets a usable page while it boots. -->
-      <div class="embedScaled" id="demoWrap">
-        <div class="stage" id="demoStage" data-demo-src="/demo/">
+      <div class="embedScaled zlzDemoWrap" id="demoWrap">
+        <div class="stage zlzDemoStage" id="demoStage" data-demo-src="/demo/" data-demo-title="ZLZ Anime Shader WebGL demo">
           <div class="stagePoster" id="demoPoster">
             <div class="stagePosterTitle">ZLZ Anime Shader</div>
             <small>Starting demo…</small>
@@ -1572,11 +1578,10 @@
         t.classList.toggle("active", active);
         t.setAttribute("aria-selected", active ? "true" : "false");
       });
-      // demo needs re-scaling after becoming visible again
-      if (key === "anime"){
-        if (typeof fitItchDemo === "function") fitItchDemo();
-        if (typeof window.zlzInjectDemo === "function") window.zlzInjectDemo();
-      }
+      // demos need re-scaling after becoming visible again, and the newly shown
+      // tab's demo starts on first view (each tab has its own embed now)
+      if (typeof fitItchDemo === "function") fitItchDemo();
+      if (typeof window.zlzInjectDemo === "function") window.zlzInjectDemo();
     }
 
     tabs.forEach(function(t){
@@ -1593,64 +1598,70 @@
   </script>
   <script>
   function fitItchDemo(){
-    const wrap = document.getElementById("demoWrap");
-    const stage = document.getElementById("demoStage");
-    if(!wrap || !stage) return;
+    // Both product tabs carry a demo embed now, so this scales every stage on
+    // the page, not one hard-coded id.
+    document.querySelectorAll(".zlzDemoWrap").forEach(function(wrap){
+      const stage = wrap.querySelector(".zlzDemoStage");
+      if(!stage) return;
 
-    const baseW = 1280; // must match stage width
-    const baseH = 720;  // must match stage height (16:9)
-    const scale = wrap.clientWidth / baseW;
+      const baseW = 1280; // must match stage width
+      const baseH = 720;  // must match stage height (16:9)
+      const scale = wrap.clientWidth / baseW;
 
-    stage.style.transform = `scale(${scale})`;
-    wrap.style.height = (baseH * scale) + "px"; // prevent clipping
+      stage.style.transform = `scale(${scale})`;
+      wrap.style.height = (baseH * scale) + "px"; // prevent clipping
+    });
   }
 
-  // Size it as soon as the box exists — waiting for window.load meant waiting on
+  // Size it as soon as the boxes exist — waiting for window.load meant waiting on
   // the demo itself, so the stage sat unscaled and overflowing until it booted.
   fitItchDemo();
-  const demoWrapEl = document.getElementById("demoWrap");
-  if (demoWrapEl && window.ResizeObserver){
-    new ResizeObserver(fitItchDemo).observe(demoWrapEl); // also covers tab switches
+  if (window.ResizeObserver){
+    document.querySelectorAll(".zlzDemoWrap").forEach(function(wrap){
+      new ResizeObserver(fitItchDemo).observe(wrap); // also covers tab switches
+    });
   } else {
     window.addEventListener("resize", fitItchDemo);
   }
   </script>
 
   <script>
-  // ===== Demo iframe: auto-start, but off the critical path =====
+  // ===== Demo iframes: auto-start, but off the critical path =====
   // Unity's boot is CPU-heavy and a same-origin iframe shares the page's renderer
   // process, so injecting it inline froze the page until the demo was ready.
   // Waiting for load + idle lets the page become clickable first; the demo still
-  // starts by itself, with no interaction required.
+  // starts by itself, with no interaction required. Each product tab has its own
+  // stage ; only the VISIBLE tab's demo is injected, so a visitor never downloads
+  // the ~50 MB build of a tab they are not looking at.
   (function(){
-    var stage = document.getElementById("demoStage");
-    if(!stage) return;
-    var injected = false;
+    var stages = document.querySelectorAll(".zlzDemoStage[data-demo-src]");
+    if(!stages.length) return;
 
-    function injectDemo(){
-      if(injected) return;
-      // Don't spend 60 MB on a demo the visitor isn't looking at (Env tab).
-      if(stage.closest(".demo").style.display === "none") return;
-      injected = true;
+    function injectDemos(){
+      stages.forEach(function(stage){
+        if(stage.dataset.injected) return;
+        if(stage.closest(".demo").style.display === "none") return;
+        stage.dataset.injected = "1";
 
-      var frame = document.createElement("iframe");
-      frame.src = stage.dataset.demoSrc;
-      frame.setAttribute("allow", "fullscreen; autoplay; gamepad *");
-      frame.setAttribute("allowfullscreen", "");
-      frame.setAttribute("title", "ZLZ Anime Shader WebGL demo");
-      frame.addEventListener("load", function(){
-        var poster = document.getElementById("demoPoster");
-        if(poster) poster.remove();
+        var frame = document.createElement("iframe");
+        frame.src = stage.dataset.demoSrc;
+        frame.setAttribute("allow", "fullscreen; autoplay; gamepad *");
+        frame.setAttribute("allowfullscreen", "");
+        frame.setAttribute("title", stage.dataset.demoTitle || "ZLZ WebGL demo");
+        frame.addEventListener("load", function(){
+          var poster = stage.querySelector(".stagePoster");
+          if(poster) poster.remove();
+        });
+        stage.appendChild(frame);
       });
-      stage.appendChild(frame);
     }
 
-    // Re-checked on tab switch so Env → Anime starts the demo on first view.
-    window.zlzInjectDemo = injectDemo;
+    // Re-checked on tab switch so the newly shown tab starts its demo on first view.
+    window.zlzInjectDemo = injectDemos;
 
     function schedule(){
-      if(window.requestIdleCallback) requestIdleCallback(injectDemo, {timeout:1500});
-      else setTimeout(injectDemo, 200);
+      if(window.requestIdleCallback) requestIdleCallback(injectDemos, {timeout:1500});
+      else setTimeout(injectDemos, 200);
     }
     if(document.readyState === "complete") schedule();
     else window.addEventListener("load", schedule);
