@@ -55,13 +55,21 @@
     var pct     = document.querySelector("#zlz-pct");
     var fsBtn   = document.querySelector("#zlz-fs");
 
+    // Cache-buster: bump this on EVERY new build upload. Unity's loader caches the
+    // .data file in IndexedDB keyed by URL; a returning visitor whose revalidation
+    // fetch fails (flaky network, GitHub hiccup) can otherwise pair an OLD cached
+    // .data with the NEW .wasm and crash with "memory access out of bounds" at ~90%.
+    // A fresh query string makes every build a fresh cache entry, so the mix can
+    // never happen.
+    var buildVersion = "2026-08-18-1";
+
     var config = {
       // Uncompressed build: the browser compiles the wasm while it streams, and
       // no Brotli has to be unpacked in JS (that step cost ~30s on GitHub Pages,
       // which cannot send the "Content-Encoding: br" header these files need).
-      dataUrl:      "Build/WebGL.data",
-      frameworkUrl: "Build/WebGL.framework.js",
-      codeUrl:      "Build/WebGL.wasm",
+      dataUrl:      "Build/WebGL.data?v="         + buildVersion,
+      frameworkUrl: "Build/WebGL.framework.js?v=" + buildVersion,
+      codeUrl:      "Build/WebGL.wasm?v="         + buildVersion,
       streamingAssetsUrl: "StreamingAssets",
       companyName:    "ZLZ Studio",
       productName:    "ZLZ Env Shader",
