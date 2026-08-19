@@ -803,6 +803,12 @@
             <span class="btn assetBtn" style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#22c55e; cursor:default;">
               Coming Soon on Unity Asset Store
             </span>
+            <!-- READY FOR LAUNCH : the store page URL is live only after Unity approves the package.
+                 When it is approved, DELETE the "Coming Soon" span above and UNCOMMENT this button.
+            <a class="btn primary assetBtn" href="https://assetstore.unity.com/packages/slug/397684" target="_blank" rel="noopener">
+              Buy on Unity Asset Store
+            </a>
+            -->
           </div>
         </div>
 
@@ -838,7 +844,7 @@
     <section class="demo" id="envDemo" data-product="env" style="display:none;">
       <div class="demoHead">
         <div>
-          <h2>WebGL Demo</h2>
+          <h2>WebGL Demo Version 1.0.0</h2>
           <small>Try ZLZ Env Shader in browser (WebGL)</small>
         </div>
       </div>
@@ -1453,8 +1459,9 @@
         </div>
       </section>
 
-      <!-- Games Using ZLZ Anime Shader -->
-      <section class="card full">
+      <!-- Games Using ZLZ Anime Shader (anime tab only : without data-product the
+           switcher never touches it and it leaked onto the Env tab too) -->
+      <section class="card full" data-product="anime">
         <h2>Games Using ZLZ Anime Shader</h2>
         <p class="sectionLead">
           Planned-release projects using ZLZ Anime Shader can submit their work to be featured on our website.
