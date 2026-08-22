@@ -1,216 +1,215 @@
 ---
 layout: docs
 title: Environment Shader Overview
-last_modified_at: 2026-08-22
+last_modified_at: 2026-08-23
 published: false
 ---
 
 <!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
-<!-- ฉบับร่างภาษาไทย รอเจ้าของแก้แล้วค่อยแปลงเป็นอังกฤษให้เข้ากับหน้าอื่น -->
 
 # ZLZ Environment Shader
 
 <!-- ![Env_Shader_Overall](../images/Env_Shader_Overall.webp) -->
 
-`ZLZ_Environment_Shader` คือ shader หลักของแพ็กเกจ ใช้กับพื้นผิวทุกอย่างที่คุณปั้นเอง — พื้นดิน หน้าผา ก้อนหิน ต้นไม้ ใบไม้ ตัวอาคาร props — ทุกเมชที่ออกมาจาก Maya หรือ Blender ใช้ตัวนี้ตัวเดียวจบ
+`ZLZ_Environment_Shader` is the main surface shader of the package. It renders everything you sculpted yourself — ground, cliffs, rocks, trees, leaves, buildings, props — every mesh that comes out of Maya or Blender runs on this one shader.
 
-ในแพ็กเกจมี shader ทั้งหมด 3 ตัว แบ่งงานกันชัดเจน ไม่ทับกัน:
+The package ships three shaders, each with its own clearly separated job:
 
-| Shader | ใช้กับ |
+| Shader | Used for |
 |---|---|
-| **ZLZ/Environment/Shader** | พื้นผิวทั่วไปทั้งหมด |
-| **ZLZ/Environment/Grass** | ใบหญ้าและดอกไม้ที่ระบบ Grass ปลูกให้ |
-| **ZLZ/Environment/Water** | ผิวน้ำ |
+| **ZLZ/Environment/Shader** | Every general surface |
+| **ZLZ/Environment/Grass** | The blades and flowers the Grass system plants |
+| **ZLZ/Environment/Water** | Water surfaces |
 
 - Path : `Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader`
-- Inspector : ใช้ GUI เฉพาะของ ZLZ (`ZLZEnvShaderGUI`) หน้าตาและวิธีใช้เหมือนกับ ZLZ Anime Shader ทุกประการ
+- Inspector : a dedicated ZLZ GUI (`ZLZEnvShaderGUI`) — the same layout and the same habits as ZLZ Anime Shader
 
 ---
 
-## ปัญหาที่ shader ตัวนี้แก้
+## What This Shader Solves
 
-- **ไม่ผูกกับ Unity Terrain** — ระบายเทกซ์เจอร์ทับกันได้ถึง 4 เลเยอร์บนเมชที่คุณปั้นเอง หน้าผาเอียง 70 องศาก็ระบายได้ ถ้ำที่มีเพดานก็ระบายได้ สิ่งที่ Terrain ทำไม่ได้
-- **เก็บข้อมูล paint ได้ 2 แบบ** — ลง Mask Texture หรือลง Vertex Color ของเมช เลือกตามไปป์ไลน์ของทีม (Vertex Color = ไม่กินเทกซ์เจอร์เพิ่มเลยสักใบ)
-- **Custom Brushes ได้ 4 แบบ** — โดยทั่วไปการ Paint ต้องใช้ Unity Terrain ซึ่งผู้ใช้ Custom Brushes ไม่ได้ แต่ZLZผู้ใช้สามารถ Custom ได้โดยง่าย
-- **โทนอนิเมะเป็นค่าตั้งต้น ไม่ใช่ของแถม** — Shadow Color กับ ToonRamp Smoothness เป็นส่วนหนึ่งของแกนหลักที่ปิดไม่ได้ ฉากจึงเข้ากับตัวละคร ZLZ Anime Shader ได้ทันทีโดยไม่ต้องจูน
-- **ปิดฟีเจอร์แล้วหายไปจริง ๆ** — ทุกฟีเจอร์ที่ปิดจะถูก strip ออกจาก shader variant ที่คอมไพล์ ไม่ใช่แค่คูณศูนย์ วัสดุที่ใช้แค่ Albedo กับ ToonRamp จึงเบาพอ ๆ กับ unlit shader ธรรมดา
-- **ทำงานร่วมกับ URP อย่างที่ environment shader ควรทำ** — Lightmap, Shadowmask, Subtractive, SSAO, URP Decal, Fog ของ Unity, GPU Instancing และ SRP Batcher ใช้ได้ครบโดยไม่ต้องแก้อะไร
+- **Not tied to Unity Terrain** — paint up to 4 texture layers onto meshes you sculpted yourself. A cliff leaning at 70 degrees can be painted. A cave with a ceiling can be painted. Neither is something Terrain can do
+- **Paint data stored two ways** — into a Mask Texture, or into the mesh's Vertex Colors. Pick whichever suits your pipeline (Vertex Color costs you no extra texture at all)
+- **Four customisable brushes** — painting normally means Unity Terrain, where the brush is whatever Unity gives you. Here one slot is the built-in soft circle and the other three take any Texture2D you drop on them, so shaping your own brush takes seconds
+- **The anime look is the baseline, not an add-on** — Shadow Color and ToonRamp Smoothness are part of the locked core, so an environment sits next to a ZLZ Anime Shader character correctly with no tuning
+- **Turning a feature off really removes it** — every disabled feature is stripped out of the compiled shader variant, not multiplied by zero. A material using only Albedo and ToonRamp ends up about as cheap as a plain unlit shader
+- **Works with URP the way an environment shader should** — Lightmaps, Shadowmask, Subtractive, SSAO, URP Decals, Unity's own fog, GPU Instancing and the SRP Batcher all work with nothing to change
 
 ---
 
-## หน้าตาของ Inspector
+## How the Material Is Laid Out
 
 ![Features](../shader/Features.png)
 
-เปิดวัสดุขึ้นมาจะเจอ **แผง Features อยู่บนสุด** เป็นตารางปุ่มสำหรับเปิด/ปิดฟีเจอร์ ด้านล่างถัดลงมาคือหมวดค่าต่าง ๆ ที่จะโผล่มาเมื่อฟีเจอร์นั้นถูกเปิด
+Open a material and the **Features panel sits at the very top** — a grid of buttons that switch features on and off. Below it are the value sections, each appearing once its feature is enabled.
 
-ฟีเจอร์แบ่งเป็น 2 กลุ่ม
+Features come in two groups.
 
-### กลุ่มที่ 1 — Locked (6 หมวด เปิดอยู่ตลอด)
+### Group 1 — Locked (6 sections, always on)
 
-หมวดโครงสร้างหลักที่ปิดไม่ได้ และไม่จำเป็นต้องปิด เพราะแทบไม่มีต้นทุน
+The structural sections. They cannot be turned off, and there is no reason to want to: they cost next to nothing.
 
-| หมวด | ควบคุมอะไร |
+| Section | What it controls |
 |---|---|
 | **Rendering** | Render Queue (Opaque / AlphaTest / Transparent), Blend, Cull Mode, ZWrite, ZTest, Alpha Clipping + Cutoff, Cast Shadow |
-| **Texture** | Albedo, Tiling / Offset — และถ้าเปิด Triplanar ค่า World Tiling กับ Blend Sharpness จะมาโผล่ในหมวดนี้ |
+| **Texture** | Albedo, Tiling / Offset — and with Triplanar on, World Tiling and Blend Sharpness appear here instead |
 | **Base Colors** | Base Color, Shadow Color, Texture Brightness |
 | **Lighting** | Receive Shadow, Additional Light Intensity |
-| **ToonRamp** | Toon Ramp Smoothness — ความคมของขอบระหว่างส่วนสว่างกับส่วนเงา |
+| **ToonRamp** | Toon Ramp Smoothness — how hard the edge between lit and shadowed areas reads |
 | **Transparency** | Alpha Value, Shadow Alpha Clip + Cutoff |
 
-> นอกจาก 6 หมวดนี้ยังมีหมวด **Mask Layout** ซ่อนอยู่ในลิสต์ (ไม่มีปุ่มในแผง Features) ใช้กำหนดว่า Metallic / Smoothness / Emissive ตัวไหนอ่านจากช่องไหนของ Feature Mask — ดูหัวข้อ Feature Mask ด้านล่าง
+> Beyond those six there is a **Mask Layout** section further down the list (it has no button in the Features panel). It decides which channel of the Feature Mask each of Metallic / Smoothness / Emissive reads from — see the Feature Mask section below.
 
-### กลุ่มที่ 2 — Optional (10 ฟีเจอร์ เปิด/ปิดได้)
+### Group 2 — Optional (10 features you switch on and off)
 
-| ฟีเจอร์ | ทำอะไร |
+| Feature | What it does |
 |---|---|
-| **Paint Mode** | ระบายเทกซ์เจอร์ทับซ้อนได้ถึง 4 เลเยอร์ แต่ละเลเยอร์มี albedo + normal + smoothness + metallic ของตัวเอง |
-| **Specular** | ไฮไลต์ Blinn-Phong พร้อมโหมด Toon Highlight ที่ตัดขอบให้เป็นแบบอนิเมะ และมี Metallic ในตัว |
-| **Reflection** | เพิ่มชั้นสะท้อนแบบกล้องกระจก (Planar) ทับลงบน probe |
-| **Normal Map** | รายละเอียดนูนต่ำบนผิว |
-| **Triplanar** | ฉายเทกซ์เจอร์ตามแกนโลก ใช้กับเมชที่ไม่มี UV หรือ UV ยืด |
-| **Stochastic** | กำจัดลายซ้ำที่มองเห็นเวลาเทกซ์เจอร์ tile บนพื้นผิวใหญ่ |
-| **Accumulation** | หิมะ / ฝุ่น / มอส เกาะบนผิวที่หันขึ้น โดยไม่ต้องวาด mask |
-| **Wind** | โยกใบไม้ในขั้น vertex ขับด้วยค่าของวัสดุเองหรือด้วยลมกลางของฉาก |
-| **Emission** | ผิวที่เปล่งแสงเอง พร้อมโหมดกะพริบเป็นจังหวะ |
-| **Target Darken** | หรี่ทั้งฉากลงเพื่อขับเป้าหมายให้เด่น สั่งจากสคริปต์ตอนรัน |
+| **Paint Mode** | Blend up to 4 texture layers over the base surface, each with its own albedo, normal, smoothness and metallic |
+| **Specular** | A Blinn-Phong highlight, with a Toon Highlight mode that cuts it into a hard anime edge, and Metallic built in |
+| **Reflection** | Adds the mirror-camera (Planar) tier on top of the probe reflection |
+| **Normal Map** | Surface bump detail |
+| **Triplanar** | Projects textures along the world axes, for meshes with no UVs or stretched ones |
+| **Stochastic** | Removes the visible repeat when a texture tiles across a large surface |
+| **Accumulation** | Snow / dust / moss settling on up-facing surfaces, with no mask to author |
+| **Wind** | Vertex-stage foliage sway, driven by the material's own values or by the scene-wide wind |
+| **Emission** | Surfaces that give off their own light, with an optional pulse |
+| **Target Darken** | Dims the whole scene to spotlight a target, driven from script at runtime |
 
-> ฟีเจอร์ทั้งหมดนี้ตั้งใจให้ตั้งค่าตอนสร้างงาน **ไม่ใช่สลับตอนรันเกม** เพราะการสลับจะสั่ง shader ให้คอมไพล์ variant ใหม่ ยกเว้น Target Darken ที่ออกแบบมาให้ขับจากโค้ดโดยเฉพาะ
-
----
-
-## Feature Mask — เทกซ์เจอร์ใบเดียว คุม 3 ฟีเจอร์
-
-Metallic, Smoothness และ Emissive ไม่ได้ใช้เทกซ์เจอร์ของใครของมัน แต่แชร์ **Feature Mask (RGBA) ใบเดียวกัน** แล้วให้แต่ละฟีเจอร์เลือกเองว่าจะอ่านจากช่อง R, G, B หรือ A
-
-ผลคือหินเปียกที่มีทั้งความมัน ความเงา และรอยเรืองแสง ใช้เทกซ์เจอร์เพิ่มแค่ **1 ใบ** แทนที่จะเป็น 3 ใบ — ประหยัดทั้ง VRAM และจำนวนครั้งที่ GPU ต้องอ่านเทกซ์เจอร์
-
-และถ้าฟีเจอร์ไหนตั้งช่องเป็น **None** ค่าจากสไลเดอร์จะถูกใช้ทั้งผิวเท่ากันหมด — ถ้าไม่มีฟีเจอร์ไหนใช้ mask เลย GUI จะถอดการอ่านเทกซ์เจอร์ใบนี้ออกจาก shader ให้อัตโนมัติ ไม่เหลือต้นทุนค้างไว้
+> These features are meant to be set while authoring, **not switched at runtime** — flipping one asks the shader to compile a new variant. Target Darken is the exception; it was built to be driven from code.
 
 ---
 
-## ZLZ_Env Dashboard — ตัวที่ติดตั้งทุกอย่างให้
+## Feature Mask — One Texture, Three Features
 
-วัสดุที่ใช้ shader ตัวนี้ควรอยู่ **ภายใต้ ZLZ_Env Dashboard** เสมอ
+Metallic, Smoothness and Emissive do not each carry their own texture. They share a single **Feature Mask (RGBA)**, and each one picks for itself whether it reads the R, G, B or A channel.
 
-เหตุผลคือฟีเจอร์ในฝั่ง Environment ไม่ได้จบที่วัสดุ — Reflection ต้องมี Renderer Feature กับ component บนพื้น, Fog ต้องมีทั้ง Renderer Feature และตัวคุมในฉาก, หญ้าต้องมีกล้องจับสีพื้นกับ renderer ของตัวเอง ถ้าให้ผู้ใช้ไปติดตั้งเองทีละจุดใน URP Asset จะพลาดง่ายมาก และอาการเวลาพลาดคือ "เปิดฟีเจอร์แล้วไม่มีอะไรเกิดขึ้น" ซึ่งหาสาเหตุยากที่สุด
+So a wet rock that needs metalness, gloss and a glowing seam costs **one extra texture** instead of three — saving both VRAM and the number of texture reads the GPU has to make.
 
-Dashboard แก้ปัญหานี้ด้วยการ **ติดตั้งให้ทั้งหมดตั้งแต่วินาทีที่ใส่ component เข้าไป** และคอยเฝ้าดูว่าชิ้นส่วนไหนหายไปบ้าง
-
-- เพิ่มได้จาก `Add Component > ZLZ/Environment Shader/ZLZ_Env Dashboard`
-- หรือคลิกขวาที่ GameObject แล้วเลือก `ZLZ > Setup Env Dashboard`
+And when a feature's channel is set to **None**, its slider simply applies evenly across the whole surface. If no feature uses the mask at all, the GUI strips the texture read out of the shader for you, leaving no cost behind.
 
 ---
 
-### หมวดต่าง ๆ ใน Dashboard
+## ZLZ_Env Dashboard — The Piece That Installs Everything
+
+Materials using this shader should always live **under a ZLZ_Env Dashboard**.
+
+The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature plus a component on the floor. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is "I turned the feature on and nothing happened", which is the hardest kind of problem to trace.
+
+The Dashboard solves this by **installing all of it the moment the component is added**, and by watching for any piece that goes missing afterwards.
+
+- Add it from `Add Component > ZLZ/Environment Shader/ZLZ_Env Dashboard`
+- Or right-click a GameObject and choose `ZLZ > Setup Env Dashboard`
+
+---
+
+### The Dashboard Sections
 
 ![Dashboard](../shader/Dashboard.png)
 
-ทุกหมวดมีแถบสถานะบอกว่าชิ้นส่วนครบหรือยัง ถ้าขาดจะมีปุ่มซ่อมให้กดในที่เดียว ไม่ต้องไปตามหาใน URP Asset
+Every section carries a status strip telling you whether its pieces are complete. When something is missing, the button that repairs it is right there — no hunting through the URP Asset.
 
-| หมวด | ทำอะไรได้ |
+| Section | What you can do |
 |---|---|
-| **Vertex Paint Storage** | ดูว่าเมชที่ระบายสีไว้เก็บข้อมูลอยู่ที่ไหน และโยงกับไฟล์โมเดลต้นทางตัวไหน — เวลาแก้โมเดลใน Maya/Blender แล้ว import ใหม่ สีที่ระบายไว้จะตามไปด้วย |
-| **Planar Reflection** | สถานะ Renderer Feature + URP_Reflection + component บนพื้น พร้อมปุ่ม `Repair Reflection Setup` |
-| **Water** | รายการผืนน้ำทั้งหมด เปิด/ปิดทีละผืน จัดการวัสดุ และเบค Foam Flow |
-| **Underwater** | สถานะ Renderer Feature ของภาพใต้น้ำ |
-| **Environment Fog** | สถานะ Renderer Feature ของหมอก + ปุ่มสร้าง Fog Global ให้ในฉาก |
-| **Grass** | หัวใจของระบบหญ้า — เลือกผิวที่ให้หญ้าขึ้น จัดการ Grass Type ระบายเพิ่มเอง `Grow All` / `Clear All` และตั้งค่าสีพื้น |
-| **Grass Performance** | เปิดโหมดวาดหญ้าความละเอียดครึ่ง |
-| **Grass Color Capture** | สถานะกล้องจับสีพื้น พร้อมปุ่มซ่อม |
-| **VFX Features** | ตั้งค่า Target Darken ของกลุ่มนี้ |
+| **Vertex Paint Storage** | See where each painted mesh keeps its data and which source model file it is linked to — edit the model in Maya/Blender, re-import, and the paint follows it across |
+| **Planar Reflection** | Status of the Renderer Feature, URP_Reflection and the floor components, with a `Repair Reflection Setup` button |
+| **Water** | Every water body listed, toggled on and off one at a time, its material managed, and the Foam Flow baked |
+| **Underwater** | Status of the Renderer Feature behind the underwater view |
+| **Environment Fog** | Status of the fog Renderer Feature, plus a button that creates the Fog Global in the scene |
+| **Grass** | The heart of the grass system — choose which surfaces grow grass, manage Grass Types, paint extra by hand, `Grow All` / `Clear All`, and set the ground colour |
+| **Grass Performance** | Switch on the half-resolution grass pass |
+| **Grass Color Capture** | Status of the ground-colour camera, with a repair button |
+| **VFX Features** | Target Darken settings for this group |
 
 ---
 
-### Component ที่ Dashboard ใส่ให้บน object
+### Components the Dashboard Adds for You
 
-| Component | ใส่ให้ที่ไหน | เพื่ออะไร |
+| Component | Added to | Why |
 |---|---|---|
-| `ZLZ_EnvPlanarReflectionPlane` | พื้นทุกชิ้นใต้ Dashboard ที่วัสดุเปิด Reflection ไว้ | บอกกล้องกระจกว่าระนาบสะท้อนอยู่ตรงไหน |
-| `ZLZ_EnvWater` | ทุกเมชที่ใส่วัสดุน้ำอยู่แล้ว | ค่าที่วัสดุเก็บไม่ได้ เช่น เส้นโค้งจังหวะคลื่น และหมอกใต้น้ำของบ่อนั้น |
-| `ZLZ_EnvGrass` | ตัว Dashboard เอง | รากของระบบหญ้า |
-| `ZLZ_EnvGrassColorCamera` | ตัว Dashboard เอง | กล้องจับสีพื้นให้หญ้ากลืนกับพื้นด้านล่าง |
-| `ZLZ_EnvVFX` | ตัว Dashboard เอง | ตัวรับคำสั่ง Target Darken จากโค้ดเกม |
+| `ZLZ_EnvPlanarReflectionPlane` | Every floor under the Dashboard whose material has Reflection on | Tells the mirror camera where the reflecting plane is |
+| `ZLZ_EnvWater` | Every mesh already wearing a water material | Holds what a material cannot — the wave rhythm curve, and that pond's own underwater fog |
+| `ZLZ_EnvGrass` | The Dashboard itself | The root of the grass system |
+| `ZLZ_EnvGrassColorCamera` | The Dashboard itself | The camera that samples ground colour so grass blends into the surface below it |
+| `ZLZ_EnvVFX` | The Dashboard itself | Receives the Target Darken calls from your game code |
 
-สอง component สุดท้ายของฝั่งหญ้าจะ **ซ่อนอยู่จนกว่าจะเริ่มปลูกหญ้าจริง** เพื่อไม่ให้เห็นช่องติ๊กของระบบที่ยังไม่ได้ใช้แล้วเผลอเปิดครึ่ง ๆ กลาง ๆ
+The last two grass pieces stay **hidden until you actually start growing grass** — a bare enable checkbox on idle plumbing only invites turning half a system on by hand.
 
 ---
 
-### จัดฉากเป็น 3 Dashboard : Terrain / Env / Water
+### Split the Scene Into 3 Dashboards : Terrain / Env / Water
 
 ![Prefab](../shader/Prefab.png)
 
-วิธีที่แนะนำคือแบ่งของในฉากออกเป็น 3 กลุ่ม กลุ่มละ Dashboard (ดูตัวอย่างได้จาก `Demo/Prefab/Base_Terrain`, `Base_Env`, `Base_Water`)
+The recommended layout is three groups, one Dashboard each (see `Demo/Prefab/Base_Terrain`, `Base_Env` and `Base_Water` for a working example).
 
-| Dashboard | เก็บอะไรไว้ข้างใน | ใช้ shader ตัวไหน |
+| Dashboard | What lives inside | Which shader |
 |---|---|---|
-| **Terrain** | พื้นดิน หน้าผา ภูมิประเทศ — ผิวที่ปลูกหญ้า ระบายเทกซ์เจอร์ และสะท้อนตอนเปียก | **ZLZ_Environment_Shader** + ZLZ_Environment_Grass |
-| **Env** | props ทั้งหมด — ต้นไม้ ใบไม้ ก้อนหิน อาคาร เห็ด ของตกแต่ง | **ZLZ_Environment_Shader** |
-| **Water** | ผิวน้ำทุกผืนในฉาก | ZLZ_Environment_Water |
+| **Terrain** | Ground, cliffs, landscape — the surfaces that grow grass, take painted textures, and reflect when wet | **ZLZ_Environment_Shader** + ZLZ_Environment_Grass |
+| **Env** | All props — trees, leaves, rocks, buildings, mushrooms, set dressing | **ZLZ_Environment_Shader** |
+| **Water** | Every water body in the scene | ZLZ_Environment_Water |
 
-`ZLZ_Environment_Shader` จึงอยู่ได้ทั้งใต้ Terrain และ Env — ขึ้นอยู่กับว่าชิ้นนั้นทำหน้าที่อะไร ไม่ใช่ว่าใช้ shader อะไร
+`ZLZ_Environment_Shader` therefore belongs under both Terrain and Env — which one depends on what the piece is *for*, not on which shader it runs.
 
-การแยกแบบนี้ไม่ใช่แค่ความเป็นระเบียบ แต่มีผลจริง เพราะ Dashboard ทำงานกับ **ทุกเมชที่อยู่ใต้ตัวมัน** — Terrain Dashboard จึงเห็นเฉพาะพื้นที่ควรปลูกหญ้า ส่วน Water Dashboard เห็นเฉพาะผืนน้ำ ไม่ปนกัน
+The split is not just tidiness, it changes behaviour: a Dashboard works on **every mesh underneath it**. Keep them separate and the Terrain Dashboard only ever sees surfaces that should grow grass, while the Water Dashboard only ever sees water — with nothing crossing over.
 
 ---
 
-### Renderer Features ที่ Dashboard ติดตั้งให้
+### Renderer Features the Dashboard Installs
 
 ![RenderFeatures](../shader/RenderFeatures.png)
 
-พอเพิ่ม Dashboard เข้าไป มันจะใส่ Renderer Feature 4 ตัวนี้ให้ทันที และใส่ให้ **ทุก Quality Level** ไม่ใช่แค่ tier ที่เปิดอยู่ตอนนั้น
+Adding a Dashboard installs these four Renderer Features straight away — and installs them on **every Quality Level**, not only the tier that happens to be active.
 
-| Renderer Feature | ติดตั้งเพื่อฟีเจอร์อะไร |
+| Renderer Feature | Installed for |
 |---|---|
-| **ZLZ Env Planar Reflection** | ชั้นสะท้อนแบบกล้องกระจก — ใช้ร่วมกันทั้งพื้นเปียกและผิวน้ำ |
-| **ZLZ Env Fog** | หมอกของฉาก : หมอกระยะไกล หมอกพื้น และสีท้องฟ้าที่เข้ากัน |
-| **ZLZ Env Grass Resolution** | โหมดประหยัดของหญ้า — วาดหญ้าที่ความละเอียดต่ำกว่าภาพหลักแล้วผสมกลับ |
-| **ZLZ Env Underwater** | ภาพตอนกล้องอยู่ใต้น้ำ : หมอกใต้น้ำ และการเปลี่ยนผ่านตอนดำลงไป |
+| **ZLZ Env Planar Reflection** | The mirror-camera reflection tier — shared by wet floors and water alike |
+| **ZLZ Env Fog** | The scene atmosphere : distance haze, ground mist, and a sky that matches |
+| **ZLZ Env Grass Resolution** | The grass performance mode — drawing grass below full resolution and compositing it back |
+| **ZLZ Env Underwater** | What the camera sees while submerged : underwater fog, and the transition on the way down |
 
-นอกจากนี้ยังสร้าง **renderer เพิ่มอีก 2 ตัว** ซึ่งไม่ได้มากับแพ็กเกจแต่ generate ขึ้นในโปรเจกต์คุณ:
+It also creates **two extra renderers** that do not ship with the package but are generated inside your project:
 
-- **URP_Reflection** — renderer เฉพาะของกล้องกระจก (ตั้งหญ้าไว้ที่ Quarter) เพื่อไม่ให้กล้องสะท้อนวนเรียกตัวเอง และให้ภาพสะท้อนไม่กิน performance เท่าภาพหลัก
-- **Grass Colour Capture Renderer** — renderer เปล่าสำหรับกล้องมองลงที่จับสีพื้นให้หญ้า
+- **URP_Reflection** — a renderer used only by the mirror camera (with grass set to Quarter), so the reflection camera cannot recurse into itself, and so the reflected image never costs what the main image costs
+- **Grass Colour Capture Renderer** — a bare renderer for the top-down camera that samples ground colour for the grass
 
-> **ติดตั้งตั้งแต่ตอน Import** — งานชุดนี้ทำงานตอน import แพ็กเกจด้วย ไม่ต้องรอให้ใส่ Dashboard ก่อน เปิด demo scene มาแล้วเห็นภาพถูกต้องเลย และเวลาอัปเดตเวอร์ชัน โปรเจกต์เดิมจะได้ Renderer Feature ตัวใหม่ที่เพิ่งเพิ่มมาโดยอัตโนมัติ ทุกขั้นตอนเป็น idempotent คือรันซ้ำกี่รอบก็ไม่เกิดของซ้อน
+> **Installed at import time.** This runs on package import too, so you do not have to add a Dashboard first — open a demo scene and it already looks right. On a version update, existing projects pick up any newly added Renderer Feature automatically. Every step is idempotent: run it any number of times and nothing is ever duplicated.
 
 ---
 
-### Script ที่ Dashboard ไม่ได้ดูแล
+### Scripts the Dashboard Does Not Manage
 
-ของสองกลุ่มนี้อยู่นอก Dashboard เพราะขอบเขตงานไม่เหมือนกัน
+Two groups sit outside the Dashboard, because their scope is different.
 
-**ระดับ object — ติดบนตัวที่เคลื่อนไหว ไม่ใช่บนฉาก**
+**Object level — on the things that move, not on the scenery**
 
-| Component | ติดที่ไหน |
+| Component | Goes on |
 |---|---|
-| `ZLZ_EnvGrassInteractor` | ตัวละครหรือวัตถุที่ต้องการให้หญ้าแหวกตอนเดินผ่าน |
-| `ZLZ_EnvWaterInteractor` | ตัวละครหรือวัตถุที่ต้องการให้เกิดระลอกคลื่นตอนแตะน้ำ |
-| `ZLZ_EnvWaterFloater` | วัตถุที่ต้องลอยขึ้นลงตามผิวน้ำ เช่น เรือ ทุ่น ท่อนไม้ |
+| `ZLZ_EnvGrassInteractor` | A character or object that should part the grass as it walks through |
+| `ZLZ_EnvWaterInteractor` | A character or object that should send out ripples on touching the water |
+| `ZLZ_EnvWaterFloater` | Anything that should ride up and down on the surface — a boat, a buoy, a log |
 
-**ระดับฉาก — มีตัวเดียวต่อฉาก ใช้ร่วมกันทุก Dashboard**
+**Scene level — one each per scene, shared by every Dashboard**
 
-| Component | ทำอะไร |
+| Component | What it does |
 |---|---|
-| `ZLZ_EnvWindController` | ลมกลางที่ทั้งต้นไม้ ใบไม้ และหญ้าโยกตามพร้อมกัน |
-| `ZLZ_EnvGrassController` | ระยะ LOD และ Quality Preset ของหญ้าทั้งฉาก |
-| `ZLZ_EnvFog` | ค่าหมอกของฉาก |
-| `ZLZ_EnvDarkenManager` | ตัวสั่งหรี่ฉากจากโค้ดเกม พร้อมไฟล์ตั้งค่าจังหวะการหรี่ |
+| `ZLZ_EnvWindController` | The scene wind that trees, leaves and grass all sway to together |
+| `ZLZ_EnvGrassController` | LOD distances and Quality Presets for all the grass in the scene |
+| `ZLZ_EnvFog` | The scene's fog values |
+| `ZLZ_EnvDarkenManager` | Drives the scene darken from game code, with a settings asset for its timing |
 
-สามตัวแรกสร้างพร้อมกันได้ในคลิกเดียวจาก `GameObject > ZLZ > Setup ZLZ Global` ซึ่งจะได้ GameObject ชื่อ `ZLZ_Global` มาเป็นที่รวม
+The first three are created together in one click from `GameObject > ZLZ > Setup ZLZ Global`, which groups them under a GameObject named `ZLZ_Global`.
 
-> Dashboard **ไม่สร้าง Global ให้เอง** โดยตั้งใจ เพราะการที่แค่เปิดฉากขึ้นมาดูแล้วมี GameObject ใหม่โผล่ในฉากจะทำให้ทุกฉากที่คุณเปิดกลายเป็น dirty ต้องกด save โดยไม่ได้แก้อะไรเลย
+> The Dashboard **deliberately does not create the Global for you.** A GameObject that appeared in the scene simply because you opened it would leave every scene you merely looked at dirty and asking to be saved, with nothing actually changed.
 
 ---
 
-### ตอนรันเกม Dashboard ไม่มีต้นทุน
+### The Dashboard Costs Nothing at Runtime
 
-ตัว Dashboard **ไม่เก็บข้อมูลของตัวเองเลย และไม่มีโค้ดที่ทำงานตอนรัน** — ข้อมูลจริงอยู่บนวัสดุ, บนไฟล์ `ZLZ_EnvGrassData` และใน registry asset ส่วน UI ทั้งหมดเป็นโค้ดฝั่ง Editor ที่ถูกตัดออกตอน build
+The Dashboard **holds no data of its own and runs no code at runtime** — the real data lives on the materials, in the `ZLZ_EnvGrassData` asset, and in the link registry. All of the UI is editor-side code that is compiled out of builds.
 
-ผลที่ตามมามี 2 อย่าง:
+Two things follow from that:
 
-- ในเกมจริงมันเป็นแค่ marker เปล่า ๆ ไม่กิน CPU สักนิด และแพลตฟอร์มที่ strip script ที่ไม่ใช้ทิ้งก็ไม่เสียอะไร
-- ระบบอัตโนมัติทำงานได้แม้ไม่ได้เปิดฉากไหนอยู่ และใช้ได้ทั้งกับ Dashboard ที่อยู่ในฉากและที่อยู่ใน Prefab
+- In a shipped game it is an empty marker that costs no CPU at all, and platforms that strip unused scripts lose nothing by dropping it
+- The automation still works with no scene open, and works the same whether the Dashboard lives in a scene or inside a Prefab
 
 ---
