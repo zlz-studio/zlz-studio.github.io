@@ -45,7 +45,7 @@ published: false
 
 ## หญ้าเกิดขึ้นได้ยังไง
 
-<!-- ![Grass_Workflow](../grass/GrassWorkflow.png) -->
+{% include youtube-loop.html id="jG3f89pkjh4" %}
 
 ทุกขั้นตอนอยู่ในหมวด **Grass** ของ Dashboard ที่คุมพื้นนั้น (ปกติคือ Terrain Dashboard)
 
