@@ -18,7 +18,7 @@ published: false
 
 | Shader | ใช้กับ |
 |---|---|
-| **ZLZ/Environment/Shader** | พื้นผิวทั่วไปทั้งหมด ← หน้านี้ |
+| **ZLZ/Environment/Shader** | พื้นผิวทั่วไปทั้งหมด |
 | **ZLZ/Environment/Grass** | ใบหญ้าและดอกไม้ที่ระบบ Grass ปลูกให้ |
 | **ZLZ/Environment/Water** | ผิวน้ำ |
 
