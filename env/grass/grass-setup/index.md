@@ -10,10 +10,13 @@ published: true
 Plant grass on your Terrain in just a few steps. Everything is controlled from a single place, the `ZLZ_Env Dashboard`, and one scene can hold many grass types at once.
 
 ## Showcase Grass Grow One-Click
-{% include youtube-loop.html id="3qydgQaQi_s" %}
+{% include youtube-loop.html id="jG3f89pkjh4" %}
 
 ## Showcase Grass Custom Paint
 {% include youtube-loop.html id="ach4JE-mKX0" %}
+
+## Showcase Grass Grow Multi Types
+{% include youtube-loop.html id="3qydgQaQi_s" %}
 
 ## Setup Steps
 
