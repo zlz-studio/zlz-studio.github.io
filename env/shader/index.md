@@ -29,12 +29,9 @@ published: false
 
 ## ปัญหาที่ shader ตัวนี้แก้
 
-Environment shader ส่วนใหญ่บังคับให้คุณเลือกอย่างใดอย่างหนึ่ง — จะได้ระบบ paint หลายเลเยอร์ต้องไปใช้ Unity Terrain, จะได้ผิวโทนอนิเมะต้องเขียน shader เอง, จะได้ประสิทธิภาพบนมือถือต้องตัดฟีเจอร์ทิ้งตั้งแต่แรก
-
-ZLZ Env Shader ออกแบบมาให้ไม่ต้องเลือก:
-
 - **ไม่ผูกกับ Unity Terrain** — ระบายเทกซ์เจอร์ทับกันได้ถึง 4 เลเยอร์บนเมชที่คุณปั้นเอง หน้าผาเอียง 70 องศาก็ระบายได้ ถ้ำที่มีเพดานก็ระบายได้ สิ่งที่ Terrain ทำไม่ได้
 - **เก็บข้อมูล paint ได้ 2 แบบ** — ลง Mask Texture หรือลง Vertex Color ของเมช เลือกตามไปป์ไลน์ของทีม (Vertex Color = ไม่กินเทกซ์เจอร์เพิ่มเลยสักใบ)
+- **Custom Brushes ได้ 4 แบบ** — โดยทั่วไปการ Paint ต้องใช้ Unity Terrain ซึ่งผู้ใช้ Custom Brushes ไม่ได้ แต่ZLZผู้ใช้สามารถ Custom ได้โดยง่าย
 - **โทนอนิเมะเป็นค่าตั้งต้น ไม่ใช่ของแถม** — Shadow Color กับ ToonRamp Smoothness เป็นส่วนหนึ่งของแกนหลักที่ปิดไม่ได้ ฉากจึงเข้ากับตัวละคร ZLZ Anime Shader ได้ทันทีโดยไม่ต้องจูน
 - **ปิดฟีเจอร์แล้วหายไปจริง ๆ** — ทุกฟีเจอร์ที่ปิดจะถูก strip ออกจาก shader variant ที่คอมไพล์ ไม่ใช่แค่คูณศูนย์ วัสดุที่ใช้แค่ Albedo กับ ToonRamp จึงเบาพอ ๆ กับ unlit shader ธรรมดา
 - **ทำงานร่วมกับ URP อย่างที่ environment shader ควรทำ** — Lightmap, Shadowmask, Subtractive, SSAO, URP Decal, Fog ของ Unity, GPU Instancing และ SRP Batcher ใช้ได้ครบโดยไม่ต้องแก้อะไร
