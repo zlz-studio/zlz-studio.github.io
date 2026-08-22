@@ -61,7 +61,7 @@ published: false
 
 ## หน้าตาของ Grass Material
 
-<!-- ![Grass_Features](../grass/grass-material/Features_Properties.png) -->
+![Grass_Features](../grass/grass-material/Features_Properties.png)
 
 โครงเหมือน `ZLZ_Environment_Shader` ทุกประการ — **แผง Features อยู่บนสุด** แล้วหมวดค่าต่าง ๆ อยู่ถัดลงมา
 
