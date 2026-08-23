@@ -6,211 +6,210 @@ published: false
 ---
 
 <!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
-<!-- ฉบับร่างภาษาไทย รอเจ้าของแก้แล้วค่อยแปลงเป็นอังกฤษให้เข้ากับหน้าอื่น -->
 
 # ZLZ Grass System
 
 <!-- ![Grass_Overall](../images/Grass_Overall.webp) -->
 
-ระบบหญ้าของ ZLZ ไม่ใช่แค่ shader ตัวหนึ่ง แต่เป็น **ระบบครบชุดสำหรับปลูกหญ้าลงบนเมชของคุณเอง** — ตั้งแต่ตัวกระจายกอหญ้า ที่เก็บข้อมูล ระบบ LOD ไปจนถึงการโยกตามลมและการแหวกตอนตัวละครเดินผ่าน
+The ZLZ grass system is not a single shader — it is a **complete system for planting grass onto meshes you made yourself**, covering the scatter, the storage, the LOD, the wind, and the way blades part as a character walks through them.
 
-| ส่วนประกอบ | คืออะไร |
+| Piece | What it is |
 |---|---|
-| **ZLZ/Environment/Grass** | shader ที่วาดใบหญ้าและดอกไม้ |
-| `ZLZ_EnvGrass` | ตัวปลูกและตัววาด อยู่บน Dashboard |
-| `ZLZ_EnvGrassType` | ไฟล์พรีเซ็ต "หญ้าชนิดนี้หน้าตายังไง" |
-| `ZLZ_EnvGrassData` | ไฟล์เก็บกอหญ้าที่ปลูกไปแล้ว |
-| `ZLZ_EnvGrassController` | ตัวคุม LOD ของหญ้าทั้งฉาก |
+| **ZLZ/Environment/Grass** | The shader that draws the blades and flowers |
+| `ZLZ_EnvGrass` | Plants the field and draws it. Lives on the Dashboard |
+| `ZLZ_EnvGrassType` | A preset asset : "this is what this kind of grass looks like" |
+| `ZLZ_EnvGrassData` | The file holding the tufts you have grown |
+| `ZLZ_EnvGrassController` | LOD for all the grass in the scene |
 
 - Path : `Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Grass.shader`
-- ทุกอย่างสั่งงานจาก **ZLZ_Env Dashboard > Grass** ไม่ต้องไปหา component ทีละตัว
+- Everything is driven from **ZLZ_Env Dashboard > Grass** — no hunting for components one at a time
 
 ---
 
-## ปัญหาที่ระบบนี้แก้
+## What This System Solves
 
-- **ไม่ผูกกับ Unity Terrain** — ปลูกลงบนเมชที่ปั้นเองจาก Maya หรือ Blender ได้ตรง ๆ เนินที่ลาดเอียง เกาะกลางน้ำ หรือพื้นที่ประกอบจากหลายชิ้น ก็ปลูกได้หมด
-- **ปลูกเสร็จในคลิกเดียว** — เลือก Mask Texture Channel เลือกชนิดหญ้า กด `Grow All` จบ ไม่ต้องวางทีละกอ
-- **ข้อมูลไม่ได้อยู่ในฉาก** — กอหญ้าทั้งหมดเก็บลงไฟล์ `ZLZ_EnvGrassData` แบบเดียวกับที่ Unity Terrain ใช้ TerrainData ทำให้ไฟล์ฉากไม่บวม และสนามหญ้าเดินทางไปพร้อม Prefab ได้
-- **ไม่มีการ bake mesh ทิ้งไว้** — ระบบเก็บแค่ *ตำแหน่ง* ของแต่ละกอ แล้ววาดด้วย GPU Instancing จากเมชใบเดียวที่ใช้ซ้ำทุกกอ ไม่มีไฟล์เมชก้อนใหญ่งอกในโปรเจกต์
-- **หลายชนิดพร้อมกัน** — หญ้ากับดอกไม้อยู่ในสนามเดียวกันได้ แต่ละชนิดมีความหนาแน่น ขนาด และเมชของตัวเอง
-- **ขอบเนียนโดยไม่ต้องแต่งมือ** — หญ้าจะเตี้ยลงเองตรงรอยต่อกับทางเดิน หลบให้กับ props และมีระยะเว้นจากขอบเมชที่ตั้งได้
-- **สีกลืนกับพื้นอัตโนมัติ** — หญ้าดูดสีจากพื้นที่มันขึ้นอยู่ ไม่ว่าพื้นจะเป็นดิน ทราย หรือหินก็ไม่หลุดออกมาเป็นแผ่นเขียวแปลกปลอม
-- **โยกตามลมชุดเดียวกับต้นไม้** — ใช้ `ZLZ_Env Wind Controller` ตัวเดียวกับที่ใบไม้ใช้ ทั้งฉากจึงไหวไปทางเดียวกัน
-- **แหวกตอนตัวละครเดินผ่าน** — ไม่ต้องมี collider ต่อใบ
-- **มี LOD และโหมดประหยัดในตัว** — ระยะไกลบางลง ไกลกว่านั้นเปลี่ยนเป็นเมชประหยัด และไกลสุดหยุดวาด พร้อมโหมดวาดที่ความละเอียดต่ำกว่าภาพหลัก
-- **ใช้ได้ทั้ง PC และ Mobile** — สลับทั้งชุด LOD ตาม Quality Level ของ Unity ได้โดยไม่ต้องปลูกใหม่
+- **Not tied to Unity Terrain** — plant straight onto meshes sculpted in Maya or Blender. A sloping hillside, an island in the middle of a lake, or ground assembled from several pieces all work
+- **Planted in one click** — pick the Mask Texture Channel, pick the grass type, press `Grow All`. No placing tufts by hand
+- **The data does not live in the scene** — every tuft is written into a `ZLZ_EnvGrassData` file, the same pattern Unity Terrain uses with TerrainData. Scene files stay small, and a grown field travels with its Prefab
+- **Nothing is baked out as a mesh** — the system stores only the *position* of each tuft and draws them with GPU Instancing from one shared blade mesh. No huge mesh assets appearing in your project
+- **Several types at once** — grass and flowers share one field, each with its own density, size and meshes
+- **Clean edges with no hand-tweaking** — blades shorten themselves along the boundary with a path, keep clear of props, and hold a settable distance in from the mesh edge
+- **Colour matches the ground automatically** — grass samples the colour of the surface it grows on, so it never reads as a foreign green sheet laid over dirt, sand or stone
+- **Sways to the same wind as the trees** — the same `ZLZ_Env Wind Controller` the leaves use, so the whole scene moves as one
+- **Parts as a character walks through** — with no per-blade colliders
+- **LOD and a performance mode built in** — thinner far out, an optimized mesh beyond that, and a limit past which it stops drawing, plus a mode that draws grass below full screen resolution
+- **Runs on PC and Mobile** — swap the entire LOD set with Unity's Quality Level, with nothing re-grown
 
 ---
 
-## หญ้าเกิดขึ้นได้ยังไง
+## How Grass Comes to Exist
 
 {% include youtube-loop.html id="jG3f89pkjh4" %}
 
-ทุกขั้นตอนอยู่ในหมวด **Grass** ของ Dashboard ที่คุมพื้นนั้น (ปกติคือ Terrain Dashboard)
+Every step lives in the **Grass** section of the Dashboard that owns that ground (normally the Terrain Dashboard).
 
-1. **เลือกผิวที่จะให้หญ้าขึ้น** — Dashboard จะลิสต์ทุกเมชที่อยู่ใต้ตัวมันพร้อมช่องติ๊ก ติ๊กเฉพาะพื้นที่ต้องการ ถ้าเมชนั้นมีหลายวัสดุ จะมีช่องติ๊กย่อยให้เลือกอีกชั้นว่าวัสดุไหนให้หญ้าขึ้น (เช่น ขึ้นบนวัสดุหญ้า แต่ไม่ขึ้นบนวัสดุหิน)
-2. **เลือก Grass Type** — เลือกไฟล์พรีเซ็ตที่มีมาให้ หรือกด `Create New` ทำของตัวเอง ใส่ได้หลายชนิดพร้อมกัน
-3. **กด `Grow All`** — ระบบกระจายกอหญ้าลงทั้งผิวตามความหนาแน่นของแต่ละชนิด แล้วเขียนผลลงไฟล์ Grass Data
+1. **Choose which surfaces grow grass** — the Dashboard lists every mesh underneath it with a tick box. Tick only the ones you want. If a mesh carries several materials, a second row of tick boxes lets you choose which material grows grass (grass on the grass material, none on the rock material)
+2. **Choose a Grass Type** — pick one of the presets that ship with the package, or press `Create New` for your own. Several types can run at once
+3. **Press `Grow All`** — the system scatters tufts across the whole surface at each type's density, then writes the result into the Grass Data file
 
-ถ้าอยากคุมเองมากกว่านั้น มี **โหมดระบายด้วยมือ** ให้ระบายเพิ่มหรือลบทีละจุดในหน้าต่าง Scene ได้
+If you want tighter control than that, a **hand-painting mode** lets you add or remove tufts spot by spot in the Scene view.
 
-> **ค่าส่วนใหญ่ปรับแล้วเห็นผลทันที** ไม่ต้องปลูกใหม่ — ความสูง ระยะเว้นขอบ ความนุ่มของขอบ และเกณฑ์ mask ปรับสดได้หมด มีแค่ค่าที่ตัดสินว่ากอหญ้า *ไปตกตรงไหน* (ความหนาแน่น การจับกลุ่ม เลเยอร์ที่บล็อก) เท่านั้นที่ต้อง `Grow` ใหม่
+> **Most values apply live**, with nothing to re-grow — height, edge distances, edge softness and the mask threshold can all be dragged in real time. Only the values that decide *where a tuft lands* (density, clustering, blocking layers) need a fresh `Grow`.
 
 ---
 
-## หน้าตาของ Grass Material
+## How the Grass Material Is Laid Out
 
 ![Grass_Features](../grass/grass-material/Features_Properties.png)
 
-โครงเหมือน `ZLZ_Environment_Shader` ทุกประการ — **แผง Features อยู่บนสุด** แล้วหมวดค่าต่าง ๆ อยู่ถัดลงมา
+The layout matches `ZLZ_Environment_Shader` exactly — the **Features panel at the very top**, with the value sections below it.
 
-### กลุ่มที่ 1 — Locked (4 หมวด เปิดอยู่ตลอด)
+### Group 1 — Locked (4 sections, always on)
 
-| หมวด | ควบคุมอะไร |
+| Section | What it controls |
 |---|---|
-| **Rendering** | Alpha Cutoff (เกณฑ์ตัดรูปทรงใบ) และ Cast Shadow |
-| **Texture** | เทกซ์เจอร์ใบหญ้า — สี RGB และ Alpha ที่เป็นตัวตัดรูปทรงใบ |
-| **Colors** | Base Color, Shadow Color และ Height Gradient ที่ไล่สีจากโคนไปปลายใบ |
+| **Rendering** | Alpha Cutoff (the threshold that cuts out the blade shape) and Cast Shadow |
+| **Texture** | The blade texture — RGB for colour, Alpha for the blade's shape |
+| **Colors** | Base Color, Shadow Color, and the Height Gradient running from base to tip |
 | **Lighting** | Receive Shadow, Additional Light Intensity |
 
-### กลุ่มที่ 2 — Optional (4 ฟีเจอร์ เปิด/ปิดได้)
+### Group 2 — Optional (4 features you switch on and off)
 
-| ฟีเจอร์ | ทำอะไร |
+| Feature | What it does |
 |---|---|
-| **Wind** | การโยกในขั้น vertex รับลมจากวัสดุเองหรือจากลมกลางของฉาก พร้อม Leaf Flutter และ Small Blade ที่ทำให้ใบเล็กไหวน้อยกว่าใบใหญ่ |
-| **Wind Gust Wave** | แถบสว่าง-มืดที่วิ่งพาดสนามไปตามทิศลม ทำให้สนามใหญ่อ่านเป็นระลอกลมพัดผ่าน ไม่ใช่พรมเขียวนิ่ง ๆ |
-| **Ground Color** | ดูดสีจากพื้นที่หญ้าขึ้นอยู่ มาผสมที่โคนใบแล้วจางไปทางปลาย |
-| **Interaction** | ใบหญ้าเอนหนีวัตถุที่เข้าใกล้ |
+| **Wind** | Vertex-stage sway, taking the wind from the material itself or from the scene wind, with Leaf Flutter and Small Blade — which makes short blades move less than tall ones |
+| **Wind Gust Wave** | A band of light and shade sweeping across the field along the wind, so a large lawn reads as gusts rolling over it rather than a still green carpet |
+| **Ground Color** | Samples the colour of the ground the grass stands on, blending it in at the base and fading out toward the tip |
+| **Interaction** | Blades lean away from anything that comes near |
 
-> มีหมวด **Debug** เพิ่มอีกหนึ่งที่ไม่มีปุ่มในแผง Features ใช้ดูทีละชั้นว่า mask ของลม ระยะจาง แสงหลัก ระยะ Interaction และคลื่นลม ทำงานถูกหรือไม่
+> There is also a **Debug** section with no button in the Features panel. It shows one stage at a time — the wind mask, the distance fade, the main light, the interaction radius and the gust wave — so you can check each is behaving.
 
 ---
 
-## Grass Type — พรีเซ็ตของหญ้าแต่ละชนิด
+## Grass Type — One Preset per Kind of Grass
 
 ![Grass_Type](../grass/Grass_Type.png)
 
-แทนที่จะไปผูก Material กับ Mesh ทีละที่ ทุกอย่างที่บอกว่า "หญ้าชนิดนี้หน้าตายังไง" ถูกเก็บเป็นไฟล์ asset ใบเดียว ใช้ซ้ำได้ทุกฉากทุกเมช
+Instead of wiring a Material to a Mesh in every place they are used, everything that describes "what this kind of grass looks like" is stored in a single asset file, reusable across every mesh and every scene.
 
-| กลุ่มค่า | มีอะไร |
+| Group | What is in it |
 |---|---|
-| **รูปร่าง** | Material, เมชกอหญ้า (สุ่มเลือกหนึ่งอันต่อกอ), และเมชประหยัดสำหรับระยะไกล |
-| **ปริมาณ** | ความหนาแน่นต่อตารางเมตร และเพดานจำนวนกอกันสนามใหญ่ระเบิด |
-| **ขนาด** | ช่วงขนาดสุ่ม และ Height Offset ที่จมโคนใบลงไปในพื้นเล็กน้อยไม่ให้ลอย |
-| **การจับกลุ่ม** | ความแรงในการเกาะกลุ่มและรัศมีของกลุ่ม |
-| **ขอบ** | ระยะเว้นจากพื้นที่ระบายสี ระยะเว้นจากขอบเมช และระยะที่ใบค่อย ๆ เตี้ยลงแทนที่จะตัดเป็นเส้นตรง |
+| **Shape** | Material, the tuft meshes (one picked at random per tuft), and an optimized mesh for the far field |
+| **Amount** | Density in tufts per square metre, and a cap on the tuft count so one type can never explode across a huge surface |
+| **Size** | A random size range, and a Height Offset that sinks the base slightly into the ground so blades do not float |
+| **Clustering** | How tightly this type clumps, and how wide each clump is |
+| **Edges** | Distance kept from painted ground, distance kept in from the mesh edge, and the band over which blades taper down instead of ending on a hard line |
 
-การจับกลุ่มคือค่าที่ทำให้ดอกไม้ดูเป็นดอกไม้ — หญ้ากระจายทั่วเท่า ๆ กันแล้วดูดี แต่ดอกไม้ที่กระจายเท่ากันจะดูเหมือนเกลือหก ธรรมชาติจริงดอกไม้ขึ้นเป็นหย่อม ตั้งค่านี้เป็น 0 สำหรับหญ้า และเพิ่มขึ้นสำหรับดอกไม้
+Clustering is what makes flowers read as flowers. Grass scattered evenly looks right; flowers scattered evenly look like spilled salt. In nature flowers spread in patches, so leave this at 0 for grass and raise it for flowers.
 
 ---
 
-## ระบบตัดสินยังไงว่าหญ้าขึ้นตรงไหน
+## How the System Decides Where Grass Grows
 
 ![Grass_Debug](../grass/Grass_Debug.png)
 
-มีตัวคุม 4 ชั้นซ้อนกัน ทำงานร่วมกัน
+Four layers of control stack on top of each other.
 
-**1. โหมดพื้นฐาน** — เลือกได้ว่าให้ขึ้นทั่วผิว หรือให้ **ระบบ Paint ของพื้นเป็นตัวตัดสิน** ถ้าเลือกอย่างหลัง หญ้าจะอ่านจาก Mask Texture หรือ Vertex Color ตามที่วัสดุพื้นตั้งไว้ — ไม่มีการตั้งค่าซ้ำสองที่ พื้นกับหญ้าใช้ข้อมูลชุดเดียวกันเสมอ
+**1. The base mode** — grass either covers the whole surface, or **the ground's own Paint system decides**. Choose the latter and the grass reads the Mask Texture or the Vertex Colors, according to what the ground material itself is set to — there is no second place to configure it, so ground and grass always agree.
 
-**2. เกณฑ์ mask** — ลากปรับสดได้ ยิ่งสูงหญ้ายิ่งขึ้นเฉพาะที่ mask เข้มจริง ๆ เหมาะกับการเปิดทางเดินให้โล่ง
+**2. The mask threshold** — draggable live. The higher it goes, the more grass restricts itself to where the mask is genuinely strong. Useful for clearing a path.
 
-**3. Blocking Layers** — เลือกเลเยอร์ที่ให้บล็อกหญ้า มีแค่ collider บนเลเยอร์นั้นที่ทำให้เกิดหย่อมโล่ง ซึ่งแปลว่า **props ในฉากกันหญ้าออกได้ แต่ตัวละครเดินผ่านได้โดยหญ้าไม่หาย**
+**3. Blocking Layers** — pick which layers block grass. Only colliders on those layers make a bald patch, which means **the props in your level can keep grass out while your characters walk straight through it**.
 
-**4. ระยะเว้นขอบ** — เว้นจากพื้นที่ระบายสี เว้นจากขอบเมช และเว้นจากวัตถุที่บล็อก ทั้งสามค่าปรับสดได้ และมี Shrink Near Edges คอยไล่ให้ใบเตี้ยลงก่อนจะจบ แทนที่จะตัดเป็นเส้นคม
+**4. Edge distances** — distance from painted ground, from the mesh edge, and from blocking objects. All three apply live, and Shrink Near Edges tapers blades down before they end rather than cutting them on a hard line.
 
 ---
 
-## สีของใบหญ้ามาจากไหน
+## Where a Blade's Colour Comes From
 
 ![BaseColors_Properties](../grass/grass-material/BaseColors_Properties.png)
 
-สีที่คุณเห็นบนใบหญ้าใบหนึ่งไม่ได้มาจากช่องเดียว แต่เกิดจากการซ้อนกันของ 4 ชั้น
+The colour you see on a single blade does not come from one field. Four layers stack up.
 
-| ชั้น | มาจากไหน | อยู่หมวดไหน |
+| Layer | Where it comes from | Which section |
 |---|---|---|
-| **1. สีพื้นฐาน** | เทกซ์เจอร์ใบ (RGB) คูณกับ Base Color | Texture + Colors |
-| **2. สีในเงา** | Shadow Color — สีที่ใบกลายเป็นเมื่ออยู่ในเงา แทนที่จะแค่มืดลงเฉย ๆ | Colors |
-| **3. ไล่สีตามความสูง** | Height Gradient ไล่จาก Gradient Bottom ที่โคน ไป Gradient Top ที่ปลาย ตามด้วย Gradient Power ที่คุมว่าจุดเปลี่ยนอยู่สูงแค่ไหน | Colors |
-| **4. สีจากพื้นด้านล่าง** | Ground Color — ดูดสีจากพื้นที่หญ้าขึ้นอยู่ | Ground Color (เปิด/ปิดได้) |
+| **1. Base colour** | The blade texture (RGB) multiplied by Base Color | Texture + Colors |
+| **2. Colour in shadow** | Shadow Color — the colour a blade becomes in shadow, rather than simply going darker | Colors |
+| **3. Gradient up the blade** | Height Gradient, running from Gradient Bottom at the base to Gradient Top at the tip, with Gradient Power setting how high the changeover sits | Colors |
+| **4. Colour from the ground below** | Ground Color — samples the surface the grass stands on | Ground Color (toggleable) |
 
-> **สามชั้นแรกเพียงพอสำหรับหญ้าส่วนใหญ่แล้ว** — เพราะ Height Gradient ให้สีที่ไล่จากโคนเข้มไปปลายอ่อนได้เอง หลายโปรเจกต์จึงใช้แค่เมชที่มี alpha ตัดรูปทรงใบ ไม่ต้องมีเทกซ์เจอร์สีเลย
+> **The first three are enough for most grass.** Height Gradient already gives you a deep base fading to a light tip, so plenty of projects use nothing but a blade mesh with an alpha cutout and no colour texture at all.
 
 ---
 
-### Ground Color — ให้หญ้าดูดสีจากพื้น
+### Ground Color — Letting Grass Take Colour From the Ground
 
 ![Camera_Grass](../grass/Camera_Grass.png)
 
-แผนที่สีนั้นมาได้ 2 ทาง เลือกจากดรอปดาวน์ **Ground Color** ใน `Dashboard > Grass`
+The colour map can come from one of two places, chosen in the **Ground Color** dropdown under `Dashboard > Grass`.
 
-| โหมด | แผนที่สีมาจากไหน | เหมาะกับ |
+| Mode | Where the colour map comes from | Best for |
 |---|---|---|
-| **Ortho Camera** | กล้อง orthographic มองลงจากด้านบน ถ่ายพื้น**หลังผ่านการจัดแสงแล้ว** หญ้าเอาสีนั้นไปใช้ตรง ๆ ไม่คำนวณแสงซ้ำ — เงาที่วิ่งผ่านพื้นจึงวิ่งผ่านหญ้าไปด้วย | ฉากที่แสงเปลี่ยน มีเงาเคลื่อนไหว หรือพื้นที่แก้บ่อยระหว่างทำงาน |
-| **Baked** | เทกซ์เจอร์ที่เบคไว้ล่วงหน้า ใส่เองในช่อง Baked Map ไม่มีกล้องเพิ่มในฉากเลย | ฉากที่แสงนิ่ง และต้องการต้นทุนตอนรันเป็นศูนย์ |
+| **Ortho Camera** | An orthographic camera looking straight down, capturing the ground **after it has been lit**. The grass uses that colour directly with no second lighting pass — so a shadow moving across the ground moves across the grass with it | Scenes where the light changes, shadows move, or the ground is edited often while you work |
+| **Baked** | A texture baked ahead of time and assigned by hand in the Baked Map slot. No extra camera in the scene at all | Scenes with static lighting, where the runtime cost has to be zero |
 
 ---
 
-### ปรับกล้อง Ortho ได้ที่ไหน
+### Where to Adjust the Ortho Camera
 
 ![Grass_Color_Camera](../grass/ZLZ_Grass_Color_Camera.png)
 
-พอเลือกโหมด **Ortho Camera** ระบบจะใส่ component `ZLZ_EnvGrassColorCamera` ให้เองบน **GameObject เดียวกับ Dashboard** และเปิดใช้งานให้พร้อม ไม่ต้องสร้างกล้องเอง
+Choose **Ortho Camera** and the system adds the `ZLZ_EnvGrassColorCamera` component for you, on the **same GameObject as the Dashboard**, already enabled. There is no camera to set up by hand.
 
-ปรับค่าได้ 2 ทาง — ที่ **`Dashboard > Grass Color Capture`** (มีแถบสถานะและปุ่มซ่อมให้ด้วย) หรือกดที่ตัว component ตรง ๆ
+You can adjust it in two places — at **`Dashboard > Grass Color Capture`** (which also carries a status strip and a repair button), or on the component directly.
 
-| ค่า | ทำอะไร |
+| Setting | What it does |
 |---|---|
-| **Capture Mask** | เลเยอร์ที่กล้องถ่าย ปล่อยไว้ที่ `Nothing` ระบบจะใช้เลเยอร์ของผิวที่เปิดหญ้าอยู่ให้อัตโนมัติ |
-| **Resolution** | ความละเอียดของแผนที่สี (64–1024 ค่าเริ่มต้น 256) — เป็นแค่โทนสีกว้าง ๆ ค่าต่ำก็พอแล้ว |
-| **Renderer Index** | ชี้ว่าให้กล้องเรนเดอร์ผ่าน renderer ตัวไหนใน URP Asset |
-| **Update Mode** | `Once` ถ่ายครั้งเดียวตอนเริ่มแล้วปิดกล้อง / `Every Seconds` ถ่ายซ้ำตามเวลา / `Every Frame` ถ่ายทุกเฟรม |
-| **Re-capture triggers** | ถ่ายใหม่เมื่อผิวขยับ และเมื่อแสงหลักเปลี่ยนทิศ สี ความสว่าง หรืออุณหภูมิสี |
-| **Capture Now** | สั่งถ่ายทันทีหนึ่งครั้ง |
+| **Capture Mask** | The layers the camera captures. Leave it at `Nothing` and the system uses the layers of every surface currently growing grass |
+| **Resolution** | Resolution of the colour map (64–1024, default 256) — it is a broad colour tone, so low is plenty |
+| **Renderer Index** | Which renderer in the URP Asset the camera renders through |
+| **Update Mode** | `Once` captures at start then disables the camera / `Every Seconds` re-captures on a timer / `Every Frame` re-captures every frame |
+| **Re-capture triggers** | Capture again when a surface moves, and when the main light changes direction, colour, intensity or temperature |
+| **Capture Now** | Take one capture right away |
 
-> **Renderer Index สำคัญกว่าที่คิด** — กล้องต้องเรนเดอร์ผ่าน renderer เปล่าที่ไม่มี Renderer Feature ใด ๆ ไม่งั้นสีที่ถ่ายมาจะโดน Tone Mapping / Outline / SSAO ประมวลผลซ้ำอีกรอบ แล้วหญ้าจะไม่แมตช์กับพื้น — Dashboard สร้าง renderer ชื่อ `URP_Grass` ให้และชี้กล้องไปที่มันให้เรียบร้อยตั้งแต่ตอนเลือกโหมด
+> **Renderer Index matters more than it looks.** The camera has to render through a bare renderer carrying no Renderer Features — otherwise the captured colour is processed a second time by Tone Mapping / Outline / SSAO, and the grass stops matching the ground. The Dashboard creates a renderer named `URP_Grass` and points the camera at it for you the moment you choose the mode.
 
-> **กล้องจับสีมีได้ตัวเดียวต่อฉาก** เพราะแผนที่สีเป็นตัวแปร global ตัวเดียว ถ้ามีสองตัวจะเขียนทับกันทุกเฟรม — Dashboard จะปิดตัวอื่นให้อัตโนมัติเมื่อคุณเลือกว่าตัวไหนเป็นเจ้าของ
+> **Only one colour camera may run per scene**, because the colour map is a single global — two of them would overwrite each other every frame. The Dashboard disables the others for you once you choose which one owns the capture.
 
-> **ตอนรันจริงกล้องแทบไม่ทำงาน** — โหมด `Once` ถ่ายเสร็จแล้วปิดตัวเอง ส่วนโหมดอื่นก็จะเปิดเฉพาะเฟรมที่ต้องถ่ายจริงเท่านั้น ที่เหลือเป็นแค่การเช็คว่ามีอะไรเปลี่ยนไหม ระหว่างทำงานใน Editor มันจะรีเฟรชเองเมื่อคุณแก้พื้น จึงเห็นผลทันทีโดยไม่ต้องกดอะไร
+> **At runtime the camera barely works at all.** `Once` captures and then switches itself off; the other modes only enable it on the frames a capture is actually due, and everything in between is a cheap has-anything-changed check. While you are editing it refreshes on its own as you change the ground, so you see the result without pressing anything.
 
 ---
 
-## ระดับฉาก — ZLZ_Env Grass Controller
+## Scene Level — ZLZ_Env Grass Controller
 
 ![Grass_LOD_Settings](../grass/Grass_LOD_Settings.png)
 
-ระยะ LOD ไม่ได้อยู่บนหญ้าแต่ละผืน แต่อยู่ที่ **ตัวคุมกลางตัวเดียวของทั้งฉาก** ซึ่งจะกระจายค่าไปให้ทุกผืนเอง จะได้ไม่มีสนามไหนตั้งระยะเพี้ยนไปจากเพื่อน
+LOD distances do not live on each patch of grass. They live on **one central controller for the whole scene**, which pushes its values out to every patch — so no field ever ends up with distances out of step with its neighbours.
 
-สร้างได้ในคลิกเดียวจาก `GameObject > ZLZ > Setup ZLZ Global` (จะได้ตัวคุมลมและหมอกมาพร้อมกันในที่เดียว)
+Create it in one click from `GameObject > ZLZ > Setup ZLZ Global`, which brings the wind and fog controllers along in the same place.
 
-ค่าที่คุม:
+What it controls:
 
-- **ระยะที่หญ้าเริ่มบางลง** และเหลือกี่เปอร์เซ็นต์ในระยะไกล
-- **ระยะที่หยุดวาด**
-- **ช่วงจางหาย** — หญ้าค่อย ๆ สลายผ่าน dither ก่อนถึงระยะตัด จึงไม่เห็นเป็นวงกลมขอบแข็งวิ่งตามกล้อง
-- **ช่วงที่หยุดรับเงา** — หญ้าไกล ๆ ข้ามการอ่าน shadow map ไปเลย เป็นการประหยัดก้อนใหญ่บนสนามหนา ๆ
+- **The distance where grass starts thinning out**, and what fraction of it survives out there
+- **The distance where it stops drawing**
+- **The fade band** — grass dissolves gradually through a dither before the cut-off, so you never see a hard-edged circle travelling with the camera
+- **The band where it stops receiving shadows** — distant grass skips the shadow-map read entirely, a large saving on a dense field
 
-### Quality Preset — สลับทั้งชุดตาม Quality Level
+### Quality Preset — Swap the Whole Set With the Quality Level
 
-ค่าชุดข้างบนบันทึกเป็นไฟล์ **Quality Preset** ได้ แล้วผูกแต่ละไฟล์เข้ากับ Quality Level ของ Unity
+The values above can be saved into a **Quality Preset** file, and each file mapped to one of Unity's Quality Levels.
 
-แพ็กเกจมีมาให้ 6 ชุด : `PC_Low / PC_Mid / PC_High` และ `Mobile_Low / Mobile_Mid / Mobile_High`
+Six ship with the package : `PC_Low / PC_Mid / PC_High` and `Mobile_Low / Mobile_Mid / Mobile_High`.
 
-ผลคือเกมที่ปล่อยหลายระดับความละเอียด **สลับ LOD ของหญ้าทั้งระบบได้ด้วยการเปลี่ยน Quality Level เฉย ๆ ไม่ต้องปลูกใหม่สักกอ** และเพราะเป็นไฟล์ asset จึงใช้ซ้ำได้ทุกฉากในโปรเจกต์
+So a game shipping several quality tiers **swaps its entire grass LOD just by changing the Quality Level, with not one tuft re-grown** — and because they are assets, the same preset serves every scene in the project.
 
 ---
 
-## เรื่องประสิทธิภาพ
+## Performance
 
-| วิธี | ได้อะไร |
+| Technique | What it buys |
 |---|---|
-| **GPU Instancing** | เมชใบเดียวใช้ซ้ำทุกกอ ส่งออกไปเป็นชุด |
-| **คัดทิ้งเป็นเซลล์** | งานต่อเฟรมคือวนลูปตาม *เซลล์* (หลักร้อย) ไม่ใช่ตาม *กอหญ้า* (หลักแสน) แต่ละเซลล์เช็ค frustum และระยะบน CPU แล้วส่งทั้งเซลล์ออกไปในครั้งเดียว |
-| **Grass Resolution** | วาดสีของหญ้าลงบัฟเฟอร์ที่เล็กกว่าจอ แล้วผสมกลับ — ต้นทุน overdraw จ่ายที่จำนวนพิกเซลที่น้อยลง ส่วนเงายังคมเต็มความละเอียด |
-| **Mesh Baker** | สร้าง Mesh จาก Texture 2D Sample โดยไม่ต้องไปทำเองใน Maya / Blender |
-| **หยุดรับเงาในระยะไกล** | ตัดการอ่าน shadow map ซึ่งเป็นงานหนักเมื่อคูณด้วยจำนวนพิกเซลของสนามทั้งผืน |
+| **GPU Instancing** | One blade mesh reused for every tuft, submitted in batches |
+| **Cell-based culling** | The per-frame work loops over *cells* (a few hundred) rather than *tufts* (hundreds of thousands). Each cell is frustum- and distance-tested on the CPU, then the whole cell goes out in a single draw |
+| **Grass Resolution** | Draws the grass colour into a buffer smaller than the screen and composites it back — the overdraw is paid at a fraction of the pixels, while shadows stay at full resolution |
+| **Mesh Baker** | Builds a mesh from a Texture2D sample, so you never have to make one in Maya or Blender |
+| **Shadows dropped at distance** | Skips the shadow-map read, which is heavy work once multiplied by the pixel count of a whole field |
 
-> **หญ้าไม่รับ SSAO โดยตั้งใจ** — สนามใบบางที่ซ้อนกันหนา ๆ เมื่อเจอ SSAO จะกลายเป็นรอยเปื้อนเป็นหย่อม ๆ และตัวสนามเองก็จะทาบเงา AO ลงบนพื้นข้างล่างจนด่าง ระบบจึงให้ใบหญ้าเก็บโทน toon ที่สะอาดไว้ ซึ่งเป็นโทนเดียวกับที่ shader ตัวละครใช้
+> **Grass deliberately does not receive SSAO.** A dense field of thin alpha-tested blades reads as a blotchy smear under SSAO, and the field also casts its AO down onto the ground beneath it, mottling the lawn. Blades keep their clean toon shading instead — the same shading the character shader uses.
 
 ---
