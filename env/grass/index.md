@@ -136,7 +136,7 @@ published: false
 
 ### Ground Color — ให้หญ้าดูดสีจากพื้น
 
-![Grass_Color_Camera](../grass/ZLZ_Grass_Color_Camera.png)
+![Camera_Grass](../grass/Camera_Grass.png)
 
 ปัญหาคลาสสิกของหญ้าคือมันเป็นสีเขียวชุดเดียวทั้งสนาม พอวางบนดินแห้ง ทราย หรือหิน ก็ลอยออกมาเป็นแผ่นเขียวแปลกปลอมทันที
 
@@ -154,6 +154,8 @@ Ground Color แก้ด้วยการอ่าน **แผนที่ส�
 ---
 
 ### ปรับกล้อง Ortho ได้ที่ไหน
+
+![Grass_Color_Camera](../grass/ZLZ_Grass_Color_Camera.png)
 
 พอเลือกโหมด **Ortho Camera** ระบบจะใส่ component `ZLZ_EnvGrassColorCamera` ให้เองบน **GameObject เดียวกับ Dashboard** และเปิดใช้งานให้พร้อม ไม่ต้องสร้างกล้องเอง
 
