@@ -60,6 +60,7 @@ published: false
 ## หน้าตาของ Water Material
 
 <!-- ![Water_Features](../water/Water_Features.png) -->
+![Water_Mat](../water/Water_Mat.png)
 
 โครงเหมือน shader ตัวอื่นในแพ็กเกจ — **แผง Features อยู่บนสุด** แล้วหมวดค่าอยู่ถัดลงมา
 
