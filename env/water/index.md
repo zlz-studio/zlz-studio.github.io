@@ -6,182 +6,181 @@ published: false
 ---
 
 <!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
-<!-- ฉบับร่างภาษาไทย รอเจ้าของแก้แล้วค่อยแปลงเป็นอังกฤษให้เข้ากับหน้าอื่น -->
 
 # ZLZ Water System
 
 <!-- ![Water_Overall](../images/Water_Overall.webp) -->
 
-ระบบน้ำของ ZLZ ครอบคลุมตั้งแต่**ผิวน้ำที่มองจากบน** ไปจนถึง**โลกที่เห็นตอนดำลงไปข้างใต้** — สีที่ไล่ตามความลึก ฟองตรงชายฝั่ง ประกายแดด แสงคอสติกที่พื้นน้ำ ระลอกคลื่นตอนตัวละครลุยน้ำ วัตถุที่ลอยขึ้นลง และหมอกใต้น้ำเวลากล้องมุดลงไป
+The ZLZ water system covers everything from **the surface seen from above** to **the world you see once you dive under it** — colour graded by depth, foam along the shore, sun glitter, the caustic web on the shallow floor, ripples as a character wades in, objects riding up and down, and underwater fog once the camera goes below.
 
-| ส่วนประกอบ | คืออะไร |
+| Piece | What it is |
 |---|---|
-| **ZLZ/Environment/Water** | shader ที่วาดผิวน้ำ |
-| `ZLZ_EnvWater` | ตัวบอกว่า "เมชนี้คือน้ำ" และเก็บค่าที่วัสดุเก็บไม่ได้ |
-| `ZLZ_EnvWaterInteractor` | ติดบนตัวละคร/วัตถุที่ต้องการให้เกิดระลอกคลื่น |
-| `ZLZ_EnvWaterFloater` | ติดบนวัตถุที่ต้องลอยขึ้นลงตามผิวน้ำ |
-| `ZLZ_EnvUnderwaterFeature` | Renderer Feature ที่ทำหมอกใต้น้ำเต็มจอ |
+| **ZLZ/Environment/Water** | The shader that draws the surface |
+| `ZLZ_EnvWater` | Marks a mesh as water, and holds what a material cannot |
+| `ZLZ_EnvWaterInteractor` | Goes on a character or object that should ripple the water |
+| `ZLZ_EnvWaterFloater` | Goes on anything that should ride the surface |
+| `ZLZ_EnvUnderwaterFeature` | The Renderer Feature behind the full-screen underwater fog |
 
 - Path : `Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Water.shader`
-- ทุกอย่างสั่งงานจาก **ZLZ_Env Dashboard > Water**
+- Everything is driven from **ZLZ_Env Dashboard > Water**
 
 ---
 
-## ปัญหาที่ระบบนี้แก้
+## What This System Solves
 
-- **หนึ่งเมช = หนึ่งผืนน้ำ** — ทะเลสาบ แม่น้ำ บ่อ อยู่ในฉากเดียวกันได้ แต่ละผืนมีระดับน้ำ สี และความขุ่นของตัวเอง ไม่ใช่ระนาบน้ำเดียวครอบทั้งฉาก
-- **สีกับความใสคุมด้วยค่าชุดเดียว** — ความหนาแน่นตัวเดียวขับทั้งสีน้ำและความทึบพร้อมกัน ทั้งสองจึงไม่มีทางตีกันเหมือนตอนแยกกันตั้ง
-- **มองทะลุได้สองแกนแยกกัน** — ตั้งได้ว่ามองลงไปได้ลึกกี่เมตรก่อนน้ำทึบ และมองข้ามผิวไปได้ไกลกี่เมตรก่อนน้ำไกลจะขุ่น สองค่านี้แยกกันจริง
-- **ชายฝั่งมีชีวิต** — ฟองเกาะตามแนวน้ำตื้น มีทั้งเส้นน้ำที่คมและกลุ่มฟองที่ฟู และเบคให้ฟองไหลเข้าหาฝั่งได้ทุกด้าน
-- **ใต้น้ำเป็นของจริง ไม่ใช่แผ่นสีทับจอ** — ดำลงไปแล้วเห็นผิวน้ำจากด้านล่างเป็นวงสว่างเหนือหัว ล้อมด้วยขอบมืด พร้อมหมอกใต้น้ำที่กลืนกับผิวน้ำเป็นเนื้อเดียวกัน
-- **คลื่นวาดจังหวะเองได้** — ระดับน้ำขึ้นลงทั้งผืนตามเส้นโค้งที่คุณลากเอง น้ำจึงกลืนหาดตอนขึ้นและคืนทรายตอนลง
-- **ระลอกคลื่นไม่ใช้ physics** — ไม่มี collider ไม่มี render target ตัวละครเดินลุยน้ำแล้วทิ้งรอยคลื่นเป็นแนวตามทาง
-- **ปิดฟีเจอร์แล้วหายไปจริง** — ฟีเจอร์ที่ปิดถูก strip ออกจาก shader variant น้ำที่ใช้แค่สีกับฟองจึงเบาพอสำหรับมือถือ
-- **มีโหมดประหยัดของ Caustics** — สลับจากการคำนวณสดเป็นการอ่านเทกซ์เจอร์ ตัดโค้ดหนักที่สุดออกจาก variant ทั้งก้อน
+- **One mesh = one body of water** — a lake, a river and a pond coexist in the same scene, each at its own level, with its own colour and its own murk. Not one water plane stretched over the whole scene
+- **Colour and clarity driven by one set of values** — a single density drives both the water colour and its opacity, so the two can never fight the way they do when set separately
+- **See-through tuned on two axes independently** — how many metres down you see before the water turns opaque, and how many metres across you see before distant water hazes over. These are genuinely separate
+- **A shoreline that is alive** — foam gathers where the water is shallow, with both a crisp waterline and soft clusters, and it can be baked to run toward the shore on every side
+- **Underwater is real, not a colour sheet over the screen** — dive under and the surface reads from below as a bright cone overhead ringed by a dark rim, with underwater fog that melts into it as one continuous body
+- **Waves whose rhythm you draw yourself** — the level rises and falls as one to a curve you author, so the water swallows the beach on the way up and gives the sand back on the way down
+- **Ripples without physics** — no colliders, no render targets. A character wading through leaves a line of ripples along their path
+- **Turning a feature off really removes it** — disabled features are stripped from the compiled shader variant, so water using only colour and foam stays light enough for mobile
+- **Caustics have a performance mode** — swap live computation for a texture read and the heaviest block on the surface leaves the variant entirely
 
 ---
 
-## น้ำเกิดขึ้นได้ยังไง
+## How Water Comes to Exist
 
 <!-- ![Water_Setup](../water/Water_Setup.png) -->
 
-ทุกขั้นตอนอยู่ในหมวด **Water** ของ Dashboard ที่คุมผืนน้ำนั้น (ปกติคือ Water Dashboard) และแบ่งเป็น 3 ขั้นชัดเจน
+Every step lives in the **Water** section of the Dashboard that owns that body (normally the Water Dashboard), in three clear stages.
 
-**1. Water Mesh + Material** — Dashboard ลิสต์ทุกเมชที่อยู่ใต้ตัวมันพร้อมช่องติ๊ก ติ๊กเมชไหนก็กลายเป็นน้ำทันที แล้วเลือกวัสดุน้ำจากรายการที่มีในโปรเจกต์ (แพ็กเกจมีมาให้ 3 ชุด)
+**1. Water Mesh + Material** — the Dashboard lists every mesh underneath it with a tick box. Tick one and it becomes water on the spot; then pick a water material from the ones in your project (three ship with the package).
 
-**2. Interaction Meshes** — สแกนหาชิ้นส่วนรอบ ๆ ที่จะเป็นตัวกำหนดทิศการไหลของฟอง เช่น เกาะ โขดหิน ชายฝั่ง แล้วติ๊กเลือกทีละชิ้นว่าชิ้นไหนจะให้มีวงคลื่นแผ่ออกด้วย
+**2. Interaction Meshes** — scan for the surrounding pieces that shape the direction the foam runs, such as islands, rocks and shoreline, then tick which of them should also send ring waves radiating out.
 
-**3. Bake** — เบคแผนที่ทิศทางออกมาเป็นเทกซ์เจอร์เล็ก ๆ ที่ผูกกับวัสดุ ฟองจะเริ่มไหลเข้าหาฝั่งตามรูปร่างจริงของชายฝั่ง
+**3. Bake** — bakes the direction map out as a small texture bound to the material. Foam then starts running toward the shore, following the real shape of the coastline.
 
-> **ติ๊กแล้วถอนได้** — ระบบจำไว้ว่าเมชนั้นใส่วัสดุอะไรอยู่ก่อนกลายเป็นน้ำ ติ๊กออกเมื่อไหร่ก็คืนสภาพเดิมให้ครบ รวมถึงรู้ด้วยว่า Reflection Plane อันไหนมันเป็นคนใส่เอง อันไหนมีอยู่ก่อนแล้ว
+> **Ticking is reversible.** The system remembers what material the mesh wore before it became water, and untick restores it exactly. It also remembers whether it was the one that added the Reflection Plane, or whether the mesh already had one.
 
 ---
 
-## หน้าตาของ Water Material
+## How the Water Material Is Laid Out
 
 ![Water_Mat](../water/Water_Mat.png)
 
-โครงเหมือน shader ตัวอื่นในแพ็กเกจ — **แผง Features อยู่บนสุด** แล้วหมวดค่าอยู่ถัดลงมา
+The layout matches the other shaders in the package — the **Features panel at the very top**, with the value sections below it.
 
-### กลุ่มที่ 1 — Locked (4 หมวด เปิดอยู่ตลอด)
+### Group 1 — Locked (4 sections, always on)
 
-| หมวด | ควบคุมอะไร |
+| Section | What it controls |
 |---|---|
-| **Surface** | เทกซ์เจอร์ระลอกผิวน้ำ ความแรง และความเร็วการไหล — ใช้ normal map ใบเดียวสองชั้นไหลสวนกัน จึงไม่เห็นลายซ้ำ และ tile ตามพิกัดโลกจึงต่อเนื่องกันแม้ผืนน้ำจะใหญ่ |
-| **Depth Color** | สีและความใสของน้ำทั้งหมด — ดูหัวข้อถัดไป |
+| **Surface** | The ripple texture, its strength, and its flow speed — one normal map sampled as two layers scrolling against each other, so no repeat is visible, tiled by world coordinates so a large body stays continuous |
+| **Depth Color** | The whole of the water's colour and clarity — see the next section |
 | **Lighting** | Receive Shadow, Shadow Strength, Additional Light Intensity |
-| **Specular** | ประกายดวงอาทิตย์บนผิวน้ำ พร้อม Toon Step ที่ตัดขอบให้คมแบบอนิเมะ และมีค่าความแรงระลอกของตัวเองแยกจากผิว |
+| **Specular** | The sun glint on the surface, with a Toon Step that cuts it to a hard anime edge, and its own ripple strength independent of the surface |
 
-### กลุ่มที่ 2 — Optional (9 ฟีเจอร์ เปิด/ปิดได้)
+### Group 2 — Optional (9 features you switch on and off)
 
-| ฟีเจอร์ | ทำอะไร |
+| Feature | What it does |
 |---|---|
-| **Foam** | ฟองตรงที่น้ำตื้น — มีทั้งเส้นแนวน้ำที่คม กลุ่มฟองที่ฟู และโหมดให้ฟองไหลเข้าหาฝั่ง |
-| **Waves** | ระดับน้ำขึ้นลงทั้งผืนตามจังหวะที่คุณวาด |
-| **Interaction** | วงคลื่นแผ่ออกรอบวัตถุที่แตะน้ำ |
-| **Reflection** | ชั้นสะท้อนแบบกล้องกระจก พร้อมระยะที่ค่อย ๆ ส่งงานกลับให้ probe เมื่อไกลออกไป |
-| **Refraction** | ภาพของสิ่งที่อยู่ใต้ผิวน้ำบิดไหวไปตามระลอก |
-| **Sparkle** | ประกายวิบวับกระจายบนผิว หนาแน่นที่สุดตรงแนวที่แดดสะท้อนเข้าตา |
-| **Caustics** | ตาข่ายแสงที่พื้นน้ำตื้น |
-| **Underwater** | ผิวน้ำเมื่อมองจากด้านล่าง คู่กับหมอกใต้น้ำเต็มจอ |
-| **Target Darken** | หรี่ลงพร้อมทั้งฉากเวลาสั่งจากโค้ดเกม |
+| **Foam** | Foam where the water is shallow — a crisp waterline, soft clusters, and a mode that makes it run toward the shore |
+| **Waves** | The level rises and falls as one, to a rhythm you draw |
+| **Interaction** | Rings expanding around anything touching the water |
+| **Reflection** | The mirror-camera reflection tier, with a distance over which it hands back to the probe |
+| **Refraction** | The view of what lies under the surface wobbles with the ripples |
+| **Sparkle** | Glitter scattered across the surface, thickest along the path where the sun reflects toward the eye |
+| **Caustics** | The web of light on the shallow floor |
+| **Underwater** | The surface seen from below, paired with the full-screen underwater fog |
+| **Target Darken** | Dims along with the whole scene when driven from game code |
 
-> มีหมวด **Debug** เพิ่มอีกหนึ่งที่ไม่มีปุ่มในแผง Features ใช้แยกดูทีละชั้น — ความหนาแน่นของน้ำ, ทิศผิว, Fresnel, พื้นที่ที่ฟองคลุม, ภาพดิบของฉากใต้ผิวน้ำ, สีเนื้อน้ำ และพื้นที่ที่คอสติกคลุม
+> There is also a **Debug** section with no button in the Features panel. It isolates one stage at a time — water density, surface normal, Fresnel, foam coverage, the raw scene behind the surface, body colour, and caustic coverage.
 
 ---
 
-## Depth Color — หัวใจของหน้าตาน้ำ
+## Depth Color — The Heart of How Water Looks
 
 ![Water_Depth](../water/Water_Depth.png)
 
-ถ้าจะปรับแค่หมวดเดียวให้น้ำดูถูกต้อง หมวดนี้คือหมวดนั้น เพราะมันคุมทั้ง **สี** และ **ความใส** ไปพร้อมกันด้วยค่าชุดเดียว ไม่แยกกันตั้งจนตีกันเอง
+If you only tune one section to get water looking right, this is the one — because it controls both **colour** and **clarity** together from one set of values, rather than leaving them set separately and fighting each other.
 
-| ค่า | หมายความว่าอะไร |
+| Setting | What it means |
 |---|---|
-| **See-Through Depth** | มองลงไปได้ลึกกี่เมตรก่อนที่น้ำจะทึบ — เป็นแกน **ดิ่ง** ค่านี้คือตัวที่ทำให้เห็นก้นบ่อตรงตื้นแต่มืดสนิทตรงลึก |
-| **See-Through Distance** | มองข้ามผิวน้ำไปได้ไกลกี่เมตรก่อนที่น้ำไกล ๆ จะขุ่นกลืนไป — เป็นแกน **นอน** ตัวนี้คือตัวที่ทำให้การไล่ระดับยาวและนุ่ม แทนที่จะเปลี่ยนสีกึกเดียว |
-| **Shallow Color** | สีของน้ำตรงตื้น และค่า **Alpha ของมันคือความใส** ยิ่งต่ำยิ่งเห็นพื้นชัด |
-| **Deep Color** | สีของน้ำตรงลึก และค่า **Alpha คือความทึบ** ที่ 1 คือทึบสนิท |
-| **Shore Softness** | ความนุ่มตรงรอยที่น้ำแตะฝั่งหรือแตะวัตถุ ป้องกันไม่ให้เกิดเส้นคมเหมือนกระดาษตัด |
+| **See-Through Depth** | How many metres down you see before the water turns opaque — the **vertical** axis. This is what lets you see the bottom in the shallows while the deep goes dark |
+| **See-Through Distance** | How many metres across you see before distant water hazes over — the **horizontal** axis. This is what makes the gradient long and smooth instead of switching colour all at once |
+| **Shallow Color** | The colour of the shallows, and its **Alpha is the clarity** — the lower it goes, the more clearly the bottom shows |
+| **Deep Color** | The colour of the deep, and its **Alpha is the opacity** — 1 being fully solid |
+| **Shore Softness** | How soft the line is where the water meets the shore or an object, so it never cuts like a sheet of paper |
 
-การที่ Alpha ของสีเป็นตัวคุมความใส แปลว่า **สีกับความโปร่งเป็นเรื่องเดียวกัน** — เลื่อนความลึกทีเดียวแล้วทั้งสีและความทึบขยับตามกันเสมอ ไม่มีอาการน้ำใสแจ๋วแต่สีเข้มปี๋
+Because the colours' Alpha is what drives the clarity, **colour and transparency are one thing** — move the depth once and both the colour and the opacity shift together. You never end up with water that is crystal clear but deeply tinted.
 
 ---
 
-## ค่าที่วัสดุเก็บไม่ได้ — `ZLZ_EnvWater`
+## What a Material Cannot Hold — `ZLZ_EnvWater`
 
 ![Env_Water](../water/Env_Water.png)
 
-วัสดุเก็บได้แค่ตัวเลขกับเทกซ์เจอร์ แต่บางอย่างของน้ำเป็นข้อมูลที่ซับซ้อนกว่านั้น ของพวกนี้จึงอยู่บน component `ZLZ_EnvWater` ซึ่งติดให้อัตโนมัติตอนติ๊กเมชเป็นน้ำ
+A material can only hold numbers and textures, but some of what water needs is more complex than that. Those things live on the `ZLZ_EnvWater` component, which is added for you the moment you tick a mesh as water.
 
-| กลุ่ม | เก็บอะไร |
+| Group | What it holds |
 |---|---|
-| **จังหวะคลื่น** | **เส้นโค้ง** ที่คุณลากเองว่าน้ำขึ้นลงยังไง พร้อมความสูงเป็นเมตรและเวลาต่อหนึ่งรอบ — วัสดุเก็บเส้นโค้งไม่ได้ ตัว component จึงเบคมันเป็นเทกซ์เจอร์แล้วส่งเข้าวัสดุให้ |
-| **ความขุ่นใต้น้ำของบ่อนี้** | สีหมอก ระยะที่มองเห็นใต้น้ำ ความมืดเมื่อดำลึกลงไป ความแรงของคอสติกและฝุ่นผงที่ลอยอยู่ |
-| **ตอนข้ามผิวน้ำ** | ระยะเวลาที่ภาพละลาย ความแรงที่ภาพถูกลาก จำนวนริ้ว และแสงวาบของฟองตอนตัดผิว |
-| **Shore Flow** | รายชื่อชิ้นส่วนที่ใช้กำหนดทิศการไหล ว่าชิ้นไหนให้มีวงคลื่นด้วย และเทกซ์เจอร์ทิศทางที่เบคออกมา |
+| **Wave rhythm** | The **curve** you draw for how the level rises and falls, plus the height in metres and the seconds per loop — a material cannot hold a curve, so the component bakes it into a texture and pushes that into the material for you |
+| **This pond's murk** | Fog colour, how far you see underwater, how dark it gets as you go deeper, and the strength of the caustics and the drifting motes |
+| **Crossing the surface** | How long the image takes to settle, how hard it is dragged, how many streaks, and the froth flash at the instant you break the surface |
+| **Shore Flow** | The list of pieces that shape the flow direction, which of them send ring waves, and the baked direction texture |
 
-เพราะเป็นค่าต่อ component ไม่ใช่ค่ากลาง **บ่อแต่ละบ่อในฉากเดียวกันจึงขุ่นไม่เท่ากันได้** — ทะเลสาบใสสีฟ้ากับบึงโคลนสีน้ำตาลอยู่ห่างกันสิบเมตรได้โดยไม่ต้องทำอะไรพิเศษ
+Because these are per-component rather than global, **two ponds in the same scene can be murky by different amounts** — a clear blue lake and a brown muddy bog ten metres apart, with nothing special to set up.
 
-> **ตัว component ไม่ทำงานต่อเฟรมเลย** — มันเป็นแค่ตัวถือข้อมูลและตัวหมายให้ Dashboard กับเครื่องมือหาผืนน้ำเจอ งานวาดทั้งหมดอยู่ที่วัสดุ
+> **The component does no per-frame work.** It is a data holder and the marker the Dashboard and the tools use to find water bodies. All of the drawing lives on the material.
 
 ---
 
-## ของที่ติดบนวัตถุอื่น
+## The Pieces That Go on Other Objects
 
-สองตัวนี้ไม่ได้อยู่บน Dashboard แต่ติดบนสิ่งที่เคลื่อนไหวในฉาก
+These two do not live on the Dashboard — they go on the things that move around the scene.
 
-### `ZLZ_EnvWaterInteractor` — ทำให้เกิดระลอกคลื่น
+### `ZLZ_EnvWaterInteractor` — Making Ripples
 
 ![Water_Interaction](../water/Water_Interaction.png)
 
-ไม่ใช่วงเดียวที่วิ่งตามตัวไป แต่ **ปล่อยวงคลื่นออกมาทีละวง** แล้วแต่ละวงก็ขยายและจางหายจากจุดที่มันเกิด ตัวละครที่เดินลุยน้ำจึงทิ้งแนวคลื่นไว้ตามทางเหมือนรอยเท้าในน้ำจริง
+Rather than one ring that follows the object, it **spawns ripples one at a time**, and each expands and fades from where it was born. A character wading through therefore leaves a line of ripples along their path, the way real footsteps in water do.
 
-มีตัวปล่อย 2 ตัวทำงานพร้อมกัน แยกขนาดและอายุของตัวเอง:
+Two emitters run together, each with its own size and lifetime:
 
-- **Trail** — ปล่อยตอนวัตถุ **เคลื่อนที่** เป็นรอยคลื่นตามทาง อายุสั้นจะดูดีที่สุด
-- **Pulse** — ปล่อยเป็นจังหวะตอนวัตถุ **อยู่กับที่** เช่น ยืนแช่น้ำหรือน้ำพุ และจะหยุดเองเมื่อวัตถุเริ่มขยับ ให้ Trail ทำงานแทน ไม่ซ้อนกัน
+- **Trail** — emits while the object is **moving**, leaving a wake along its path. A short lifetime reads best
+- **Pulse** — emits on an interval while the object is **roughly still**, such as treading water or a fountain, and pauses itself once the object starts moving so Trail takes over instead of stacking on top
 
-ทั้งหมดนี้ **ไม่ใช้ physics และไม่ใช้ render target** — เป็นแค่อาร์เรย์เล็ก ๆ ที่ส่งเข้า shader รอบละครั้ง วงคลื่นบิดทิศผิวน้ำตรงนั้น แสง ประกาย เงาสะท้อน และการหักเหจึงตามไปเองทั้งหมด
+None of this **uses physics or a render target** — it is a small array published to the shader once a frame. Each ring bends the surface normal where it sits, so the lighting, the glint, the reflection and the refraction all follow for free.
 
-### `ZLZ_EnvWaterFloater` — ทำให้ลอย
+### `ZLZ_EnvWaterFloater` — Making Things Float
 
 ![Water_Floater](../water/Water_Floater.png)
 
-หาผืนน้ำที่อยู่ใต้วัตถุแล้วค่อย ๆ ดันความสูงของวัตถุให้ตรงกับระดับผิวน้ำที่ผู้เล่นเห็นจริง ๆ รวมถึงตอนน้ำขึ้นลงตามจังหวะคลื่นด้วย
+It finds the body of water beneath the object and eases the object's height onto the surface level the player actually sees — including as the level breathes up and down with the waves.
 
-- ขยับ **แกน Y อย่างเดียว** ส่วน X/Z ปล่อยให้โค้ดเกมคุมต่อ เรือจึงยังบังคับเลี้ยวได้ตามปกติ
-- **ไม่มี physics** ถ้าอยากได้เรือที่เอียงและชนได้ ให้ใช้ Rigidbody แบบ kinematic หรือถามระดับผิวน้ำเองจากโค้ด
-- ลอยอยู่เหนือผืนน้ำไหนก็ใช้ระดับของผืนนั้น และถ้าแบกของขึ้นฝั่งไปแล้วมันก็แค่หยุดทำงาน ไม่ไปยุ่งกับตำแหน่งวัตถุ
+- Moves the **Y axis only**. X and Z are left to your game code, so a boat still steers exactly as before
+- **No physics.** For a vessel that should heel and collide, keep the Rigidbody kinematic while afloat, or query the surface height yourself from code
+- It uses the level of whichever body it happens to be over, and once you carry something ashore it simply stops working rather than touching the object's position
 
 ---
 
-## สิ่งที่ต้องเปิดใน URP Asset
+## What the URP Asset Needs
 
 ![URP_Setting](../water/URP_Setting.png)
 
-น้ำเป็นระบบเดียวในแพ็กเกจที่**อ่านภาพของฉากที่อยู่ข้างหลังตัวมันเอง** จึงมีสองช่องที่ต้องติ๊ก
+Water is the one system in the package that **reads the image of the scene behind itself**, so there are two boxes to tick.
 
-| ต้องเปิด | จำเป็นเมื่อไหร่ |
+| Turn on | Needed when |
 |---|---|
-| **Depth Texture** | ตลอดเวลา — สีตามความลึก ความนุ่มตรงชายฝั่ง และฟอง ล้วนต้องรู้ว่าพื้นอยู่ลึกแค่ไหน |
-| **Opaque Texture** | เมื่อใช้ **Refraction** หรือ **Underwater** เพราะทั้งคู่ต้องอ่านภาพฉากที่อยู่หลังผิวน้ำ |
+| **Depth Texture** | Always — the depth colour, the soft shore and the foam all need to know how far down the bottom is |
+| **Opaque Texture** | When using **Refraction** or **Underwater**, since both read the image of the scene behind the surface |
 
-ส่วน Renderer Feature ที่ต้องมี (**ZLZ Env Underwater** สำหรับหมอกใต้น้ำ และ **ZLZ Env Planar Reflection** สำหรับการสะท้อน) Dashboard ติดตั้งให้ตั้งแต่ตอน import แพ็กเกจอยู่แล้ว
+The Renderer Features involved (**ZLZ Env Underwater** for the fog, **ZLZ Env Planar Reflection** for the reflection) are installed by the Dashboard at package import, so there is nothing to add by hand.
 
 ---
 
-## เรื่องประสิทธิภาพ
+## Performance
 
-| วิธี | ได้อะไร |
+| Technique | What it buys |
 |---|---|
-| **ทุกฟีเจอร์เป็น opt-in** | ปิดแล้วหายจาก shader variant จริง ไม่ใช่คูณศูนย์ |
-| **Caustics Baked Pattern** | สลับจากการคำนวณลายคอสติกสด ไปอ่านจากเทกซ์เจอร์แทน ตัดลูปที่หนักที่สุดบนผิวน้ำออกจาก variant ทั้งก้อน — โหมดสำหรับมือถือโดยเฉพาะ และเทกซ์เจอร์สร้างให้อัตโนมัติตอนใช้ครั้งแรก |
-| **น้ำไม่มี pass เงาและ pass ความลึก** | นอกจากประหยัดแล้ว ยังเป็นเหตุผลเชิงความถูกต้องด้วย — น้ำจะได้ไม่ไปอยู่ใน depth texture ที่ตัวมันเองอ่าน |
-| **หมอกใต้น้ำจ่ายเมื่อใช้จริง** | ถ้ากล้องไม่ได้อยู่ใต้น้ำ จะไม่มี pass ไหนถูกเพิ่มเข้าคิวเลย เหลือแค่การเช็คตำแหน่งกล้อง |
-| **ระลอกคลื่นไม่มี physics** | ไม่มี collider ไม่มี render target มีแค่อาร์เรย์เล็ก ๆ ที่ส่งเข้า shader รอบละครั้ง |
-| **Sparkle ปรับความละเอียดตามระยะ** | ตารางประกายในระยะไกลถูกลดขั้นลง ประกายจึงยังเป็นจุดเล็กคม ๆ ที่ทุกระยะ ไม่กลายเป็นเม็ดใหญ่กวนตา |
+| **Every feature is opt-in** | Turning one off really removes it from the shader variant, rather than multiplying by zero |
+| **Caustics Baked Pattern** | Swaps live caustic computation for a texture read, taking the heaviest loops on the surface out of the variant entirely — a mode built for mobile, and the texture is generated for you on first use |
+| **Water has no shadow pass and no depth pass** | As well as being cheaper, this is a correctness decision — it keeps water out of the depth texture it samples |
+| **Underwater fog is paid only when used** | With the camera above water, no pass is queued at all. The only cost is the position check |
+| **Ripples use no physics** | No colliders, no render target — just a small array published to the shader once a frame |
+| **Sparkle scales its detail with distance** | The glitter grid steps down in the far field, so points stay small sharp specks at any distance instead of growing into distracting blobs |
 
-> **Mirror Fade Distance คือค่าที่ควรรู้จัก** — เวลากล้องอยู่ต่ำใกล้ผิวน้ำ Fresnel จะพุ่งไปสุดทั่วทั้งผืนน้ำที่อยู่ไกล ทำให้ภาพสะท้อนของภูมิประเทศรอบ ๆ เข้าไปแทนที่สีน้ำทั้งหมด ตั้งค่านี้เพื่อให้ภาพกระจกค่อย ๆ ส่งงานคืนให้ probe เมื่อไกลออกไป น้ำใกล้จึงยังสะท้อนคมชัด ส่วนน้ำไกลกลับไปสะท้อนท้องฟ้าตามปกติ
+> **Mirror Fade Distance is worth knowing about.** With a low camera near the surface, Fresnel goes to maximum across all distant water, so the reflected terrain can replace the water colour wholesale. Set this and the mirror image hands back to the probe with distance — near water keeps its sharp reflection, while far water goes back to reflecting the sky.
 
 ---
