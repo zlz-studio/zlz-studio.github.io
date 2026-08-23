@@ -123,6 +123,8 @@ published: false
 
 ## สีของใบหญ้ามาจากไหน
 
+![BaseColors_Properties](../grass/grass-material/BaseColors_Properties.png)
+
 สีที่คุณเห็นบนใบหญ้าใบหนึ่งไม่ได้มาจากช่องเดียว แต่เกิดจากการซ้อนกันของ 4 ชั้น
 
 | ชั้น | มาจากไหน | อยู่หมวดไหน |
