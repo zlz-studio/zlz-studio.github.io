@@ -54,39 +54,6 @@ Every step lives in the **Water** section of the Dashboard that owns that body (
 
 ---
 
-## How the Water Material Is Laid Out
-
-![Water_Mat](../water/Water_Mat.png)
-
-The layout matches the other shaders in the package — the **Features panel at the very top**, with the value sections below it.
-
-### Group 1 — Locked (4 sections, always on)
-
-| Section | What it controls |
-|---|---|
-| **Surface** | The ripple texture, its strength, and its flow speed — one normal map sampled as two layers scrolling against each other, so no repeat is visible, tiled by world coordinates so a large body stays continuous |
-| **Depth Color** | The whole of the water's colour and clarity — see the next section |
-| **Lighting** | Receive Shadow, Shadow Strength, Additional Light Intensity |
-| **Specular** | The sun glint on the surface, with a Toon Step that cuts it to a hard anime edge, and its own ripple strength independent of the surface |
-
-### Group 2 — Optional (9 features you switch on and off)
-
-| Feature | What it does |
-|---|---|
-| **Foam** | Foam where the water is shallow — a crisp waterline, soft clusters, and a mode that makes it run toward the shore |
-| **Waves** | The level rises and falls as one, to a rhythm you draw |
-| **Interaction** | Rings expanding around anything touching the water |
-| **Reflection** | The mirror-camera reflection tier, with a distance over which it hands back to the probe |
-| **Refraction** | The view of what lies under the surface wobbles with the ripples |
-| **Sparkle** | Glitter scattered across the surface, thickest along the path where the sun reflects toward the eye |
-| **Caustics** | The web of light on the shallow floor |
-| **Underwater** | The surface seen from below, paired with the full-screen underwater fog |
-| **Target Darken** | Dims along with the whole scene when driven from game code |
-
-> There is also a **Debug** section with no button in the Features panel. It isolates one stage at a time — water density, surface normal, Fresnel, foam coverage, the raw scene behind the surface, body colour, and caustic coverage.
-
----
-
 ## Depth Color — The Heart of How Water Looks
 
 ![Water_Depth](../water/Water_Depth.png)
