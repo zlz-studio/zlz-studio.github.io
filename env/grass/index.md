@@ -82,6 +82,8 @@ Press `Grow All` and the result does not go into the scene. It goes into **an as
 
 ### What is inside it
 
+![GrassData2](../grass//GrassData2.png)
+
 It stores **the position of every tuft**, grouped into cells, rather than a finished baked mesh. That difference matters more than it sounds:
 
 - No large mesh assets appear in your project
@@ -90,6 +92,8 @@ It stores **the position of every tuft**, grouped into cells, rather than a fini
 One file holds several surfaces, each with its own field bound by a key — so surfaces can be reordered, added or removed in the Dashboard without any other surface losing its data.
 
 ### Why an asset rather than the scene
+
+![GrassData1](../grass//GrassData1.png)
 
 Two reasons, and both are genuinely painful without it.
 
