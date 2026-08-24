@@ -28,17 +28,15 @@ The ZLZ grass system is not a single shader — it is a **complete system for pl
 
 ## What This System Solves
 
-- **Not tied to Unity Terrain** — plant straight onto meshes sculpted in Maya or Blender. A sloping hillside, an island in the middle of a lake, or ground assembled from several pieces all work
-- **Planted in one click** — pick the Mask Texture Channel, pick the grass type, press `Grow All`. No placing tufts by hand
-- **The data does not live in the scene** — every tuft is written into a `ZLZ_EnvGrassData` file, the same pattern Unity Terrain uses with TerrainData. Scene files stay small, and a grown field travels with its Prefab
-- **Nothing is baked out as a mesh** — the system stores only the *position* of each tuft and draws them with GPU Instancing from one shared blade mesh. No huge mesh assets appearing in your project
-- **Several types at once** — grass and flowers share one field, each with its own density, size and meshes
-- **Clean edges with no hand-tweaking** — blades shorten themselves along the boundary with a path, keep clear of props, and hold a settable distance in from the mesh edge
-- **Colour matches the ground automatically** — grass samples the colour of the surface it grows on, so it never reads as a foreign green sheet laid over dirt, sand or stone
-- **Sways to the same wind as the trees** — the same `ZLZ_Env Wind Controller` the leaves use, so the whole scene moves as one
+- **Not tied to Unity Terrain** — plant straight onto meshes sculpted in Maya or Blender
+- **Planted in one click** — pick the surfaces, pick a grass type, press `Grow All`
+- **The field lives in an asset, not the scene** — scenes stay small, and grass travels with its Prefab
+- **Several types at once** — grass and flowers in one field, each with its own density, size and mesh
+- **Clean edges with no hand-tweaking** — blades taper along paths and keep clear of props
+- **Colour matches the ground** — never a foreign green sheet laid over dirt, sand or stone
+- **Sways to the same wind as the trees** — one `ZLZ_Env Wind Controller` drives the whole scene
 - **Parts as a character walks through** — with no per-blade colliders
-- **LOD and a performance mode built in** — thinner far out, an optimized mesh beyond that, and a limit past which it stops drawing, plus a mode that draws grass below full screen resolution
-- **Runs on PC and Mobile** — swap the entire LOD set with Unity's Quality Level, with nothing re-grown
+- **LOD and Quality Presets built in** — thins with distance, and swaps whole sets for PC or Mobile
 
 ---
 
