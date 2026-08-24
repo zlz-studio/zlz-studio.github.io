@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grass Overview | ZLZ Env Shader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* tree-style sub items (e.g. changelog versions under Overview) */
+    .sidebar .sideTree {
+      margin-left: 14px;
+      border-left: 1px solid #2b3648;
+    }
+
+    .sidebar .sideTree a {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 12px;
+    }
+
+    .sidebar .sideTree a::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #2b3648;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    /* Markdown tables */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .content th,
+    .content td {
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #1f2937;
+    }
+
+    .content thead th {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content td:first-child {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .content tbody tr:nth-child(even) {
+      background: #0f1521;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      
+
+<div class="sidebar">
+<h2>ZLZ Env Shader</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Environment Shader</h3>
+
+
+<a href="/env/shader/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/shader/paint-mode/"
+   class="">
+   Paint Mode
+</a>
+
+
+
+<a href="/env/shader/triplanar/"
+   class="">
+   Triplanar
+</a>
+
+
+
+<a href="/env/shader/planar-reflection/"
+   class="">
+   Planar Reflection
+</a>
+
+
+
+<a href="/env/shader/normal/"
+   class="">
+   Normal Map
+</a>
+
+
+
+<a href="/env/shader/specular/"
+   class="">
+   Specular &amp; Metallic
+</a>
+
+
+
+<a href="/env/shader/stochastic-tiling/"
+   class="">
+   Stochastic Sampling
+</a>
+
+
+
+<a href="/env/shader/snow-accumulation/"
+   class="">
+   Surface Accumulation
+</a>
+
+
+
+<a href="/env/shader/leaf-wind/"
+   class="">
+   Wind
+</a>
+
+
+
+<a href="/env/shader/emissive/"
+   class="">
+   Emission
+</a>
+
+
+
+<a href="/env/shader/fog/"
+   class="">
+   Fog
+</a>
+
+
+<!-- TODO: remaining Environment Shader sub-pages -->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Grass</h3>
+
+
+<a href="/env/grass/"
+   class="active">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/grass/grass-setup/"
+   class="">
+   Grass Setup
+</a>
+
+
+
+<a href="/env/grass/grass-material/"
+   class="">
+   Grass Material
+</a>
+
+
+
+<a href="/env/grass/grass-global-wind/"
+   class="">
+   Grass Global Wind
+</a>
+
+
+
+<a href="/env/grass/grass-optimized/"
+   class="">
+   Grass Optimized
+</a>
+
+
+
+<a href="/env/grass/grass-color-camera/"
+   class="">
+   Grass Color Camera
+</a>
+
+
+
+<a href="/env/grass/grass-interaction/"
+   class="">
+   Grass Interaction
+</a>
+
+
+
+<a href="/env/grass/grass-lod/"
+   class="">
+   Grass LOD
+</a>
+
+
+
+<a href="/env/grass/grass-edges/"
+   class="">
+   Grass Edges
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Water</h3>
+
+
+<a href="/env/water/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/water/water-interaction/"
+   class="">
+   Water Interaction
+</a>
+
+
+
+<a href="/env/water/water-waves/"
+   class="">
+   Water Waves
+</a>
+
+
+
+<a href="/env/water/water-floater/"
+   class="">
+   Water Floater
+</a>
+
+
+
+<a href="/env/water/water-foam/"
+   class="">
+   Water Foam
+</a>
+
+
+
+<a href="/env/water/water-ring-wave/"
+   class="">
+   Water Ring Wave
+</a>
+
+
+
+<a href="/env/water/water-sparkle/"
+   class="">
+   Water Sparkle
+</a>
+
+
+
+<a href="/env/water/water-caustics/"
+   class="">
+   Water Caustics
+</a>
+
+
+
+<a href="/env/water/water-underwater/"
+   class="">
+   Underwater
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>FX Runtime</h3>
+
+
+
+<div class="sideTree">
+
+
+<a href="/env/fx/target-darken/"
+   class="">
+   Target Darken FX Runtime
+</a>
+
+
+<!-- TODO: Light Sweep, Upgrade -->
+
+</div>
+
+
+<h3>Other Products</h3>
+
+<a href="/features/">ZLZ Anime Shader Docs</a>
+
+</div>
+
+
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h1 id="zlz-grass-system">ZLZ Grass System</h1>
+
+<!-- ![Grass_Overall](../images/Grass_Overall.webp) -->
+
+<p>The ZLZ grass system is not a single shader — it is a <strong>complete system for planting grass onto meshes you made yourself</strong>, covering the scatter, the storage, the LOD, the wind, and the way blades part as a character walks through them.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Piece</th>
+      <th>What it is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ZLZ/Environment/Grass</strong></td>
+      <td>The shader that draws the blades and flowers</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrass</code></td>
+      <td>Plants the field and draws it. Lives on the Dashboard</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassType</code></td>
+      <td>A preset asset : “this is what this kind of grass looks like”</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassData</code></td>
+      <td>The file holding the tufts you have grown</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassController</code></td>
+      <td>LOD for all the grass in the scene</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Path : <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Grass.shader</code></li>
+  <li>Everything is driven from <strong>ZLZ_Env Dashboard &gt; Grass</strong> — no hunting for components one at a time</li>
+</ul>
+
+<hr />
+
+<h2 id="what-this-system-solves">What This System Solves</h2>
+
+<ul>
+  <li><strong>Not tied to Unity Terrain</strong> — plant straight onto meshes sculpted in Maya or Blender</li>
+  <li><strong>Planted in one click</strong> — pick the surfaces, pick a grass type, press <code class="language-plaintext highlighter-rouge">Grow All</code></li>
+  <li><strong>The field lives in an asset, not the scene</strong> — scenes stay small, and grass travels with its Prefab</li>
+  <li><strong>Several types at once</strong> — grass and flowers in one field, each with its own density, size and mesh</li>
+  <li><strong>Clean edges with no hand-tweaking</strong> — blades taper along paths and keep clear of props</li>
+  <li><strong>Colour matches the ground</strong> — never a foreign green sheet laid over dirt, sand or stone</li>
+  <li><strong>Sways to the same wind as the trees</strong> — one <code class="language-plaintext highlighter-rouge">ZLZ_Env Wind Controller</code> drives the whole scene</li>
+  <li><strong>Parts as a character walks through</strong> — with no per-blade colliders</li>
+  <li><strong>LOD and Quality Presets built in</strong> — thins with distance, and swaps whole sets for PC or Mobile</li>
+</ul>
+
+<hr />
+
+<h2 id="how-grass-comes-to-exist">How Grass Comes to Exist</h2>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/jG3f89pkjh4?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=jG3f89pkjh4&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>Every step lives in the <strong>Grass</strong> section of the Dashboard that owns that ground (normally the Terrain Dashboard).</p>
+
+<ol>
+  <li><strong>Choose which surfaces grow grass</strong> — the Dashboard lists every mesh underneath it with a tick box. Tick only the ones you want. If a mesh carries several materials, a second row of tick boxes lets you choose which material grows grass (grass on the grass material, none on the rock material)</li>
+  <li><strong>Choose a Grass Type</strong> — pick one of the presets that ship with the package, or press <code class="language-plaintext highlighter-rouge">Create New</code> for your own. Several types can run at once</li>
+  <li><strong>Press <code class="language-plaintext highlighter-rouge">Grow All</code></strong> — the system scatters tufts across the whole surface at each type’s density, then writes the result into the Grass Data file</li>
+</ol>
+
+<p>If you want tighter control than that, a <strong>hand-painting mode</strong> lets you add or remove tufts spot by spot in the Scene view.</p>
+
+<blockquote>
+  <p><strong>Most values apply live</strong>, with nothing to re-grow — height, edge distances, edge softness and the mask threshold can all be dragged in real time. Only the values that decide <em>where a tuft lands</em> (density, clustering, blocking layers) need a fresh <code class="language-plaintext highlighter-rouge">Grow</code>.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="grass-type--one-preset-per-kind-of-grass">Grass Type — One Preset per Kind of Grass</h2>
+
+<p><img src="../grass/Grass_Type.png" alt="Grass_Type" /></p>
+
+<p>Instead of wiring a Material to a Mesh in every place they are used, everything that describes “what this kind of grass looks like” is stored in a single asset file, reusable across every mesh and every scene.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>What is in it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Shape</strong></td>
+      <td>Material, the tuft meshes (one picked at random per tuft), and an optimized mesh for the far field</td>
+    </tr>
+    <tr>
+      <td><strong>Amount</strong></td>
+      <td>Density in tufts per square metre, and a cap on the tuft count so one type can never explode across a huge surface</td>
+    </tr>
+    <tr>
+      <td><strong>Size</strong></td>
+      <td>A random size range, and a Height Offset that sinks the base slightly into the ground so blades do not float</td>
+    </tr>
+    <tr>
+      <td><strong>Clustering</strong></td>
+      <td>How tightly this type clumps, and how wide each clump is</td>
+    </tr>
+    <tr>
+      <td><strong>Edges</strong></td>
+      <td>Distance kept from painted ground, distance kept in from the mesh edge, and the band over which blades taper down instead of ending on a hard line</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Clustering is what makes flowers read as flowers. Grass scattered evenly looks right; flowers scattered evenly look like spilled salt. In nature flowers spread in patches, so leave this at 0 for grass and raise it for flowers.</p>
+
+<hr />
+
+<h2 id="grass-data--where-a-grown-field-is-kept">Grass Data — Where a Grown Field Is Kept</h2>
+
+<p><img src="../grass//GrassData.png" alt="GrassData" /></p>
+
+<p>Press <code class="language-plaintext highlighter-rouge">Grow All</code> and the result does not go into the scene. It goes into <strong>an asset file</strong> — the same idea behind Unity keeping TerrainData separate from the Terrain itself.</p>
+
+<h3 id="what-is-inside-it">What is inside it</h3>
+
+<p><img src="../grass//GrassData2.png" alt="GrassData2" /></p>
+
+<p>It stores <strong>the position of every tuft</strong>, grouped into cells, rather than a finished baked mesh. That difference matters more than it sounds:</p>
+
+<ul>
+  <li>No large mesh assets appear in your project</li>
+  <li>The cells it groups by are the same cells the system culls with at draw time, so the per-frame work loops over cells rather than tufts</li>
+</ul>
+
+<p>One file holds several surfaces, each with its own field bound by a key — so surfaces can be reordered, added or removed in the Dashboard without any other surface losing its data.</p>
+
+<h3 id="why-an-asset-rather-than-the-scene">Why an asset rather than the scene</h3>
+
+<p><img src="../grass//GrassData1.png" alt="GrassData1" /></p>
+
+<p>Two reasons, and both are genuinely painful without it.</p>
+
+<ol>
+  <li><strong>Scene files bloat.</strong> Per-tuft data written straight into a scene makes the scene file enormous</li>
+  <li><strong>Prefabs become unworkable.</strong> On a prefab instance, every single tuft turns into a property override that Unity re-diffs whenever you edit anything on that object. On a large field that stalls the editor for minutes</li>
+</ol>
+
+<p>Stored as an asset, neither happens.</p>
+
+<h3 id="the-payoff--a-grown-field-travels-with-the-prefab">The payoff — a grown field travels with the Prefab</h3>
+
+<p><strong>The prefab holds the reference, and the reference holds the grass.</strong> Which means:</p>
+
+<ul>
+  <li>Grow the field once on a ground prefab, then drop that prefab into as many scenes as you like — the grass comes with it every time</li>
+  <li>Variants of that prefab use the same field straight away</li>
+  <li>In Prefab Mode the Grass section is <strong>read-only</strong>, showing which file this prefab baselines, how many tufts it holds and how large it is. Grow and Clear only work in a scene, because both build scene-level plumbing (the ground-colour camera, the ZLZ_Global) that must never land inside the prefab file</li>
+</ul>
+
+<h3 id="where-the-file-comes-from">Where the file comes from</h3>
+
+<p><img src="../grass//GrassData3.png" alt="GrassData3" /></p>
+
+<ul>
+  <li><strong>Normally it is created for you</strong> on the first Grow, named after the ground</li>
+  <li>Press <code class="language-plaintext highlighter-rouge">New</code> in the Dashboard to make a fresh empty one and link it immediately</li>
+  <li>Or make one by hand from <code class="language-plaintext highlighter-rouge">Create &gt; ZLZ &gt; Environment Shader &gt; Grass Data</code> and drop it into the slot — a new file stays empty until something is grown into it</li>
+</ul>
+
+<h3 id="the-one-rule-to-remember--one-file-per-dashboard">The one rule to remember — one file per Dashboard</h3>
+
+<p>Within a single Dashboard, duplicated meshes get their own keyed field automatically. But <strong>across two Dashboards the keys are not de-duplicated</strong> — if both point at the same file, growing one overwrites the other’s grass.</p>
+
+<p>The Dashboard watches for this: if another Dashboard in the scene is using the same file, it says so. The fix is to press <code class="language-plaintext highlighter-rouge">New</code> so that one gets a file of its own, then Grow again.</p>
+
+<blockquote>
+  <p><strong>Two cases to watch.</strong> Duplicating a whole Dashboard, and dropping two instances of the same grass prefab into a scene — both share one file from the very first second.</p>
+</blockquote>
+
+<h3 id="clearing-out-what-is-no-longer-used">Clearing out what is no longer used</h3>
+
+<p>There is a tool that sweeps fields nothing claims any more out of the file, and it is deliberately cautious — because one file serves a whole prefab lineage, “the grass in front of me no longer uses this key” does not mean nobody does. A variant sitting in a scene you have not even opened may still be drawing it.</p>
+
+<p>So it reads every saved scene and prefab in the project to prove ownership before deleting anything. If any of them cannot be read, nothing is deleted at all.</p>
+
+<hr />
+
+<h2 id="how-the-system-decides-where-grass-grows">How the System Decides Where Grass Grows</h2>
+
+<p><img src="../grass/Grass_Debug.png" alt="Grass_Debug" /></p>
+
+<p>Four layers of control stack on top of each other.</p>
+
+<p><strong>1. The base mode</strong> — grass either covers the whole surface, or <strong>the ground’s own Paint system decides</strong>. Choose the latter and the grass reads the Mask Texture or the Vertex Colors, according to what the ground material itself is set to — there is no second place to configure it, so ground and grass always agree.</p>
+
+<p><strong>2. The mask threshold</strong> — draggable live. The higher it goes, the more grass restricts itself to where the mask is genuinely strong. Useful for clearing a path.</p>
+
+<p><strong>3. Blocking Layers</strong> — pick which layers block grass. Only colliders on those layers make a bald patch, which means <strong>the props in your level can keep grass out while your characters walk straight through it</strong>.</p>
+
+<p><strong>4. Edge distances</strong> — distance from painted ground, from the mesh edge, and from blocking objects. All three apply live, and Shrink Near Edges tapers blades down before they end rather than cutting them on a hard line.</p>
+
+<hr />
+
+<h2 id="where-a-blades-colour-comes-from">Where a Blade’s Colour Comes From</h2>
+
+<p><img src="../grass/grass-material/BaseColors_Properties.png" alt="BaseColors_Properties" /></p>
+
+<p>The colour you see on a single blade does not come from one field. Four layers stack up.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Where it comes from</th>
+      <th>Which section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Base colour</strong></td>
+      <td>The blade texture (RGB) multiplied by Base Color</td>
+      <td>Texture + Colors</td>
+    </tr>
+    <tr>
+      <td><strong>2. Colour in shadow</strong></td>
+      <td>Shadow Color — the colour a blade becomes in shadow, rather than simply going darker</td>
+      <td>Colors</td>
+    </tr>
+    <tr>
+      <td><strong>3. Gradient up the blade</strong></td>
+      <td>Height Gradient, running from Gradient Bottom at the base to Gradient Top at the tip, with Gradient Power setting how high the changeover sits</td>
+      <td>Colors</td>
+    </tr>
+    <tr>
+      <td><strong>4. Colour from the ground below</strong></td>
+      <td>Ground Color — samples the surface the grass stands on</td>
+      <td>Ground Color (toggleable)</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>The first three are enough for most grass.</strong> Height Gradient already gives you a deep base fading to a light tip, so plenty of projects use nothing but a blade mesh with an alpha cutout and no colour texture at all.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="ground-color--letting-grass-take-colour-from-the-ground">Ground Color — Letting Grass Take Colour From the Ground</h3>
+
+<p><img src="../grass/Camera_Grass.png" alt="Camera_Grass" /></p>
+
+<p>The colour map can come from one of two places, chosen in the <strong>Ground Color</strong> dropdown under <code class="language-plaintext highlighter-rouge">Dashboard &gt; Grass</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Where the colour map comes from</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Ortho Camera</strong></td>
+      <td>An orthographic camera looking straight down, capturing the ground <strong>after it has been lit</strong>. The grass uses that colour directly with no second lighting pass — so a shadow moving across the ground moves across the grass with it</td>
+      <td>Scenes where the light changes, shadows move, or the ground is edited often while you work</td>
+    </tr>
+    <tr>
+      <td><strong>Baked</strong></td>
+      <td>A texture baked ahead of time and assigned by hand in the Baked Map slot. No extra camera in the scene at all</td>
+      <td>Scenes with static lighting, where the runtime cost has to be zero</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="where-to-adjust-the-ortho-camera">Where to Adjust the Ortho Camera</h3>
+
+<p><img src="../grass/ZLZ_Grass_Color_Camera.png" alt="Grass_Color_Camera" /></p>
+
+<p>Choose <strong>Ortho Camera</strong> and the system adds the <code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassColorCamera</code> component for you, on the <strong>same GameObject as the Dashboard</strong>, already enabled. There is no camera to set up by hand.</p>
+
+<p>You can adjust it in two places — at <strong><code class="language-plaintext highlighter-rouge">Dashboard &gt; Grass Color Capture</code></strong> (which also carries a status strip and a repair button), or on the component directly.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Capture Mask</strong></td>
+      <td>The layers the camera captures. Leave it at <code class="language-plaintext highlighter-rouge">Nothing</code> and the system uses the layers of every surface currently growing grass</td>
+    </tr>
+    <tr>
+      <td><strong>Resolution</strong></td>
+      <td>Resolution of the colour map (64–1024, default 256) — it is a broad colour tone, so low is plenty</td>
+    </tr>
+    <tr>
+      <td><strong>Renderer Index</strong></td>
+      <td>Which renderer in the URP Asset the camera renders through</td>
+    </tr>
+    <tr>
+      <td><strong>Update Mode</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Once</code> captures at start then disables the camera / <code class="language-plaintext highlighter-rouge">Every Seconds</code> re-captures on a timer / <code class="language-plaintext highlighter-rouge">Every Frame</code> re-captures every frame</td>
+    </tr>
+    <tr>
+      <td><strong>Re-capture triggers</strong></td>
+      <td>Capture again when a surface moves, and when the main light changes direction, colour, intensity or temperature</td>
+    </tr>
+    <tr>
+      <td><strong>Capture Now</strong></td>
+      <td>Take one capture right away</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Renderer Index matters more than it looks.</strong> The camera has to render through a bare renderer carrying no Renderer Features — otherwise the captured colour is processed a second time by Tone Mapping / Outline / SSAO, and the grass stops matching the ground. The Dashboard creates a renderer named <code class="language-plaintext highlighter-rouge">URP_Grass</code> and points the camera at it for you the moment you choose the mode.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Only one colour camera may run per scene</strong>, because the colour map is a single global — two of them would overwrite each other every frame. The Dashboard disables the others for you once you choose which one owns the capture.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>At runtime the camera barely works at all.</strong> <code class="language-plaintext highlighter-rouge">Once</code> captures and then switches itself off; the other modes only enable it on the frames a capture is actually due, and everything in between is a cheap has-anything-changed check. While you are editing it refreshes on its own as you change the ground, so you see the result without pressing anything.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="scene-level--zlz_env-grass-controller">Scene Level — ZLZ_Env Grass Controller</h2>
+
+<p><img src="../grass/Grass_LOD_Settings.png" alt="Grass_LOD_Settings" /></p>
+
+<p>LOD distances do not live on each patch of grass. They live on <strong>one central controller for the whole scene</strong>, which pushes its values out to every patch — so no field ever ends up with distances out of step with its neighbours.</p>
+
+<p>Create it in one click from <code class="language-plaintext highlighter-rouge">GameObject &gt; ZLZ &gt; Setup ZLZ Global</code>, which brings the wind and fog controllers along in the same place.</p>
+
+<p>What it controls:</p>
+
+<ul>
+  <li><strong>The distance where grass starts thinning out</strong>, and what fraction of it survives out there</li>
+  <li><strong>The distance where it stops drawing</strong></li>
+  <li><strong>The fade band</strong> — grass dissolves gradually through a dither before the cut-off, so you never see a hard-edged circle travelling with the camera</li>
+  <li><strong>The band where it stops receiving shadows</strong> — distant grass skips the shadow-map read entirely, a large saving on a dense field</li>
+</ul>
+
+<h3 id="quality-preset--swap-the-whole-set-with-the-quality-level">Quality Preset — Swap the Whole Set With the Quality Level</h3>
+
+<p>The values above can be saved into a <strong>Quality Preset</strong> file, and each file mapped to one of Unity’s Quality Levels.</p>
+
+<p>Six ship with the package : <code class="language-plaintext highlighter-rouge">PC_Low / PC_Mid / PC_High</code> and <code class="language-plaintext highlighter-rouge">Mobile_Low / Mobile_Mid / Mobile_High</code>.</p>
+
+<p>So a game shipping several quality tiers <strong>swaps its entire grass LOD just by changing the Quality Level, with not one tuft re-grown</strong> — and because they are assets, the same preset serves every scene in the project.</p>
+
+<hr />
+
+<h2 id="performance">Performance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>What it buys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>GPU Instancing</strong></td>
+      <td>One blade mesh reused for every tuft, submitted in batches</td>
+    </tr>
+    <tr>
+      <td><strong>Cell-based culling</strong></td>
+      <td>The per-frame work loops over <em>cells</em> (a few hundred) rather than <em>tufts</em> (hundreds of thousands). Each cell is frustum- and distance-tested on the CPU, then the whole cell goes out in a single draw</td>
+    </tr>
+    <tr>
+      <td><strong>Grass Resolution</strong></td>
+      <td>Draws the grass colour into a buffer smaller than the screen and composites it back — the overdraw is paid at a fraction of the pixels, while shadows stay at full resolution</td>
+    </tr>
+    <tr>
+      <td><strong>Mesh Baker</strong></td>
+      <td>Builds a mesh from a Texture2D sample, so you never have to make one in Maya or Blender</td>
+    </tr>
+    <tr>
+      <td><strong>Shadows dropped at distance</strong></td>
+      <td>Skips the shadow-map read, which is heavy work once multiplied by the pixel count of a whole field</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Grass deliberately does not receive SSAO.</strong> A dense field of thin alpha-tested blades reads as a blotchy smear under SSAO, and the field also casts its AO down onto the ground beneath it, mottling the lawn. Blades keep their clean toon shading instead — the same shading the character shader uses.</p>
+</blockquote>
+
+<hr />
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environment Shader Overview | ZLZ Env Shader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* tree-style sub items (e.g. changelog versions under Overview) */
+    .sidebar .sideTree {
+      margin-left: 14px;
+      border-left: 1px solid #2b3648;
+    }
+
+    .sidebar .sideTree a {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 12px;
+    }
+
+    .sidebar .sideTree a::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #2b3648;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    /* Markdown tables */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .content th,
+    .content td {
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #1f2937;
+    }
+
+    .content thead th {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content td:first-child {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .content tbody tr:nth-child(even) {
+      background: #0f1521;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      
+
+<div class="sidebar">
+<h2>ZLZ Env Shader</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Environment Shader</h3>
+
+
+<a href="/env/shader/"
+   class="active">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/shader/paint-mode/"
+   class="">
+   Paint Mode
+</a>
+
+
+
+<a href="/env/shader/triplanar/"
+   class="">
+   Triplanar
+</a>
+
+
+
+<a href="/env/shader/planar-reflection/"
+   class="">
+   Planar Reflection
+</a>
+
+
+
+<a href="/env/shader/normal/"
+   class="">
+   Normal Map
+</a>
+
+
+
+<a href="/env/shader/specular/"
+   class="">
+   Specular &amp; Metallic
+</a>
+
+
+
+<a href="/env/shader/stochastic-tiling/"
+   class="">
+   Stochastic Sampling
+</a>
+
+
+
+<a href="/env/shader/snow-accumulation/"
+   class="">
+   Surface Accumulation
+</a>
+
+
+
+<a href="/env/shader/leaf-wind/"
+   class="">
+   Wind
+</a>
+
+
+
+<a href="/env/shader/emissive/"
+   class="">
+   Emission
+</a>
+
+
+
+<a href="/env/shader/fog/"
+   class="">
+   Fog
+</a>
+
+
+<!-- TODO: remaining Environment Shader sub-pages -->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Grass</h3>
+
+
+<a href="/env/grass/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/grass/grass-setup/"
+   class="">
+   Grass Setup
+</a>
+
+
+
+<a href="/env/grass/grass-material/"
+   class="">
+   Grass Material
+</a>
+
+
+
+<a href="/env/grass/grass-global-wind/"
+   class="">
+   Grass Global Wind
+</a>
+
+
+
+<a href="/env/grass/grass-optimized/"
+   class="">
+   Grass Optimized
+</a>
+
+
+
+<a href="/env/grass/grass-color-camera/"
+   class="">
+   Grass Color Camera
+</a>
+
+
+
+<a href="/env/grass/grass-interaction/"
+   class="">
+   Grass Interaction
+</a>
+
+
+
+<a href="/env/grass/grass-lod/"
+   class="">
+   Grass LOD
+</a>
+
+
+
+<a href="/env/grass/grass-edges/"
+   class="">
+   Grass Edges
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Water</h3>
+
+
+<a href="/env/water/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/water/water-interaction/"
+   class="">
+   Water Interaction
+</a>
+
+
+
+<a href="/env/water/water-waves/"
+   class="">
+   Water Waves
+</a>
+
+
+
+<a href="/env/water/water-floater/"
+   class="">
+   Water Floater
+</a>
+
+
+
+<a href="/env/water/water-foam/"
+   class="">
+   Water Foam
+</a>
+
+
+
+<a href="/env/water/water-ring-wave/"
+   class="">
+   Water Ring Wave
+</a>
+
+
+
+<a href="/env/water/water-sparkle/"
+   class="">
+   Water Sparkle
+</a>
+
+
+
+<a href="/env/water/water-caustics/"
+   class="">
+   Water Caustics
+</a>
+
+
+
+<a href="/env/water/water-underwater/"
+   class="">
+   Underwater
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>FX Runtime</h3>
+
+
+
+<div class="sideTree">
+
+
+<a href="/env/fx/target-darken/"
+   class="">
+   Target Darken FX Runtime
+</a>
+
+
+<!-- TODO: Light Sweep, Upgrade -->
+
+</div>
+
+
+<h3>Other Products</h3>
+
+<a href="/features/">ZLZ Anime Shader Docs</a>
+
+</div>
+
+
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h1 id="zlz-environment-shader">ZLZ Environment Shader</h1>
+
+<!-- ![Env_Shader_Overall](../images/Env_Shader_Overall.webp) -->
+
+<p><code class="language-plaintext highlighter-rouge">ZLZ_Environment_Shader</code> is the main surface shader of the package. It renders everything you sculpted yourself — ground, cliffs, rocks, trees, leaves, buildings, props — every mesh that comes out of Maya or Blender runs on this one shader.</p>
+
+<p>The package ships three shaders, each with its own clearly separated job:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Shader</th>
+      <th>Used for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ZLZ/Environment/Shader</strong></td>
+      <td>Every general surface</td>
+    </tr>
+    <tr>
+      <td><strong>ZLZ/Environment/Grass</strong></td>
+      <td>The blades and flowers the Grass system plants</td>
+    </tr>
+    <tr>
+      <td><strong>ZLZ/Environment/Water</strong></td>
+      <td>Water surfaces</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Path : <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Shaders/Core/ZLZ_Environment_Shader.shader</code></li>
+  <li>Inspector : a dedicated ZLZ GUI (<code class="language-plaintext highlighter-rouge">ZLZEnvShaderGUI</code>) — the same layout and the same habits as ZLZ Anime Shader</li>
+</ul>
+
+<hr />
+
+<h2 id="what-this-shader-solves">What This Shader Solves</h2>
+
+<ul>
+  <li><strong>Not tied to Unity Terrain</strong> — paint up to 4 texture layers onto meshes you sculpted yourself. A cliff leaning at 70 degrees can be painted. A cave with a ceiling can be painted. Neither is something Terrain can do</li>
+  <li><strong>Paint data stored two ways</strong> — into a Mask Texture, or into the mesh’s Vertex Colors. Pick whichever suits your pipeline (Vertex Color costs you no extra texture at all)</li>
+  <li><strong>Four customisable brushes</strong> — painting normally means Unity Terrain, where the brush is whatever Unity gives you. Here one slot is the built-in soft circle and the other three take any Texture2D you drop on them, so shaping your own brush takes seconds</li>
+  <li><strong>The anime look is the baseline, not an add-on</strong> — Shadow Color and ToonRamp Smoothness are part of the locked core, so an environment sits next to a ZLZ Anime Shader character correctly with no tuning</li>
+  <li><strong>Turning a feature off really removes it</strong> — every disabled feature is stripped out of the compiled shader variant, not multiplied by zero. A material using only Albedo and ToonRamp ends up about as cheap as a plain unlit shader</li>
+  <li><strong>Works with URP the way an environment shader should</strong> — Lightmaps, Shadowmask, Subtractive, SSAO, URP Decals, Unity’s own fog, GPU Instancing and the SRP Batcher all work with nothing to change</li>
+</ul>
+
+<hr />
+
+<h2 id="how-the-material-is-laid-out">How the Material Is Laid Out</h2>
+
+<p><img src="../shader/Features.png" alt="Features" /></p>
+
+<p>Open a material and the <strong>Features panel sits at the very top</strong> — a grid of buttons that switch features on and off. Below it are the value sections, each appearing once its feature is enabled.</p>
+
+<p>Features come in two groups.</p>
+
+<h3 id="group-1--locked-6-sections-always-on">Group 1 — Locked (6 sections, always on)</h3>
+
+<p>The structural sections. They cannot be turned off, and there is no reason to want to: they cost next to nothing.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>What it controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Rendering</strong></td>
+      <td>Render Queue (Opaque / AlphaTest / Transparent), Blend, Cull Mode, ZWrite, ZTest, Alpha Clipping + Cutoff, Cast Shadow</td>
+    </tr>
+    <tr>
+      <td><strong>Texture</strong></td>
+      <td>Albedo, Tiling / Offset — and with Triplanar on, World Tiling and Blend Sharpness appear here instead</td>
+    </tr>
+    <tr>
+      <td><strong>Base Colors</strong></td>
+      <td>Base Color, Shadow Color, Texture Brightness</td>
+    </tr>
+    <tr>
+      <td><strong>Lighting</strong></td>
+      <td>Receive Shadow, Additional Light Intensity</td>
+    </tr>
+    <tr>
+      <td><strong>ToonRamp</strong></td>
+      <td>Toon Ramp Smoothness — how hard the edge between lit and shadowed areas reads</td>
+    </tr>
+    <tr>
+      <td><strong>Transparency</strong></td>
+      <td>Alpha Value, Shadow Alpha Clip + Cutoff</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>Beyond those six there is a <strong>Mask Layout</strong> section further down the list (it has no button in the Features panel). It decides which channel of the Feature Mask each of Metallic / Smoothness / Emissive reads from — see the Feature Mask section below.</p>
+</blockquote>
+
+<h3 id="group-2--optional-10-features-you-switch-on-and-off">Group 2 — Optional (10 features you switch on and off)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paint Mode</strong></td>
+      <td>Blend up to 4 texture layers over the base surface, each with its own albedo, normal, smoothness and metallic</td>
+    </tr>
+    <tr>
+      <td><strong>Specular</strong></td>
+      <td>A Blinn-Phong highlight, with a Toon Highlight mode that cuts it into a hard anime edge, and Metallic built in</td>
+    </tr>
+    <tr>
+      <td><strong>Reflection</strong></td>
+      <td>Adds the mirror-camera (Planar) tier on top of the probe reflection</td>
+    </tr>
+    <tr>
+      <td><strong>Normal Map</strong></td>
+      <td>Surface bump detail</td>
+    </tr>
+    <tr>
+      <td><strong>Triplanar</strong></td>
+      <td>Projects textures along the world axes, for meshes with no UVs or stretched ones</td>
+    </tr>
+    <tr>
+      <td><strong>Stochastic</strong></td>
+      <td>Removes the visible repeat when a texture tiles across a large surface</td>
+    </tr>
+    <tr>
+      <td><strong>Accumulation</strong></td>
+      <td>Snow / dust / moss settling on up-facing surfaces, with no mask to author</td>
+    </tr>
+    <tr>
+      <td><strong>Wind</strong></td>
+      <td>Vertex-stage foliage sway, driven by the material’s own values or by the scene-wide wind</td>
+    </tr>
+    <tr>
+      <td><strong>Emission</strong></td>
+      <td>Surfaces that give off their own light, with an optional pulse</td>
+    </tr>
+    <tr>
+      <td><strong>Target Darken</strong></td>
+      <td>Dims the whole scene to spotlight a target, driven from script at runtime</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>These features are meant to be set while authoring, <strong>not switched at runtime</strong> — flipping one asks the shader to compile a new variant. Target Darken is the exception; it was built to be driven from code.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="feature-mask--one-texture-three-features">Feature Mask — One Texture, Three Features</h2>
+
+<p>Metallic, Smoothness and Emissive do not each carry their own texture. They share a single <strong>Feature Mask (RGBA)</strong>, and each one picks for itself whether it reads the R, G, B or A channel.</p>
+
+<p>So a wet rock that needs metalness, gloss and a glowing seam costs <strong>one extra texture</strong> instead of three — saving both VRAM and the number of texture reads the GPU has to make.</p>
+
+<p>And when a feature’s channel is set to <strong>None</strong>, its slider simply applies evenly across the whole surface. If no feature uses the mask at all, the GUI strips the texture read out of the shader for you, leaving no cost behind.</p>
+
+<hr />
+
+<h2 id="zlz_env-dashboard--the-piece-that-installs-everything">ZLZ_Env Dashboard — The Piece That Installs Everything</h2>
+
+<p>Materials using this shader should always live <strong>under a ZLZ_Env Dashboard</strong>.</p>
+
+<p>The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature plus a component on the floor. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is “I turned the feature on and nothing happened”, which is the hardest kind of problem to trace.</p>
+
+<p>The Dashboard solves this by <strong>installing all of it the moment the component is added</strong>, and by watching for any piece that goes missing afterwards.</p>
+
+<ul>
+  <li>Add it from <code class="language-plaintext highlighter-rouge">Add Component &gt; ZLZ/Environment Shader/ZLZ_Env Dashboard</code></li>
+  <li>Or right-click a GameObject and choose <code class="language-plaintext highlighter-rouge">ZLZ &gt; Setup Env Dashboard</code></li>
+</ul>
+
+<hr />
+
+<h3 id="the-dashboard-sections">The Dashboard Sections</h3>
+
+<p><img src="../shader/Dashboard.png" alt="Dashboard" /></p>
+
+<p>Every section carries a status strip telling you whether its pieces are complete. When something is missing, the button that repairs it is right there — no hunting through the URP Asset.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>What you can do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Vertex Paint Storage</strong></td>
+      <td>See where each painted mesh keeps its data and which source model file it is linked to — edit the model in Maya/Blender, re-import, and the paint follows it across</td>
+    </tr>
+    <tr>
+      <td><strong>Planar Reflection</strong></td>
+      <td>Status of the Renderer Feature, URP_Reflection and the floor components, with a <code class="language-plaintext highlighter-rouge">Repair Reflection Setup</code> button</td>
+    </tr>
+    <tr>
+      <td><strong>Water</strong></td>
+      <td>Every water body listed, toggled on and off one at a time, its material managed, and the Foam Flow baked</td>
+    </tr>
+    <tr>
+      <td><strong>Underwater</strong></td>
+      <td>Status of the Renderer Feature behind the underwater view</td>
+    </tr>
+    <tr>
+      <td><strong>Environment Fog</strong></td>
+      <td>Status of the fog Renderer Feature, plus a button that creates the Fog Global in the scene</td>
+    </tr>
+    <tr>
+      <td><strong>Grass</strong></td>
+      <td>The heart of the grass system — choose which surfaces grow grass, manage Grass Types, paint extra by hand, <code class="language-plaintext highlighter-rouge">Grow All</code> / <code class="language-plaintext highlighter-rouge">Clear All</code>, and set the ground colour</td>
+    </tr>
+    <tr>
+      <td><strong>Grass Performance</strong></td>
+      <td>Switch on the half-resolution grass pass</td>
+    </tr>
+    <tr>
+      <td><strong>Grass Color Capture</strong></td>
+      <td>Status of the ground-colour camera, with a repair button</td>
+    </tr>
+    <tr>
+      <td><strong>VFX Features</strong></td>
+      <td>Target Darken settings for this group</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="components-the-dashboard-adds-for-you">Components the Dashboard Adds for You</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Added to</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvPlanarReflectionPlane</code></td>
+      <td>Every floor under the Dashboard whose material has Reflection on</td>
+      <td>Tells the mirror camera where the reflecting plane is</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvWater</code></td>
+      <td>Every mesh already wearing a water material</td>
+      <td>Holds what a material cannot — the wave rhythm curve, and that pond’s own underwater fog</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrass</code></td>
+      <td>The Dashboard itself</td>
+      <td>The root of the grass system</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassColorCamera</code></td>
+      <td>The Dashboard itself</td>
+      <td>The camera that samples ground colour so grass blends into the surface below it</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvVFX</code></td>
+      <td>The Dashboard itself</td>
+      <td>Receives the Target Darken calls from your game code</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The last two grass pieces stay <strong>hidden until you actually start growing grass</strong> — a bare enable checkbox on idle plumbing only invites turning half a system on by hand.</p>
+
+<hr />
+
+<h3 id="split-the-scene-into-3-dashboards--terrain--env--water">Split the Scene Into 3 Dashboards : Terrain / Env / Water</h3>
+
+<p><img src="../shader/Prefab.png" alt="Prefab" /></p>
+
+<p>The recommended layout is three groups, one Dashboard each (see <code class="language-plaintext highlighter-rouge">Demo/Prefab/Base_Terrain</code>, <code class="language-plaintext highlighter-rouge">Base_Env</code> and <code class="language-plaintext highlighter-rouge">Base_Water</code> for a working example).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dashboard</th>
+      <th>What lives inside</th>
+      <th>Which shader</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Terrain</strong></td>
+      <td>Ground, cliffs, landscape — the surfaces that grow grass, take painted textures, and reflect when wet</td>
+      <td><strong>ZLZ_Environment_Shader</strong> + ZLZ_Environment_Grass</td>
+    </tr>
+    <tr>
+      <td><strong>Env</strong></td>
+      <td>All props — trees, leaves, rocks, buildings, mushrooms, set dressing</td>
+      <td><strong>ZLZ_Environment_Shader</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Water</strong></td>
+      <td>Every water body in the scene</td>
+      <td>ZLZ_Environment_Water</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">ZLZ_Environment_Shader</code> therefore belongs under both Terrain and Env — which one depends on what the piece is <em>for</em>, not on which shader it runs.</p>
+
+<p>The split is not just tidiness, it changes behaviour: a Dashboard works on <strong>every mesh underneath it</strong>. Keep them separate and the Terrain Dashboard only ever sees surfaces that should grow grass, while the Water Dashboard only ever sees water — with nothing crossing over.</p>
+
+<hr />
+
+<h3 id="renderer-features-the-dashboard-installs">Renderer Features the Dashboard Installs</h3>
+
+<p><img src="../shader/RenderFeatures.png" alt="RenderFeatures" /></p>
+
+<p>Adding a Dashboard installs these four Renderer Features straight away — and installs them on <strong>every Quality Level</strong>, not only the tier that happens to be active.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Renderer Feature</th>
+      <th>Installed for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ZLZ Env Planar Reflection</strong></td>
+      <td>The mirror-camera reflection tier — shared by wet floors and water alike</td>
+    </tr>
+    <tr>
+      <td><strong>ZLZ Env Fog</strong></td>
+      <td>The scene atmosphere : distance haze, ground mist, and a sky that matches</td>
+    </tr>
+    <tr>
+      <td><strong>ZLZ Env Grass Resolution</strong></td>
+      <td>The grass performance mode — drawing grass below full resolution and compositing it back</td>
+    </tr>
+    <tr>
+      <td><strong>ZLZ Env Underwater</strong></td>
+      <td>What the camera sees while submerged : underwater fog, and the transition on the way down</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It also creates <strong>two extra renderers</strong> that do not ship with the package but are generated inside your project:</p>
+
+<ul>
+  <li><strong>URP_Reflection</strong> — a renderer used only by the mirror camera (with grass set to Quarter), so the reflection camera cannot recurse into itself, and so the reflected image never costs what the main image costs</li>
+  <li><strong>Grass Colour Capture Renderer</strong> — a bare renderer for the top-down camera that samples ground colour for the grass</li>
+</ul>
+
+<blockquote>
+  <p><strong>Installed at import time.</strong> This runs on package import too, so you do not have to add a Dashboard first — open a demo scene and it already looks right. On a version update, existing projects pick up any newly added Renderer Feature automatically. Every step is idempotent: run it any number of times and nothing is ever duplicated.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="scripts-the-dashboard-does-not-manage">Scripts the Dashboard Does Not Manage</h3>
+
+<p>Two groups sit outside the Dashboard, because their scope is different.</p>
+
+<p><strong>Object level — on the things that move, not on the scenery</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Goes on</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassInteractor</code></td>
+      <td>A character or object that should part the grass as it walks through</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvWaterInteractor</code></td>
+      <td>A character or object that should send out ripples on touching the water</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvWaterFloater</code></td>
+      <td>Anything that should ride up and down on the surface — a boat, a buoy, a log</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Scene level — one each per scene, shared by every Dashboard</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvWindController</code></td>
+      <td>The scene wind that trees, leaves and grass all sway to together</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassController</code></td>
+      <td>LOD distances and Quality Presets for all the grass in the scene</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvFog</code></td>
+      <td>The scene’s fog values</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvDarkenManager</code></td>
+      <td>Drives the scene darken from game code, with a settings asset for its timing</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The first three are created together in one click from <code class="language-plaintext highlighter-rouge">GameObject &gt; ZLZ &gt; Setup ZLZ Global</code>, which groups them under a GameObject named <code class="language-plaintext highlighter-rouge">ZLZ_Global</code>.</p>
+
+<blockquote>
+  <p>The Dashboard <strong>deliberately does not create the Global for you.</strong> A GameObject that appeared in the scene simply because you opened it would leave every scene you merely looked at dirty and asking to be saved, with nothing actually changed.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="the-dashboard-costs-nothing-at-runtime">The Dashboard Costs Nothing at Runtime</h3>
+
+<p>The Dashboard <strong>holds no data of its own and runs no code at runtime</strong> — the real data lives on the materials, in the <code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassData</code> asset, and in the link registry. All of the UI is editor-side code that is compiled out of builds.</p>
+
+<p>Two things follow from that:</p>
+
+<ul>
+  <li>In a shipped game it is an empty marker that costs no CPU at all, and platforms that strip unused scripts lose nothing by dropping it</li>
+  <li>The automation still works with no scene open, and works the same whether the Dashboard lives in a scene or inside a Prefab</li>
+</ul>
+
+<hr />
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
