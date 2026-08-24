@@ -35,48 +35,6 @@ The package ships three shaders, each with its own clearly separated job:
 
 ---
 
-## How the Material Is Laid Out
-
-![Features](../shader/Features.png)
-
-Open a material and the **Features panel sits at the very top** — a grid of buttons that switch features on and off. Below it are the value sections, each appearing once its feature is enabled.
-
-Features come in two groups.
-
-### Group 1 — Locked (6 sections, always on)
-
-The structural sections. They cannot be turned off, and there is no reason to want to: they cost next to nothing.
-
-| Section | What it controls |
-|---|---|
-| **Rendering** | Render Queue (Opaque / AlphaTest / Transparent), Blend, Cull Mode, ZWrite, ZTest, Alpha Clipping + Cutoff, Cast Shadow |
-| **Texture** | Albedo, Tiling / Offset — and with Triplanar on, World Tiling and Blend Sharpness appear here instead |
-| **Base Colors** | Base Color, Shadow Color, Texture Brightness |
-| **Lighting** | Receive Shadow, Additional Light Intensity |
-| **ToonRamp** | Toon Ramp Smoothness — how hard the edge between lit and shadowed areas reads |
-| **Transparency** | Alpha Value, Shadow Alpha Clip + Cutoff |
-
-> Beyond those six there is a **Mask Layout** section further down the list (it has no button in the Features panel). It decides which channel of the Feature Mask each of Metallic / Smoothness / Emissive reads from — see the Feature Mask section below.
-
-### Group 2 — Optional (10 features you switch on and off)
-
-| Feature | What it does |
-|---|---|
-| **Paint Mode** | Blend up to 4 texture layers over the base surface, each with its own albedo, normal, smoothness and metallic |
-| **Specular** | A Blinn-Phong highlight, with a Toon Highlight mode that cuts it into a hard anime edge, and Metallic built in |
-| **Reflection** | Adds the mirror-camera (Planar) tier on top of the probe reflection |
-| **Normal Map** | Surface bump detail |
-| **Triplanar** | Projects textures along the world axes, for meshes with no UVs or stretched ones |
-| **Stochastic** | Removes the visible repeat when a texture tiles across a large surface |
-| **Accumulation** | Snow / dust / moss settling on up-facing surfaces, with no mask to author |
-| **Wind** | Vertex-stage foliage sway, driven by the material's own values or by the scene-wide wind |
-| **Emission** | Surfaces that give off their own light, with an optional pulse |
-| **Target Darken** | Dims the whole scene to spotlight a target, driven from script at runtime |
-
-> These features are meant to be set while authoring, **not switched at runtime** — flipping one asks the shader to compile a new variant. Target Darken is the exception; it was built to be driven from code.
-
----
-
 ## Feature Mask — One Texture, Three Features
 
 Metallic, Smoothness and Emissive do not each carry their own texture. They share a single **Feature Mask (RGBA)**, and each one picks for itself whether it reads the R, G, B or A channel.
