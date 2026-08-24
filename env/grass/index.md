@@ -112,6 +112,8 @@ Stored as an asset, neither happens.
 
 ### Where the file comes from
 
+![Grass_Type3](../grass/Grass_Type3.png)
+
 - **Normally it is created for you** on the first Grow, named after the ground
 - Press `New` in the Dashboard to make a fresh empty one and link it immediately
 - Or make one by hand from `Create > ZLZ > Environment Shader > Grass Data` and drop it into the slot — a new file stays empty until something is grown into it
