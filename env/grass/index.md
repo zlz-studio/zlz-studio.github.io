@@ -104,6 +104,58 @@ Clustering is what makes flowers read as flowers. Grass scattered evenly looks r
 
 ---
 
+## Grass Data — Where a Grown Field Is Kept
+
+Press `Grow All` and the result does not go into the scene. It goes into **an asset file** — the same idea behind Unity keeping TerrainData separate from the Terrain itself.
+
+### What is inside it
+
+It stores **the position of every tuft**, grouped into cells, rather than a finished baked mesh. That difference matters more than it sounds:
+
+- No large mesh assets appear in your project
+- The cells it groups by are the same cells the system culls with at draw time, so the per-frame work loops over cells rather than tufts
+
+One file holds several surfaces, each with its own field bound by a key — so surfaces can be reordered, added or removed in the Dashboard without any other surface losing its data.
+
+### Why an asset rather than the scene
+
+Two reasons, and both are genuinely painful without it.
+
+1. **Scene files bloat.** Per-tuft data written straight into a scene makes the scene file enormous
+2. **Prefabs become unworkable.** On a prefab instance, every single tuft turns into a property override that Unity re-diffs whenever you edit anything on that object. On a large field that stalls the editor for minutes
+
+Stored as an asset, neither happens.
+
+### The payoff — a grown field travels with the Prefab
+
+**The prefab holds the reference, and the reference holds the grass.** Which means:
+
+- Grow the field once on a ground prefab, then drop that prefab into as many scenes as you like — the grass comes with it every time
+- Variants of that prefab use the same field straight away
+- In Prefab Mode the Grass section is **read-only**, showing which file this prefab baselines, how many tufts it holds and how large it is. Grow and Clear only work in a scene, because both build scene-level plumbing (the ground-colour camera, the ZLZ_Global) that must never land inside the prefab file
+
+### Where the file comes from
+
+- **Normally it is created for you** on the first Grow, named after the ground
+- Press `New` in the Dashboard to make a fresh empty one and link it immediately
+- Or make one by hand from `Create > ZLZ > Environment Shader > Grass Data` and drop it into the slot — a new file stays empty until something is grown into it
+
+### The one rule to remember — one file per Dashboard
+
+Within a single Dashboard, duplicated meshes get their own keyed field automatically. But **across two Dashboards the keys are not de-duplicated** — if both point at the same file, growing one overwrites the other's grass.
+
+The Dashboard watches for this: if another Dashboard in the scene is using the same file, it says so. The fix is to press `New` so that one gets a file of its own, then Grow again.
+
+> **Two cases to watch.** Duplicating a whole Dashboard, and dropping two instances of the same grass prefab into a scene — both share one file from the very first second.
+
+### Clearing out what is no longer used
+
+There is a tool that sweeps fields nothing claims any more out of the file, and it is deliberately cautious — because one file serves a whole prefab lineage, "the grass in front of me no longer uses this key" does not mean nobody does. A variant sitting in a scene you have not even opened may still be drawing it.
+
+So it reads every saved scene and prefab in the project to prove ownership before deleting anything. If any of them cannot be read, nothing is deleted at all.
+
+---
+
 ## How the System Decides Where Grass Grows
 
 ![Grass_Debug](../grass/Grass_Debug.png)
