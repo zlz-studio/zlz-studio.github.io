@@ -112,7 +112,7 @@ Stored as an asset, neither happens.
 
 ### Where the file comes from
 
-![Grass_Type3](../grass/Grass_Type3.png)
+![GrassData3](../grass//GrassData3.png)
 
 - **Normally it is created for you** on the first Grow, named after the ground
 - Press `New` in the Dashboard to make a fresh empty one and link it immediately
