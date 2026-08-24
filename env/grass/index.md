@@ -58,34 +58,6 @@ If you want tighter control than that, a **hand-painting mode** lets you add or 
 
 ---
 
-## How the Grass Material Is Laid Out
-
-![Grass_Features](../grass/grass-material/Features_Properties.png)
-
-The layout matches `ZLZ_Environment_Shader` exactly — the **Features panel at the very top**, with the value sections below it.
-
-### Group 1 — Locked (4 sections, always on)
-
-| Section | What it controls |
-|---|---|
-| **Rendering** | Alpha Cutoff (the threshold that cuts out the blade shape) and Cast Shadow |
-| **Texture** | The blade texture — RGB for colour, Alpha for the blade's shape |
-| **Colors** | Base Color, Shadow Color, and the Height Gradient running from base to tip |
-| **Lighting** | Receive Shadow, Additional Light Intensity |
-
-### Group 2 — Optional (4 features you switch on and off)
-
-| Feature | What it does |
-|---|---|
-| **Wind** | Vertex-stage sway, taking the wind from the material itself or from the scene wind, with Leaf Flutter and Small Blade — which makes short blades move less than tall ones |
-| **Wind Gust Wave** | A band of light and shade sweeping across the field along the wind, so a large lawn reads as gusts rolling over it rather than a still green carpet |
-| **Ground Color** | Samples the colour of the ground the grass stands on, blending it in at the base and fading out toward the tip |
-| **Interaction** | Blades lean away from anything that comes near |
-
-> There is also a **Debug** section with no button in the Features panel. It shows one stage at a time — the wind mask, the distance fade, the main light, the interaction radius and the gust wave — so you can check each is behaving.
-
----
-
 ## Grass Type — One Preset per Kind of Grass
 
 ![Grass_Type](../grass/Grass_Type.png)
@@ -105,6 +77,8 @@ Clustering is what makes flowers read as flowers. Grass scattered evenly looks r
 ---
 
 ## Grass Data — Where a Grown Field Is Kept
+
+![GrassData](../grass//GrassData.png)
 
 Press `Grow All` and the result does not go into the scene. It goes into **an asset file** — the same idea behind Unity keeping TerrainData separate from the Terrain itself.
 
