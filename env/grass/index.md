@@ -1,11 +1,9 @@
 ---
 layout: docs
 title: Grass Overview
-last_modified_at: 2026-08-23
-published: false
+last_modified_at: 2026-08-24
+published: true
 ---
-
-<!-- DRAFT — ยังไม่ขึ้นเว็บจริง. พรีวิว: jekyll serve --unpublished. พร้อมขึ้นเว็บ: ลบ published: false -->
 
 # ZLZ Grass System
 
