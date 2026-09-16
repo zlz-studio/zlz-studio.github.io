@@ -8,7 +8,7 @@ last_modified_at: 2026-07-11
 
 # v1.7.0 — Receive Shadow Update
 
-**Released:** June 15, 2026 · **Current version**
+**Released:** June 15, 2026
 
 ### New Features
 
