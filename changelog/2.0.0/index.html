@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metallic | ZLZ Anime Shader</title>
+  <title>v2.0.0 — Hotfix > ZLZ Hub & Lighting | ZLZ Anime Shader</title>
   <style>
     * {
       box-sizing: border-box;
@@ -646,7 +646,7 @@
 </a>
 
 <a href="/features/Metallic/"
-   class="active">
+   class="">
    Metallic
 </a>
    
@@ -751,7 +751,7 @@
 <div class="sideTree">
 
 <a href="/changelog/2.0.0/"
-   class="">
+   class="active">
    v2.0.0
 </a>
 
@@ -826,45 +826,27 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h2 id="metallic">Metallic</h2>
+        <p><a href="/changelog/">← All versions</a></p>
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="../Metallic/Metallic_Off.webp" alt="Metallic_Off" />
-  </div>
+<h1 id="v200--hotfix--zlz-hub--lighting">v2.0.0 — Hotfix › ZLZ Hub &amp; Lighting</h1>
 
-  <div class="compare-overlay">
-    <img src="../Metallic/Metallic_On.webp" alt="Metallic_On" />
-  </div>
+<p><strong>In Unity Asset Store review</strong> — not yet available for download.</p>
 
-  <div class="compare-handle"></div>
+<blockquote>
+  <p>This release fixes the critical issue in <strong><a href="/changelog/1.9.0/">v1.9.0</a></strong> where the Lighting folder was missing from the package, which made v1.9.0 unusable after updating.</p>
+</blockquote>
 
-  <div class="compare-label before">Metallic Off</div>
-  <div class="compare-label after">Metallic On</div>
-</div>
-
-<p><img src="../Metallic/Showcase_Metallic_On.webp" alt="Showcase_Metallic_On" /></p>
-
-<h2 id="example-setup-for-the-metallic-effect-on-the-sword-above">Example setup for the metallic effect on the sword above.</h2>
-<p><img src="../Metallic/Parameter_Metallic.webp" alt="Parameter_Metallic" /></p>
-
-<p>Metallic is used for character parts made of metal materials, adding shine and surface depth.</p>
-
-<p>If no <strong>Feature Mask (Red Channel)</strong> is assigned to define the active area, this feature will not be applied.</p>
-
-<h3 id="parameters">Parameters</h3>
+<h3 id="bug-fixes">Bug Fixes</h3>
 
 <ul>
-  <li><strong>Gradient Metallic :</strong> Uses the <code class="language-plaintext highlighter-rouge">T_Gradient_Metallic</code> texture to control the metallic reflection behavior. Adjusting Tiling and Offset is not recommended, in order to achieve results as intended by the design</li>
-  <li><strong>MetalNormalMap :</strong> Uses a normal texture to add surface detail to metallic areas. The default texture is <code class="language-plaintext highlighter-rouge">T_Normal</code>
-    <ul>
-      <li><strong>Lower <em>Tiling</em> values</strong> (e.g. 0.05 × 0.05) produce a more toon-style look</li>
-      <li><strong>Higher <em>Tiling</em> values</strong> (e.g. 30 × 30) produce a more semi-realistic look</li>
-    </ul>
-  </li>
-  <li><strong>Intensity Metal :</strong> Controls the brightness of the metallic areas</li>
+  <li>Fixed the missing <strong>Lighting</strong> folder</li>
 </ul>
 
+<h3 id="after-updating">After Updating</h3>
+
+<p>When updating the package, run the folder reorganisation once:</p>
+
+<p><strong>Window › ZLZ › Hub › Reorganise Folder</strong></p>
 
       </div>
     </main>
