@@ -5,15 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZLZ Studio</title>
-  <meta name="description" content="ZLZ Anime Shader for Unity URP — a transparent hair shader and anime-style lighting toolkit. Try the WebGL demo in your browser." />
+  <title>ZLZ Studio — Anime &amp; Environment Shaders for Unity URP</title>
+  <meta name="description" content="ZLZ Anime Shader and ZLZ Env Shader for Unity URP — anime-style character shading with transparent hair, plus painted surfaces, grass and water for stylized environments. Try the WebGL demos in your browser." />
   <link rel="canonical" href="https://zlz-studio.github.io/" />
 
   <!-- Link previews (Discord, Unity Forum, X) -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ZLZ Studio" />
-  <meta property="og:title" content="ZLZ Anime Shader for Unity URP" />
-  <meta property="og:description" content="Transparent hair shader and anime-style lighting for Unity URP. Try the WebGL demo in your browser." />
+  <meta property="og:title" content="ZLZ Anime Shader &amp; ZLZ Env Shader for Unity URP" />
+  <meta property="og:description" content="Anime-style character shading and stylized environments — surfaces, grass and water — for Unity URP. Try the WebGL demos in your browser." />
   <meta property="og:url" content="https://zlz-studio.github.io/" />
   <meta property="og:image" content="https://zlz-studio.github.io/images/games/Showcase_Regulus_001.webp" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -750,7 +750,7 @@
       <div class="brand">ZLZ Studio</div>
       <div class="productTabs" role="tablist" aria-label="Select product">
         <button class="productTab active" data-tab="anime" type="button" role="tab" aria-selected="true">ZLZ Anime Shader</button>
-        <button class="productTab" data-tab="env" type="button" role="tab" aria-selected="false"><span class="tabDot" aria-hidden="true"></span>ZLZ Env Shader <span class="soonTag">SOON</span></button>
+        <button class="productTab" data-tab="env" type="button" role="tab" aria-selected="false"><span class="tabDot" aria-hidden="true"></span>ZLZ Env Shader <span class="soonTag">NEW</span></button>
       </div>
     </div>
 
@@ -799,17 +799,9 @@
         <div class="heroLeft">
           <h1>ZLZ Env Shader for Unity URP</h1>
 
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <span class="btn assetBtn" style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#22c55e; cursor:default;">
-              Coming Soon on Unity Asset Store
-            </span>
-            <!-- READY FOR LAUNCH : the store page URL is live only after Unity approves the package.
-                 When it is approved, DELETE the "Coming Soon" span above and UNCOMMENT this button.
-            <a class="btn primary assetBtn" href="https://assetstore.unity.com/packages/slug/397684" target="_blank" rel="noopener">
-              Buy on Unity Asset Store
-            </a>
-            -->
-          </div>
+          <a class="btn primary assetBtn" href="https://assetstore.unity.com/packages/vfx/shaders/zlz-env-shader-397684" target="_blank" rel="noopener">
+            Buy on Unity Asset Store
+          </a>
         </div>
 
         <div class="heroRight">
@@ -831,11 +823,9 @@
             </svg>
           </a>
 
-          <a class="socialIcon" href="https://discussions.unity.com/t/30-launch-discount-first-7-days-zlz-anime-shader-transparent-hair-shader-for-unity-urp/1711422" target="_blank" rel="noopener" title="Unity Forum" aria-label="Unity Forum">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2 3.5 7v10L12 22l8.5-5V7L12 2Zm0 2.2 6.5 3.8v7.9L12 19.8l-6.5-3.9V8l6.5-3.8Zm-3.2 9.1h6.4v1.8H8.8v-1.8Zm0-3.4h6.4v1.8H8.8V9.9Z"/>
-            </svg>
-          </a>
+          <!-- Unity Forum : add the icon back here (copy it from the Anime hero) once
+               ZLZ Env Shader has its own forum thread. Until then it would point
+               visitors at the Anime Shader launch thread. -->
         </div>
       </div>
     </section>
@@ -1223,6 +1213,14 @@
           <small>Target Darken, Light Sweep and Upgrade — the runtime effects ZLZ Env Shader shares with ZLZ Anime Shader</small>
         </div>
         {% endif %}
+      </section>
+
+      <!-- Env: Resources -->
+      <section class="card full" data-product="env" style="display:none;">
+        <h2>Resources</h2>
+        <div class="list">
+          <a class="item" href="/env/changelog/"><span>Changelog</span><small>What's new in each version</small></a>
+        </div>
       </section>
 
       <!-- Setup Character -->

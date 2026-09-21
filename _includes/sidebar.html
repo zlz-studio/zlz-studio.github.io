@@ -331,6 +331,22 @@
 </div>
 {% endif %}
 
+<h3>Changelog</h3>
+
+<a href="{{ '/env/changelog/' | relative_url }}"
+   class="{% if page.url == '/env/changelog/' or page.url == '/env/changelog/index.html' %}active{% endif %}">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<a href="{{ '/env/changelog/1.0.0/' | relative_url }}"
+   class="{% if page.url contains '/env/changelog/1.0.0/' %}active{% endif %}">
+   v1.0.0
+</a>
+
+</div>
+
 <h3>Other Products</h3>
 
 <a href="{{ '/features/' | relative_url }}">ZLZ Anime Shader Docs</a>

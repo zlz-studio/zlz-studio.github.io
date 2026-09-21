@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {% if page.url contains '/env/' %}ZLZ Env Shader{% else %}{{ site.title }}{% endif %}</title>
+  {% if page.url contains '/env/' %}
+    {% assign productName = 'ZLZ Env Shader' %}
+    {% assign productDesc = 'ZLZ Env Shader documentation — painted surfaces, grass and water for stylized environments in Unity URP.' %}
+  {% else %}
+    {% assign productName = site.title %}
+    {% assign productDesc = 'ZLZ Anime Shader documentation — anime-style character shading with transparent hair for Unity URP.' %}
+  {% endif %}
+  <meta name="description" content="{{ productDesc }}" />
+  <link rel="canonical" href="https://zlz-studio.github.io{{ page.url }}" />
+
+  <!-- Link previews (Discord, Unity Forum, X) -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="ZLZ Studio" />
+  <meta property="og:title" content="{{ page.title }} | {{ productName }}" />
+  <meta property="og:description" content="{{ productDesc }}" />
+  <meta property="og:url" content="https://zlz-studio.github.io{{ page.url }}" />
+  <meta name="twitter:card" content="summary" />
   <style>
     * {
       box-sizing: border-box;
