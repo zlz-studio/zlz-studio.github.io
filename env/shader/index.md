@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: Environment Shader Overview
-last_modified_at: 2026-08-24
+last_modified_at: 2026-09-22
 published: true
 ---
 
@@ -49,7 +49,7 @@ And when a feature's channel is set to **None**, its slider simply applies evenl
 
 Materials using this shader should always live **under a ZLZ_Env Dashboard**.
 
-The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature plus a component on the floor. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is "I turned the feature on and nothing happened", which is the hardest kind of problem to trace.
+The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature, and Planar Reflection a component on the floor as well. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is "I turned the feature on and nothing happened", which is the hardest kind of problem to trace.
 
 The Dashboard solves this by **installing all of it the moment the component is added**, and by watching for any piece that goes missing afterwards.
 
@@ -67,6 +67,7 @@ Every section carries a status strip telling you whether its pieces are complete
 | Section | What you can do |
 |---|---|
 | **Vertex Paint Storage** | See where each painted mesh keeps its data and which source model file it is linked to — edit the model in Maya/Blender, re-import, and the paint follows it across |
+| **Screen Space Reflection** | Status of the Screen Space Reflection Renderer Feature, how many materials under this Dashboard use it, and an install button if the feature was removed |
 | **Planar Reflection** | Status of the Renderer Feature, URP_Reflection and the floor components, with a `Repair Reflection Setup` button |
 | **Water** | Every water body listed, toggled on and off one at a time, its material managed, and the Foam Flow baked |
 | **Underwater** | Status of the Renderer Feature behind the underwater view |
@@ -82,7 +83,7 @@ Every section carries a status strip telling you whether its pieces are complete
 
 | Component | Added to | Why |
 |---|---|---|
-| `ZLZ_EnvPlanarReflectionPlane` | Every floor under the Dashboard whose material has Reflection on | Tells the mirror camera where the reflecting plane is |
+| `ZLZ_EnvPlanarReflectionPlane` | Every floor under the Dashboard whose material uses Planar Reflection (Screen Space needs no component) | Tells the mirror camera where the reflecting plane is |
 | `ZLZ_EnvWater` | Every mesh already wearing a water material | Holds what a material cannot — the wave rhythm curve, and that pond's own underwater fog |
 | `ZLZ_EnvGrass` | The Dashboard itself | The root of the grass system |
 | `ZLZ_EnvGrassColorCamera` | The Dashboard itself | The camera that samples ground colour so grass blends into the surface below it |
@@ -114,11 +115,12 @@ The split is not just tidiness, it changes behaviour: a Dashboard works on **eve
 
 ![RenderFeatures](../shader/RenderFeatures.png)
 
-Adding a Dashboard installs these four Renderer Features straight away — and installs them on **every Quality Level**, not only the tier that happens to be active.
+Adding a Dashboard installs these five Renderer Features straight away — and installs them on **every Quality Level**, not only the tier that happens to be active.
 
 | Renderer Feature | Installed for |
 |---|---|
-| **ZLZ Env Planar Reflection** | The mirror-camera reflection tier — shared by wet floors and water alike |
+| **ZLZ Env Screen Space Reflection** | The screen-space reflection method — the default Reflection Type, traced per pixel through the frame (new in v1.1.0) |
+| **ZLZ Env Planar Reflection** | The mirror-camera reflection method — shared by wet floors and water alike |
 | **ZLZ Env Fog** | The scene atmosphere : distance haze, ground mist, and a sky that matches |
 | **ZLZ Env Grass Resolution** | The grass performance mode — drawing grass below full resolution and compositing it back |
 | **ZLZ Env Underwater** | What the camera sees while submerged : underwater fog, and the transition on the way down |

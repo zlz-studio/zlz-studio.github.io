@@ -877,6 +877,7 @@
       {% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
       {% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
       {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
+      {% assign shaderScreenSpaceReflection = site.pages | where: "url", "/env/shader/screen-space-reflection/" | first %}
       {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
       {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
       {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
@@ -884,7 +885,7 @@
       {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
       {% assign shaderEmission = site.pages | where: "url", "/env/shader/emissive/" | first %}
       {% assign shaderFog = site.pages | where: "url", "/env/shader/fog/" | first %}
-      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -914,6 +915,14 @@
             <span class="featMeta">
               <span class="featName">Planar Reflection</span>
               <small class="featDate">Updated {{ shaderPlanarReflection.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderScreenSpaceReflection %}<a class="featCard" href="/env/shader/screen-space-reflection/">
+            <!-- TODO: placeholder thumbnail — replace with Surface_ScreenSpaceReflection_Thumb.webp / _Hover.webp once captured -->
+            <img src="/env/shader/Surface_PlanarReflection_Thumb.webp" alt="Screen Space Reflection" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Screen Space Reflection</span>
+              <small class="featDate">Updated {{ shaderScreenSpaceReflection.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if shaderNormal %}<a class="featCard" href="/env/shader/normal/">

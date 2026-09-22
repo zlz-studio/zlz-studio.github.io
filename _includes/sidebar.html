@@ -13,6 +13,7 @@
 {% assign shaderPaintMode = site.pages | where: "url", "/env/shader/paint-mode/" | first %}
 {% assign shaderTriplanar = site.pages | where: "url", "/env/shader/triplanar/" | first %}
 {% assign shaderPlanarReflection = site.pages | where: "url", "/env/shader/planar-reflection/" | first %}
+{% assign shaderScreenSpaceReflection = site.pages | where: "url", "/env/shader/screen-space-reflection/" | first %}
 {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
 {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
 {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
@@ -20,7 +21,7 @@
 {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
 {% assign shaderEmission = site.pages | where: "url", "/env/shader/emissive/" | first %}
 {% assign shaderFog = site.pages | where: "url", "/env/shader/fog/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -50,6 +51,13 @@
 <a href="{{ '/env/shader/planar-reflection/' | relative_url }}"
    class="{% if page.url contains '/env/shader/planar-reflection/' %}active{% endif %}">
    Planar Reflection
+</a>
+{% endif %}
+
+{% if shaderScreenSpaceReflection %}
+<a href="{{ '/env/shader/screen-space-reflection/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/screen-space-reflection/' %}active{% endif %}">
+   Screen Space Reflection
 </a>
 {% endif %}
 
@@ -339,6 +347,11 @@
 </a>
 
 <div class="sideTree">
+
+<a href="{{ '/env/changelog/1.1.0/' | relative_url }}"
+   class="{% if page.url contains '/env/changelog/1.1.0/' %}active{% endif %}">
+   v1.1.0
+</a>
 
 <a href="{{ '/env/changelog/1.0.0/' | relative_url }}"
    class="{% if page.url contains '/env/changelog/1.0.0/' %}active{% endif %}">
