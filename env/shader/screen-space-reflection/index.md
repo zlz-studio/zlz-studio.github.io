@@ -42,6 +42,8 @@ The choice is **one per material**. Using both on the same surface would pay for
 
 ## Setup
 
+![Setup_SSR](../screen-space-reflection/Setup_SSR.png)
+
 Screen Space Reflection needs **both halves**.
 
 1. **On the material** — turn on the **Reflection** feature in the Features grid at the top of the Inspector. **Reflection Type** starts on `Screen Space Reflection`
