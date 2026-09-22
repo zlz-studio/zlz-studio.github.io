@@ -86,6 +86,8 @@ A dropdown for inspecting the reflection while tuning. Set it back to **Default*
 
 ## Parameters — Renderer Feature
 
+![RenderFeatures_SSR](../screen-space-reflection/RenderFeatures_SSR.png)
+
 This section lives on the **URP Renderer**, not on a material — so what you set here applies to **every Screen Space material in the scene at once**. Use **Find Renderer** in the Dashboard's Screen Space Reflection section to jump straight to it.
 
 ### Trace
