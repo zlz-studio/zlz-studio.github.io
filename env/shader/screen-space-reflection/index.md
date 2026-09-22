@@ -52,6 +52,8 @@ The Renderer Feature is installed for you on package import and by the **ZLZ_Env
 
 ## Parameters — Material
 
+![Material_Reflection](../screen-space-reflection/Material_SSReflection.png)
+
 The Reflection section is shared by both methods. With **Reflection Type** set to Screen Space, the Mirror Distortion group is hidden, since there is no mirror image to distort.
 
 ### Surface Reflection
