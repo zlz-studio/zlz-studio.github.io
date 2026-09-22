@@ -590,6 +590,7 @@
 
 
 
+
 <h3>Environment Shader</h3>
 
 
@@ -619,6 +620,13 @@
 <a href="/env/shader/planar-reflection/"
    class="">
    Planar Reflection
+</a>
+
+
+
+<a href="/env/shader/screen-space-reflection/"
+   class="">
+   Screen Space Reflection
 </a>
 
 
@@ -873,6 +881,11 @@
 
 <div class="sideTree">
 
+<a href="/env/changelog/1.1.0/"
+   class="">
+   v1.1.0
+</a>
+
 <a href="/env/changelog/1.0.0/"
    class="">
    v1.0.0
@@ -958,7 +971,7 @@
 
 <p>Materials using this shader should always live <strong>under a ZLZ_Env Dashboard</strong>.</p>
 
-<p>The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature plus a component on the floor. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is “I turned the feature on and nothing happened”, which is the hardest kind of problem to trace.</p>
+<p>The reason is that Environment features do not end at the material. Reflection needs a Renderer Feature, and Planar Reflection a component on the floor as well. Fog needs both a Renderer Feature and a controller in the scene. Grass needs a ground-colour camera and a renderer of its own. Asking a user to install each of those by hand in the URP Asset is easy to get wrong — and the symptom when it goes wrong is “I turned the feature on and nothing happened”, which is the hardest kind of problem to trace.</p>
 
 <p>The Dashboard solves this by <strong>installing all of it the moment the component is added</strong>, and by watching for any piece that goes missing afterwards.</p>
 
@@ -986,6 +999,10 @@
     <tr>
       <td><strong>Vertex Paint Storage</strong></td>
       <td>See where each painted mesh keeps its data and which source model file it is linked to — edit the model in Maya/Blender, re-import, and the paint follows it across</td>
+    </tr>
+    <tr>
+      <td><strong>Screen Space Reflection</strong></td>
+      <td>Status of the Screen Space Reflection Renderer Feature, how many materials under this Dashboard use it, and an install button if the feature was removed</td>
     </tr>
     <tr>
       <td><strong>Planar Reflection</strong></td>
@@ -1037,7 +1054,7 @@
   <tbody>
     <tr>
       <td><code class="language-plaintext highlighter-rouge">ZLZ_EnvPlanarReflectionPlane</code></td>
-      <td>Every floor under the Dashboard whose material has Reflection on</td>
+      <td>Every floor under the Dashboard whose material uses Planar Reflection (Screen Space needs no component)</td>
       <td>Tells the mirror camera where the reflecting plane is</td>
     </tr>
     <tr>
@@ -1110,7 +1127,7 @@
 
 <p><img src="../shader/RenderFeatures.png" alt="RenderFeatures" /></p>
 
-<p>Adding a Dashboard installs these four Renderer Features straight away — and installs them on <strong>every Quality Level</strong>, not only the tier that happens to be active.</p>
+<p>Adding a Dashboard installs these five Renderer Features straight away — and installs them on <strong>every Quality Level</strong>, not only the tier that happens to be active.</p>
 
 <table>
   <thead>
@@ -1121,8 +1138,12 @@
   </thead>
   <tbody>
     <tr>
+      <td><strong>ZLZ Env Screen Space Reflection</strong></td>
+      <td>The screen-space reflection method — the default Reflection Type, traced per pixel through the frame (new in v1.1.0)</td>
+    </tr>
+    <tr>
       <td><strong>ZLZ Env Planar Reflection</strong></td>
-      <td>The mirror-camera reflection tier — shared by wet floors and water alike</td>
+      <td>The mirror-camera reflection method — shared by wet floors and water alike</td>
     </tr>
     <tr>
       <td><strong>ZLZ Env Fog</strong></td>

@@ -590,6 +590,7 @@
 
 
 
+
 <h3>Environment Shader</h3>
 
 
@@ -619,6 +620,13 @@
 <a href="/env/shader/planar-reflection/"
    class="active">
    Planar Reflection
+</a>
+
+
+
+<a href="/env/shader/screen-space-reflection/"
+   class="">
+   Screen Space Reflection
 </a>
 
 
@@ -873,6 +881,11 @@
 
 <div class="sideTree">
 
+<a href="/env/changelog/1.1.0/"
+   class="">
+   v1.1.0
+</a>
+
 <a href="/env/changelog/1.0.0/"
    class="">
    v1.0.0
@@ -931,18 +944,56 @@
       <td>always on, cannot be disabled</td>
     </tr>
     <tr>
-      <td><strong>Planar Reflection</strong></td>
-      <td>a mirror camera redrawing the scene in real time</td>
-      <td>toggled from the Features grid</td>
+      <td><strong>Real-time Reflection</strong></td>
+      <td><strong>Planar Reflection</strong> or <strong>Screen Space Reflection</strong>, one per material</td>
+      <td>toggled from the Features grid, method picked in <strong>Reflection Type</strong></td>
     </tr>
   </tbody>
 </table>
 
-<p>The Probe tier works for free with nothing to configure. Planar Reflection is the tier that <strong>layers on top of it</strong> when you want a reflection that is sharp and true to the scene.</p>
+<p>The Probe tier works for free with nothing to configure. The real-time tier <strong>layers on top of it</strong> when you want a reflection that is sharp and true to the scene.</p>
 
 <blockquote>
   <p>If a surface does not need mirror-grade sharpness, the Reflection Probe alone is usually enough — and it costs nothing extra.</p>
 </blockquote>
+
+<h3 id="planar-or-screen-space">Planar or Screen Space?</h3>
+
+<p>Up to v1.0.0, Planar Reflection was the only real-time method. From <strong>v1.1.0</strong> there is a second one, <a href="/env/shader/screen-space-reflection/">Screen Space Reflection</a>, and it is now the default when you turn Reflection on.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th><strong>Planar Reflection</strong></th>
+      <th><strong>Screen Space Reflection</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Surfaces</strong></td>
+      <td>Flat floors on one plane</td>
+      <td>Any — raised platforms, slopes, vertical walls</td>
+    </tr>
+    <tr>
+      <td><strong>Off-screen objects</strong></td>
+      <td>Reflects them</td>
+      <td>Cannot reflect them — falls back to the probe</td>
+    </tr>
+    <tr>
+      <td><strong>Cost</strong></td>
+      <td>A second render of the scene</td>
+      <td>One pass over the reflective pixels</td>
+    </tr>
+    <tr>
+      <td><strong>Mirror Distortion</strong></td>
+      <td>Yes</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Choose <strong>Planar</strong> for large, flat, glossy floors where a reflection vanishing at the screen edge would be noticed. For everything else, Screen Space is simpler and cheaper. See <a href="/env/shader/screen-space-reflection/#choosing-a-reflection-type">Choosing a Reflection Type</a> for the full comparison.</p>
 
 <hr />
 
@@ -951,11 +1002,11 @@
 <p>Planar Reflection needs <strong>both halves</strong>. Miss either one and no reflection appears at all.</p>
 
 <ol>
-  <li><strong>On the material</strong> — turn on the <strong>Reflection</strong> feature in the Features grid at the top of the Inspector</li>
+  <li><strong>On the material</strong> — turn on the <strong>Reflection</strong> feature in the Features grid at the top of the Inspector, then set <strong>Reflection Type</strong> to <code class="language-plaintext highlighter-rouge">Planar Reflection</code> (Reflection starts on Screen Space)</li>
   <li><strong>On the URP Renderer</strong> — the Renderer Feature <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Planar Reflection</code></strong> has to be in the list</li>
 </ol>
 
-<p>Once the material side is on, the <strong>Reflection</strong> section appears in the Inspector with every value described below.</p>
+<p>Once the material side is on, the <strong>Reflection</strong> section appears in the Inspector with every value described below. Switching a material to Planar also registers the floors under the Dashboard that use it as reflection planes — there is nothing to add by hand.</p>
 
 <hr />
 
@@ -1000,9 +1051,16 @@
 
 <h3 id="debug-mode">Debug Mode</h3>
 
-<p>A dropdown for inspecting the reflection in isolation while tuning. <strong>Default</strong> is the normal, final result.</p>
+<p>A dropdown for inspecting the reflection in isolation while tuning. Set it back to <strong>Default</strong> before shipping.</p>
 
-<!-- TODO: list every option in the Debug Mode dropdown and what each one displays -->
+<ul>
+  <li><strong>Default</strong> — the normal, final result</li>
+  <li><strong>Probe Only</strong> — the Reflection Probe tier by itself, without the mirror image</li>
+  <li><strong>Planar RGB Raw</strong> — the mirror camera’s image as it arrives, before blending. Shows black when the mirror camera is not publishing anything, so a missing or switched-off Renderer Feature is easy to spot</li>
+  <li><strong>Fresnel Mask</strong> — how much reflection each pixel is allowed, from the Fresnel angle and Smoothness together</li>
+</ul>
+
+<p>The options change with <strong>Reflection Type</strong> — Screen Space has its own set, described on the <a href="/env/shader/screen-space-reflection/#debug-mode">Screen Space Reflection</a> page.</p>
 
 <hr />
 
@@ -1049,7 +1107,7 @@
 
 <ul>
   <li><strong>The Renderer Feature is never optional</strong> — turning the feature on in the material is not enough. Without <code class="language-plaintext highlighter-rouge">ZLZ Env Planar Reflection</code> on the URP Renderer, no reflection appears</li>
-  <li><strong>The mirror camera renders against a fixed plane</strong> — Planar Reflection suits surfaces that are <strong>flat</strong>. Something curved or heavily broken up will reflect in ways that do not match reality; reach for a Reflection Probe there instead</li>
+  <li><strong>The mirror camera renders against a fixed plane</strong> — Planar Reflection suits surfaces that are <strong>flat</strong>. Something curved, raised or vertical will reflect in ways that do not match reality; switch it to <a href="/env/shader/screen-space-reflection/">Screen Space Reflection</a> instead</li>
   <li><strong>It costs one more pass over the scene</strong> — drawing the scene twice is the reason Planar Reflection is usually written off as impractical. ZLZ Env Shader ships a purpose-built renderer for it that brings the second pass down to <strong>2–5%</strong>, which is what makes it viable on Mobile</li>
   <li><strong>VR is off by default</strong>, via the <strong>Disable In VR</strong> switch</li>
   <li><strong>Cameras rendering to a Render Texture are skipped</strong>, as are preview cameras and reflection probes — the mirror camera never stacks on top of those</li>

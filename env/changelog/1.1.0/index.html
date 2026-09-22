@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grass Setup | ZLZ Env Shader</title>
+  <title>v1.1.0 — ZLZ Hub & Lighting | ZLZ Env Shader</title>
   
   <meta name="description" content="ZLZ Env Shader documentation — painted surfaces, grass and water for stylized environments in Unity URP." />
-  <link rel="canonical" href="https://zlz-studio.github.io/env/grass/grass-setup/" />
+  <link rel="canonical" href="https://zlz-studio.github.io/env/changelog/1.1.0/" />
 
   <!-- Link previews (Discord, Unity Forum, X) -->
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="ZLZ Studio" />
-  <meta property="og:title" content="Grass Setup | ZLZ Env Shader" />
+  <meta property="og:title" content="v1.1.0 — ZLZ Hub & Lighting | ZLZ Env Shader" />
   <meta property="og:description" content="ZLZ Env Shader documentation — painted surfaces, grass and water for stylized environments in Unity URP." />
-  <meta property="og:url" content="https://zlz-studio.github.io/env/grass/grass-setup/" />
+  <meta property="og:url" content="https://zlz-studio.github.io/env/changelog/1.1.0/" />
   <meta name="twitter:card" content="summary" />
   <style>
     * {
@@ -707,7 +707,7 @@
 
 
 <a href="/env/grass/grass-setup/"
-   class="active">
+   class="">
    Grass Setup
 </a>
 
@@ -882,7 +882,7 @@
 <div class="sideTree">
 
 <a href="/env/changelog/1.1.0/"
-   class="">
+   class="active">
    v1.1.0
 </a>
 
@@ -906,90 +906,42 @@
     <main class="content">
       <div class="content-inner">
         <a class="top-link" href="/">← Back to Home</a>
-        <h1 id="grass-setup">Grass Setup</h1>
+        <p><a href="/env/changelog/">← All versions</a></p>
 
-<p>Plant grass on your Terrain in just a few steps. Everything is controlled from a single place, the <code class="language-plaintext highlighter-rouge">ZLZ_Env Dashboard</code>, and one scene can hold many grass types at once.</p>
+<h1 id="v110--zlz-hub--lighting">v1.1.0 — ZLZ Hub &amp; Lighting</h1>
 
-<h2 id="showcase-grass-grow-one-click">Showcase Grass Grow One-Click</h2>
+<p><strong>Current version</strong></p>
 
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/jG3f89pkjh4?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=jG3f89pkjh4&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<h2 id="showcase-grass-custom-paint">Showcase Grass Custom Paint</h2>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/ach4JE-mKX0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=ach4JE-mKX0&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<h2 id="showcase-grass-grow-multi-types">Showcase Grass Grow Multi Types</h2>
-
-<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe src="https://www.youtube-nocookie.com/embed/3qydgQaQi_s?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=3qydgQaQi_s&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
-    </iframe>
-  </div>
-</div>
-
-<h2 id="setup-steps">Setup Steps</h2>
-
-<p><img src="../GrassSetup.png" alt="GrassSetup" /></p>
-
-<ol>
-  <li><strong>Place the Dashboard:</strong> add <code class="language-plaintext highlighter-rouge">ZLZ_Env Dashboard</code> to the root of your environment (above all ground meshes). Every mesh under it appears in the panel with an On/Off switch.</li>
-  <li><strong>Choose where to plant:</strong> tick on the meshes you want grass to grow on.</li>
-  <li><strong>Source:</strong> choose where grass grows across the mesh.
-    <ul>
-      <li><strong>Uniform:</strong> grass covers the whole mesh.</li>
-      <li><strong>Painted (Mask):</strong> grass grows only where you have painted the ground, following the ground material’s Texture Paint. For example, if the ground is painted with a grass zone and a sand zone, grass grows only in the grass zone and stays off the sand.</li>
-    </ul>
-  </li>
-  <li><strong>Grass Type:</strong> pick or create a Grass Type. Ready-made presets are included:
-    <ul>
-      <li>5 grass types</li>
-      <li>4 lying flower types</li>
-      <li>1 standing flower type in 4 colors</li>
-      <li>or create your own Grass Type</li>
-    </ul>
-  </li>
-  <li><strong>Grow All:</strong> press <code class="language-plaintext highlighter-rouge">Grow All</code> and the grass is generated from your settings.</li>
-  <li><strong>Paint more (optional):</strong> press <code class="language-plaintext highlighter-rouge">Grow All</code> first, then drag the mouse across the ground to paint extra grass by hand.</li>
-</ol>
-
-<h2 id="creating-your-own-grass-type">Creating Your Own Grass Type</h2>
-
-<p><img src="../Create_GrassType.png" alt="Create_GrassType" /></p>
+<h3 id="new-features">New Features</h3>
 
 <ul>
-  <li>Press <code class="language-plaintext highlighter-rouge">Create New</code> on the Grass Type field in the Dashboard.</li>
-  <li>The new file is created at <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Grass/Types/ZLZ_GrassType.asset</code>.</li>
-  <li>Every setting can be edited directly on the Grass Type:</li>
-  <li><strong>Material:</strong> the material for this grass or flower (each asset has a live preview so you can tell them apart).</li>
-  <li><strong>Meshes:</strong> the mesh(es) for LOD 0. You can add several, and one is picked at random per tuft.</li>
-  <li><strong>Far Mesh:</strong> the mesh for LOD 1 (the far field). Leave it empty to use the full LOD 0 mesh at every distance.</li>
-  <li><strong>Density (per m2):</strong> how densely this type is planted per square metre. Higher means thicker grass.</li>
-  <li><strong>Max Tufts:</strong> a safety cap on this type’s count, so grass can never explode on a very large surface.</li>
-  <li><strong>Size Min:</strong> the smallest size for this grass or flower.</li>
-  <li><strong>Size Max:</strong> the largest size. Each tuft gets a random size between Min and Max.</li>
-  <li><strong>Height Offset:</strong> sinks or raises the base of the grass or flower. Use a small negative value to push the base into the ground so blades do not float.</li>
-  <li><strong>Clustering:</strong> higher values make grass and flowers gather into patches (0 = an even scatter, like normal grass). When Clustering is on, a <code class="language-plaintext highlighter-rouge">Patch Size</code> slider appears to set how wide each patch is.</li>
+  <li>Added <strong>ZLZ Hub</strong> to check that everything is installed and set up correctly</li>
+  <li>Added <strong>Screen Space Reflection</strong> as a second reflection method alongside Planar Reflection — each pixel traces its reflection through the frame, so it works on raised platforms and vertical surfaces without a reflection plane</li>
 </ul>
 
-<h2 id="where-is-grass-data-stored">Where Is Grass Data Stored</h2>
+<h3 id="improved-workflow">Improved Workflow</h3>
 
-<p><img src="../GrassSetup.png" alt="GrassSetup" /></p>
-
-<p>Grass is stored in <code class="language-plaintext highlighter-rouge">ZLZ_EnvGrassData</code>, located at <code class="language-plaintext highlighter-rouge">Assets/ZLZ_EnvironmentShader/Baked/GrassData/</code>.</p>
 <ul>
-  <li>One Grass Data file works with one Dashboard only. Growing again with the same Grass Data overwrites the previous data immediately.</li>
-  <li>Press <code class="language-plaintext highlighter-rouge">New</code> to create a fresh Grass Data file yourself.</li>
+  <li>Moved lighting and shadows onto a single shared core, used by both <strong>ZLZ Anime Shader</strong> and <strong>ZLZ Env Shader</strong></li>
 </ul>
+
+<h3 id="bug-fixes">Bug Fixes</h3>
+
+<ul>
+  <li>Fixed incorrect namespaces</li>
+  <li>Fixed <strong>Planar Reflection</strong> bugs for more accurate reflections</li>
+  <li>Fixed <strong>Planar Reflection</strong> not working with <strong>Fog</strong></li>
+  <li>Fixed grass not receiving shadows</li>
+  <li>Fixed bugs in baked lighting</li>
+  <li>Fixed Renderer Features being added more than once after deleting and reinstalling the package — renderers that already have duplicates are repaired automatically</li>
+  <li>Fixed compiler warnings on Unity 6.3 and 6.5</li>
+</ul>
+
+<h3 id="after-updating">After Updating</h3>
+
+<p>When updating the package, run the folder reorganisation once:</p>
+
+<p><strong>Window › ZLZ › Hub › Reorganise Folder</strong></p>
 
       </div>
     </main>
