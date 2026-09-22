@@ -59,7 +59,7 @@ Once the material side is on, the **Reflection** section appears in the Inspecto
 
 ## Parameters — Material
 
-![Material_Reflection](../planar-reflection/Material_Reflection.png)
+![Material_Reflection](../planar-reflection/Material_PlanarReflection.png)
 
 ### Surface Reflection
 
