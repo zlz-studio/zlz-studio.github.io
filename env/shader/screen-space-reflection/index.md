@@ -15,6 +15,9 @@ It works by letting **each pixel trace its own reflected ray through the frame t
 
 Screen Space Reflection is now the **default Reflection Type** — turning Reflection on in a material lands on it. Switch to Planar only for the floors that need to reflect things that are off screen.
 
+## Showcase Screen Space Reflection
+{% include video.html src="/env/shader/screen-space-reflection/SSR_Showcase_Web.mp4" %}
+
 ---
 
 ## Choosing a Reflection Type
