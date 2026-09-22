@@ -909,14 +909,10 @@
         <h1 id="screen-space-reflection">Screen Space Reflection</h1>
 
 <blockquote>
-  <p><strong>New in v1.1.0.</strong> In v1.0.0 the only reflection method was <a href="/env/shader/planar-reflection/">Planar Reflection</a>. From v1.1.0 each material chooses between the two.</p>
+  <p><strong>New in v1.1.0.</strong> v1.0.0 had <a href="/env/shader/planar-reflection/">Planar Reflection</a> only.</p>
 </blockquote>
 
-<p>Reflections that work on <strong>any surface, at any height, facing any way</strong> — a raised stone platform, a wet wall, a polished pillar, a stepped courtyard where every level has to reflect. No reflection plane to set up, no mirror camera, nothing to pick.</p>
-
-<p>It works by letting <strong>each pixel trace its own reflected ray through the frame that has already been drawn</strong>. Where the ray lands on something on screen, that is what the surface reflects. Where it finds nothing, the pixel falls back to the Reflection Probe.</p>
-
-<p>Screen Space Reflection is now the <strong>default Reflection Type</strong> — turning Reflection on in a material lands on it. Switch to Planar only for the floors that need to reflect things that are off screen.</p>
+<p>Reflections on <strong>any surface</strong> — raised platforms, slopes, walls — with no reflection plane to set up. Each pixel traces its reflection through the frame already on screen. It is the <strong>default Reflection Type</strong> when you turn Reflection on.</p>
 
 <h2 id="showcase-screen-space-reflection">Showcase Screen Space Reflection</h2>
 <div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
@@ -928,59 +924,42 @@
 
 <h2 id="choosing-a-reflection-type">Choosing a Reflection Type</h2>
 
-<p>Reflection in the Env Shader is two layers stacked on each other. The <strong>Reflection Probe</strong> is always there underneath; on top of it, each material picks <strong>one</strong> real-time method :</p>
+<p>Each material uses <strong>one</strong> method :</p>
 
 <table>
   <thead>
     <tr>
       <th> </th>
-      <th><strong>Screen Space Reflection</strong></th>
-      <th><strong>Planar Reflection</strong></th>
+      <th><strong>Screen Space</strong></th>
+      <th><strong>Planar</strong></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>How it works</strong></td>
-      <td>Each pixel traces through the frame already on screen</td>
-      <td>A mirror camera redraws the scene reflected about the floor</td>
-    </tr>
-    <tr>
       <td><strong>Surfaces</strong></td>
-      <td>Any — raised platforms, slopes, vertical walls</td>
-      <td>Flat floors on one plane</td>
+      <td>Any</td>
+      <td>Flat floors only</td>
     </tr>
     <tr>
       <td><strong>Off-screen objects</strong></td>
-      <td>Cannot reflect them — falls back to the probe</td>
-      <td>Reflects them</td>
-    </tr>
-    <tr>
-      <td><strong>Setup</strong></td>
-      <td>The Renderer Feature only</td>
-      <td>The Renderer Feature + a Reflection Plane on each floor (added for you by the Dashboard)</td>
+      <td>Not reflected</td>
+      <td>Reflected</td>
     </tr>
     <tr>
       <td><strong>Cost</strong></td>
-      <td>One pass over the reflective pixels, no second scene render</td>
-      <td>A second render of the scene</td>
+      <td>One pass, no second render</td>
+      <td>Renders the scene twice</td>
     </tr>
     <tr>
-      <td><strong>Mirror Distortion</strong></td>
+      <td><strong>Water</strong></td>
       <td>—</td>
       <td>Yes</td>
-    </tr>
-    <tr>
-      <td><strong>Water shader</strong></td>
-      <td>—</td>
-      <td>Yes (water always uses Planar)</td>
     </tr>
   </tbody>
 </table>
 
-<p>The choice is <strong>one per material</strong>. Using both on the same surface would pay for two reflections and stitch two different images together at the screen edge, so the Inspector does not allow it.</p>
-
 <blockquote>
-  <p><strong>Rule of thumb</strong> : start with Screen Space. Switch a material to Planar when the player can see a reflection go missing at the edge of the screen — typically a large, flat, glossy floor with tall objects standing just out of view.</p>
+  <p>Start with Screen Space. Switch to Planar for large flat floors where reflections vanishing at the screen edge would be noticed.</p>
 </blockquote>
 
 <hr />
@@ -989,17 +968,14 @@
 
 <p><img src="../screen-space-reflection/Setup_SSR.png" alt="Setup_SSR" /></p>
 
-<p>Screen Space Reflection needs <strong>both halves</strong>.</p>
-
 <ol>
-  <li><strong>On the material</strong> — turn on the <strong>Reflection</strong> feature in the Features grid at the top of the Inspector. <strong>Reflection Type</strong> starts on <code class="language-plaintext highlighter-rouge">Screen Space Reflection</code></li>
-  <li><strong>On the URP Renderer</strong> — the Renderer Feature <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Screen Space Reflection</code></strong> has to be in the list</li>
+  <li><strong>Material</strong> — turn on <strong>Reflection</strong> in the Features grid. <strong>Reflection Type</strong> starts on <code class="language-plaintext highlighter-rouge">Screen Space Reflection</code></li>
+  <li><strong>URP Renderer</strong> — needs <strong><code class="language-plaintext highlighter-rouge">ZLZ Env Screen Space Reflection</code></strong>. The Dashboard installs it for you</li>
+  <li><strong>Scene</strong> — add a baked <strong>Reflection Probe</strong> over the reflective area</li>
 </ol>
 
-<p>The Renderer Feature is installed for you on package import and by the <strong>ZLZ_Env Dashboard</strong>, on every Quality Level. If it is ever removed, the material Inspector shows an amber banner and the Dashboard’s <strong>Screen Space Reflection</strong> section offers an <code class="language-plaintext highlighter-rouge">Install Screen Space Reflection Feature</code> button.</p>
-
 <blockquote>
-  <p><strong>Nothing breaks without it.</strong> If the Renderer Feature is missing or switched off, a Screen Space material simply shows its Reflection Probe — you lose the traced reflection, not the surface.</p>
+  <p><strong>Always pair it with a Reflection Probe.</strong> SSR can only reflect what is on screen. Everything else — the screen edges and the area behind characters — shows the probe instead. Without one, those gaps show the Skybox.</p>
 </blockquote>
 
 <hr />
@@ -1008,38 +984,20 @@
 
 <p><img src="../screen-space-reflection/Material_SSReflection.png" alt="Material_Reflection" /></p>
 
-<p>The Reflection section is shared by both methods. With <strong>Reflection Type</strong> set to Screen Space, the Mirror Distortion group is hidden, since there is no mirror image to distort.</p>
-
-<h3 id="surface-reflection">Surface Reflection</h3>
-
 <ul>
-  <li><strong>Intensity</strong> (default <code class="language-plaintext highlighter-rouge">1</code>) — how strongly the reflection blends onto the surface. <code class="language-plaintext highlighter-rouge">0</code> = none</li>
-  <li><strong>Smoothness</strong> — how polished the surface is, the same value the Specular section uses. High = a sharp, mirror-like reflection. Low = a soft, blurred one. <code class="language-plaintext highlighter-rouge">0</code> = matte, no reflection. With Paint Mode on, each layer’s Smoothness blends over this, so water can reflect sharply while grass beside it reflects nothing</li>
-  <li><strong>Fresnel Power</strong> (default <code class="language-plaintext highlighter-rouge">5</code>) — how fast the reflection fades as the camera tilts from a grazing angle toward looking straight down. <code class="language-plaintext highlighter-rouge">2</code>–<code class="language-plaintext highlighter-rouge">3</code> = visible across more angles, <code class="language-plaintext highlighter-rouge">8</code>–<code class="language-plaintext highlighter-rouge">10</code> = grazing angles only</li>
-</ul>
-
-<h3 id="method">Method</h3>
-
-<ul>
-  <li><strong>Reflection Type</strong> — <code class="language-plaintext highlighter-rouge">Screen Space Reflection</code> or <code class="language-plaintext highlighter-rouge">Planar Reflection</code>. See <a href="#choosing-a-reflection-type">Choosing a Reflection Type</a> above</li>
+  <li><strong>Intensity</strong> (default <code class="language-plaintext highlighter-rouge">1</code>) — strength of the reflection</li>
+  <li><strong>Smoothness</strong> — shared with Specular. High = sharp, low = blurry, <code class="language-plaintext highlighter-rouge">0</code> = no reflection</li>
+  <li><strong>Fresnel Power</strong> (default <code class="language-plaintext highlighter-rouge">5</code>) — lower = visible from more angles, higher = grazing angles only</li>
+  <li><strong>Reflection Type</strong> — Screen Space or Planar</li>
 </ul>
 
 <h3 id="debug-mode">Debug Mode</h3>
 
-<p>A dropdown for inspecting the reflection while tuning. Set it back to <strong>Default</strong> before shipping.</p>
-
 <ul>
-  <li><strong>Default</strong> — the normal, final result</li>
-  <li><strong>Fresnel Mask</strong> — how much reflection each pixel is allowed, from the Fresnel angle and Smoothness together</li>
-  <li><strong>Screen Space Trace</strong> — what happened to each pixel’s ray :
-    <ul>
-      <li><strong>White</strong> — the ray hit something on screen</li>
-      <li><strong>Red</strong> — the ray passed behind an object, so the true reflection is hidden</li>
-      <li><strong>Blue</strong> — the ray left the screen without finding anything</li>
-      <li><strong>Green</strong> — the ray turned back toward the camera, so there is nothing on screen for it to find</li>
-    </ul>
-  </li>
-  <li><strong>Screen Space Only</strong> — the traced reflection by itself, without the probe fallback</li>
+  <li><strong>Default</strong> — final result</li>
+  <li><strong>Fresnel Mask</strong> — how much reflection each pixel gets</li>
+  <li><strong>Screen Space Trace</strong> — white = hit, red = hidden behind an object, blue = off screen, green = facing the camera</li>
+  <li><strong>Screen Space Only</strong> — the traced reflection without the probe</li>
 </ul>
 
 <hr />
@@ -1048,50 +1006,29 @@
 
 <p><img src="../screen-space-reflection/RenderFeatures_SSR.png" alt="RenderFeatures_SSR" /></p>
 
-<p>This section lives on the <strong>URP Renderer</strong>, not on a material — so what you set here applies to <strong>every Screen Space material in the scene at once</strong>. Use <strong>Find Renderer</strong> in the Dashboard’s Screen Space Reflection section to jump straight to it.</p>
-
-<h3 id="trace">Trace</h3>
+<p>Applies to every Screen Space material at once.</p>
 
 <ul>
-  <li><strong>Steps</strong> (default <code class="language-plaintext highlighter-rouge">24</code>, range <code class="language-plaintext highlighter-rouge">4</code>–<code class="language-plaintext highlighter-rouge">64</code>) — samples taken along each reflected ray. More steps find thinner objects and reach further before the ray can skip over something; the cost rises in step with it. <code class="language-plaintext highlighter-rouge">24</code> suits PC, <code class="language-plaintext highlighter-rouge">12</code> suits Mobile</li>
-  <li><strong>Max Distance</strong> (default <code class="language-plaintext highlighter-rouge">30</code> m) — how far a ray travels before giving up and handing the pixel to the probe</li>
-  <li><strong>Thickness</strong> (default <code class="language-plaintext highlighter-rouge">0.1</code> m) — how far behind a surface a ray may pass and still count as hitting it. Keep it small : anything thinner than this (hair, railings, weapons) is read as solid and its reflection turns into a flat cut-out. Raise it only if reflections show holes on thin objects. <code class="language-plaintext highlighter-rouge">0.1</code> suits characters</li>
-</ul>
-
-<h3 id="look">Look</h3>
-
-<ul>
-  <li><strong>Intensity</strong> (default <code class="language-plaintext highlighter-rouge">1</code>, range <code class="language-plaintext highlighter-rouge">0</code>–<code class="language-plaintext highlighter-rouge">2</code>) — strength of the traced reflection over the probe. <code class="language-plaintext highlighter-rouge">1</code> = fully replaces the probe wherever the ray hits</li>
-  <li><strong>Edge Fade</strong> (default <code class="language-plaintext highlighter-rouge">0.12</code>) — the fraction of the screen over which reflections fade out toward the screen edges, where the frame runs out of picture. This hides the hard cut where a reflection would otherwise end</li>
-  <li><strong>Blur Scale</strong> (default <code class="language-plaintext highlighter-rouge">0.015</code>) — how soft the reflection gets on rough surfaces. Applied in full at Smoothness <code class="language-plaintext highlighter-rouge">0</code> and not at all at Smoothness <code class="language-plaintext highlighter-rouge">1</code>. Soft reflections read as polished stone, and they also hide tracing noise</li>
+  <li><strong>Steps</strong> (default <code class="language-plaintext highlighter-rouge">24</code>) — trace quality. <code class="language-plaintext highlighter-rouge">24</code> for PC, <code class="language-plaintext highlighter-rouge">12</code> for Mobile</li>
+  <li><strong>Max Distance</strong> (default <code class="language-plaintext highlighter-rouge">30</code> m) — how far a ray can travel</li>
+  <li><strong>Thickness</strong> (default <code class="language-plaintext highlighter-rouge">0.1</code> m) — raise only if thin objects show holes in their reflection</li>
+  <li><strong>Intensity</strong> (default <code class="language-plaintext highlighter-rouge">1</code>) — strength of the traced reflection over the probe</li>
+  <li><strong>Edge Fade</strong> (default <code class="language-plaintext highlighter-rouge">0.12</code>) — fades reflections out near the screen edges</li>
+  <li><strong>Blur Scale</strong> (default <code class="language-plaintext highlighter-rouge">0.015</code>) — blur on rough surfaces</li>
 </ul>
 
 <blockquote>
-  <p><strong>Suggested order when you need frames back</strong> : lower <strong>Steps</strong> first → shorten <strong>Max Distance</strong> → lower Smoothness or raise <strong>Fresnel Power</strong> on large surfaces seen from above, so fewer pixels need a trace at all.</p>
+  <p>Need frames back? Lower <strong>Steps</strong> first, then <strong>Max Distance</strong>.</p>
 </blockquote>
-
-<hr />
-
-<h2 id="performance">Performance</h2>
-
-<ul>
-  <li><strong>No second scene render</strong> — unlike Planar Reflection, the scene is drawn once. The trace reads the colour and depth that URP already has for the frame</li>
-  <li><strong>Only Screen Space materials pay</strong> — the reflection pass is switched off on every material that does not use Screen Space, so those materials cost nothing extra</li>
-  <li><strong>Invisible reflections are skipped</strong> — where the Fresnel angle and Smoothness together leave almost no reflection (a floor seen from straight above, matte masked areas), the trace is skipped and the probe answers instead</li>
-  <li><strong>Runs on every platform</strong> — it is a plain fragment pass, so it works on WebGL, GLES, Metal and Vulkan alike</li>
-</ul>
 
 <hr />
 
 <h2 id="limits">Limits</h2>
 
 <ul>
-  <li><strong>It can only reflect what is on screen</strong> — this is true of every screen-space reflection. Objects behind the camera or past the edge of the frame do not appear; the probe fills in there. When that matters, switch the material to <a href="/env/shader/planar-reflection/">Planar Reflection</a></li>
-  <li><strong>The area hidden behind an object cannot be reflected</strong> — a ray that passes behind a character standing on the floor would need to see the surface behind that character, which the frame does not contain. That region takes the probe colour, and can show as a faint ghost of the character’s outline. <strong>Screen Space Trace</strong> debug paints it red</li>
-  <li><strong>The Renderer Feature is required for the traced reflection</strong> — without <code class="language-plaintext highlighter-rouge">ZLZ Env Screen Space Reflection</code> on the URP Renderer, Screen Space materials show only their probe reflection</li>
-  <li><strong>Opaque materials only</strong> — the reflection pass is drawn for materials in the Opaque render queue</li>
-  <li><strong>The Water shader does not use it</strong> — water always reflects with Planar Reflection</li>
-  <li><strong>Preview cameras, reflection probes and hidden cameras are skipped</strong>, including the mirror camera of Planar Reflection. <strong>The Scene view is allowed through</strong>, so you can tune it and watch it as you go</li>
+  <li>Only reflects <strong>what is on screen</strong> — use Planar when off-screen reflections matter</li>
+  <li><strong>Opaque</strong> materials only</li>
+  <li><strong>Water</strong> always uses Planar Reflection</li>
 </ul>
 
       </div>
