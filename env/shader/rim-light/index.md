@@ -65,31 +65,3 @@ A scene is different. It is covered in cast shadows — a tree over the ground, 
 
 When the scene has no Directional Light — a fully baked scene, for example — the rim is drawn by the **Ambient Fallback** light, the same stand-in light Specular uses. The rim never quietly disappears just because the scene has no realtime sun.
 
----
-
-## Cost
-
-**No texture reads.** The rim is a handful of math operations per pixel, added on top of the lighting.
-
-It is drawn in the main pass only — the Planar Reflection camera does not draw it, so turning Rim Light on adds no cost to reflections.
-
----
-
-## Works With Other Features
-
-### ZLZ Anime Shader Characters
-Both shaders use the same light and the same maths, so with matching values, a character and the ground under it get the same rim. See [Rim Light (ZLZ Anime Shader)]({{ '/features/RimLight/' | relative_url }}).
-
-### Normal Map
-The rim follows the final shading normal, so a Normal Map breaks the rim up along the bumps and cracks of the surface instead of leaving a smooth line. See [Normal Map]({{ '/env/shader/normal/' | relative_url }}).
-
-### Specular & Metallic
-Both are added on top of the lighting and both use the same light, so a highlight and a rim can sit on the same surface without fighting each other. See [Specular & Metallic]({{ '/env/shader/specular/' | relative_url }}).
-
----
-
-## Limits
-
-- **No mask.** The rim covers the whole surface — it has no Feature Mask channel, the same as the character shader's rim
-- **Main light only.** Point and spot lights do not produce a rim
-- **Flat surfaces barely show it.** A rim needs a surface that turns away from the camera. A flat floor seen from above has almost no edge, so it gets almost no rim — the feature reads best on rounded props, rocks, trunks and cliff edges
