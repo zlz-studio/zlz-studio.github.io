@@ -11,20 +11,7 @@ Add a band of light along the **edges of a surface that face the sun** — the l
 
 This is **the same feature as ZLZ Anime Shader's Rim Light** — the same parameters, the same defaults and the same maths. A rock and the character on top of it take the same edge off the same sun, so the two sit together with no extra tuning. The one place it behaves differently on purpose is inside cast shadows, explained [below](#where-it-differs-from-zlz-anime-shader).
 
-<div class="compare-container">
-  <div class="compare-base">
-    <img src="{{ '/features/images/RimLight_Off.webp' | relative_url }}" alt="RimLight_Off">
-  </div>
-
-  <div class="compare-overlay">
-    <img src="{{ '/features/images/RimLight_On.webp' | relative_url }}" alt="RimLight_On">
-  </div>
-
-  <div class="compare-handle"></div>
-
-  <div class="compare-label before">RimLight Off</div>
-  <div class="compare-label after">RimLight On</div>
-</div>
+![Rim Light]({{ '/env/shader/Surface_RimLight_Hover.webp' | relative_url }})
 
 ---
 
