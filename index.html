@@ -880,12 +880,13 @@
       {% assign shaderScreenSpaceReflection = site.pages | where: "url", "/env/shader/screen-space-reflection/" | first %}
       {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
       {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
+      {% assign shaderRimLight = site.pages | where: "url", "/env/shader/rim-light/" | first %}
       {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
       {% assign shaderAccumulation = site.pages | where: "url", "/env/shader/snow-accumulation/" | first %}
       {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
       {% assign shaderEmission = site.pages | where: "url", "/env/shader/emissive/" | first %}
       {% assign shaderFog = site.pages | where: "url", "/env/shader/fog/" | first %}
-      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
+      {% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderRimLight or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
       <section class="card docsBlock" data-product="env" style="display:none;">
         <h2>Environment Shader</h2>
         <div class="featGrid">
@@ -936,6 +937,13 @@
             <span class="featMeta">
               <span class="featName">Specular &amp; Metallic</span>
               <small class="featDate">Updated {{ shaderSpecular.last_modified_at | date: "%d %b %Y" }}</small>
+            </span>
+          </a>{% endif %}
+          {% if shaderRimLight %}<a class="featCard" href="/env/shader/rim-light/">
+            <img src="/env/shader/Surface_RimLight_Thumb.webp" data-anim="/env/shader/Surface_RimLight_Hover.webp" alt="Rim Light" loading="lazy" decoding="async" />
+            <span class="featMeta">
+              <span class="featName">Rim Light</span>
+              <small class="featDate">Updated {{ shaderRimLight.last_modified_at | date: "%d %b %Y" }}</small>
             </span>
           </a>{% endif %}
           {% if shaderStochastic %}<a class="featCard" href="/env/shader/stochastic-tiling/">
