@@ -865,8 +865,6 @@
   <li><strong><em>2 Shadows</em> :</strong> Adds a second, deeper shadow where the surface turns further from the light, for more volume</li>
 </ul>
 
-<p>Shadows cast by other objects (hair, a hat brim) always stay in the first step. Only surfaces facing away from the light reach the second.</p>
-
 <h3 id="parameters">Parameters</h3>
 
 <ul>
@@ -880,9 +878,7 @@
   <li><strong>Second Shadow Color :</strong> Color of the second shadow, used exactly as set (not mixed with Shadow Color)</li>
   <li><strong>Second Shadow Threshold :</strong> How far the surface must turn from the light before the second shadow starts <em>(0 = right after the light edge / higher = only the far side)</em></li>
   <li><strong>Second Shadow Smooth :</strong> Softness of the edge between the two shadows</li>
-  <li>
-    <p><strong>Debug Shadows :</strong> Shows light / shadow / second shadow as flat greys, useful while tuning the Threshold</p>
-  </li>
+  <li><strong>Debug Shadows :</strong> Shows light / shadow / second shadow as flat greys, useful while tuning the Threshold</li>
   <li><strong>Shadow Edge :</strong> Darker band along the light/shadow boundary. See <a href="../ShadowEdge/">Shadow Edge</a></li>
 </ul>
 
@@ -895,7 +891,7 @@
   <li><strong>B / A :</strong> Second shadow <em>(A = B mirrored)</em></li>
 </ul>
 
-<p>Threshold and Smooth are hidden here; Second Shadow Color still applies. The included Face Shadow texture already has B / A. A custom face texture needs its second shadow drawn into B / A, inside the first shadow.</p>
+<p>If you enable the Face Shadow Property feature, the Second Shadow adjustment will be hidden.</p>
 
 <h3 id="tips">Tips</h3>
 
