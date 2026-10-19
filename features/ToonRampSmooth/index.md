@@ -35,7 +35,7 @@ Controls how light turns into shadow: how sharp the edge is, the shadow color, a
 - **ToonRampSmooth :** Softness of the light/shadow edge *(0 = hard cel edge / higher = smoother)*
 - **Shadow Color :** Color of the shadow side
 
-**2 Shadows only**
+**2 Shadows only** (2 Shadows will be added in Version 2.3.0.)
 
 - **Second Shadow Color :** Color of the second shadow, used exactly as set (not mixed with Shadow Color)
 - **Second Shadow Threshold :** How far the surface must turn from the light before the second shadow starts *(0 = right after the light edge / higher = only the far side)*
