@@ -8,9 +8,7 @@ last_modified_at: 2026-09-16
 
 # v1.9.0 — ZLZ Hub & Lighting
 
-**Current version**
-
-> **Known critical issue.** The Lighting folder was left out of this package export, so v1.9.0 cannot be used after updating. The fix is in **[v2.0.0](/changelog/2.0.0/)**, which is currently in Unity Asset Store review — please hold off on updating to v1.9.0 until it is published.
+> **Known critical issue.** The Lighting folder was left out of this package export, so v1.9.0 cannot be used after updating. It is fixed in **[v2.0.0](/changelog/2.0.0/)**; update to v2.0.0 or later.
 
 ### New Features
 
