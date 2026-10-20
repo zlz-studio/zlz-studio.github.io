@@ -11,7 +11,7 @@ published: true
 
 Draws shading on the environment as print-style ink: halftone dots, hatching lines, cross-hatch, or your own pattern texture. A character's shadow on the ground becomes a screen tone, matching a character using Halftone in ZLZ Anime Shader.
 
-*(Halftone Pattern will be added in the next update.)*
+*(Halftone Pattern will be added in version 1.7.0.)*
 
 {% include youtube-loop.html id="yJ1lxachnFY" %}
 
