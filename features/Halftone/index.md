@@ -12,7 +12,7 @@ Draws shading as print-style ink: halftone dots, hatching lines, cross-hatch, or
 
 *(Halftone Pattern will be added in Version 2.3.0.)*
 
-![Halftone Demo](../Halftone/Halftone_Demo.webp)
+{% include youtube-loop.html id="j2P_r1FVeBA" %}
 
 Turn on **Halftone Pattern** in the Features grid and its section appears.
 
