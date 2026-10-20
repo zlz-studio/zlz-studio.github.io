@@ -12,6 +12,8 @@ Draws shading as print-style ink: halftone dots, hatching lines, cross-hatch, or
 
 *(Halftone Pattern will be added in Version 2.3.0.)*
 
+![Halftone Demo](../Halftone/Halftone_Demo.webp)
+
 Turn on **Halftone Pattern** in the Features grid and its section appears.
 
 ![Halftone Property](../Halftone/Halftone_Property.webp)
