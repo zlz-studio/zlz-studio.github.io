@@ -8,8 +8,6 @@ last_modified_at: 2026-09-22
 
 # v1.1.0 — ZLZ Hub & Lighting
 
-**Current version**
-
 ### New Features
 
 - Added **ZLZ Hub** to check that everything is installed and set up correctly
