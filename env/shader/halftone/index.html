@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halftone | ZLZ Env Shader</title>
+  
+  <meta name="description" content="ZLZ Env Shader documentation — painted surfaces, grass and water for stylized environments in Unity URP." />
+  <link rel="canonical" href="https://zlz-studio.github.io/env/shader/halftone/" />
+
+  <!-- Link previews (Discord, Unity Forum, X) -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="ZLZ Studio" />
+  <meta property="og:title" content="Halftone | ZLZ Env Shader" />
+  <meta property="og:description" content="ZLZ Env Shader documentation — painted surfaces, grass and water for stylized environments in Unity URP." />
+  <meta property="og:url" content="https://zlz-studio.github.io/env/shader/halftone/" />
+  <meta name="twitter:card" content="summary" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #e6edf3;
+    }
+
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: overlay;
+      overflow-x: hidden; /* เพิ่มบรรทัดนี้ */
+    }
+    
+    .sidebar h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+    
+    .sidebar h3 {
+      font-size: 12px;
+      margin: 20px 0 8px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: #d1d5db;
+      margin-bottom: 2px;
+      line-height: 1.35;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    
+    .sidebar a:hover {
+      background: #1f2937;
+      text-decoration: none;
+      color: #fff;
+    }
+    
+    .sidebar a.active {
+      background: #263244;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* tree-style sub items (e.g. changelog versions under Overview) */
+    .sidebar .sideTree {
+      margin-left: 14px;
+      border-left: 1px solid #2b3648;
+    }
+
+    .sidebar .sideTree a {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 12px;
+    }
+
+    .sidebar .sideTree a::before {
+      content: "";
+      position: absolute;
+      left: -11px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #2b3648;
+    }
+
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 40px 48px;
+      color: #e5e7eb;
+      font-size: 15px;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .content-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4 {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    .content h2 {
+      margin: 40px 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .content h3 {
+      margin: 28px 0 12px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .content h4 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul,
+    .content ol {
+      margin: 0 0 20px 24px;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 8px;
+    }
+
+    .content li > p {
+      margin-bottom: 8px;
+    }
+
+    .content hr {
+      margin: 32px 0;
+      border: none;
+      border-top: 1px solid #374151;
+    }
+
+    .content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .content code {
+      background: #161b22;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .content pre {
+      background: #161b22;
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .content a {
+      color: #8ab4f8;
+    }
+
+    .content strong {
+      color: #ffffff;
+    }
+
+    .content em {
+      color: #d1d5db;
+    }
+
+    .content blockquote {
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      border-left: 4px solid #374151;
+      background: #111827;
+      border-radius: 8px;
+    }
+
+    /* Markdown tables */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      background: #111827;
+      border: 1px solid #1f2937;
+    }
+
+    .content th,
+    .content td {
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #1f2937;
+    }
+
+    .content thead th {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .content td:first-child {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .content tbody tr:nth-child(even) {
+      background: #0f1521;
+    }
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      margin: 24px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      user-select: none;
+      aspect-ratio: 16 / 9;
+    }
+    
+    .compare-base {
+      position: relative;
+      width: 100%;
+    }
+    
+    .compare-base img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-overlay {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-overlay img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    
+    .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17, 24, 39, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      pointer-events: none;
+    }
+    
+    .compare-label.before {
+      left: 12px;
+    }
+    
+    .compare-label.after {
+      right: 12px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    /* Multi-image compare */
+    .compare-container-multi {
+      width: 100%;
+      margin: 24px 0;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+    
+    .compare-selector {
+      display: flex;
+      gap: 16px;
+      padding: 12px 14px;
+      background: #0d1117;
+      border-bottom: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    
+    .compare-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    
+    .compare-picker-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .compare-picker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .compare-picker-dot.left  { background: #8ab4f8; }
+    .compare-picker-dot.right { background: #f0a3c0; }
+    
+    .compare-picker-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .compare-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #d1d5db;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .compare-btn:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+    
+    .compare-btn.active-left {
+      background: #1a2744;
+      border-color: #8ab4f8;
+      color: #8ab4f8;
+    }
+    
+    .compare-btn.active-right {
+      background: #2d1a2a;
+      border-color: #f0a3c0;
+      color: #f0a3c0;
+    }
+    
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      user-select: none;
+    }
+    
+    .compare-stage .compare-base,
+    .compare-stage .compare-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    
+    .compare-stage .compare-base img,
+    .compare-stage .compare-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .compare-stage .compare-overlay {
+      clip-path: inset(0 0 0 50%);
+    }
+    
+    .compare-stage .compare-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+    
+    .compare-stage .compare-handle::before {
+      content: "↔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    
+    .compare-stage .compare-label {
+      position: absolute;
+      top: 12px;
+      z-index: 4;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(17,24,39,0.78);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    
+    .compare-stage .compare-label.before { left: 12px; }
+    .compare-stage .compare-label.after  { right: 12px; }
+
+    @media (max-width: 900px) {
+      .docs-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .content h1 {
+        font-size: 30px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-layout">
+    <aside class="sidebar">
+      
+
+<div class="sidebar">
+<h2>ZLZ Env Shader</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Environment Shader</h3>
+
+
+<a href="/env/shader/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/shader/paint-mode/"
+   class="">
+   Paint Mode
+</a>
+
+
+
+<a href="/env/shader/triplanar/"
+   class="">
+   Triplanar
+</a>
+
+
+
+<a href="/env/shader/planar-reflection/"
+   class="">
+   Planar Reflection
+</a>
+
+
+
+<a href="/env/shader/screen-space-reflection/"
+   class="">
+   Screen Space Reflection
+</a>
+
+
+
+<a href="/env/shader/normal/"
+   class="">
+   Normal Map
+</a>
+
+
+
+<a href="/env/shader/specular/"
+   class="">
+   Specular &amp; Metallic
+</a>
+
+
+
+<a href="/env/shader/rim-light/"
+   class="">
+   Rim Light
+</a>
+
+
+
+<a href="/env/shader/halftone/"
+   class="active">
+   Halftone
+</a>
+
+
+
+<a href="/env/shader/stochastic-tiling/"
+   class="">
+   Stochastic Sampling
+</a>
+
+
+
+<a href="/env/shader/snow-accumulation/"
+   class="">
+   Surface Accumulation
+</a>
+
+
+
+<a href="/env/shader/leaf-wind/"
+   class="">
+   Wind
+</a>
+
+
+
+<a href="/env/shader/emissive/"
+   class="">
+   Emission
+</a>
+
+
+
+<a href="/env/shader/fog/"
+   class="">
+   Fog
+</a>
+
+
+<!-- TODO: remaining Environment Shader sub-pages -->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Grass</h3>
+
+
+<a href="/env/grass/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/grass/grass-setup/"
+   class="">
+   Grass Setup
+</a>
+
+
+
+<a href="/env/grass/grass-material/"
+   class="">
+   Grass Material
+</a>
+
+
+
+<a href="/env/grass/grass-global-wind/"
+   class="">
+   Grass Global Wind
+</a>
+
+
+
+<a href="/env/grass/grass-optimized/"
+   class="">
+   Grass Optimized
+</a>
+
+
+
+<a href="/env/grass/grass-color-camera/"
+   class="">
+   Grass Color Camera
+</a>
+
+
+
+<a href="/env/grass/grass-interaction/"
+   class="">
+   Grass Interaction
+</a>
+
+
+
+<a href="/env/grass/grass-lod/"
+   class="">
+   Grass LOD
+</a>
+
+
+
+<a href="/env/grass/grass-edges/"
+   class="">
+   Grass Edges
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Water</h3>
+
+
+<a href="/env/water/"
+   class="">
+   Overview
+</a>
+
+
+<div class="sideTree">
+
+
+<a href="/env/water/water-interaction/"
+   class="">
+   Water Interaction
+</a>
+
+
+
+<a href="/env/water/water-waves/"
+   class="">
+   Water Waves
+</a>
+
+
+
+<a href="/env/water/water-floater/"
+   class="">
+   Water Floater
+</a>
+
+
+
+<a href="/env/water/water-foam/"
+   class="">
+   Water Foam
+</a>
+
+
+
+<a href="/env/water/water-ring-wave/"
+   class="">
+   Water Ring Wave
+</a>
+
+
+
+<a href="/env/water/water-sparkle/"
+   class="">
+   Water Sparkle
+</a>
+
+
+
+<a href="/env/water/water-caustics/"
+   class="">
+   Water Caustics
+</a>
+
+
+
+<a href="/env/water/water-underwater/"
+   class="">
+   Underwater
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>FX Runtime</h3>
+
+
+
+<div class="sideTree">
+
+
+<a href="/env/fx/target-darken/"
+   class="">
+   Target Darken FX Runtime
+</a>
+
+
+<!-- TODO: Light Sweep, Upgrade -->
+
+</div>
+
+
+<h3>Changelog</h3>
+
+<a href="/env/changelog/"
+   class="">
+   Overview
+</a>
+
+<div class="sideTree">
+
+<a href="/env/changelog/1.1.0/"
+   class="">
+   v1.1.0
+</a>
+
+<a href="/env/changelog/1.0.0/"
+   class="">
+   v1.0.0
+</a>
+
+</div>
+
+<h3>Other Products</h3>
+
+<a href="/features/">ZLZ Anime Shader Docs</a>
+
+</div>
+
+
+
+    </aside>
+
+    <main class="content">
+      <div class="content-inner">
+        <a class="top-link" href="/">← Back to Home</a>
+        <h2 id="halftone-pattern">Halftone Pattern</h2>
+
+<p><img src="/env/shader/halftone/Env_Halftone.webp" alt="Halftone" /></p>
+
+<p>Draws shading on the environment as print-style ink: halftone dots, hatching lines, cross-hatch, or your own pattern texture. A character’s shadow on the ground becomes a screen tone, matching a character using Halftone in ZLZ Anime Shader.</p>
+
+<p><em>(Halftone Pattern will be added in the next update.)</em></p>
+
+<div style="margin: 20px 0; border-radius: 10px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube-nocookie.com/embed/yJ1lxachnFY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=yJ1lxachnFY&amp;controls=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="" style="position: absolute; top:0; left:0; width:100%; height:100%;">
+    </iframe>
+  </div>
+</div>
+
+<p>This is the same feature as <a href="/features/Halftone/">Halftone in ZLZ Anime Shader</a>, with the same parameters and the same ink rule. The differences are <strong>World</strong> space and <strong>Shadow Sources</strong>, explained below.</p>
+
+<p>Turn on <strong>Halftone</strong> in the Features grid and the <strong>Halftone Pattern</strong> section appears.</p>
+
+<p><img src="/env/shader/halftone/Env_Halftone_Property.webp" alt="Halftone Property" /></p>
+
+<h3 id="parameters">Parameters</h3>
+
+<ul>
+  <li><strong>Apply To :</strong> Where the ink can appear
+    <ul>
+      <li><strong><em>Shadow</em> :</strong> The shadow side, limited by Shadow Sources below</li>
+      <li><strong><em>All</em> :</strong> The whole surface. Dark colors get ink even in the light, like a printed page</li>
+    </ul>
+  </li>
+  <li><strong>Light Ink / Shadow Ink :</strong> Ink weight for each area <em>(0 = none / 1 = normal / 2 = heavier)</em>. Light Ink is shown with All only</li>
+  <li><strong>Source :</strong> <strong><em>Math</em></strong> (built-in shapes, no texture) or <strong><em>Texture</em></strong> (your own pattern texture)</li>
+  <li><strong>Pattern Type :</strong> <em>Dots</em> / <em>Lines</em> / <em>Cross</em>. Math source only</li>
+  <li><strong>Pattern Texture :</strong> The pattern tile. Texture source only</li>
+  <li><strong>Space :</strong> How the pattern is placed
+    <ul>
+      <li><strong><em>World</em> :</strong> Laid out in world metres, so the pattern runs unbroken across floors, walls and props of any size</li>
+      <li><strong><em>Surface</em> :</strong> Stuck to this object, for props that move</li>
+      <li><strong><em>Screen</em> :</strong> Flat on the screen like a printed page. Can shimmer while the camera moves</li>
+    </ul>
+  </li>
+  <li><strong>Density (per metre) :</strong> World and Surface. Dots per metre <em>(higher = smaller dots)</em></li>
+  <li><strong>Screen Cells / Reference Distance / Distance Scaling :</strong> Screen only. Same as in ZLZ Anime Shader</li>
+  <li><strong>Min Size (px) :</strong> When dots get smaller than this on screen, they blend into a flat tone of the same darkness instead of turning into noise</li>
+  <li><strong>Angle :</strong> Rotation of the pattern</li>
+  <li><strong>Start / Full (darkness) :</strong> How dark a color must be before ink starts, and where cells are fully inked. Lower Full = heavier ink overall</li>
+  <li><strong>Softness :</strong> Edge blur of each dot or line <em>(0 = crisp)</em></li>
+  <li><strong>Ink Color :</strong> Color of the dots or lines</li>
+  <li><strong>Strength :</strong> Blend of the ink over the shaded color <em>(1 = solid ink)</em></li>
+  <li><strong>Debug Pattern :</strong> Shows the pattern alone, white on black</li>
+</ul>
+
+<h3 id="shadow-sources">Shadow Sources</h3>
+
+<p>Shown with Apply To <em>Shadow</em>. Choose which kinds of shadow get ink. Each one has its own <strong>Ink</strong> slider when turned on, and where two overlap the heavier one wins. The surface color itself does not change.</p>
+
+<ul>
+  <li><strong>Form Shadow :</strong> The side facing away from the sun, like the back of a hill or the dark side of a rock</li>
+  <li><strong>Cast Shadow :</strong> Shadows from other objects, like a character on the ground or a tree on a wall <em>(needs Receive Shadow in Lighting)</em></li>
+  <li><strong>Baked Shadow :</strong> The Lightmap Step edge in a baked scene <em>(needs Lightmap Step above 0 in ToonRamp Shade)</em></li>
+</ul>
+
+<p>Turning off <strong>Form Shadow</strong> keeps slopes and terrain clean and leaves ink only on the shadows that fall on them.</p>
+
+<h3 id="how-ink-amount-works">How Ink Amount Works</h3>
+
+<p>Ink follows the darkness of the <strong>painted color</strong> (texture × Shadow Color or Base Color). Light intensity does not change it, so a pale ground stays light and a dark rock gets heavier ink.</p>
+
+<h3 id="custom-pattern-texture">Custom Pattern Texture</h3>
+
+<p>Any tileable grey image works. Dark pixels get ink first, light pixels last.</p>
+
+<ul>
+  <li>Starter tiles are in <strong>ZLZ / Common / Textures / Pattern</strong>, shared with ZLZ Anime Shader</li>
+  <li>Import settings: <strong>sRGB off</strong>, <strong>Wrap Mode Repeat</strong>, <strong>Compression None</strong></li>
+</ul>
+
+<h3 id="tips">Tips</h3>
+
+<ul>
+  <li>If whole hills or slopes fill with ink, turn off <strong>Form Shadow</strong> or lower <strong>ToonRamp Smoothness</strong></li>
+  <li>If the pattern breaks between two objects, use <strong>World</strong> space on both</li>
+  <li>If far ground shows noise, raise <strong>Min Size</strong></li>
+  <li>If the ink looks too harsh on large areas, lower <strong>Strength</strong> or use a darker version of Shadow Color as <strong>Ink Color</strong></li>
+</ul>
+
+<h3 id="performance">Performance</h3>
+
+<p>Math source uses only arithmetic, no texture. Texture source adds 3 texture samples per pixel in World and Surface space, 1 in Screen space. Environment surfaces cover much of the screen, so the cost scales with how much of the scene uses it.</p>
+
+<hr />
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.compare-container').forEach((container) => {
+      const overlay = container.querySelector('.compare-overlay');
+      const handle = container.querySelector('.compare-handle');
+
+      if (!overlay || !handle) return;
+
+      let dragging = false;
+
+      function setPosition(clientX) {
+        const rect = container.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percent = (x / rect.width) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        handle.style.left = percent + '%';
+      }
+
+      function startDrag(e) {
+        dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setPosition(clientX);
+      }
+
+      function endDrag() {
+        dragging = false;
+      }
+
+      handle.addEventListener('mousedown', startDrag);
+      container.addEventListener('mousedown', startDrag);
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', endDrag);
+
+      handle.addEventListener('touchstart', startDrag, { passive: true });
+      container.addEventListener('touchstart', startDrag, { passive: true });
+
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    });
+
+    // Multi-image compare
+    document.querySelectorAll('.compare-container-multi').forEach((container) => {
+      const stage      = container.querySelector('.compare-stage');
+      const baseImg    = stage.querySelector('.compare-base img');
+      const overlayImg = stage.querySelector('.compare-overlay img');
+      const labelLeft  = stage.querySelector('.compare-label.before');
+      const labelRight = stage.querySelector('.compare-label.after');
+      const handle     = stage.querySelector('.compare-handle');
+      const overlay    = stage.querySelector('.compare-overlay');
+    
+      // Drag
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = stage.getBoundingClientRect();
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1)) * 100;
+        overlay.style.clipPath = `inset(0 0 0 ${pct}%)`;
+        handle.style.left = pct + '%';
+      }
+      stage.addEventListener('mousedown',  (e) => { dragging = true; setPosition(e.clientX); });
+      window.addEventListener('mousemove', (e) => { if (dragging) setPosition(e.clientX); });
+      window.addEventListener('mouseup',   ()  => dragging = false);
+      stage.addEventListener('touchstart', (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchmove', (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+      window.addEventListener('touchend',  ()  => dragging = false);
+    
+      // Left picker
+      container.querySelectorAll('.left-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.left-btn').forEach(b => b.classList.remove('active-left'));
+          btn.classList.add('active-left');
+          baseImg.src = btn.dataset.src;
+          labelLeft.textContent = btn.dataset.val;
+        });
+      });
+    
+      // Right picker
+      container.querySelectorAll('.right-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.right-btn').forEach(b => b.classList.remove('active-right'));
+          btn.classList.add('active-right');
+          overlayImg.src = btn.dataset.src;
+          labelRight.textContent = btn.dataset.val;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
