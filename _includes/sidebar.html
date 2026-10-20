@@ -17,12 +17,13 @@
 {% assign shaderNormal = site.pages | where: "url", "/env/shader/normal/" | first %}
 {% assign shaderSpecular = site.pages | where: "url", "/env/shader/specular/" | first %}
 {% assign shaderRimLight = site.pages | where: "url", "/env/shader/rim-light/" | first %}
+{% assign shaderHalftone = site.pages | where: "url", "/env/shader/halftone/" | first %}
 {% assign shaderStochastic = site.pages | where: "url", "/env/shader/stochastic-tiling/" | first %}
 {% assign shaderAccumulation = site.pages | where: "url", "/env/shader/snow-accumulation/" | first %}
 {% assign shaderWind = site.pages | where: "url", "/env/shader/leaf-wind/" | first %}
 {% assign shaderEmission = site.pages | where: "url", "/env/shader/emissive/" | first %}
 {% assign shaderFog = site.pages | where: "url", "/env/shader/fog/" | first %}
-{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderRimLight or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
+{% if shaderOverview or shaderPaintMode or shaderTriplanar or shaderPlanarReflection or shaderScreenSpaceReflection or shaderNormal or shaderSpecular or shaderRimLight or shaderHalftone or shaderStochastic or shaderAccumulation or shaderWind or shaderEmission or shaderFog %}
 <h3>Environment Shader</h3>
 
 {% if shaderOverview %}
@@ -80,6 +81,13 @@
 <a href="{{ '/env/shader/rim-light/' | relative_url }}"
    class="{% if page.url contains '/env/shader/rim-light/' %}active{% endif %}">
    Rim Light
+</a>
+{% endif %}
+
+{% if shaderHalftone %}
+<a href="{{ '/env/shader/halftone/' | relative_url }}"
+   class="{% if page.url contains '/env/shader/halftone/' %}active{% endif %}">
+   Halftone
 </a>
 {% endif %}
 
