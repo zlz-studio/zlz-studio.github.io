@@ -47,18 +47,37 @@
        presses Play, so a first visit never downloads or boots the 20-40 MB
        Unity build by itself. */
     .stagePoster{
+      position:relative;
       width:1280px;
       height:720px;
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:center;
+      justify-content:flex-end;   /* bottom-centre, so the button never covers the character's face */
       gap:14px;
+      padding-bottom:56px;
       background:radial-gradient(120% 120% at 50% 30%, #1b2230 0%, #0e1116 72%);
       color:#e7ecf3;
+      overflow:hidden;
+      cursor:pointer;
     }
-    .stagePosterTitle{font-size:28px; font-weight:600; letter-spacing:.5px;}
-    .stagePoster small{opacity:.55; font-size:15px;}
+    /* cover image = a frame from the demo itself, darkened so the text stays readable */
+    .stagePosterImg{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      filter:brightness(.55);
+      transition:filter .5s ease, transform 1.2s ease;
+    }
+    .stagePoster:hover .stagePosterImg{ filter:brightness(.7); transform:scale(1.02); }
+    .stagePoster::after{      /* soft gradient behind the title/button */
+      content:""; position:absolute; left:0; right:0; bottom:0; height:55%;
+      background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.65) 100%);
+      pointer-events:none;
+    }
+    .stagePosterTitle, .stagePoster small, .stagePlay{ position:relative; z-index:1; }
+    .stagePosterTitle{font-size:32px; font-weight:700; letter-spacing:.5px; text-shadow:0 2px 12px rgba(0,0,0,.6);}
+    .stagePoster small{opacity:.8; font-size:15px; text-shadow:0 1px 8px rgba(0,0,0,.6);}
     .stagePlay{
       margin-top:10px;
       padding:16px 38px;
@@ -847,6 +866,7 @@
       <div class="embedScaled zlzDemoWrap">
         <div class="stage zlzDemoStage" data-demo-src="/env-demo/" data-demo-title="ZLZ Env Shader WebGL demo">
           <div class="stagePoster">
+            <img class="stagePosterImg" src="/images/demo/zlz-env-demo.webp" alt="" decoding="async" />
             <div class="stagePosterTitle">ZLZ Env Shader</div>
             <small>Interactive WebGL demo · ~22 MB download</small>
             <button type="button" class="stagePlay">▶ Play Demo</button>
@@ -871,6 +891,7 @@
       <div class="embedScaled zlzDemoWrap" id="demoWrap">
         <div class="stage zlzDemoStage" id="demoStage" data-demo-src="/demo/" data-demo-title="ZLZ Anime Shader WebGL demo">
           <div class="stagePoster" id="demoPoster">
+            <img class="stagePosterImg" src="/images/demo/zlz-anime-demo.webp" alt="" decoding="async" />
             <div class="stagePosterTitle">ZLZ Anime Shader</div>
             <small>Interactive WebGL demo · ~40 MB download</small>
             <button type="button" class="stagePlay">▶ Play Demo</button>
@@ -1648,8 +1669,8 @@
     }
 
     stages.forEach(function(stage){
-      var btn = stage.querySelector(".stagePlay");
-      if(btn) btn.addEventListener("click", function(){ injectDemo(stage); });
+      var poster = stage.querySelector(".stagePoster");   // whole poster is the click target
+      if(poster) poster.addEventListener("click", function(){ injectDemo(stage); });
     });
   })();
   </script>
