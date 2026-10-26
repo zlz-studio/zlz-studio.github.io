@@ -43,7 +43,9 @@
       display:block;
     }
 
-    /* Shown for the moment between first paint and the iframe being injected. */
+    /* Click-to-play poster. The demo iframe is injected only when the visitor
+       presses Play, so a first visit never downloads or boots the 20-40 MB
+       Unity build by itself. */
     .stagePoster{
       width:1280px;
       height:720px;
@@ -51,12 +53,24 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      gap:14px;
       background:radial-gradient(120% 120% at 50% 30%, #1b2230 0%, #0e1116 72%);
       color:#e7ecf3;
     }
-    .stagePosterTitle{font-size:24px; font-weight:600; letter-spacing:.5px;}
-    .stagePoster small{opacity:.5; font-size:13px;}
+    .stagePosterTitle{font-size:28px; font-weight:600; letter-spacing:.5px;}
+    .stagePoster small{opacity:.55; font-size:15px;}
+    .stagePlay{
+      margin-top:10px;
+      padding:16px 38px;
+      border:0; border-radius:999px; cursor:pointer;
+      font-size:20px; font-weight:600; letter-spacing:.3px;
+      color:#111; background:var(--accent);
+      box-shadow:0 10px 30px rgba(0,0,0,.45);
+      transition:transform .15s ease, filter .15s ease;
+    }
+    .stagePlay:hover{ transform:translateY(-1px); filter:brightness(1.08); }
+    .stagePlay:active{ transform:translateY(0); }
+    .stagePlay:disabled{ opacity:.6; cursor:default; transform:none; }
     :root{
       --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af;
       --accent:#f59e0b; --line:rgba(255,255,255,.10);
@@ -827,14 +841,15 @@
         </div>
       </div>
 
-      <!-- Same off-critical-path pattern as the anime demo below : the iframe is
-           injected by JS only when this tab is actually visible, so a visitor on
-           the other tab never downloads this build. -->
+      <!-- Click-to-play (same as the anime demo below): the iframe is injected by
+           JS only when the visitor presses Play, so a first visit never downloads
+           or boots this ~22 MB build by itself. -->
       <div class="embedScaled zlzDemoWrap">
         <div class="stage zlzDemoStage" data-demo-src="/env-demo/" data-demo-title="ZLZ Env Shader WebGL demo">
           <div class="stagePoster">
             <div class="stagePosterTitle">ZLZ Env Shader</div>
-            <small>Starting demo…</small>
+            <small>Interactive WebGL demo · ~22 MB download</small>
+            <button type="button" class="stagePlay">▶ Play Demo</button>
           </div>
         </div>
       </div>
@@ -849,14 +864,16 @@
         </div>
       </div>
       
-      <!-- The iframe is injected by JS once the page itself is interactive, so the
-           25 MB demo never sits on the critical path. It still starts on its own —
-           no click needed — the visitor just gets a usable page while it boots. -->
+      <!-- Click-to-play: the iframe is injected by JS only when the visitor presses
+           Play. Unity's boot runs on this page's own main thread (a same-origin
+           iframe shares it), so auto-starting the ~40 MB demo froze the whole page
+           for several seconds on every first visit. -->
       <div class="embedScaled zlzDemoWrap" id="demoWrap">
         <div class="stage zlzDemoStage" id="demoStage" data-demo-src="/demo/" data-demo-title="ZLZ Anime Shader WebGL demo">
           <div class="stagePoster" id="demoPoster">
             <div class="stagePosterTitle">ZLZ Anime Shader</div>
-            <small>Starting demo…</small>
+            <small>Interactive WebGL demo · ~40 MB download</small>
+            <button type="button" class="stagePlay">▶ Play Demo</button>
           </div>
         </div>
       </div>
@@ -1553,10 +1570,8 @@
         t.classList.toggle("active", active);
         t.setAttribute("aria-selected", active ? "true" : "false");
       });
-      // demos need re-scaling after becoming visible again, and the newly shown
-      // tab's demo starts on first view (each tab has its own embed now)
+      // demos need re-scaling after becoming visible again
       if (typeof fitItchDemo === "function") fitItchDemo();
-      if (typeof window.zlzInjectDemo === "function") window.zlzInjectDemo();
     }
 
     tabs.forEach(function(t){
@@ -1601,45 +1616,41 @@
   </script>
 
   <script>
-  // ===== Demo iframes: auto-start, but off the critical path =====
-  // Unity's boot is CPU-heavy and a same-origin iframe shares the page's renderer
-  // process, so injecting it inline froze the page until the demo was ready.
-  // Waiting for load + idle lets the page become clickable first; the demo still
-  // starts by itself, with no interaction required. Each product tab has its own
-  // stage ; only the VISIBLE tab's demo is injected, so a visitor never downloads
-  // the ~50 MB build of a tab they are not looking at.
+  // ===== Demo iframes: click-to-play =====
+  // A same-origin iframe shares this page's renderer process AND main thread, so
+  // Unity's boot (wasm instantiate + engine init + first-frame shader compile)
+  // froze the whole page for seconds — measured ~4.4 s on a 20-core desktop, far
+  // longer on laptops — on top of a 22-40 MB download. Repeat visits were fine
+  // only because the loader caches the build in IndexedDB. So nothing is loaded
+  // until the visitor asks for it: the poster shows a Play button, and the iframe
+  // is injected on click. Each product tab has its own stage.
   (function(){
     var stages = document.querySelectorAll(".zlzDemoStage[data-demo-src]");
     if(!stages.length) return;
 
-    function injectDemos(){
-      stages.forEach(function(stage){
-        if(stage.dataset.injected) return;
-        if(stage.closest(".demo").style.display === "none") return;
-        stage.dataset.injected = "1";
+    function injectDemo(stage){
+      if(stage.dataset.injected) return;
+      stage.dataset.injected = "1";
 
-        var frame = document.createElement("iframe");
-        frame.src = stage.dataset.demoSrc;
-        frame.setAttribute("allow", "fullscreen; autoplay; gamepad *");
-        frame.setAttribute("allowfullscreen", "");
-        frame.setAttribute("title", stage.dataset.demoTitle || "ZLZ WebGL demo");
-        frame.addEventListener("load", function(){
-          var poster = stage.querySelector(".stagePoster");
-          if(poster) poster.remove();
-        });
-        stage.appendChild(frame);
+      var poster = stage.querySelector(".stagePoster");
+      var btn = poster && poster.querySelector(".stagePlay");
+      if(btn){ btn.disabled = true; btn.textContent = "Loading…"; }
+
+      var frame = document.createElement("iframe");
+      frame.src = stage.dataset.demoSrc;
+      frame.setAttribute("allow", "fullscreen; autoplay; gamepad *");
+      frame.setAttribute("allowfullscreen", "");
+      frame.setAttribute("title", stage.dataset.demoTitle || "ZLZ WebGL demo");
+      frame.addEventListener("load", function(){
+        if(poster) poster.remove();
       });
+      stage.appendChild(frame);
     }
 
-    // Re-checked on tab switch so the newly shown tab starts its demo on first view.
-    window.zlzInjectDemo = injectDemos;
-
-    function schedule(){
-      if(window.requestIdleCallback) requestIdleCallback(injectDemos, {timeout:1500});
-      else setTimeout(injectDemos, 200);
-    }
-    if(document.readyState === "complete") schedule();
-    else window.addEventListener("load", schedule);
+    stages.forEach(function(stage){
+      var btn = stage.querySelector(".stagePlay");
+      if(btn) btn.addEventListener("click", function(){ injectDemo(stage); });
+    });
   })();
   </script>
   <script>
