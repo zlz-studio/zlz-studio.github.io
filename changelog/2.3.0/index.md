@@ -8,8 +8,6 @@ last_modified_at: 2026-10-20
 
 # v2.3.0 — Halftone Pattern & 2 Shadows
 
-**Latest version**
-
 ### New Features
 
 - Added **2 Shadows** to [ToonRampShade](/features/ToonRampSmooth/): a second, deeper shadow step with its own color

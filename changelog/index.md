@@ -1,14 +1,18 @@
 ---
 layout: docs
 title: Changelog
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-17
 ---
 
 # Changelog
 
 All notable changes to **ZLZ Anime Shader** are documented here. Select a version:
 
-- [v2.3.0 — Halftone Pattern & 2 Shadows](/changelog/2.3.0/) — **Latest version**
+- [v2.7.0 — MatCap](/changelog/2.7.0/) — **Latest version**
+- [v2.6.0 — Hotfix › Console Error](/changelog/2.6.0/)
+- [v2.5.0 — Hotfix › Version Control](/changelog/2.5.0/)
+- [v2.4.0 — Hotfix › Renderer Feature](/changelog/2.4.0/)
+- [v2.3.0 — Halftone Pattern & 2 Shadows](/changelog/2.3.0/)
 - [v2.2.0 — Hotfix › Tone Mapping](/changelog/2.2.0/)
 - [v2.1.0 — Hotfix › Lighting & Setup](/changelog/2.1.0/)
 - [v2.0.0 — Hotfix › ZLZ Hub & Lighting](/changelog/2.0.0/)
